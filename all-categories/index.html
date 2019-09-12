@@ -11,13 +11,13 @@
     
     
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"Website","@id":"http://yoursite.com","author":{"@type":"Person","name":"hyerinOh","sameAs":["https://github.com/","http://stackoverflow.com/users","https://twitter.com/","https://facebook.com/","https://plus.google.com/","https://www.linkedin.com/profile/","mailto"]},"name":"hyerin.io","description":null,"url":"http://yoursite.com"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"Website","@id":"http://yoursite.com","author":{"@type":"Person","name":"hyerinOh","sameAs":["https://github.com/hyerinOh"]},"name":"hyerin.io","description":null,"url":"http://yoursite.com"}</script>
     <meta property="og:type" content="blog">
 <meta property="og:title" content="all-categories">
 <meta property="og:url" content="http://yoursite.com/all-categories/index.html">
 <meta property="og:site_name" content="hyerin.io">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-09-12T08:55:15.262Z">
+<meta property="og:updated_time" content="2019-09-12T12:00:59.682Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="all-categories">
     
@@ -29,7 +29,10 @@
     
     
     <!--STYLES-->
-    <link rel="stylesheet" href="/assets/css/style-lnzscwnzfiavw9uqhqquhpvxgq4vv960dlzg7fvqxqlt0n9kn8c8da2qaflg.min.css">
+    <link rel="stylesheet" href="/assets/css/all.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
+    <link rel="stylesheet" href="/assets/css/thumbs.css">
+    <link rel="stylesheet" href="/assets/css/tranquilpeak.css">
     <!--STYLES END-->
     
 
@@ -119,19 +122,6 @@
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link "
-                             href="/all-archives"
-                            
-                            title="Archives"
-                        >
-                    
-                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Archives</span>
-                    </a>
-            </li>
-            
-                <li class="sidebar-button">
-                    
                         <a  class="sidebar-button-link open-algolia-search"
                              href="#search"
                             
@@ -162,84 +152,10 @@
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link " href="https://github.com/" target="_blank" rel="noopener" title="GitHub">
+                        <a  class="sidebar-button-link " href="https://github.com/hyerinOh" target="_blank" rel="noopener" title="GitHub">
                     
                         <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">GitHub</span>
-                    </a>
-            </li>
-            
-                <li class="sidebar-button">
-                    
-                        <a  class="sidebar-button-link " href="http://stackoverflow.com/users" target="_blank" rel="noopener" title="Stack Overflow">
-                    
-                        <i class="sidebar-button-icon fab fa-stack-overflow" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Stack Overflow</span>
-                    </a>
-            </li>
-            
-                <li class="sidebar-button">
-                    
-                        <a  class="sidebar-button-link " href="https://twitter.com/" target="_blank" rel="noopener" title="Twitter">
-                    
-                        <i class="sidebar-button-icon fab fa-twitter" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Twitter</span>
-                    </a>
-            </li>
-            
-                <li class="sidebar-button">
-                    
-                        <a  class="sidebar-button-link " href="https://facebook.com/" target="_blank" rel="noopener" title="Facebook">
-                    
-                        <i class="sidebar-button-icon fab fa-facebook" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Facebook</span>
-                    </a>
-            </li>
-            
-                <li class="sidebar-button">
-                    
-                        <a  class="sidebar-button-link " href="https://plus.google.com/" target="_blank" rel="noopener" title="Google +">
-                    
-                        <i class="sidebar-button-icon fab fa-google-plus" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Google +</span>
-                    </a>
-            </li>
-            
-                <li class="sidebar-button">
-                    
-                        <a  class="sidebar-button-link " href="https://www.linkedin.com/profile/" target="_blank" rel="noopener" title="LinkedIn">
-                    
-                        <i class="sidebar-button-icon fab fa-linkedin" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">LinkedIn</span>
-                    </a>
-            </li>
-            
-                <li class="sidebar-button">
-                    
-                        <a  class="sidebar-button-link "
-                             href="/mailto"
-                            title="Mail"
-                        >
-                    
-                        <i class="sidebar-button-icon fa fa-envelope" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Mail</span>
-                    </a>
-            </li>
-            
-        </ul>
-        
-            <ul class="sidebar-buttons">
-            
-                <li class="sidebar-button">
-                    
-                        <a  class="sidebar-button-link "
-                             href="/atom.xml"
-                            
-                            title="RSS"
-                        >
-                    
-                        <i class="sidebar-button-icon fa fa-rss" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">RSS</span>
                     </a>
             </li>
             
@@ -254,24 +170,33 @@
                         hasCoverMetaIn
                         ">
                 
-<div id="categories-archives" class="main-content-wrap">
-    <form id="filter-form" action="##">
-        <input name="category" type="text" class="form-control input--xlarge"
-               placeholder="Search category" autofocus="autofocus">
-    </form>
-    <h5 class="archive-result text-color-base text-xlarge"
-        data-message-zero="no category found"
-        data-message-one="1 category found"
-        data-message-other="{n} categories found"></h5>
+    <div id="categories-archives" class="main-content-wrap">
+        <form id="filter-form" action="##">
+            <input name="category" type="text" class="form-control input--xlarge" placeholder="Search category"
+                autofocus="autofocus">
+        </form>
+        <h5 class="archive-result text-color-base text-xlarge" data-message-zero="no category found" data-message-one="1 category found"
+            data-message-other="{n} categories found"></h5>
 
         <section class="boxes">
-        
-    </section>
-    <section class="boxes">
-        
-    </section>
-</div>
-
+            
+                
+                            
+                
+                    <div><a href="#posts-list-web" class="category-anchor" data-category="web" data-parent-categories="">web</a><ul style="margin-bottom:0;"><div><a href="#posts-list-hexo" class="category-anchor" data-category="hexo" data-parent-categories="web"> / hexo</a></div></ul></div>
+                        
+                            
+        </section>
+        <section class="boxes">
+            
+                
+                            
+                
+                    <div id="posts-list-web" class="archive box" data-category="web" data-parent-categories=""><h4 class="archive-title text-xlarge"><a class="link-unstyled" href="/categories/web/">web (2)</a></h4><ul class="archive-posts"><div id="posts-list-hexo" class="archive " data-category="hexo" data-parent-categories="web"><h4 class="archive-title text-xlarge"><a class="link-unstyled" href="/categories/web/hexo/">hexo (2)</a></h4><ul class="archive-posts"><li class="archive-post"><a class="archive-post-title" href="/2019/09/12/Hexo로-Github-io-블로그-만들기/">Hexo로 아주 아주 기본적인 Github.io 블로그 만들기</a><span class="archive-post-date"> - Sep 12, 2019</span></li><li class="archive-post"><a class="archive-post-title" href="/2019/09/12/hello-world/">Hello World</a><span class="archive-post-date"> - Sep 12, 2019</span></li></ul></div></ul></div>
+                        
+                            
+        </section>
+    </div>
                 <footer id="footer" class="main-content-wrap">
     <span class="copyrights">
         Copyrights &copy; 2019 hyerinOh. All Rights Reserved.
@@ -311,7 +236,10 @@
         
 <div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
         <!--SCRIPTS-->
-<script src="/assets/js/script-xacmsuiuybmpmszvtvcanhj9a5nzctpxvujwjvw0zr5hliepgn4yyzak2bdy.min.js"></script>
+<script src="/assets/js/jquery.js"></script>
+<script src="/assets/js/jquery.fancybox.js"></script>
+<script src="/assets/js/thumbs.js"></script>
+<script src="/assets/js/tranquilpeak.js"></script>
 <!--SCRIPTS END-->
 
 

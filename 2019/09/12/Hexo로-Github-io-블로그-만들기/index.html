@@ -6,23 +6,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="hyerin.io">
-    <title>Hexo로 Github.io 블로그 만들기 - hyerin.io</title>
+    <title>Hexo로 아주 아주 기본적인 Github.io 블로그 만들기 - hyerin.io</title>
     <meta name="author" content="hyerinOh">
     
     
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"hyerinOh","sameAs":["https://github.com/","http://stackoverflow.com/users","https://twitter.com/","https://facebook.com/","https://plus.google.com/","https://www.linkedin.com/profile/","mailto"]},"articleBody":"test\n","dateCreated":"2019-09-12T18:11:56+09:00","dateModified":"2019-09-12T18:23:25+09:00","datePublished":"2019-09-12T18:11:56+09:00","description":"","headline":"Hexo로 Github.io 블로그 만들기","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"http://yoursite.com/2019/09/12/Hexo로-Github-io-블로그-만들기/"},"publisher":{"@type":"Organization","name":"hyerinOh","sameAs":["https://github.com/","http://stackoverflow.com/users","https://twitter.com/","https://facebook.com/","https://plus.google.com/","https://www.linkedin.com/profile/","mailto"]},"url":"http://yoursite.com/2019/09/12/Hexo로-Github-io-블로그-만들기/"}</script>
-    <meta name="description" content="test">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"hyerinOh","sameAs":["https://github.com/hyerinOh"]},"articleBody":"\nreference\nhttps://mingpd.github.io/2019/04/14/github-blog-with-hexo-1/\nhttps://taetaetae.github.io/2016/09/18/hexo_github_blog/\nhttps://hexo.io/ko/\n\n\n\n위의 블로그들에서 너무나 설명을 자세히 해주셔서 따라 만들어봤는데 (나는) 생각보다 쉽게 만들어지지 않아서…!! 다음에 혹시나 다시 할 때 또다시 헤매지 않도록 정리를 해놓기로 했다.\n\n\n\n시작하기 전 준비사항!\nnode\ngit\nhexo와 연결시킬 repository (&lt;자기계정명&gt;.github.io)\n블로그 관리용 repository\n\n\n\nhexo 설치12345678910// hexo-cil를 설치$npm install hexo-cli-g// 디렉토리 만들기mkdir &lt;폴더명&gt;// hexo 프로젝트 생성hexo init &lt;폴더명&gt;cd &lt;폴더명&gt;$npm install\n\n\n\ntheme 적용하기mingpd 님의 블로그처럼 Tranquilpeak 테마를 적용해봤다. \n\nreleases의 Assets에서 한 개만 다운로드한 후 압축을 풀어주기\n폴더 이름을 tranquilpeak으로 변경하고 위에서 생성한 hexo 프로젝트 내의 themes 폴더 안에 넣기\nhexo 프로젝트의 _config.yml파일 안의 theme을 theme:tranquilpeak으로 변경  (주의!!!themes/tranquilpeak/_config.yml 아님)\n\n\n\n여기까지 하고 $hexo server를 실행하면 다들 에러 없이 테스트가 작동하는 것 같았는데나에게는 Cannot find module &#39;jsdom&#39;이라는 에러가 발생했다..열심히 구글링 한 결과\n123cd themescd tranquilpeaknpm install &amp;&amp; npm run prod\n\n위의 명령문들을 실행해주면 문제가 해결되었다!!npm run prod를 실행해야 테마가 빌드 되어서 수정사항들이 바뀐다고 한다.\n\n\n그리고 바로 $hexo server를 해주는 것이 아니라 hexo 프로젝트 폴더로 돌아가서 $hexo server를 실행해주고 http://localhost:4000에 들어가면 Hello World가 나오는 예쁜 블로그를 볼 수 있다.\n간혹 실행이 안 될 경우가 있다는데 그럴 때는\n12$hexo clean$hexo server\n\nclean 명령어를 실행해준 뒤 다시 server 명령어를 실행시켜주면 작동한다고 한다.\n\n\ngrunttheme안의 css, js등을 변경한 후에 grunt라는 javascript 빌드 툴을 이용해서 빌드해준다.초기 설정할 때는\n1234$npm install -g grunt-cli$cd themes/tranquilpeak$npm install grunt --save-dev\n\n초기 설정후에 css,js 파일을 수정한 다음에는\n12// themes/tranquilpeak 폴더에서$grunt build\n\n새로 빌드 한 후에 hexo server를 실행하면 변경된 사항을 확인할 수 있다.\n\n\n포스트 만들기일반 post와 draft(초안)을 만들 수 있는데 일반 post로 자주 만들 것 같다.\n12345678// 일반 post 만들기$hexo new post \"제목\"// draft 만들기$hexo new draft \"제목\"// draft를 post로 만들기$hexo publish \"제목\"\n\n\n\n\n템플릿일반 post =&gt; scaffolds/post.mddraft =&gt; scaffolds/draft.md\n\n1234567891011121314// post.md 파일---title: Hexo로 Github.io 블로그 만들기date: &#123;&#123; date &#125;&#125;categories:- Web- Hexotags: - hexo- github.io- blogthumbnail:permalink: \"http://hyerinOh/Hexo로 Github.io 블로그 만들기\"---\n\n\n\n카테고리를 어떻게 만드나 한참 찾았는데 categories 하위에 순서대로 넣어주면 알아서 카테고리가 만들어진다. tags는 순서 상관없이 동등한 관계!parmalink로 원하는 경로를 설정할 수 있다.\n\n\n\nGithub page 배포하기먼저 라이브러리를 설치해주고 \n1$ npm install hexo-deployer-git --save\n\n_config.yml의 deploy 부분을 \n1234deploy:    type: git    repo: https://github.com/자기계정명/자기계정명.github.io.git    branch: master\n\n이렇게 설정해주고\n1$hexo deploy\n\n배포를 해주면 알아서 리포지토리로 push가 된다! (바보같이 직접 push하려고 고생했…)\n이렇게하면 아주 아주 기본적인 github.io 블로그가 완성된다!!뿌듯하니까 첫 포스팅의 주제는 이걸로!;)\n","dateCreated":"2019-09-12T18:11:56+09:00","dateModified":"2019-09-12T23:26:52+09:00","datePublished":"2019-09-12T18:11:56+09:00","description":"","headline":"Hexo로 아주 아주 기본적인 Github.io 블로그 만들기","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"http://yoursite.com/2019/09/12/Hexo로-Github-io-블로그-만들기/"},"publisher":{"@type":"Organization","name":"hyerinOh","sameAs":["https://github.com/hyerinOh"]},"url":"http://yoursite.com/2019/09/12/Hexo로-Github-io-블로그-만들기/","keywords":"hexo, github.io, blog"}</script>
+    <meta name="description" content="reference https://mingpd.github.io/2019/04/14/github-blog-with-hexo-1/ https://taetaetae.github.io/2016/09/18/hexo_github_blog/ https://hexo.io/ko/    위의 블로그들에서 너무나 설명을 자세히 해주셔서 따라 만들어봤는데 (나는) 생각보다 쉽">
+<meta name="keywords" content="hexo,github.io,blog">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="Hexo로 Github.io 블로그 만들기">
+<meta property="og:title" content="Hexo로 아주 아주 기본적인 Github.io 블로그 만들기">
 <meta property="og:url" content="http://yoursite.com/2019/09/12/Hexo로-Github-io-블로그-만들기/index.html">
 <meta property="og:site_name" content="hyerin.io">
-<meta property="og:description" content="test">
+<meta property="og:description" content="reference https://mingpd.github.io/2019/04/14/github-blog-with-hexo-1/ https://taetaetae.github.io/2016/09/18/hexo_github_blog/ https://hexo.io/ko/    위의 블로그들에서 너무나 설명을 자세히 해주셔서 따라 만들어봤는데 (나는) 생각보다 쉽">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-09-12T09:23:25.985Z">
+<meta property="og:updated_time" content="2019-09-12T14:26:52.122Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hexo로 Github.io 블로그 만들기">
-<meta name="twitter:description" content="test">
+<meta name="twitter:title" content="Hexo로 아주 아주 기본적인 Github.io 블로그 만들기">
+<meta name="twitter:description" content="reference https://mingpd.github.io/2019/04/14/github-blog-with-hexo-1/ https://taetaetae.github.io/2016/09/18/hexo_github_blog/ https://hexo.io/ko/    위의 블로그들에서 너무나 설명을 자세히 해주셔서 따라 만들어봤는데 (나는) 생각보다 쉽">
     
     
         
@@ -32,7 +33,10 @@
     
     
     <!--STYLES-->
-    <link rel="stylesheet" href="/assets/css/style-lnzscwnzfiavw9uqhqquhpvxgq4vv960dlzg7fvqxqlt0n9kn8c8da2qaflg.min.css">
+    <link rel="stylesheet" href="/assets/css/all.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
+    <link rel="stylesheet" href="/assets/css/thumbs.css">
+    <link rel="stylesheet" href="/assets/css/tranquilpeak.css">
     <!--STYLES END-->
     
 
@@ -124,19 +128,6 @@
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link "
-                             href="/all-archives"
-                            
-                            title="Archives"
-                        >
-                    
-                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Archives</span>
-                    </a>
-            </li>
-            
-                <li class="sidebar-button">
-                    
                         <a  class="sidebar-button-link open-algolia-search"
                              href="#search"
                             
@@ -167,84 +158,10 @@
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link " href="https://github.com/" target="_blank" rel="noopener" title="GitHub">
+                        <a  class="sidebar-button-link " href="https://github.com/hyerinOh" target="_blank" rel="noopener" title="GitHub">
                     
                         <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">GitHub</span>
-                    </a>
-            </li>
-            
-                <li class="sidebar-button">
-                    
-                        <a  class="sidebar-button-link " href="http://stackoverflow.com/users" target="_blank" rel="noopener" title="Stack Overflow">
-                    
-                        <i class="sidebar-button-icon fab fa-stack-overflow" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Stack Overflow</span>
-                    </a>
-            </li>
-            
-                <li class="sidebar-button">
-                    
-                        <a  class="sidebar-button-link " href="https://twitter.com/" target="_blank" rel="noopener" title="Twitter">
-                    
-                        <i class="sidebar-button-icon fab fa-twitter" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Twitter</span>
-                    </a>
-            </li>
-            
-                <li class="sidebar-button">
-                    
-                        <a  class="sidebar-button-link " href="https://facebook.com/" target="_blank" rel="noopener" title="Facebook">
-                    
-                        <i class="sidebar-button-icon fab fa-facebook" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Facebook</span>
-                    </a>
-            </li>
-            
-                <li class="sidebar-button">
-                    
-                        <a  class="sidebar-button-link " href="https://plus.google.com/" target="_blank" rel="noopener" title="Google +">
-                    
-                        <i class="sidebar-button-icon fab fa-google-plus" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Google +</span>
-                    </a>
-            </li>
-            
-                <li class="sidebar-button">
-                    
-                        <a  class="sidebar-button-link " href="https://www.linkedin.com/profile/" target="_blank" rel="noopener" title="LinkedIn">
-                    
-                        <i class="sidebar-button-icon fab fa-linkedin" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">LinkedIn</span>
-                    </a>
-            </li>
-            
-                <li class="sidebar-button">
-                    
-                        <a  class="sidebar-button-link "
-                             href="/mailto"
-                            title="Mail"
-                        >
-                    
-                        <i class="sidebar-button-icon fa fa-envelope" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Mail</span>
-                    </a>
-            </li>
-            
-        </ul>
-        
-            <ul class="sidebar-buttons">
-            
-                <li class="sidebar-button">
-                    
-                        <a  class="sidebar-button-link "
-                             href="/atom.xml"
-                            
-                            title="RSS"
-                        >
-                    
-                        <i class="sidebar-button-icon fa fa-rss" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">RSS</span>
                     </a>
             </li>
             
@@ -265,7 +182,7 @@
         <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title">
-            Hexo로 Github.io 블로그 만들기
+            Hexo로 아주 아주 기본적인 Github.io 블로그 만들기
         </h1>
     
     
@@ -276,6 +193,12 @@
     	
     </time>
     
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/web/">web</a>, <a class="category-link" href="/categories/web/hexo/">hexo</a>
+
+
+    
 </div>
 
     
@@ -284,7 +207,87 @@
     
     <div class="post-content markdown">
         <div class="main-content-wrap">
-            <p>test</p>
+            <ul>
+<li>reference<ul>
+<li><a href="https://mingpd.github.io/2019/04/14/github-blog-with-hexo-1/" target="_blank" rel="noopener">https://mingpd.github.io/2019/04/14/github-blog-with-hexo-1/</a></li>
+<li><a href="https://taetaetae.github.io/2016/09/18/hexo_github_blog/" target="_blank" rel="noopener">https://taetaetae.github.io/2016/09/18/hexo_github_blog/</a></li>
+<li><a href="https://hexo.io/ko/" target="_blank" rel="noopener">https://hexo.io/ko/</a></li>
+</ul>
+</li>
+</ul>
+<p>위의 블로그들에서 너무나 설명을 자세히 해주셔서 따라 만들어봤는데 <del>(나는)</del> 생각보다 쉽게 만들어지지 않아서…!! 다음에 혹시나 다시 할 때 또다시 헤매지 않도록 정리를 해놓기로 했다.</p>
+<br>
+
+<hr>
+<h3 id="시작하기-전-준비사항"><a href="#시작하기-전-준비사항" class="headerlink" title="시작하기 전 준비사항!"></a>시작하기 전 준비사항!</h3><ul>
+<li>node</li>
+<li>git</li>
+<li>hexo와 연결시킬 repository (&lt;자기계정명&gt;.github.io)</li>
+<li>블로그 관리용 repository</li>
+</ul>
+<br>
+
+<h3 id="hexo-설치"><a href="#hexo-설치" class="headerlink" title="hexo 설치"></a>hexo 설치</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// hexo-cil를 설치</span><br><span class="line"><span class="variable">$npm</span> install hexo-cli-g</span><br><span class="line"></span><br><span class="line">// 디렉토리 만들기</span><br><span class="line">mkdir &lt;폴더명&gt;</span><br><span class="line"></span><br><span class="line">// hexo 프로젝트 생성</span><br><span class="line">hexo init &lt;폴더명&gt;</span><br><span class="line"><span class="built_in">cd</span> &lt;폴더명&gt;</span><br><span class="line"><span class="variable">$npm</span> install</span><br></pre></td></tr></table></figure>
+
+<br>
+
+<h3 id="theme-적용하기"><a href="#theme-적용하기" class="headerlink" title="theme 적용하기"></a>theme 적용하기</h3><p><em>mingpd</em> 님의 블로그처럼 <code>Tranquilpeak</code> 테마를 적용해봤다. </p>
+<ol>
+<li><a href="https://github.com/LouisBarranqueiro/hexo-theme-tranquilpeak/releases" target="_blank" rel="noopener">releases</a>의 Assets에서 한 개만 다운로드한 후 압축을 풀어주기</li>
+<li>폴더 이름을 <code>tranquilpeak</code>으로 변경하고 위에서 생성한 hexo 프로젝트 내의 themes 폴더 안에 넣기</li>
+<li>hexo 프로젝트의 <code>_config.yml</code>파일 안의 theme을 <code>theme:tranquilpeak</code>으로 변경 <br> (주의!!!themes/tranquilpeak/_config.yml 아님)</li>
+</ol>
+<br>
+
+<p>여기까지 하고 $hexo server를 실행하면 다들 에러 없이 테스트가 작동하는 것 같았는데<br>나에게는 <code>Cannot find module &#39;jsdom&#39;</code>이라는 에러가 발생했다..<br>열심히 구글링 한 결과</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> themes</span><br><span class="line"><span class="built_in">cd</span> tranquilpeak</span><br><span class="line">npm install &amp;&amp; npm run prod</span><br></pre></td></tr></table></figure>
+
+<p>위의 명령문들을 실행해주면 문제가 해결되었다!!<br><code>npm run prod</code>를 실행해야 테마가 빌드 되어서 수정사항들이 바뀐다고 한다.</p>
+<br>
+
+<p>그리고 바로 $hexo server를 해주는 것이 아니라 <strong>hexo 프로젝트 폴더</strong>로 돌아가서 <code>$hexo server</code>를 실행해주고 <a href="http://localhost:4000" target="_blank" rel="noopener">http://localhost:4000</a>에 들어가면 Hello World가 나오는 예쁜 블로그를 볼 수 있다.</p>
+<p>간혹 실행이 안 될 경우가 있다는데 그럴 때는</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$hexo</span> clean</span><br><span class="line"><span class="variable">$hexo</span> server</span><br></pre></td></tr></table></figure>
+
+<p>clean 명령어를 실행해준 뒤 다시 server 명령어를 실행시켜주면 작동한다고 한다.</p>
+<br>
+
+<h3 id="grunt"><a href="#grunt" class="headerlink" title="grunt"></a>grunt</h3><p>theme안의 <code>css, js</code>등을 변경한 후에 grunt라는 javascript 빌드 툴을 이용해서 빌드해준다.<br>초기 설정할 때는</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$npm</span> install -g grunt-cli</span><br><span class="line"></span><br><span class="line"><span class="variable">$cd</span> themes/tranquilpeak</span><br><span class="line"><span class="variable">$npm</span> install grunt --save-dev</span><br></pre></td></tr></table></figure>
+
+<p>초기 설정후에 css,js 파일을 수정한 다음에는</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// themes/tranquilpeak 폴더에서</span><br><span class="line"><span class="variable">$grunt</span> build</span><br></pre></td></tr></table></figure>
+
+<p>새로 빌드 한 후에 hexo server를 실행하면 변경된 사항을 확인할 수 있다.</p>
+<br>
+
+<h3 id="포스트-만들기"><a href="#포스트-만들기" class="headerlink" title="포스트 만들기"></a>포스트 만들기</h3><p>일반 post와 draft(초안)을 만들 수 있는데 일반 post로 자주 만들 것 같다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// 일반 post 만들기</span><br><span class="line"><span class="variable">$hexo</span> new post <span class="string">"제목"</span></span><br><span class="line"></span><br><span class="line">// draft 만들기</span><br><span class="line"><span class="variable">$hexo</span> new draft <span class="string">"제목"</span></span><br><span class="line"></span><br><span class="line">// draft를 post로 만들기</span><br><span class="line"><span class="variable">$hexo</span> publish <span class="string">"제목"</span></span><br></pre></td></tr></table></figure>
+
+<br>
+
+<ul>
+<li>템플릿<br>일반 post =&gt; <code>scaffolds/post.md</code><br>draft =&gt; <code>scaffolds/draft.md</code></li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">// post.md 파일</span><br><span class="line">---</span><br><span class="line">title: Hexo로 Github.io 블로그 만들기</span><br><span class="line">date: &#123;&#123; date &#125;&#125;</span><br><span class="line">categories:</span><br><span class="line">- Web</span><br><span class="line">- Hexo</span><br><span class="line">tags: </span><br><span class="line">- hexo</span><br><span class="line">- github.io</span><br><span class="line">- blog</span><br><span class="line">thumbnail:</span><br><span class="line">permalink: "http://hyerinOh/Hexo로 Github.io 블로그 만들기"</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
+
+<br>
+
+<p>카테고리를 어떻게 만드나 한참 찾았는데 <code>categories</code> 하위에 순서대로 넣어주면 알아서 카테고리가 만들어진다. <code>tags</code>는 순서 상관없이 동등한 관계!<br>parmalink로 원하는 경로를 설정할 수 있다.</p>
+<br>
+
+<hr>
+<h3 id="Github-page-배포하기"><a href="#Github-page-배포하기" class="headerlink" title="Github page 배포하기"></a>Github page 배포하기</h3><p>먼저 라이브러리를 설치해주고 </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure>
+
+<p><code>_config.yml</code>의 deploy 부분을 </p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">    type: git</span><br><span class="line">    repo: https://github.com/자기계정명/자기계정명.github.io.git</span><br><span class="line">    branch: master</span><br></pre></td></tr></table></figure>
+
+<p>이렇게 설정해주고</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>배포를 해주면 알아서 리포지토리로 push가 된다! <del>(바보같이 직접 push하려고 고생했…)</del></p>
+<p>이렇게하면 아주 아주 기본적인 github.io 블로그가 완성된다!!<br>뿌듯하니까 첫 포스팅의 주제는 이걸로!;)</p>
 
             
 
@@ -292,6 +295,13 @@
         </div>
     </div>
     <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/blog/">blog</a> <a class="tag tag--primary tag--small t-link" href="/tags/github-io/">github.io</a> <a class="tag tag--primary tag--small t-link" href="/tags/hexo/">hexo</a>
+
+            </div>
         
         
             <div class="post-actions-wrap">
@@ -376,6 +386,16 @@
         
         
             
+                <li class="post-action">
+                    <a
+                        class="post-action-btn btn btn--default"
+                        href="#disqus_thread"
+                        aria-label="Leave a comment"
+                    >
+                        <i class="fa fa-comment"></i>
+                    </a>
+                </li>
+            
         
         <li class="post-action">
             
@@ -390,6 +410,10 @@
 
         
         
+            
+                <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
             
         
     </div>
@@ -488,6 +512,16 @@
         
         
             
+                <li class="post-action">
+                    <a
+                        class="post-action-btn btn btn--default"
+                        href="#disqus_thread"
+                        aria-label="Leave a comment"
+                    >
+                        <i class="fa fa-comment"></i>
+                    </a>
+                </li>
+            
         
         <li class="post-action">
             
@@ -581,10 +615,30 @@
         
 <div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
         <!--SCRIPTS-->
-<script src="/assets/js/script-xacmsuiuybmpmszvtvcanhj9a5nzctpxvujwjvw0zr5hliepgn4yyzak2bdy.min.js"></script>
+<script src="/assets/js/jquery.js"></script>
+<script src="/assets/js/jquery.fancybox.js"></script>
+<script src="/assets/js/thumbs.js"></script>
+<script src="/assets/js/tranquilpeak.js"></script>
 <!--SCRIPTS END-->
 
 
+    
+        <script>
+          var disqus_config = function() {
+            this.page.url = 'http://yoursite.com/2019/09/12/Hexo로-Github-io-블로그-만들기/';
+              
+            this.page.identifier = '2019/09/12/Hexo로-Github-io-블로그-만들기/';
+              
+          };
+          (function() {
+            var d = document, s = d.createElement('script');
+            var disqus_shortname = 'web1-s18lyko82r';
+            s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+          })();
+        </script>
     
 
 
