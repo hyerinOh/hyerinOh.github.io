@@ -1,0 +1,668 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="hyerin.io">
+    <title>2. Primitive types - hyerin.io</title>
+    <meta name="author" content="hyerinOh">
+    
+    
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"hyerinOh","sameAs":["https://github.com/hyerinOh"],"image":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7"},"articleBody":"\n\n\n\n자바스크립트에는 6가지 종류의 primitive type이 있다. 쉽게 말하자면 자바스크립트에서 객체가 아닌 것들이며, 값 그 자체로 저장된 것을 말한다.\nTypes\nprimitive type\nreference type\n\nPrimitive type\nboolean\nnumber (두 배의 정밀함을 가진 64-bit float. 자바스크립트에는 정수 타입이 존재하지 않음)\nstring\nnull\nundefined\nsymbol (ES6에 처음 생긴 원시타입)\n\n\n\n\n모든 원시 타입은 값을 표현하는 리터럴(코드에 직접 입력된 이름이나 가격처럼 변수에 저장되지 않은 값. 값 자체) 형식이 있다.\n자바스크립트 변수는 원시타입 값이 그대로 저장된다.(메모리 참조가 아닌 값의 복사)\n원시 타입에는 어떠한 메소드도 붙지 않는다. 이러한 특성 때문에 원시타입은 불변성(immutable)을 갖는다. =&gt; 자신을 변경할 수 있는 메소드를 갖지 않기 때문\n원시타입은 참조로 저장되는 object와 다르게 값 그 자체로 저장. 값이 동일한지 체크할 때 앞의 문장이 정확히 무슨 의미인지 알 수 있음. 아래의 배열과 객체는 내용은 같지만 다른 곳을 참조하고 있기 때문에 false를 리턴\n\n123456\"dog\" === \"dog\" // true14 === 14 // ture&#123;&#125; === &#123;&#125; // false[] === [] // false(function()&#123;]&#125;) === (function() &#123;&#125;) // false\n\n123456789var color1 = 'red';var color2 = color1;console.log(color2); //'red'color1 = 'blue';console.log(color1); // 'blue'console.log(color2); // 'red'\n\nReference type\nprimitive type이 아닌 것은 object =&gt; 함수, 배열 포함\n\nes5에서 클래스가 없기 때문에 클래스와 가장 가까운 개념참조 값은 참조 타입의 인스턴스이며 객체와 같은 말이다.객체는 순서가 없는 프로퍼티로 이루어져 있으며 프로퍼티는 key와 value의 구성이다.\n1var object = new Object();\n\n참조타입은 할당된 변수에 값을 직접 저장하지 않음. object에 저장된 값은 객체 인스턴스가 아니라 객체가있는 메모리상 위치를 가리키는 포인터.\n123var object1 = new Object();var object2 = object1;// object2와 object1은 같은 포인터를 참조\n\n\n함수\n함수는 특별한 프로퍼티들을 가진 새로운 형태의 객체. (생성자, 콜)\n일반적인 객체와 같이 함수에 새로운 프로퍼티를 추가하는 것도 가능=&gt; 이러한 특성들 떄문에 함수는 1급 객체=&gt; 1. 다른 함수의 인자값으로 넘겨질 수 있음=&gt; 2. 변수나 데이터에 할당 가능=&gt; 3. 객체의 리턴 값으로 리턴 가능\n\n\n\n\n메소드\n\n함수와 같이 객체의 프로퍼티\n\n\n생성자 함수\n\nnew라는 키워드를 사용해서 리턴 값으로 생성하는 함수를 객체 그 자체로서 반환하는 함수\n어떤 함수든 생성자 함수가 될 수 있음\n생성자 함수는 object를 리턴하게 되는데 obejct에 새로운 프로퍼티들을 할당하기 위해 this를 함수의 몸통 안에서 사용할 수 있다.“baz”값으로 초기화 된 bar라는 프로퍼티를 가진 object를 많이 만들고 싶다면 그 로직을 캡슐화하는 Foo라는 생성자 함수를 생성할 수 있다.\n\n1234567const Foo = function () &#123;    this.bar = \"baz\";&#125;const qux = new Foo();qux; //&#123;bar : \"baz\"&#125;qux instanceof Foo; // truequx instanceof Object; // true\n\nWrapper Object\n\nString, Number, Boolean, Function 와 같은 원시타입을 new 키워드로 생성하면 원시타입에 대한 래퍼 오브젝트(Wrapper Object)가 생성\nString은 문자열이 인자로 들어왔을 때, 원시 문자열(Primitive String)을 생성하는 전역 함수. String 은 인자로 들어온 값을 문자열로 바꾸려 함.\nnew 키워드를 붙인다면 생성자 함수로 쓰일 수 있음\n\n1234567891011String(\"dog\") === \"dog\" // trueconst pet = new String(\"dog\"); =&gt; wrapper objecttypeof pet; // \"object\"pet === \"dog\" // falsepet = &#123;    0 : \"d\",    1 : \"o\",    2 : \"g\",    length: 3&#125;\n\nAuto-Boxing\n\n여기서 흥미로운 점 : 1. 원시 타입 문자열 생성자와 일반 오브젝트 생성자 둘 다 String 함수를 이용한다는 것. 2. 원시 문자열 타입에서 .constructor 를 이용하여 생성자 프로퍼티를 확인할 수 있다는 것=&gt; 원시 타입은 메소드 가질 수 없다 배웠는데?\n\n123const pet = new String(\"dog\");pet.constructor === String // trueString(\"dog\").constructor === String; // true\n\n\nauto-boxing : 우리가 특정한 원시타입에서 프로퍼티나 메소드를 호출하려 할 때, 자바스크립트는 처음으로 이것을 임시 래퍼 오브젝트로 바꾼 뒤에 프로퍼티나 메소드에 접근. 이 과정에서 원본에는 아무런 영향을 미치지 않는다.\n\n123const foo = \"bar\";foo.length; // 3foo === \"bar\" // true\n\n\n위의 예에서, length 라는 프로퍼티에 접근하기 위해 자바스크립트는 foo를 auto-boxing하고 이것을 래퍼 오브젝트에 넣는다. 그리고 래퍼 오브젝트의 length 프로퍼티에 접근하고 값을 이용한 뒤에는 지워버림. 이 모든 과정은 foo라는 원시타입 변수에 전혀 영향을 미치지 않음. foo는 여전히 그저 원시 타입 문자열일 뿐.\n\n자바스크립트가 왜 아무런 경고나 에러메시지를 출력하지 않는지 =&gt; 프로퍼티를 할당할 때 잠시 원시 타입을 이용한 Wrapper Object를 만들고 거기에 할당하기 때문.\n\n만일 undefined나 null과 같이 래퍼 오브젝트가 없는 원시 타입에 대해서 프로퍼티를 할당하려고 하면 자바스크립트는 에러메시지를 나타낼 것입니다.\n\n\n12const foo = null;foo.bar = \"baz\" // Uncaught TypeError: Cannot set property 'bar' of null\n\n\n\n객체 참조 제거자바스크립트는 가비지 컬렉터가 있어서 메모리 할당과 제거에 대해 고민하지 않아도 되지만 사용하지 않는 변수에 대해서는 참조를 제거해 주는 것이 좋다.\n12var object = new Object();object = null;\n\n요약\n자바스크립트의 모든 것이 Object(객체)인 것은 아니다.\n자바스크립트에는 6개의 원시 타입이 존재한다.\n원시 타입이 아닌 것들은 모두 Object(객체)이다.\n함수는 단순히 특별한 타입의 Object(객체)일 뿐이다.\n함수는 새로운 Object(객체)를 만들기 위해 사용될 수 있다. (생성자 함수)\nStrings, Booleans, Numbers 는 원시 타입이면서 오브젝트이다. (래퍼 오브젝트를 갖는다.)\n자바스크립트 내부에 존재하는 오토박싱(Autoboxing)이라는 기능 때문에 몇몇 원시 타입들 (Strings, Numbers, Booleans) 는 Object(객체)처럼 동작한다.\n\n","dateCreated":"2019-07-19T00:00:00+09:00","dateModified":"2019-09-16T01:51:51+09:00","datePublished":"2019-07-19T00:00:00+09:00","description":"","headline":"2. Primitive types","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"http://yoursite.com/2019/07/19/primitive-types/"},"publisher":{"@type":"Organization","name":"hyerinOh","sameAs":["https://github.com/hyerinOh"],"image":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7"}},"url":"http://yoursite.com/2019/07/19/primitive-types/","keywords":"javascript, 33-js-concepts, primitive type, reference type"}</script>
+    <meta name="keywords" content="javascript,33-js-concepts,primitive type,reference type">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="2. Primitive types">
+<meta property="og:url" content="http://yoursite.com/2019/07/19/primitive-types/index.html">
+<meta property="og:site_name" content="hyerin.io">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-09-15T16:51:51.984Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="2. Primitive types">
+    
+    
+        
+    
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/all.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
+    <link rel="stylesheet" href="/assets/css/thumbs.css">
+    <link rel="stylesheet" href="/assets/css/tranquilpeak.css">
+    <!--STYLES END-->
+    
+
+    
+
+    
+        
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+
+<header id="header" data-behavior="5">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a
+            class="header-title-link"
+            href="/ "
+            aria-label=""
+        >
+            hyerin.io
+        </a>
+    </div>
+    
+        
+            <a
+                class="header-right-picture "
+                href="#about"
+                aria-label="Open the link: /#about"
+            >
+        
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+<nav id="sidebar" data-behavior="5">
+    <div class="sidebar-container">
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/ "
+                            
+                            title="Home"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Home</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                            title="Categories"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Categories</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                            title="Tags"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Tags</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                            title="About"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">About</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/hyerinOh" target="_blank" rel="noopener" title="GitHub">
+                    
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="5"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            2. Primitive types
+        </h1>
+    
+    
+        <div class="post-meta">
+    <time datetime="2019-07-19T00:00:00+09:00">
+	
+		    Jul 19, 2019
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/Dev/">Dev</a>, <a class="category-link" href="/categories/Dev/JavaScript/">JavaScript</a>, <a class="category-link" href="/categories/Dev/JavaScript/33-js-concepts/">33-js-concepts</a>
+
+
+    
+</div>
+
+    
+</div>
+
+    
+    <div class="post-content markdown">
+        <div class="main-content-wrap">
+            <br>
+
+<a id="more"></a>
+
+<p>자바스크립트에는 6가지 종류의 <strong>primitive type</strong>이 있다. 쉽게 말하자면 자바스크립트에서 객체가 아닌 것들이며, 값 그 자체로 저장된 것을 말한다.</p>
+<h2 id="Types"><a href="#Types" class="headerlink" title="Types"></a>Types</h2><ul>
+<li><strong>primitive type</strong></li>
+<li><strong>reference type</strong></li>
+</ul>
+<h2 id="Primitive-type"><a href="#Primitive-type" class="headerlink" title="Primitive type"></a>Primitive type</h2><ul>
+<li><strong>boolean</strong></li>
+<li><strong>number</strong> (두 배의 정밀함을 가진 64-bit float. 자바스크립트에는 정수 타입이 존재하지 않음)</li>
+<li><strong>string</strong></li>
+<li><strong>null</strong></li>
+<li><strong>undefined</strong></li>
+<li><strong>symbol</strong> (ES6에 처음 생긴 원시타입)</li>
+</ul>
+<br>
+
+<ul>
+<li>모든 원시 타입은 값을 표현하는 <code>리터럴</code>(코드에 직접 입력된 이름이나 가격처럼 변수에 저장되지 않은 값. 값 자체) 형식이 있다.</li>
+<li>자바스크립트 변수는 원시타입 값이 그대로 저장된다.(메모리 참조가 아닌 값의 복사)</li>
+<li>원시 타입에는 어떠한 메소드도 붙지 않는다. 이러한 특성 때문에 원시타입은 <em>불변성(immutable)</em>을 갖는다. =&gt; 자신을 변경할 수 있는 메소드를 갖지 않기 때문</li>
+<li>원시타입은 참조로 저장되는 object와 다르게 값 그 자체로 저장. 값이 동일한지 체크할 때 앞의 문장이 정확히 무슨 의미인지 알 수 있음. 아래의 배열과 객체는 내용은 같지만 다른 곳을 참조하고 있기 때문에 false를 리턴</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"dog"</span> === <span class="string">"dog"</span> <span class="comment">// true</span></span><br><span class="line"><span class="number">14</span> === <span class="number">14</span> <span class="comment">// ture</span></span><br><span class="line"></span><br><span class="line">&#123;&#125; === &#123;&#125; <span class="comment">// false</span></span><br><span class="line">[] === [] <span class="comment">// false</span></span><br><span class="line">(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;]&#125;) === (<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;) <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> color1 = <span class="string">'red'</span>;</span><br><span class="line"><span class="keyword">var</span> color2 = color1;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(color2); <span class="comment">//'red'</span></span><br><span class="line"></span><br><span class="line">color1 = <span class="string">'blue'</span>;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(color1); <span class="comment">// 'blue'</span></span><br><span class="line"><span class="built_in">console</span>.log(color2); <span class="comment">// 'red'</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Reference-type"><a href="#Reference-type" class="headerlink" title="Reference type"></a>Reference type</h2><ul>
+<li><strong>primitive type이 아닌 것은 object</strong> =&gt; 함수, 배열 포함</li>
+</ul>
+<p>es5에서 클래스가 없기 때문에 클래스와 가장 가까운 개념<br>참조 값은 참조 타입의 인스턴스이며 객체와 같은 말이다.<br>객체는 순서가 없는 프로퍼티로 이루어져 있으며 프로퍼티는 key와 value의 구성이다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> object = <span class="keyword">new</span> <span class="built_in">Object</span>();</span><br></pre></td></tr></table></figure>
+
+<p>참조타입은 할당된 변수에 값을 직접 저장하지 않음. object에 저장된 값은 객체 인스턴스가 아니라 객체가있는 메모리상 위치를 가리키는 포인터.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> object1 = <span class="keyword">new</span> <span class="built_in">Object</span>();</span><br><span class="line"><span class="keyword">var</span> object2 = object1;</span><br><span class="line"><span class="comment">// object2와 object1은 같은 포인터를 참조</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>함수<ul>
+<li>함수는 특별한 프로퍼티들을 가진 새로운 형태의 객체. (생성자, 콜)</li>
+<li>일반적인 객체와 같이 함수에 새로운 프로퍼티를 추가하는 것도 가능<br>=&gt; 이러한 특성들 떄문에 함수는 1급 객체<br>=&gt; 1. 다른 함수의 인자값으로 넘겨질 수 있음<br>=&gt; 2. 변수나 데이터에 할당 가능<br>=&gt; 3. 객체의 리턴 값으로 리턴 가능</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>메소드</p>
+<ul>
+<li>함수와 같이 객체의 프로퍼티</li>
+</ul>
+</li>
+<li><p>생성자 함수</p>
+<ul>
+<li><code>new</code>라는 키워드를 사용해서 리턴 값으로 생성하는 함수를 객체 그 자체로서 반환하는 함수</li>
+<li>어떤 함수든 생성자 함수가 될 수 있음</li>
+<li>생성자 함수는 object를 리턴하게 되는데 obejct에 새로운 프로퍼티들을 할당하기 위해 this를 함수의 몸통 안에서 사용할 수 있다.<br>“baz”값으로 초기화 된 bar라는 프로퍼티를 가진 object를 많이 만들고 싶다면 그 로직을 캡슐화하는 Foo라는 생성자 함수를 생성할 수 있다.</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> Foo = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.bar = <span class="string">"baz"</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> qux = <span class="keyword">new</span> Foo();</span><br><span class="line">qux; <span class="comment">//&#123;bar : "baz"&#125;</span></span><br><span class="line">qux <span class="keyword">instanceof</span> Foo; <span class="comment">// true</span></span><br><span class="line">qux <span class="keyword">instanceof</span> <span class="built_in">Object</span>; <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>Wrapper Object</strong></p>
+<ul>
+<li><code>String</code>, <code>Number</code>, <code>Boolean</code>, <code>Function</code> 와 같은 원시타입을 <code>new</code> 키워드로 생성하면 원시타입에 대한 래퍼 오브젝트(Wrapper Object)가 생성</li>
+<li>String은 문자열이 인자로 들어왔을 때, 원시 문자열(Primitive String)을 생성하는 전역 함수. String 은 인자로 들어온 값을 문자열로 바꾸려 함.</li>
+<li><code>new</code> 키워드를 붙인다면 생성자 함수로 쓰일 수 있음</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">String</span>(<span class="string">"dog"</span>) === <span class="string">"dog"</span> <span class="comment">// true</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> pet = <span class="keyword">new</span> <span class="built_in">String</span>(<span class="string">"dog"</span>); =&gt; wrapper object</span><br><span class="line"><span class="keyword">typeof</span> pet; <span class="comment">// "object"</span></span><br><span class="line">pet === <span class="string">"dog"</span> <span class="comment">// false</span></span><br><span class="line">pet = &#123;</span><br><span class="line">    <span class="number">0</span> : <span class="string">"d"</span>,</span><br><span class="line">    <span class="number">1</span> : <span class="string">"o"</span>,</span><br><span class="line">    <span class="number">2</span> : <span class="string">"g"</span>,</span><br><span class="line">    length: <span class="number">3</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>Auto-Boxing</strong></p>
+<ul>
+<li>여기서 흥미로운 점 : 1. 원시 타입 문자열 생성자와 일반 오브젝트 생성자 둘 다 String 함수를 이용한다는 것. 2. 원시 문자열 타입에서 .constructor 를 이용하여 생성자 프로퍼티를 확인할 수 있다는 것<br>=&gt; 원시 타입은 메소드 가질 수 없다 배웠는데?</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> pet = <span class="keyword">new</span> <span class="built_in">String</span>(<span class="string">"dog"</span>);</span><br><span class="line">pet.constructor === <span class="built_in">String</span> <span class="comment">// true</span></span><br><span class="line"><span class="built_in">String</span>(<span class="string">"dog"</span>).constructor === <span class="built_in">String</span>; <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>auto-boxing</code> : 우리가 특정한 원시타입에서 프로퍼티나 메소드를 호출하려 할 때, 자바스크립트는 처음으로 이것을 <strong>임시 래퍼 오브젝트로 바꾼 뒤</strong>에 프로퍼티나 메소드에 접근. 이 과정에서 원본에는 아무런 영향을 미치지 않는다.</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> foo = <span class="string">"bar"</span>;</span><br><span class="line">foo.length; <span class="comment">// 3</span></span><br><span class="line">foo === <span class="string">"bar"</span> <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>위의 예에서, length 라는 프로퍼티에 접근하기 위해 자바스크립트는 foo를 <code>auto-boxing</code>하고 이것을 래퍼 오브젝트에 넣는다. 그리고 래퍼 오브젝트의 length 프로퍼티에 접근하고 값을 이용한 뒤에는 지워버림. 이 모든 과정은 foo라는 원시타입 변수에 전혀 영향을 미치지 않음. foo는 여전히 그저 원시 타입 문자열일 뿐.</p>
+</li>
+<li><p>자바스크립트가 왜 아무런 경고나 에러메시지를 출력하지 않는지 =&gt; 프로퍼티를 할당할 때 잠시 원시 타입을 이용한 Wrapper Object를 만들고 거기에 할당하기 때문.</p>
+</li>
+<li><p>만일 <code>undefined</code>나 <code>null</code>과 같이 래퍼 오브젝트가 없는 원시 타입에 대해서 프로퍼티를 할당하려고 하면 자바스크립트는 에러메시지를 나타낼 것입니다.</p>
+</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> foo = <span class="literal">null</span>;</span><br><span class="line">foo.bar = <span class="string">"baz"</span> <span class="comment">// Uncaught TypeError: Cannot set property 'bar' of null</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="객체-참조-제거"><a href="#객체-참조-제거" class="headerlink" title="객체 참조 제거"></a>객체 참조 제거</h2><p>자바스크립트는 가비지 컬렉터가 있어서 메모리 할당과 제거에 대해 고민하지 않아도 되지만 사용하지 않는 변수에 대해서는 참조를 제거해 주는 것이 좋다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> object = <span class="keyword">new</span> <span class="built_in">Object</span>();</span><br><span class="line">object = <span class="literal">null</span>;</span><br></pre></td></tr></table></figure>
+
+<h2 id="요약"><a href="#요약" class="headerlink" title="요약"></a>요약</h2><ol>
+<li>자바스크립트의 모든 것이 Object(객체)인 것은 아니다.</li>
+<li>자바스크립트에는 6개의 원시 타입이 존재한다.</li>
+<li>원시 타입이 아닌 것들은 모두 Object(객체)이다.</li>
+<li>함수는 단순히 특별한 타입의 Object(객체)일 뿐이다.</li>
+<li>함수는 새로운 Object(객체)를 만들기 위해 사용될 수 있다. (생성자 함수)</li>
+<li>Strings, Booleans, Numbers 는 원시 타입이면서 오브젝트이다. (래퍼 오브젝트를 갖는다.)</li>
+<li>자바스크립트 내부에 존재하는 오토박싱(Autoboxing)이라는 기능 때문에 몇몇 원시 타입들 (Strings, Numbers, Booleans) 는 Object(객체)처럼 동작한다.</li>
+</ol>
+
+            
+
+
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/33-js-concepts/">33-js-concepts</a> <a class="tag tag--primary tag--small t-link" href="/tags/javascript/">javascript</a> <a class="tag tag--primary tag--small t-link" href="/tags/primitive-type/">primitive type</a> <a class="tag tag--primary tag--small t-link" href="/tags/reference-type/">reference type</a>
+
+            </div>
+        
+        
+            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2019/07/19/node/"
+                    data-tooltip="Node.js"
+                    aria-label="PREVIOUS: Node.js"
+                >
+                    
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                    </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2019/07/18/call-stack/"
+                    data-tooltip="1. Call Stack"
+                    aria-label="NEXT: 1. Call Stack"
+                >
+                    
+                        <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a
+                class="post-action-btn btn btn--default btn-open-shareoptions"
+                href="#btn-open-shareoptions"
+                aria-label="Share this post"
+            >
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/07/19/primitive-types/"
+                    title="Share on Facebook"
+                    aria-label="Share on Facebook"
+                >
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2019/07/19/primitive-types/"
+                    title="Share on Twitter"
+                    aria-label="Share on Twitter"
+                >
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://plus.google.com/share?url=http://yoursite.com/2019/07/19/primitive-types/"
+                    title="Share on Google+"
+                    aria-label="Share on Google+"
+                >
+                    <i class="fab fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a
+                        class="post-action-btn btn btn--default"
+                        href="#disqus_thread"
+                        aria-label="Leave a comment"
+                    >
+                        <i class="fa fa-comment"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+        
+            
+                <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2019 hyerinOh. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2019/07/19/node/"
+                    data-tooltip="Node.js"
+                    aria-label="PREVIOUS: Node.js"
+                >
+                    
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                    </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2019/07/18/call-stack/"
+                    data-tooltip="1. Call Stack"
+                    aria-label="NEXT: 1. Call Stack"
+                >
+                    
+                        <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a
+                class="post-action-btn btn btn--default btn-open-shareoptions"
+                href="#btn-open-shareoptions"
+                aria-label="Share this post"
+            >
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/07/19/primitive-types/"
+                    title="Share on Facebook"
+                    aria-label="Share on Facebook"
+                >
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2019/07/19/primitive-types/"
+                    title="Share on Twitter"
+                    aria-label="Share on Twitter"
+                >
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://plus.google.com/share?url=http://yoursite.com/2019/07/19/primitive-types/"
+                    title="Share on Google+"
+                    aria-label="Share on Google+"
+                >
+                    <i class="fab fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a
+                        class="post-action-btn btn btn--default"
+                        href="#disqus_thread"
+                        aria-label="Leave a comment"
+                    >
+                        <i class="fa fa-comment"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                
+    <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+        <i id="btn-close-shareoptions" class="fa fa-times"></i>
+        <ul class="share-options">
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/07/19/primitive-types/"
+                        aria-label="Share on Facebook"
+                    >
+                        <i class="fab fa-facebook" aria-hidden="true"></i><span>Share on Facebook</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://twitter.com/intent/tweet?text=http://yoursite.com/2019/07/19/primitive-types/"
+                        aria-label="Share on Twitter"
+                    >
+                        <i class="fab fa-twitter" aria-hidden="true"></i><span>Share on Twitter</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://plus.google.com/share?url=http://yoursite.com/2019/07/19/primitive-types/"
+                        aria-label="Share on Google+"
+                    >
+                        <i class="fab fa-google-plus" aria-hidden="true"></i><span>Share on Google+</span>
+                    </a>
+                </li>
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+        
+    
+        
+                                            <div id="about">
+                                                <div id="about-card">
+                                                    <div id="about-btn-close">
+                                                        <i class="fa fa-times"></i>
+                                                    </div>
+                                                    
+                                                            <h4 id="about-card-name">
+                                                                hyerinOh
+                                                            </h4>
+                                                            
+                                                                <div id="about-card-bio">
+                                                                    <p>프린이</p>
+
+                                                                </div>
+                                                                
+                                                                    
+                                                                        <div id="about-card-job">
+                                                                            <i class="fa fa-briefcase"></i>
+                                                                            <br/>
+                                                                            <p>software engineer</p>
+
+                                                                        </div>
+                                                                        
+                                                                            
+                                                                                <div id="about-card-location">
+                                                                                    <i class="fa fa-map-marker-alt"></i>
+                                                                                    <br/>
+                                                                                    Seoul, Korea
+                                                                                </div>
+                                                                                
+                                                </div>
+                                            </div>
+        
+        
+<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+        <!--SCRIPTS-->
+<script src="/assets/js/jquery.js"></script>
+<script src="/assets/js/jquery.fancybox.js"></script>
+<script src="/assets/js/thumbs.js"></script>
+<script src="/assets/js/tranquilpeak.js"></script>
+<!--SCRIPTS END-->
+
+
+    
+        <script>
+          var disqus_config = function() {
+            this.page.url = 'http://yoursite.com/2019/07/19/primitive-types/';
+              
+            this.page.identifier = '2019/07/19/primitive-types/';
+              
+          };
+          (function() {
+            var d = document, s = d.createElement('script');
+            var disqus_shortname = 'web1-s18lyko82r';
+            s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+          })();
+        </script>
+    
+
+
+
+
+    </body>
+</html>

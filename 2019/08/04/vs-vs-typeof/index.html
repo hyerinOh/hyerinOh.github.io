@@ -1,0 +1,628 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="hyerin.io">
+    <title>5. == vs === vs typeof - hyerin.io</title>
+    <meta name="author" content="hyerinOh">
+    
+    
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"hyerinOh","sameAs":["https://github.com/hyerinOh"],"image":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7"},"articleBody":"\n\n\n\n\nreference\nhttps://codeburst.io/understanding-and-typeof-in-javascript-af0af3860bef\n\n\n\n== (double equals)\nequality operator\n\n느슨한 동등 비교\n\n강제 형변환(type coercion: 동등 연산자로 비교하기 전에 피연산자들을 공통 타입(common type)으로 만드는 행위) 수행\n  123426 == '26'// true// 타입은 다르지만 값은 같음\n\n  12345false == 0// true// 자바스크립트의 falsy 값// 0을 강제로 false로 변환\n\n\n\n=== (triple equals)\nidentity/strict equality operator\n\n엄격한 동등성 비교 =&gt; 타입, 값 둘 다 같아야 함\n  123426 === 26// true//'숫자'라는 타입도 같고 '26'라는 값도 같음\n\n  123426 === '26'// false// 숫자 타입 vs 문자열 타입\n\n==보다 ===을 써야하는 이유\n\n많은 상황에서 ===을 쓰는 것이 더 안전하고, ===을 쓰기로 결정했다면 모든 곳에서 ===을 쓰는 것으로 통일 시켜라.\n동등성을 확인할 때마다 == 또는 ===을 사용할지 여부를 생각하거나, 항상 ===를 사용하는 습관을 들이자.\n===보다 ==을 사용할 이유는 거의 없다. 만약 true와 false를 비교하려하고 강제 형변환(예: 0 또는 ‘’을 false로 반환하려는 경우)을 원하면 if(empty_str == false) 대신 if(!empty_str)을 사용해라.\n\n\n\ntypeof\n\nMDN : “typeof 연산자는 평가되지 않은 피연산자의 유형을 나타내는 문자열을 반환한다.”\n\n\n\n사용법\n\ntypeof는 단항 연산자이므로 연산자 뒤에 피연산를 바로 쓰면 된다. 추가적인 부호(예: .)는 필요없다.\n12typeof 5// \"number\"\n\ntypeof연산자는 함수가 아니다. 괄호로 피연사자를 묶을 수 있어서 함수 호출처럼 보이지만 괄호는 단지 피연산자를 묶어주는 역할만 한다. 실제로 연산자를 손상시키지 않고 모든 방식의 부호로 피연산자를 꾸밀 수 있다.\n12345typeof (4)// \"number\"typeof (2+3)// \"number\"\n\ntypeof는 완전히 구별적이지않다. 함수이외의 다른 객체들에 적용하면 “object”를 반환한다. 일반 객체와 다른 내장 타입을 구분하지 않는 것이다. \n12345678910111213141516171819202122//First type Checking works finevar person = &#123;    getFirstName: function () &#123;        console.log(‘chisom’);    &#125;&#125;;if (typeof person === ‘object’) &#123;    person.getFirstName();     // this works fine just like our expectation&#125;//Second type Checking throw an Exception..var person = [];if (typeof person === ‘object’) &#123;    person.getFirstName();     //person.getFirstName is not a function&#125;\n\n두 번째 예시의 경우 typeof가 실패하는 것을 볼 수 있는데, 배열인 person을 순수한 객체인지 확인하고있기 때문이다.이럴때는 Object.prototype.toString.call()을 사용하면 모든 타입을 알아낼 수 있다.\n12Object.prototype.toString.call([])// \"[object Array]\"\n\n\n\n\n\n","dateCreated":"2019-08-04T00:00:00+09:00","dateModified":"2019-09-16T01:45:49+09:00","datePublished":"2019-08-04T00:00:00+09:00","description":"","headline":"5. == vs === vs typeof","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"http://yoursite.com/2019/08/04/vs-vs-typeof/"},"publisher":{"@type":"Organization","name":"hyerinOh","sameAs":["https://github.com/hyerinOh"],"image":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7"}},"url":"http://yoursite.com/2019/08/04/vs-vs-typeof/","keywords":"javascript, 33-js-concepts, type coercion"}</script>
+    <meta name="keywords" content="javascript,33-js-concepts,type coercion">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="5. == vs === vs typeof">
+<meta property="og:url" content="http://yoursite.com/2019/08/04/vs-vs-typeof/index.html">
+<meta property="og:site_name" content="hyerin.io">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-09-15T16:45:49.287Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="5. == vs === vs typeof">
+    
+    
+        
+    
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/all.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
+    <link rel="stylesheet" href="/assets/css/thumbs.css">
+    <link rel="stylesheet" href="/assets/css/tranquilpeak.css">
+    <!--STYLES END-->
+    
+
+    
+
+    
+        
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+
+<header id="header" data-behavior="5">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a
+            class="header-title-link"
+            href="/ "
+            aria-label=""
+        >
+            hyerin.io
+        </a>
+    </div>
+    
+        
+            <a
+                class="header-right-picture "
+                href="#about"
+                aria-label="Open the link: /#about"
+            >
+        
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+<nav id="sidebar" data-behavior="5">
+    <div class="sidebar-container">
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/ "
+                            
+                            title="Home"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Home</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                            title="Categories"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Categories</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                            title="Tags"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Tags</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                            title="About"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">About</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/hyerinOh" target="_blank" rel="noopener" title="GitHub">
+                    
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="5"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            5. == vs === vs typeof
+        </h1>
+    
+    
+        <div class="post-meta">
+    <time datetime="2019-08-04T00:00:00+09:00">
+	
+		    Aug 04, 2019
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/Dev/">Dev</a>, <a class="category-link" href="/categories/Dev/JavaScript/">JavaScript</a>, <a class="category-link" href="/categories/Dev/JavaScript/33-js-concepts/">33-js-concepts</a>
+
+
+    
+</div>
+
+    
+</div>
+
+    
+    <div class="post-content markdown">
+        <div class="main-content-wrap">
+            <br>
+
+<a id="more"></a>
+
+<ul>
+<li>reference<ul>
+<li><a href="https://codeburst.io/understanding-and-typeof-in-javascript-af0af3860bef" target="_blank" rel="noopener">https://codeburst.io/understanding-and-typeof-in-javascript-af0af3860bef</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="double-equals"><a href="#double-equals" class="headerlink" title="== (double equals)"></a>== (double equals)</h2><ul>
+<li><p>equality operator</p>
+</li>
+<li><p>느슨한 동등 비교</p>
+</li>
+<li><p>강제 형변환(type coercion: 동등 연산자로 비교하기 전에 피연산자들을 공통 타입(common type)으로 만드는 행위) 수행</p>
+  <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">26</span> == <span class="string">'26'</span></span><br><span class="line"><span class="comment">// true</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 타입은 다르지만 값은 같음</span></span><br></pre></td></tr></table></figure>
+
+  <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="literal">false</span> == <span class="number">0</span></span><br><span class="line"><span class="comment">// true</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 자바스크립트의 falsy 값</span></span><br><span class="line"><span class="comment">// 0을 강제로 false로 변환</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="triple-equals"><a href="#triple-equals" class="headerlink" title="=== (triple equals)"></a>=== (triple equals)</h2><ul>
+<li><p>identity/strict equality operator</p>
+</li>
+<li><p>엄격한 동등성 비교 =&gt; 타입, 값 둘 다 같아야 함</p>
+  <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">26</span> === <span class="number">26</span></span><br><span class="line"><span class="comment">// true</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//'숫자'라는 타입도 같고 '26'라는 값도 같음</span></span><br></pre></td></tr></table></figure>
+
+  <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">26</span> === <span class="string">'26'</span></span><br><span class="line"><span class="comment">// false</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 숫자 타입 vs 문자열 타입</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>==</code>보다 <code>===</code>을 써야하는 이유</p>
+<ol>
+<li>많은 상황에서 <code>===</code>을 쓰는 것이 더 안전하고, <code>===</code>을 쓰기로 결정했다면 모든 곳에서 <code>===</code>을 쓰는 것으로 통일 시켜라.</li>
+<li>동등성을 확인할 때마다 <code>==</code> 또는 <code>===</code>을 사용할지 여부를 생각하거나, 항상 <code>===</code>를 사용하는 습관을 들이자.</li>
+<li><code>===</code>보다 <code>==</code>을 사용할 이유는 거의 없다. 만약 true와 false를 비교하려하고 강제 형변환(예: 0 또는 ‘’을 false로 반환하려는 경우)을 원하면 if(empty_str == false) 대신 if(!empty_str)을 사용해라.</li>
+</ol>
+</li>
+</ul>
+<h2 id="typeof"><a href="#typeof" class="headerlink" title="typeof"></a>typeof</h2><blockquote>
+<blockquote>
+<p>MDN : “typeof 연산자는 평가되지 않은 피연산자의 유형을 나타내는 문자열을 반환한다.”</p>
+</blockquote>
+</blockquote>
+<ul>
+<li><p>사용법</p>
+<ul>
+<li><p><code>typeof</code>는 단항 연산자이므로 연산자 뒤에 피연산를 바로 쓰면 된다. 추가적인 부호(예: .)는 필요없다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typeof</span> <span class="number">5</span></span><br><span class="line"><span class="comment">// "number"</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>typeof</code>연산자는 함수가 아니다. 괄호로 피연사자를 묶을 수 있어서 함수 호출처럼 보이지만 괄호는 단지 피연산자를 묶어주는 역할만 한다. 실제로 연산자를 손상시키지 않고 모든 방식의 부호로 피연산자를 꾸밀 수 있다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typeof</span> (<span class="number">4</span>)</span><br><span class="line"><span class="comment">// "number"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">typeof</span> (<span class="number">2</span>+<span class="number">3</span>)</span><br><span class="line"><span class="comment">// "number"</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>typeof</code>는 완전히 구별적이지않다. 함수이외의 다른 객체들에 적용하면 “object”를 반환한다. 일반 객체와 다른 내장 타입을 구분하지 않는 것이다. </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//First type Checking works fine</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> person = &#123;</span><br><span class="line">    getFirstName: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(‘chisom’);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">typeof</span> person === ‘object’) &#123;</span><br><span class="line">    person.getFirstName(); </span><br><span class="line">    <span class="comment">// this works fine just like our expectation</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//Second type Checking throw an Exception..</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> person = [];</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">typeof</span> person === ‘object’) &#123;</span><br><span class="line">    person.getFirstName(); </span><br><span class="line">    <span class="comment">//person.getFirstName is not a function</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>두 번째 예시의 경우 typeof가 실패하는 것을 볼 수 있는데, 배열인 <code>person</code>을 순수한 객체인지 확인하고있기 때문이다.<br>이럴때는 <code>Object.prototype.toString.call()</code>을 사용하면 모든 타입을 알아낼 수 있다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Object</span>.prototype.toString.call([])</span><br><span class="line"><span class="comment">// "[object Array]"</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ul>
+
+            
+
+
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/33-js-concepts/">33-js-concepts</a> <a class="tag tag--primary tag--small t-link" href="/tags/javascript/">javascript</a> <a class="tag tag--primary tag--small t-link" href="/tags/type-coercion/">type coercion</a>
+
+            </div>
+        
+        
+            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2019/09/08/amathon-후기/"
+                    data-tooltip="amathon 후기"
+                    aria-label="PREVIOUS: amathon 후기"
+                >
+                    
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                    </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2019/07/25/implicit/"
+                    data-tooltip="4. Implicit, Explicit, Nominal, Structuring and Duck Typing"
+                    aria-label="NEXT: 4. Implicit, Explicit, Nominal, Structuring and Duck Typing"
+                >
+                    
+                        <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a
+                class="post-action-btn btn btn--default btn-open-shareoptions"
+                href="#btn-open-shareoptions"
+                aria-label="Share this post"
+            >
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/08/04/vs-vs-typeof/"
+                    title="Share on Facebook"
+                    aria-label="Share on Facebook"
+                >
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2019/08/04/vs-vs-typeof/"
+                    title="Share on Twitter"
+                    aria-label="Share on Twitter"
+                >
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://plus.google.com/share?url=http://yoursite.com/2019/08/04/vs-vs-typeof/"
+                    title="Share on Google+"
+                    aria-label="Share on Google+"
+                >
+                    <i class="fab fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a
+                        class="post-action-btn btn btn--default"
+                        href="#disqus_thread"
+                        aria-label="Leave a comment"
+                    >
+                        <i class="fa fa-comment"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+        
+            
+                <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2019 hyerinOh. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2019/09/08/amathon-후기/"
+                    data-tooltip="amathon 후기"
+                    aria-label="PREVIOUS: amathon 후기"
+                >
+                    
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                    </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2019/07/25/implicit/"
+                    data-tooltip="4. Implicit, Explicit, Nominal, Structuring and Duck Typing"
+                    aria-label="NEXT: 4. Implicit, Explicit, Nominal, Structuring and Duck Typing"
+                >
+                    
+                        <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a
+                class="post-action-btn btn btn--default btn-open-shareoptions"
+                href="#btn-open-shareoptions"
+                aria-label="Share this post"
+            >
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/08/04/vs-vs-typeof/"
+                    title="Share on Facebook"
+                    aria-label="Share on Facebook"
+                >
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2019/08/04/vs-vs-typeof/"
+                    title="Share on Twitter"
+                    aria-label="Share on Twitter"
+                >
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://plus.google.com/share?url=http://yoursite.com/2019/08/04/vs-vs-typeof/"
+                    title="Share on Google+"
+                    aria-label="Share on Google+"
+                >
+                    <i class="fab fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a
+                        class="post-action-btn btn btn--default"
+                        href="#disqus_thread"
+                        aria-label="Leave a comment"
+                    >
+                        <i class="fa fa-comment"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                
+    <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+        <i id="btn-close-shareoptions" class="fa fa-times"></i>
+        <ul class="share-options">
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/08/04/vs-vs-typeof/"
+                        aria-label="Share on Facebook"
+                    >
+                        <i class="fab fa-facebook" aria-hidden="true"></i><span>Share on Facebook</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://twitter.com/intent/tweet?text=http://yoursite.com/2019/08/04/vs-vs-typeof/"
+                        aria-label="Share on Twitter"
+                    >
+                        <i class="fab fa-twitter" aria-hidden="true"></i><span>Share on Twitter</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://plus.google.com/share?url=http://yoursite.com/2019/08/04/vs-vs-typeof/"
+                        aria-label="Share on Google+"
+                    >
+                        <i class="fab fa-google-plus" aria-hidden="true"></i><span>Share on Google+</span>
+                    </a>
+                </li>
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+        
+    
+        
+                                            <div id="about">
+                                                <div id="about-card">
+                                                    <div id="about-btn-close">
+                                                        <i class="fa fa-times"></i>
+                                                    </div>
+                                                    
+                                                            <h4 id="about-card-name">
+                                                                hyerinOh
+                                                            </h4>
+                                                            
+                                                                <div id="about-card-bio">
+                                                                    <p>프린이</p>
+
+                                                                </div>
+                                                                
+                                                                    
+                                                                        <div id="about-card-job">
+                                                                            <i class="fa fa-briefcase"></i>
+                                                                            <br/>
+                                                                            <p>software engineer</p>
+
+                                                                        </div>
+                                                                        
+                                                                            
+                                                                                <div id="about-card-location">
+                                                                                    <i class="fa fa-map-marker-alt"></i>
+                                                                                    <br/>
+                                                                                    Seoul, Korea
+                                                                                </div>
+                                                                                
+                                                </div>
+                                            </div>
+        
+        
+<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+        <!--SCRIPTS-->
+<script src="/assets/js/jquery.js"></script>
+<script src="/assets/js/jquery.fancybox.js"></script>
+<script src="/assets/js/thumbs.js"></script>
+<script src="/assets/js/tranquilpeak.js"></script>
+<!--SCRIPTS END-->
+
+
+    
+        <script>
+          var disqus_config = function() {
+            this.page.url = 'http://yoursite.com/2019/08/04/vs-vs-typeof/';
+              
+            this.page.identifier = '2019/08/04/vs-vs-typeof/';
+              
+          };
+          (function() {
+            var d = document, s = d.createElement('script');
+            var disqus_shortname = 'web1-s18lyko82r';
+            s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+          })();
+        </script>
+    
+
+
+
+
+    </body>
+</html>

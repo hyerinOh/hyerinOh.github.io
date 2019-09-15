@@ -1,0 +1,671 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="hyerin.io">
+    <title>4. Implicit, Explicit, Nominal, Structuring and Duck Typing - hyerin.io</title>
+    <meta name="author" content="hyerinOh">
+    
+    
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"hyerinOh","sameAs":["https://github.com/hyerinOh"],"image":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7"},"articleBody":"\n\n\n\n\nImplicit coercion(암묵적 타입 변환)예상치 못한 타입을 받았을 때 예상 가능한 타입으로 바꿔주는 것 - 그로 인해 사용자는 숫자값을 넘겨야 하는 곳에 문자열을 넣을 수도 있고 문자열을 넣어야하는 곳에 객체를 넣을 수도 있다. 이러한 일이 발생했을 때 자바스크립트 엔진은 사용자가 잘못 넣은 타입을 올바른 타입으로 변환하려고 시도 =&gt; 자바스크립트의 주요 기능 중 하나이며 가장 피해야할 기능12345678910111213141516173 \\* \"3\" // 91 + \"2\" + 1 // 121    true + true // 2    10 - true // 9    const foo = &#123;        valueOf: () =&gt; 2    &#125;    3 + foo // 5    4 * foo // 8    const bar = &#123;        toString: () =&gt; \" promise is a boy :)\"    &#125;    1 + bar // \"1 promise is a boy :)\"\n\n  123456784 * [] // 04 * [2] // 84 + [2] // \"42\"4 + [1, 2] // \"41, 2\"4 * [1, 2] // NaN\"string\" ? 4 : 1 // 4undefined ? 4 : 1 // 1\n\n숫자 표현식에서 숫자가 아닌 값\n\n문자열 : 사용자가 숫자 표현식에서 문자열(-, *, /, %을 포함한 문자열)을 피연산자로 넘겼을 때마다 숫자의 암묵적 타입변환 프로세스는 문자열을 인자로 자바스크립트 내부에 내장된 Number 함수를 불러오는 것과 비슷.숫자 문자(Numeric Characters)를 가졌다면 어떤 문자열이라도 동등한 숫자로 바뀜. 하지만 만일 문자열에 숫자가 아닌 것(Non-Numeric Characters)이 포함되어 있으면 NaN을 리턴.\n\n1234567891011121314153 * \"3\" // 3 * 33 * Number(\"3\") // 3 * 3Number(\"5\") // 5Number(\"1.\") // 1Number(\"1.34\") // 1.34Number(\"0\") // 0Number(\"012\") // 12Number(\"1,\") // NaNNumber(\"1+1\") // NaNNumber(\"1a\") // NaNNumber(\"la\") // NaNNumber(\"one\") // NaNNumber(\"text\") // NaN\n\n\n+ 연산자 : + 연산자는 다른 수학적 연산자들과는 다르게 2가지의 기능을 한다. (loaded operator)\n\n\n수학적인 덧셈\n문자열 합치기\n\n문자열이 + 연산자의 피연산자로 주어졌을 때, 자바스크립트는 문자열을 숫자로 바꾸려 하지 않고 숫자를 문자로 바꾸려 한다.\n123456789101112131415// concatenation1 + \"2\" // \"12\"1 + \"js\" // \"1js\"// addition1 + 2 // 31 + 2 + 1 // 4// addition, then concatenation1 + 2 + \"1\" // \"31\"(1 + 2) + \"1\" // \"31\"// concatenation all through1 + \"2\" + 1 // \"121\"(1 + \"2\") + 1 // \"121\"\n\n\n객체 : 자바스크립트에서 객체의 대부분의 암묵적 형변환은 결과 값으로 [object Object]를 반환\n\n1\"name\" + &#123;&#125; // \"name[object Object]\"\n\n모든 자바스크립트 객체는 toString 메소드를 상속받습니다. 상속받은 toString 메소드는 객체가 문자열 타입으로 변해야 할 때마다 쓰임. toString의 반환 값은 문자열 합치기(string concatenation) 혹은 수학적 표현식(mathematical expressions) 과 같은 연산에서 쓰이게 됨.\n12345678const foo = &#123;&#125;foo.toString() // [object Object]const baz = &#123;    toString: () =&gt; \"I'm object baz\"&#125;baz + \"!\" // \"I'm object baz!\"\n\n객체가 수학적 표현식 사이에 들어갔을 때는, 자바스크립트는 반환 값을 숫자로 변환하려 할 것입니다.\n12345678910111213141516171819202122const foo = &#123;toString: () =&gt; 4&#125;2 \\* foo // 82 / foo // 0.52 + foo // 6\"four\" + foo // \"four4\"const baz = &#123;toString: () =&gt; \"four\"&#125;2 \\* baz // NaN2 + baz // 2fourconst bar = &#123;toString: () =&gt; \"2\"&#125;2 + bar // \"22\"2 \\* bar // 4\n\n\n배열 객체 : 배열에서 상속된 toString 메소드는 약간 다르게 동작한다. 이것은 배열에서 아무런 인자도 넣지 않은 join 메소드를 호출한 것과 비슷한 방식으로 작동하게 됨.\n\n12345678[1, 2, 3].toString() // \"1,2,3\"[1, 2, 3].join() // \"1,2,3\"[].toString() // \"\"[].join() // \"\"\"me\" + [1,2,3] // \"me1,2,3\"4 + [1,2,3] // \"41,2,3\"4 * [1,2,3] // NaN\n\n배열을 어딘가로 넘길 때는 언제나 toString 메소드를 거치면 어떻게 되는지를 생각해봅시다. 숫자로 변할지 문자열로 변할지 말이죠.\n123456789101112134 * [] // 04 / [2] // 2//similar to4 * Number([].toString())4 * Number(\"\")4 * 0//4 / Number([2].toString())4 / Number(\"2\")4 / 2\n\n\nTrue, False, “”\n\n12345678Number(true) // 1Number(false) // 0Number(\"\") // 04 + true // 53 * false // 03 * \"\" // 03 + \"\" // 3\n\n\nvalueOf 메소드문자열이나 숫자가 올 곳에 객체를 넘길 때마다 자바스크립트 엔진에 의해 사용될 valueOf메소드를 정의하는 것도 가능\n123456const foo = &#123;    valueOf: () =&gt; 3&#125;3 + foo // 63 * foo // 9\n\n객체에 toString과 valueOf메소드가 전부 정의되어 있을 때는 자바스크립트 엔진은 valueOf메소드를 사용\n12345678const bar = &#123;    valueOf: () =&gt; 5,    toString: () =&gt; 2&#125;\"sa\" + bar // \"sa5\"3 * bar // 152 + bar // 7\n\nvalueOf메소드는 객체가 어떠한 숫자값을 나타낼 때 사용하기 위해 만들어짐\n123const two = new Number(2)two.valueOf() // 2\n\nFalsy와 Truthy : 모든 자바스크립트 값은 true나 false로 변환될 수 있는 특성을 갖고 있음. true로 형변환을 강제하는 것을 truthy, false로 형변환을 강제하는 것을 falsy라고 함.\n\nfalsy로 취급되는 값들\nfalse\n0\nnull\nundefined\n“”\nNaN\n-0\n\n\n\n\n\n이외에는 전부 truthy\n123if (-1) // truthyif (\"0\") // truthyif (&#123;&#125;) // truthy\n\n위의 코드처럼 truthy를 이용해도 괜찮지만 값이 참임을 명시적으로 표현해주는 것이 더 좋은 작성법. 명심해야 할 것은 자바스크립트의 묵시적인 형변환에 의존하지 말라는 것.\n1234567const counter = 2보다if(counter === 2)if(counter)보다if(typeof counter === \"number\")\n\n예를 들어 아래 함수는 number 타입의 변수를 받아 실행하도록 하고 싶어 만든 함수\n1234const add = (number) =&gt; &#123;    if(!number) new Error(\"Only accepts arguments of type: number\")    // your code&#125;\n\n이 경우에 인자 값으로 0을 주면 의도치 않은 에러가 발생\n12345678910add(0) // Error: Only accepts arguments of type: number  // 아래처럼 명시적으로 표현해주는 것이 더 좋은 방법  const add = (number) =&gt; &#123;      if (typeof number !== \"number\") new Error(\"Only accepts arguments of type: number\")      // your code  &#125;  add(0) // no error\n\n또한 ==이 boolean을 만나면 숫자로 변환시켜서\n123console.log(\"true\" == true)// NaN == 1// false\n\n에서 true는 1이 되고 앞에 문자열을 숫자로 변환시키려하는데 “true”를 숫자로 변환시키려하면 NaN이 되어서 결국 false를 반환한다.\n\nNaN : NaN은 자바스크립트에서 유일하게 자기 자신과도 같지 않은 특별한 숫자 값\n123456NaN === NaN // falseconst notANumber = 3 * \"a\" // NaNnotANumber == notANumber // falsenotANumber === notANumber // false\n\nES6에서는 NaN을 체크하기 위한 메소드(Number.isNaN)를 만들었음.\n12Number.isNaN(NaN) // trueNumber.isNaN(\"name\") // false\n\n전역 isNaN함수에 대해서도 알아둬야 함. 이 함수는 인자가 실제로 NaN인지 체크하기 전에 인자로 들어온 값의 형변환을 강제한다. 예를 들면\n12isNaN(\"name\") // trueisNaN(\"1\") // false\n\n전역 isNaN함수는 사용하지 않는 것이 좋다. 이 함수의 동작은 다음의 코드과 비슷\n12345678910const coerceThenCheckNaN = (val) =&gt; &#123;const coercedVal = Number(val)return coerce !== coercedVal ? true : false&#125;coerceThenCheckNaN(\"1a\") // truecoerceThenCheckNaN(\"1\") // falsecoerceThenCheckNaN(\"as\") // truecoerceThenCheckNaN(NaN) // truecoerceThenCheckNaN(10) // false\n\n\n\n","dateCreated":"2019-07-25T00:00:00+09:00","dateModified":"2019-09-16T01:40:19+09:00","datePublished":"2019-07-25T00:00:00+09:00","description":"","headline":"4. Implicit, Explicit, Nominal, Structuring and Duck Typing","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"http://yoursite.com/2019/07/25/implicit/"},"publisher":{"@type":"Organization","name":"hyerinOh","sameAs":["https://github.com/hyerinOh"],"image":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7"}},"url":"http://yoursite.com/2019/07/25/implicit/","keywords":"javascript, 33-js-concepts, type coercion, Implicit coercion"}</script>
+    <meta name="keywords" content="javascript,33-js-concepts,type coercion,Implicit coercion">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="4. Implicit, Explicit, Nominal, Structuring and Duck Typing">
+<meta property="og:url" content="http://yoursite.com/2019/07/25/implicit/index.html">
+<meta property="og:site_name" content="hyerin.io">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-09-15T16:40:19.626Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="4. Implicit, Explicit, Nominal, Structuring and Duck Typing">
+    
+    
+        
+    
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/all.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
+    <link rel="stylesheet" href="/assets/css/thumbs.css">
+    <link rel="stylesheet" href="/assets/css/tranquilpeak.css">
+    <!--STYLES END-->
+    
+
+    
+
+    
+        
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+
+<header id="header" data-behavior="5">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a
+            class="header-title-link"
+            href="/ "
+            aria-label=""
+        >
+            hyerin.io
+        </a>
+    </div>
+    
+        
+            <a
+                class="header-right-picture "
+                href="#about"
+                aria-label="Open the link: /#about"
+            >
+        
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+<nav id="sidebar" data-behavior="5">
+    <div class="sidebar-container">
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/ "
+                            
+                            title="Home"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Home</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                            title="Categories"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Categories</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                            title="Tags"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Tags</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                            title="About"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">About</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/hyerinOh" target="_blank" rel="noopener" title="GitHub">
+                    
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="5"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            4. Implicit, Explicit, Nominal, Structuring and Duck Typing
+        </h1>
+    
+    
+        <div class="post-meta">
+    <time datetime="2019-07-25T00:00:00+09:00">
+	
+		    Jul 25, 2019
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/Dev/">Dev</a>, <a class="category-link" href="/categories/Dev/JavaScript/">JavaScript</a>, <a class="category-link" href="/categories/Dev/JavaScript/33-js-concepts/">33-js-concepts</a>
+
+
+    
+</div>
+
+    
+</div>
+
+    
+    <div class="post-content markdown">
+        <div class="main-content-wrap">
+            <br>
+
+<a id="more"></a>
+
+<ul>
+<li><dl><dt><strong>Implicit coercion(암묵적 타입 변환)</strong></dt><dd>예상치 못한 타입을 받았을 때 예상 가능한 타입으로 바꿔주는 것 - 그로 인해 사용자는 숫자값을 넘겨야 하는 곳에 문자열을 넣을 수도 있고 문자열을 넣어야하는 곳에 객체를 넣을 수도 있다. 이러한 일이 발생했을 때 자바스크립트 엔진은 사용자가 잘못 넣은 타입을 올바른 타입으로 변환하려고 시도 =&gt; <strong>자바스크립트의 주요 기능 중 하나이며 가장 피해야할 기능</strong></dd></dl><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">3</span> \* <span class="string">"3"</span> <span class="comment">// 9</span></span><br><span class="line"><span class="number">1</span> + <span class="string">"2"</span> + <span class="number">1</span> <span class="comment">// 121</span></span><br><span class="line"></span><br><span class="line">    <span class="literal">true</span> + <span class="literal">true</span> <span class="comment">// 2</span></span><br><span class="line">    <span class="number">10</span> - <span class="literal">true</span> <span class="comment">// 9</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> foo = &#123;</span><br><span class="line">        valueOf: <span class="function"><span class="params">()</span> =&gt;</span> <span class="number">2</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="number">3</span> + foo <span class="comment">// 5</span></span><br><span class="line">    <span class="number">4</span> * foo <span class="comment">// 8</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> bar = &#123;</span><br><span class="line">        toString: <span class="function"><span class="params">()</span> =&gt;</span> <span class="string">" promise is a boy :)"</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="number">1</span> + bar <span class="comment">// "1 promise is a boy :)"</span></span><br></pre></td></tr></table></figure>
+
+  <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">4</span> * [] <span class="comment">// 0</span></span><br><span class="line"><span class="number">4</span> * [<span class="number">2</span>] <span class="comment">// 8</span></span><br><span class="line"><span class="number">4</span> + [<span class="number">2</span>] <span class="comment">// "42"</span></span><br><span class="line"><span class="number">4</span> + [<span class="number">1</span>, <span class="number">2</span>] <span class="comment">// "41, 2"</span></span><br><span class="line"><span class="number">4</span> * [<span class="number">1</span>, <span class="number">2</span>] <span class="comment">// NaN</span></span><br><span class="line"></span><br><span class="line"><span class="string">"string"</span> ? <span class="number">4</span> : <span class="number">1</span> <span class="comment">// 4</span></span><br><span class="line"><span class="literal">undefined</span> ? <span class="number">4</span> : <span class="number">1</span> <span class="comment">// 1</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>숫자 표현식에서 숫자가 아닌 값</strong></p>
+<ul>
+<li><strong>문자열</strong> : 사용자가 숫자 표현식에서 문자열(-, *, /, %을 포함한 문자열)을 피연산자로 넘겼을 때마다 숫자의 암묵적 타입변환 프로세스는 문자열을 인자로 자바스크립트 내부에 내장된 Number 함수를 불러오는 것과 비슷.숫자 문자(Numeric Characters)를 가졌다면 어떤 문자열이라도 동등한 숫자로 바뀜. 하지만 만일 문자열에 숫자가 아닌 것(Non-Numeric Characters)이 포함되어 있으면 NaN을 리턴.</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">3</span> * <span class="string">"3"</span> <span class="comment">// 3 * 3</span></span><br><span class="line"><span class="number">3</span> * <span class="built_in">Number</span>(<span class="string">"3"</span>) <span class="comment">// 3 * 3</span></span><br><span class="line"><span class="built_in">Number</span>(<span class="string">"5"</span>) <span class="comment">// 5</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">Number</span>(<span class="string">"1."</span>) <span class="comment">// 1</span></span><br><span class="line"><span class="built_in">Number</span>(<span class="string">"1.34"</span>) <span class="comment">// 1.34</span></span><br><span class="line"><span class="built_in">Number</span>(<span class="string">"0"</span>) <span class="comment">// 0</span></span><br><span class="line"><span class="built_in">Number</span>(<span class="string">"012"</span>) <span class="comment">// 12</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">Number</span>(<span class="string">"1,"</span>) <span class="comment">// NaN</span></span><br><span class="line"><span class="built_in">Number</span>(<span class="string">"1+1"</span>) <span class="comment">// NaN</span></span><br><span class="line"><span class="built_in">Number</span>(<span class="string">"1a"</span>) <span class="comment">// NaN</span></span><br><span class="line"><span class="built_in">Number</span>(<span class="string">"la"</span>) <span class="comment">// NaN</span></span><br><span class="line"><span class="built_in">Number</span>(<span class="string">"one"</span>) <span class="comment">// NaN</span></span><br><span class="line"><span class="built_in">Number</span>(<span class="string">"text"</span>) <span class="comment">// NaN</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>+ 연산자</strong> : <code>+</code> 연산자는 다른 수학적 연산자들과는 다르게 2가지의 기능을 한다. (loaded operator)</li>
+</ul>
+<ol>
+<li>수학적인 덧셈</li>
+<li>문자열 합치기</li>
+</ol>
+<p>문자열이 + 연산자의 피연산자로 주어졌을 때, 자바스크립트는 문자열을 숫자로 바꾸려 하지 않고 <em>숫자를 문자</em>로 바꾸려 한다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// concatenation</span></span><br><span class="line"><span class="number">1</span> + <span class="string">"2"</span> <span class="comment">// "12"</span></span><br><span class="line"><span class="number">1</span> + <span class="string">"js"</span> <span class="comment">// "1js"</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// addition</span></span><br><span class="line"><span class="number">1</span> + <span class="number">2</span> <span class="comment">// 3</span></span><br><span class="line"><span class="number">1</span> + <span class="number">2</span> + <span class="number">1</span> <span class="comment">// 4</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// addition, then concatenation</span></span><br><span class="line"><span class="number">1</span> + <span class="number">2</span> + <span class="string">"1"</span> <span class="comment">// "31"</span></span><br><span class="line">(<span class="number">1</span> + <span class="number">2</span>) + <span class="string">"1"</span> <span class="comment">// "31"</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// concatenation all through</span></span><br><span class="line"><span class="number">1</span> + <span class="string">"2"</span> + <span class="number">1</span> <span class="comment">// "121"</span></span><br><span class="line">(<span class="number">1</span> + <span class="string">"2"</span>) + <span class="number">1</span> <span class="comment">// "121"</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>객체</strong> : 자바스크립트에서 객체의 대부분의 암묵적 형변환은 결과 값으로 <code>[object Object]</code>를 반환</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"name"</span> + &#123;&#125; <span class="comment">// "name[object Object]"</span></span><br></pre></td></tr></table></figure>
+
+<p>모든 자바스크립트 객체는 <code>toString</code> 메소드를 상속받습니다. 상속받은 <code>toString</code> 메소드는 객체가 문자열 타입으로 변해야 할 때마다 쓰임. toString의 반환 값은 <strong>문자열 합치기(string concatenation)</strong> 혹은 <strong>수학적 표현식(mathematical expressions)</strong> 과 같은 연산에서 쓰이게 됨.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> foo = &#123;&#125;</span><br><span class="line">foo.toString() <span class="comment">// [object Object]</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> baz = &#123;</span><br><span class="line">    toString: <span class="function"><span class="params">()</span> =&gt;</span> <span class="string">"I'm object baz"</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">baz + <span class="string">"!"</span> <span class="comment">// "I'm object baz!"</span></span><br></pre></td></tr></table></figure>
+
+<p>객체가 수학적 표현식 사이에 들어갔을 때는, 자바스크립트는 반환 값을 숫자로 변환하려 할 것입니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> foo = &#123;</span><br><span class="line">toString: <span class="function"><span class="params">()</span> =&gt;</span> <span class="number">4</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="number">2</span> \* foo <span class="comment">// 8</span></span><br><span class="line"><span class="number">2</span> / foo <span class="comment">// 0.5</span></span><br><span class="line"><span class="number">2</span> + foo <span class="comment">// 6</span></span><br><span class="line"><span class="string">"four"</span> + foo <span class="comment">// "four4"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> baz = &#123;</span><br><span class="line">toString: <span class="function"><span class="params">()</span> =&gt;</span> <span class="string">"four"</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="number">2</span> \* baz <span class="comment">// NaN</span></span><br><span class="line"><span class="number">2</span> + baz <span class="comment">// 2four</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> bar = &#123;</span><br><span class="line">toString: <span class="function"><span class="params">()</span> =&gt;</span> <span class="string">"2"</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="number">2</span> + bar <span class="comment">// "22"</span></span><br><span class="line"><span class="number">2</span> \* bar <span class="comment">// 4</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>배열 객체</strong> : 배열에서 상속된 <code>toString</code> 메소드는 약간 다르게 동작한다. 이것은 배열에서 아무런 인자도 넣지 않은 <code>join</code> 메소드를 호출한 것과 비슷한 방식으로 작동하게 됨.</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>].toString() <span class="comment">// "1,2,3"</span></span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>].join() <span class="comment">// "1,2,3"</span></span><br><span class="line">[].toString() <span class="comment">// ""</span></span><br><span class="line">[].join() <span class="comment">// ""</span></span><br><span class="line"></span><br><span class="line"><span class="string">"me"</span> + [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>] <span class="comment">// "me1,2,3"</span></span><br><span class="line"><span class="number">4</span> + [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>] <span class="comment">// "41,2,3"</span></span><br><span class="line"><span class="number">4</span> * [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>] <span class="comment">// NaN</span></span><br></pre></td></tr></table></figure>
+
+<p>배열을 어딘가로 넘길 때는 언제나 <code>toString</code> 메소드를 거치면 어떻게 되는지를 생각해봅시다. 숫자로 변할지 문자열로 변할지 말이죠.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">4</span> * [] <span class="comment">// 0</span></span><br><span class="line"><span class="number">4</span> / [<span class="number">2</span>] <span class="comment">// 2</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//similar to</span></span><br><span class="line"><span class="number">4</span> * <span class="built_in">Number</span>([].toString())</span><br><span class="line"><span class="number">4</span> * <span class="built_in">Number</span>(<span class="string">""</span>)</span><br><span class="line"><span class="number">4</span> * <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"></span><br><span class="line"><span class="number">4</span> / <span class="built_in">Number</span>([<span class="number">2</span>].toString())</span><br><span class="line"><span class="number">4</span> / <span class="built_in">Number</span>(<span class="string">"2"</span>)</span><br><span class="line"><span class="number">4</span> / <span class="number">2</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>True, False, “”</strong></li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Number</span>(<span class="literal">true</span>) <span class="comment">// 1</span></span><br><span class="line"><span class="built_in">Number</span>(<span class="literal">false</span>) <span class="comment">// 0</span></span><br><span class="line"><span class="built_in">Number</span>(<span class="string">""</span>) <span class="comment">// 0</span></span><br><span class="line"></span><br><span class="line"><span class="number">4</span> + <span class="literal">true</span> <span class="comment">// 5</span></span><br><span class="line"><span class="number">3</span> * <span class="literal">false</span> <span class="comment">// 0</span></span><br><span class="line"><span class="number">3</span> * <span class="string">""</span> <span class="comment">// 0</span></span><br><span class="line"><span class="number">3</span> + <span class="string">""</span> <span class="comment">// 3</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p><code>valueOf</code> 메소드<br>문자열이나 숫자가 올 곳에 객체를 넘길 때마다 자바스크립트 엔진에 의해 사용될 <code>valueOf</code>메소드를 정의하는 것도 가능</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> foo = &#123;</span><br><span class="line">    valueOf: <span class="function"><span class="params">()</span> =&gt;</span> <span class="number">3</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="number">3</span> + foo <span class="comment">// 6</span></span><br><span class="line"><span class="number">3</span> * foo <span class="comment">// 9</span></span><br></pre></td></tr></table></figure>
+
+<p>객체에 <code>toString</code>과 <code>valueOf</code>메소드가 전부 정의되어 있을 때는 자바스크립트 엔진은 <code>valueOf</code>메소드를 사용</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> bar = &#123;</span><br><span class="line">    valueOf: <span class="function"><span class="params">()</span> =&gt;</span> <span class="number">5</span>,</span><br><span class="line">    toString: <span class="function"><span class="params">()</span> =&gt;</span> <span class="number">2</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="string">"sa"</span> + bar <span class="comment">// "sa5"</span></span><br><span class="line"><span class="number">3</span> * bar <span class="comment">// 15</span></span><br><span class="line"><span class="number">2</span> + bar <span class="comment">// 7</span></span><br></pre></td></tr></table></figure>
+
+<p><code>valueOf</code>메소드는 객체가 어떠한 숫자값을 나타낼 때 사용하기 위해 만들어짐</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> two = <span class="keyword">new</span> <span class="built_in">Number</span>(<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">two.valueOf() <span class="comment">// 2</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>Falsy와 Truthy</strong> : 모든 자바스크립트 값은 <code>true</code>나 <code>false</code>로 변환될 수 있는 특성을 갖고 있음. <code>true</code>로 형변환을 강제하는 것을 <code>truthy</code>, <code>false</code>로 형변환을 강제하는 것을 <code>falsy</code>라고 함.</p>
+<ul>
+<li>falsy로 취급되는 값들<ul>
+<li>false</li>
+<li>0</li>
+<li>null</li>
+<li>undefined</li>
+<li>“”</li>
+<li>NaN</li>
+<li>-0</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>이외에는 전부 <code>truthy</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="number">-1</span>) <span class="comment">// truthy</span></span><br><span class="line"><span class="keyword">if</span> (<span class="string">"0"</span>) <span class="comment">// truthy</span></span><br><span class="line"><span class="keyword">if</span> (&#123;&#125;) <span class="comment">// truthy</span></span><br></pre></td></tr></table></figure>
+
+<p>위의 코드처럼 <code>truthy</code>를 이용해도 괜찮지만 값이 참임을 <strong>명시적으로 표현해주는 것이 더 좋은 작성법</strong>. 명심해야 할 것은 자바스크립트의 묵시적인 형변환에 의존하지 말라는 것.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> counter = <span class="number">2</span></span><br><span class="line">보다</span><br><span class="line"><span class="keyword">if</span>(counter === <span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(counter)</span><br><span class="line">보다</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">typeof</span> counter === <span class="string">"number"</span>)</span><br></pre></td></tr></table></figure>
+
+<p>예를 들어 아래 함수는 number 타입의 변수를 받아 실행하도록 하고 싶어 만든 함수</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> add = <span class="function">(<span class="params">number</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span>(!number) <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">"Only accepts arguments of type: number"</span>)</span><br><span class="line">    <span class="comment">// your code</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>이 경우에 인자 값으로 0을 주면 의도치 않은 에러가 발생</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">add(<span class="number">0</span>) <span class="comment">// Error: Only accepts arguments of type: number</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// 아래처럼 명시적으로 표현해주는 것이 더 좋은 방법</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> add = <span class="function">(<span class="params">number</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">if</span> (<span class="keyword">typeof</span> number !== <span class="string">"number"</span>) <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">"Only accepts arguments of type: number"</span>)</span><br><span class="line">      <span class="comment">// your code</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  add(<span class="number">0</span>) <span class="comment">// no error</span></span><br></pre></td></tr></table></figure>
+
+<p>또한 <code>==</code>이 boolean을 만나면 숫자로 변환시켜서</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="string">"true"</span> == <span class="literal">true</span>)</span><br><span class="line"><span class="comment">// NaN == 1</span></span><br><span class="line"><span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+
+<p>에서 true는 1이 되고 앞에 문자열을 숫자로 변환시키려하는데 “true”를 숫자로 변환시키려하면 <code>NaN</code>이 되어서 결국 false를 반환한다.</p>
+</li>
+<li><p><strong>NaN</strong> : <code>NaN</code>은 자바스크립트에서 유일하게 자기 자신과도 같지 않은 특별한 숫자 값</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="literal">NaN</span> === <span class="literal">NaN</span> <span class="comment">// false</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> notANumber = <span class="number">3</span> * <span class="string">"a"</span> <span class="comment">// NaN</span></span><br><span class="line"></span><br><span class="line">notANumber == notANumber <span class="comment">// false</span></span><br><span class="line">notANumber === notANumber <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+
+<p>ES6에서는 <code>NaN</code>을 체크하기 위한 메소드(Number.isNaN)를 만들었음.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Number</span>.isNaN(<span class="literal">NaN</span>) <span class="comment">// true</span></span><br><span class="line"><span class="built_in">Number</span>.isNaN(<span class="string">"name"</span>) <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+
+<p>전역 <code>isNaN</code>함수에 대해서도 알아둬야 함. 이 함수는 인자가 실제로 NaN인지 체크하기 전에 인자로 들어온 값의 <strong>형변환을 강제</strong>한다. 예를 들면</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">isNaN</span>(<span class="string">"name"</span>) <span class="comment">// true</span></span><br><span class="line"><span class="built_in">isNaN</span>(<span class="string">"1"</span>) <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+
+<p>전역 <code>isNaN</code>함수는 사용하지 않는 것이 좋다. 이 함수의 동작은 다음의 코드과 비슷</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> coerceThenCheckNaN = <span class="function">(<span class="params">val</span>) =&gt;</span> &#123;</span><br><span class="line"><span class="keyword">const</span> coercedVal = <span class="built_in">Number</span>(val)</span><br><span class="line"><span class="keyword">return</span> coerce !== coercedVal ? <span class="literal">true</span> : <span class="literal">false</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">coerceThenCheckNaN(<span class="string">"1a"</span>) <span class="comment">// true</span></span><br><span class="line">coerceThenCheckNaN(<span class="string">"1"</span>) <span class="comment">// false</span></span><br><span class="line">coerceThenCheckNaN(<span class="string">"as"</span>) <span class="comment">// true</span></span><br><span class="line">coerceThenCheckNaN(<span class="literal">NaN</span>) <span class="comment">// true</span></span><br><span class="line">coerceThenCheckNaN(<span class="number">10</span>) <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+
+            
+
+
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/33-js-concepts/">33-js-concepts</a> <a class="tag tag--primary tag--small t-link" href="/tags/Implicit-coercion/">Implicit coercion</a> <a class="tag tag--primary tag--small t-link" href="/tags/javascript/">javascript</a> <a class="tag tag--primary tag--small t-link" href="/tags/type-coercion/">type coercion</a>
+
+            </div>
+        
+        
+            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2019/08/04/vs-vs-typeof/"
+                    data-tooltip="5. == vs === vs typeof"
+                    aria-label="PREVIOUS: 5. == vs === vs typeof"
+                >
+                    
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                    </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2019/07/20/value-Types/"
+                    data-tooltip="3. Value Types and Reference Types"
+                    aria-label="NEXT: 3. Value Types and Reference Types"
+                >
+                    
+                        <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a
+                class="post-action-btn btn btn--default btn-open-shareoptions"
+                href="#btn-open-shareoptions"
+                aria-label="Share this post"
+            >
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/07/25/implicit/"
+                    title="Share on Facebook"
+                    aria-label="Share on Facebook"
+                >
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2019/07/25/implicit/"
+                    title="Share on Twitter"
+                    aria-label="Share on Twitter"
+                >
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://plus.google.com/share?url=http://yoursite.com/2019/07/25/implicit/"
+                    title="Share on Google+"
+                    aria-label="Share on Google+"
+                >
+                    <i class="fab fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a
+                        class="post-action-btn btn btn--default"
+                        href="#disqus_thread"
+                        aria-label="Leave a comment"
+                    >
+                        <i class="fa fa-comment"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+        
+            
+                <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2019 hyerinOh. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2019/08/04/vs-vs-typeof/"
+                    data-tooltip="5. == vs === vs typeof"
+                    aria-label="PREVIOUS: 5. == vs === vs typeof"
+                >
+                    
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                    </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2019/07/20/value-Types/"
+                    data-tooltip="3. Value Types and Reference Types"
+                    aria-label="NEXT: 3. Value Types and Reference Types"
+                >
+                    
+                        <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a
+                class="post-action-btn btn btn--default btn-open-shareoptions"
+                href="#btn-open-shareoptions"
+                aria-label="Share this post"
+            >
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/07/25/implicit/"
+                    title="Share on Facebook"
+                    aria-label="Share on Facebook"
+                >
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2019/07/25/implicit/"
+                    title="Share on Twitter"
+                    aria-label="Share on Twitter"
+                >
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://plus.google.com/share?url=http://yoursite.com/2019/07/25/implicit/"
+                    title="Share on Google+"
+                    aria-label="Share on Google+"
+                >
+                    <i class="fab fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a
+                        class="post-action-btn btn btn--default"
+                        href="#disqus_thread"
+                        aria-label="Leave a comment"
+                    >
+                        <i class="fa fa-comment"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                
+    <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+        <i id="btn-close-shareoptions" class="fa fa-times"></i>
+        <ul class="share-options">
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/07/25/implicit/"
+                        aria-label="Share on Facebook"
+                    >
+                        <i class="fab fa-facebook" aria-hidden="true"></i><span>Share on Facebook</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://twitter.com/intent/tweet?text=http://yoursite.com/2019/07/25/implicit/"
+                        aria-label="Share on Twitter"
+                    >
+                        <i class="fab fa-twitter" aria-hidden="true"></i><span>Share on Twitter</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://plus.google.com/share?url=http://yoursite.com/2019/07/25/implicit/"
+                        aria-label="Share on Google+"
+                    >
+                        <i class="fab fa-google-plus" aria-hidden="true"></i><span>Share on Google+</span>
+                    </a>
+                </li>
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+        
+    
+        
+                                            <div id="about">
+                                                <div id="about-card">
+                                                    <div id="about-btn-close">
+                                                        <i class="fa fa-times"></i>
+                                                    </div>
+                                                    
+                                                            <h4 id="about-card-name">
+                                                                hyerinOh
+                                                            </h4>
+                                                            
+                                                                <div id="about-card-bio">
+                                                                    <p>프린이</p>
+
+                                                                </div>
+                                                                
+                                                                    
+                                                                        <div id="about-card-job">
+                                                                            <i class="fa fa-briefcase"></i>
+                                                                            <br/>
+                                                                            <p>software engineer</p>
+
+                                                                        </div>
+                                                                        
+                                                                            
+                                                                                <div id="about-card-location">
+                                                                                    <i class="fa fa-map-marker-alt"></i>
+                                                                                    <br/>
+                                                                                    Seoul, Korea
+                                                                                </div>
+                                                                                
+                                                </div>
+                                            </div>
+        
+        
+<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+        <!--SCRIPTS-->
+<script src="/assets/js/jquery.js"></script>
+<script src="/assets/js/jquery.fancybox.js"></script>
+<script src="/assets/js/thumbs.js"></script>
+<script src="/assets/js/tranquilpeak.js"></script>
+<!--SCRIPTS END-->
+
+
+    
+        <script>
+          var disqus_config = function() {
+            this.page.url = 'http://yoursite.com/2019/07/25/implicit/';
+              
+            this.page.identifier = '2019/07/25/implicit/';
+              
+          };
+          (function() {
+            var d = document, s = d.createElement('script');
+            var disqus_shortname = 'web1-s18lyko82r';
+            s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+          })();
+        </script>
+    
+
+
+
+
+    </body>
+</html>
