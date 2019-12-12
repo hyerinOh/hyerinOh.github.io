@@ -1,0 +1,806 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="hyerin.io">
+    <title>1.타입과 문법 - 2.값 - hyerin.io</title>
+    <meta name="author" content="hyerinOh">
+    
+    
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"hyerinOh","sameAs":["https://github.com/hyerinOh"],"image":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7"},"articleBody":"\n\n\n[ You Don’t Know JS 정리 ]\n2. 값\n\n2.1 배열&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.1.1 유사 배열2.2 문자열2.3 숫자&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.3.1 숫자 구문&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.3.2 작은 소수 값&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.3.3 안전한 정수 범위&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.3.4 정수인지 확인&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.3.5 32비트 (부호 있는) 정수2.4 특수 값&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.4.1 값 아닌 값&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.4.2 Undefined&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.4.3 특수 숫자&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.4.4 특이한 동등 비교\n\n2.5 값 vs 레퍼런스2.1 배열\n어떤 타입의 값이라도 담을 수 있는 그릇\n\n배열 크기는 미리 정하지 않고도 선언할 수 있으며 원하는 값을 추가하면 된다.\n\n빈/빠진 슬롯이 있는 ‘구멍 난’ 배열을 다룰 때는 조심\n12345678910var a = [];a[0] = 1;a[2]= [3]; // a[1] 건너뜀a[1]; // undefineda.length; // 3/*\t명시적으로 a[1] = undefined 준 것과 똑같지는 않다.*/\n\n배열의 인덱스는 숫자인데, 배열 자체도 하나의 객체여서 키/프로퍼티 문자열을 추가할 수 있지만 배열 length가 증가하지는 않는다\n123456var a = [];a[0] = 1;a[\"foobar\"] = 2;a.length; //1a.foobar; // 2\n\n키로 숫자형태의 문자열이 들어가면, 마치 문자열 키가 아닌 숫자 키를 사용한 것과 같은 결과를 초래\n123var a = [];a[\"13\"] = 42;a.length; // 14\n\n일반적으로 배열에 문자열 타입의 키/프로퍼티를 두는 것을 추천하지 않는다. 그렇게 해야 한다면 객체를 대용하고 배열 원소의 인덱스를 확실히 숫자만 쓰자\n\n\n\n\n2.1.1 유사 배열\n유사 배열 값을 진짜 배열로 바꾸고 싶을 때\nindexOf(), concat(), forEach() 등을 사용하는 것이 일반적\nArray.prototype.slice.call() : slice()에 인자가 없으면 기본 인자 값으로 구성된 배열을 복사한다.\nES6부터 Array.from() 이 이 일을 대신한다.\n\n\n\n\n\n2.2 문자열\n문자열은 유사배열\n  123var a = new String('23')a; // String &#123;\"23\"&#125;   // 0: \"2\"   1: \"3\"\n\n.length , .indexOf(), .concat() 메서드 가짐\n\n하지만 문자열 !== 배열\n\n문자열 : 불변 값(immutable value)\n\n문자열 메서드는 그 내용을 바로 변경하지 않고 항상 새로운 문자열을 생성한 후 반환한다.\n\n\n배열 : 가변 값(mutable value)\n\n대부분의 배열 메서드는 그 자리에서 곧바로 원소를 수정한다.\n\n\na[1] 처럼 문자열의 특정 문자를 접근하는 형태가 모든 자바스크립트 엔진에서 유효하지는 않다. (IE 8 이전까지는 이를 문법 에러로 인식) =&gt; a.charAt(1)로 접근해야 맞다.\n\n문자열을 다룰 때 유용한 대부분의 배열 메서드는 사실상 문자열에 쓸 수 없지만 빌려 쓸 수는 있다.\n12345var a = \"foo\";var b = [\"f\", \"o\", \"o\"];a.reverse();// undefinedb.reverse(); //[\"o\", \"o\", \"f\"]\n\n문자열을 배열 =&gt; 원하는 작업 수행 =&gt; 다시 문자열로 되돌리기\n12var c = a.split(\"\").reverse().join(\"\")c; // \"oof\"\n\n\n\n\n\n\n\n2.3 숫자\n숫자 타입은 number가 유일\n정수, 부동 소수점 숫자 모두 아우른다\n\n2.3.1 숫자 구문\n자바스크립트 숫자 리터럴은 10진수 리터럴로 표시한다.\n  12var a = 42;var b = 42.3;\n\n소수점 앞 정수가 0이면 생략 가능\n  12var a = 0.42;var b = .42;\n\n소수점 이하가 0일 때도 생략 가능\n  12var a = 42.0;var b = 42;\n\n\n하지만 42. 처럼 표기하는 것은 일반적이지도 않고 다른 사람이 코드를 읽을 때 혼동을 일으킬 수 있으니 권장하지 않는다.\n\n\ntoExponential(): 아주 크거나 아주 작은 숫자를 지수형으로 표시\n\ntoFixed(): 지정한 소수점 이하 자릿수까지 숫자를 나타냄\n\n위 메서드들은 숫자 리터럴에서 바로 접근할 수 있으므로 굳이 변수를 만들어 할당하지 않아도 된다. 하지만 .이 소수점일 경우엔 프로퍼티 접근자가 아닌 숫자 리터럴의 일부로 해석되므로 주의하자.\n  1234542.toFixed(3) // SyntaxError// 42.이 리터럴의 일부가 되어버려 .toFixed 메서드에 접근할 .이 없다(42).toFixed(3); //\"42.000\"0.42.toFixed(3); // \"0.420\"\n\n0다음 대문자 O는 헷갈리니 언제나 소문자로 0o, 0b 와 같이 표기하자\n\n\n\n\n2.3.2 작은 소수 값\n이진 부동 소수점 숫자의 부작용\n  10.1 + 0.2 === 0.3 //false\n\n\n실제로는 0.30000000000000004에 가깝기 때문에 정확하게 0.3이 아니다.\n가장 일반적으로 미세한 ‘반올림 오차’(머신 입실론)를 허용 공차로 처리하는 방법\nNumber.EPSILON (ES6부터)\n\n\n\n2.3.3 안전한 정수 범위\n안전하게 표현할 수 있는 (즉. 표현한 값과 실제 값이 정확하게 일치한다고 장담할 수 있는) 정수는 최대 9천 조가 넘는 수\n9천 조가 넘는 수의 사용해야 한다면 Big Number utility 사용을 권장\n\n2.3.4 정수인지 확인\nES6부터는 Number.isInteger()로 어떤 값의 정수 여부를 확인한다.  1Number.isInteger(42); //true\n\n\n\n2.3.5 32비트 (부호 있는) 정수스킵\n2.4 특수 값2.4.1 값 아닌 값\nundefined와 null은 타입과 값이 같다\nnull은 식별자가 아닌 특별한 키워드이므로 null이라는 변수에 뭔가를 할당할 수 없다.\n\n2.4.2 Undefined\nNormal mode에서는 전역 스코프에서 undefined라는 식별자에 값을 할당할 수 있다. (절대 추천하지 않음)\n  12345678910function foo() &#123;    undefined = 2;&#125;foo();function foo() &#123;    'use strict'    undefined = 2; // 타입 에러&#125;foo()\n\nVoid 연산자\n\n표현식 void는 어떤 값이든 ‘무효’로 만들어, 항상 결과값을 undefined로 만든다.\n\nvoid 연산자는 어떤 표현식의 결과값이 없다는 것을 확실히 밝혀야할 때 좋다\n1234567891011function doSomething() &#123;    if(!App.ready) &#123;        return void setTimeout(doSomething, 100);        // setTimeout은 숫자 값을 반환 하지만 이 숫자 값을 무효로 만들어     &#125;    var result;    return result;&#125;if(doSomething()) &#123;    // doSomething()의 결과값이 if 문에서 긍정 오류가 일어나지 않게 했다.&#125;\n\n하지만 밑에 코드처럼 두 줄로 분리해서 쓰는 것을 선호하는 개발자들이 많고 void연산자는 잘 쓰지 않는다.\n1234if(!App.ready) &#123;    setTimeout(doSomething, 100);    return;&#125;\n\n어떤 표현식으로부터 값이 존재하는 곳에서 그 값이 undefined가 되어야 좋을 경우에만 사용하자\n2.4.3 특수 숫자\n\n\nNaN(Not A Number)\n\n두 피연산자가 전부 숫자가 아닐 경우 유효한 숫자가 나올 수 없으므로 그 결과는 NaN이다.\n\n경계 값의 일종으로 숫자 집합 내에서 특별한 종류의 에러 상황을 나타낸다.\n\nNaN은 어떤 NaN과도 동등하지 않다.(즉, 자기 자신과도 같지 않다.)\n\n반사성이 없는(x === x로 식별되지 않는) 유일무이한 값\n\n내장 전역 유틸리티isNaN()함수로 NaN여부를 알 수 있다.\n12345678var a = 2 / \"foo\";var b = \"foo\";a; // NaNb; // \"foo\"window.isNaN(a); //truewindow.isNan(b); //true\n\n\n“foo”는 당연히 숫자가 아니지만 그렇다고 NaN은 아니다. 이를 해결하기 위해 Number.isNaN()이 ES6부터 등장\n\n\n\n\n무한대\n\n자바스크립트에서는 0으로 나누기 연산이 잘 정의되어 있어서 에러 없이    Infinity(Number.POSITIVE_INFINITY)라는 결과값이 나온다.\n12var a = 1 / 0 ; //Infinityvar b = -1 / 0; //-Infinity\n\n자바스크립트는 유한 숫자 표현식을 사용하므로 +무한대/ -무한대가 될 수 있다.\n\n무한대 / 무한대 : NaN\n\n0 / 유한한 양수 : 0\n\n\n\n0(영)\n\n음의 영은 표기 뿐만 아니라 연산 결과 또한 -0으로 떨어진다.\n1var a = 0 / -3; //-0;\n\n하지만 명세에 의하면 -0을 문자열화하면 항상 “0”이다.\n12a.toString(); //\"0\"JSON.stringify(a); //\"0\"\n\n반대로 하면 있는 그대로를 보여준다.\n12Number(\"-0\"); //-0JSON.parse(\"-0\");//-0\n\n왜 -0을 만들었을까?\n\n값의 크기로 어떤 정보(ex: 애니메이션 프레임당 넘김 속도)와 그 값의 부호로 또 다른 정보(ex: 넘김 방향)를 동시에 나타내야 하는 어플리케이션이 있기 때문\n잠재적인 정보 소실을 방지하기 위해 0의 부호를 보존한 셈\n\n\n\n\n\n2.4.4 특이한 동등 비교\nNaN과 -0의 동등 비교가 까다로웠는데 ES6부터는 Object.is()라는 유틸리티를 지원한다.\n  12345var a = 2 / \"foo\";var b = -3 * 0;Object.is(a, NaN); //trueObject.is(b, -0); //true\n\n==나 ===가 안전하다면 굳이 Object.is()는 사용하지 않는 편이 좋다. 기본 연산자가 좀 더 효율이 좋고 일반적이기 때문.\n\n\n\n\n##2.5 값 VS 레퍼런스\n\n값의 타입만으로 값-복사 혹은 레퍼런스-복사가 결정된다.\n\n원시 값 : 값-복사\n\n레퍼런스 값 : 레퍼런스-복사\n1234567891011var a = 2;var b = a; //b는 언제나 a에서 값을 복사한다.b++;a;// 2b;// 3var c = [1,2,3];var d = c; // d는 공유된 [1,2,3]값의 레퍼런스다.d.push(4);c;// [1,2,3,4]d;// [1,2,3,4]\n\n2는 원시 값이므로 a에는 2의 초기 사본이, b에는 또 다른 사본이 들어간다. 따라서 b를 바꿔도 a까지 동시에 바뀔 수 없다.\n\nc와 d는 모두 함성 값이자 동일한 공유 값 [1,2,3]에 대한 개별 레퍼런스다. (단지 [1,2,3]을 동등하게 참조만!한다는 사실) 따라서 레퍼런스로 실제 공유한 배열 값이 변경되면, 이 공유 값 한 군데에만 영향을 미치므로 두 레퍼런스는 갱신된 값을 동시에 바라보게 된다.\n\n레퍼런스는 변수가 아닌 값 자체를 가리키므로 a 레퍼런스로 b 레퍼런스가 가리키는 대상을 변경할 수 없다.\n12345678var a = [1,2,3]var b = a;a;//[1,2,3]b;//[1,2,3]b = [4,5,6]a;//[1,2,3]b;//[4,5,6]\n\n\ncall by value / call by reference\n1234567891011121314function foo(x) &#123;    x.push(4);    x; //[1,2,3]        x = [4,5,6];    x.push(7);    x; //[4,5,6,7]&#125;var a = [1,2,3];foo(a);a; // [1,2,3,4]\n\n\na를 인자로 넘기면 a의 레퍼런스 사본이 x에 할당 =&gt; x와 a는 동일한 [1,2,3]을 가리키는 별도의 레퍼런스 =&gt; 함수 내부에서 레퍼런스를 이용하여 값 자체를 변경 =&gt; x = [4,5,6]으로 새 값을 할당해도 초기 레퍼런스 a가 참조하고 있던 값에는 아무런 영향이 없다.\n속성 변경 =&gt; 변경\n재할당 =&gt; 서로 다른 객체 바라봄\n\n\n배열 같은 합성 값을 값-복사로 전달하려면 값의 사본을 만들어 전달한 레퍼런스가 원본을 가리키지 않게 하면 된다.\n1foo(a.slice());\n\n\n인자 없이 slice()를 호출하면 전혀 새로운 배열의(shallow copy)사본을 만든다. 이렇게 복사한 사본만을 가리키는 레퍼런스를 전달하니 foo()는 a의 내용을 건드릴 수 없다.\n\n\n원시값을 레퍼런스-복사로 전달하려면 원시 값을 다른 합성값으로 감싸야한다.\n123456789function foo(wrapper) &#123;    wrapper.a = 42;&#125;var obj = &#123;    a:2&#125;foo(obj);obj.a;// 42\n\n\nobj는 원시 프로퍼티 a를 감싼 wrapper =&gt; foo()에 obj 레퍼런스 사본이 전달 =&gt; 래퍼 인자의 값을 바꿈 =&gt; 래퍼 레퍼런스로 공유된 객체에 접근하여 프로퍼티 수정\n\n\n\n\n\n","dateCreated":"2019-12-12T19:28:44+09:00","dateModified":"2019-12-12T20:01:24+09:00","datePublished":"2019-12-12T19:28:44+09:00","description":"","headline":"1.타입과 문법 - 2.값","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"http://yoursite.com/2019/12/12/1-타입과-문법-2-값/"},"publisher":{"@type":"Organization","name":"hyerinOh","sameAs":["https://github.com/hyerinOh"],"image":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7"}},"url":"http://yoursite.com/2019/12/12/1-타입과-문법-2-값/","keywords":"javascript, You Don't Know JS, value"}</script>
+    <meta name="keywords" content="javascript,You Don&#39;t Know JS,value">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="1.타입과 문법 - 2.값">
+<meta property="og:url" content="http://yoursite.com/2019/12/12/1-타입과-문법-2-값/index.html">
+<meta property="og:site_name" content="hyerin.io">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-12-12T11:01:24.868Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="1.타입과 문법 - 2.값">
+    
+    
+        
+    
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/all.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
+    <link rel="stylesheet" href="/assets/css/thumbs.css">
+    <link rel="stylesheet" href="/assets/css/tranquilpeak.css">
+    <!--STYLES END-->
+    
+
+    
+
+    
+        
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+
+<header id="header" data-behavior="5">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a
+            class="header-title-link"
+            href="/ "
+            aria-label=""
+        >
+            hyerin.io
+        </a>
+    </div>
+    
+        
+            <a
+                class="header-right-picture "
+                href="#about"
+                aria-label="Open the link: /#about"
+            >
+        
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+<nav id="sidebar" data-behavior="5">
+    <div class="sidebar-container">
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/ "
+                            
+                            title="Home"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Home</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                            title="Categories"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Categories</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                            title="Tags"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Tags</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                            title="About"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">About</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/hyerinOh" target="_blank" rel="noopener" title="GitHub">
+                    
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="5"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            1.타입과 문법 - 2.값
+        </h1>
+    
+    
+        <div class="post-meta">
+    <time datetime="2019-12-12T19:28:44+09:00">
+	
+		    Dec 12, 2019
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/Dev/">Dev</a>, <a class="category-link" href="/categories/Dev/JavaScript/">JavaScript</a>, <a class="category-link" href="/categories/Dev/JavaScript/You-Don-t-Know-JS/">You Don't Know JS</a>
+
+
+    
+</div>
+
+    
+</div>
+
+    
+    <div class="post-content markdown">
+        <div class="main-content-wrap">
+            <br>
+
+<a id="more"></a>
+<p><strong>[ You Don’t Know JS 정리 ]</strong></p>
+<h1 id="2-값"><a href="#2-값" class="headerlink" title="2. 값"></a>2. 값</h1><hr>
+<blockquote>
+<p>2.1 배열<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.1.1 유사 배열<br>2.2 문자열<br>2.3 숫자<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.3.1 숫자 구문<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.3.2 작은 소수 값<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.3.3 안전한 정수 범위<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.3.4 정수인지 확인<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.3.5 32비트 (부호 있는) 정수<br>2.4 특수 값<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.4.1 값 아닌 값<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.4.2 Undefined<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.4.3 특수 숫자<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.4.4 특이한 동등 비교</p>
+</blockquote>
+<h2 id="2-5-값-vs-레퍼런스"><a href="#2-5-값-vs-레퍼런스" class="headerlink" title="2.5 값 vs 레퍼런스"></a>2.5 값 vs 레퍼런스</h2><h2 id="2-1-배열"><a href="#2-1-배열" class="headerlink" title="2.1 배열"></a>2.1 배열</h2><ul>
+<li><p>어떤 타입의 값이라도 담을 수 있는 그릇</p>
+</li>
+<li><p>배열 크기는 미리 정하지 않고도 선언할 수 있으며 원하는 값을 추가하면 된다.</p>
+</li>
+<li><p>빈/빠진 슬롯이 있는 ‘구멍 난’ 배열을 다룰 때는 조심</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = [];</span><br><span class="line">a[<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">a[<span class="number">2</span>]= [<span class="number">3</span>]; <span class="comment">// a[1] 건너뜀</span></span><br><span class="line"></span><br><span class="line">a[<span class="number">1</span>]; <span class="comment">// undefined</span></span><br><span class="line">a.length; <span class="comment">// 3</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">	명시적으로 a[1] = undefined 준 것과 똑같지는 않다.</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>배열의 인덱스는 숫자인데, 배열 자체도 하나의 객체여서 키/프로퍼티 문자열을 추가할 수 있지만 배열 length가 증가하지는 않는다</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = [];</span><br><span class="line">a[<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">a[<span class="string">"foobar"</span>] = <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">a.length; <span class="comment">//1</span></span><br><span class="line">a.foobar; <span class="comment">// 2</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>키로 숫자형태의 문자열이 들어가면, 마치 문자열 키가 아닌 숫자 키를 사용한 것과 같은 결과를 초래</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = [];</span><br><span class="line">a[<span class="string">"13"</span>] = <span class="number">42</span>;</span><br><span class="line">a.length; <span class="comment">// 14</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>일반적으로 배열에 문자열 타입의 키/프로퍼티를 두는 것을 추천하지 않는다. 그렇게 해야 한다면 객체를 대용하고 배열 원소의 인덱스를 확실히 숫자만 쓰자</p>
+<br>
+
+</li>
+</ul>
+<h3 id="2-1-1-유사-배열"><a href="#2-1-1-유사-배열" class="headerlink" title="2.1.1 유사 배열"></a>2.1.1 유사 배열</h3><ul>
+<li>유사 배열 값을 진짜 배열로 바꾸고 싶을 때<ul>
+<li><code>indexOf()</code>, <code>concat()</code>, <code>forEach()</code> 등을 사용하는 것이 일반적</li>
+<li><strong><code>Array.prototype.slice.call()</code></strong> : <code>slice()</code>에 인자가 없으면 기본 인자 값으로 구성된 배열을 복사한다.</li>
+<li>ES6부터 <strong><code>Array.from()</code></strong> 이 이 일을 대신한다.</li>
+</ul>
+</li>
+</ul>
+<br>
+
+<h2 id="2-2-문자열"><a href="#2-2-문자열" class="headerlink" title="2.2 문자열"></a>2.2 문자열</h2><ul>
+<li><p>문자열은 <em>유사배열</em></p>
+  <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="keyword">new</span> <span class="built_in">String</span>(<span class="string">'23'</span>)</span><br><span class="line">a; <span class="comment">// String &#123;"23"&#125;</span></span><br><span class="line">   <span class="comment">// 0: "2"   1: "3"</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>.length</code> , <code>.indexOf()</code>, <code>.concat()</code> 메서드 가짐</p>
+</li>
+<li><p>하지만 <strong>문자열 !== 배열</strong></p>
+<ul>
+<li><p><strong>문자열</strong> : 불변 값(immutable value)</p>
+<ul>
+<li>문자열 메서드는 그 내용을 바로 변경하지 않고 항상 새로운 문자열을 생성한 후 반환한다.</li>
+</ul>
+</li>
+<li><p><strong>배열</strong> : 가변 값(mutable value)</p>
+<ul>
+<li>대부분의 배열 메서드는 그 자리에서 곧바로 원소를 수정한다.</li>
+</ul>
+</li>
+<li><p><code>a[1]</code> 처럼 문자열의 특정 문자를 접근하는 형태가 모든 자바스크립트 엔진에서 유효하지는 않다. (IE 8 이전까지는 이를 문법 에러로 인식) =&gt; <code>a.charAt(1)</code>로 접근해야 맞다.</p>
+</li>
+<li><p>문자열을 다룰 때 유용한 대부분의 배열 메서드는 사실상 문자열에 쓸 수 없지만 빌려 쓸 수는 있다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="string">"foo"</span>;</span><br><span class="line"><span class="keyword">var</span> b = [<span class="string">"f"</span>, <span class="string">"o"</span>, <span class="string">"o"</span>];</span><br><span class="line"></span><br><span class="line">a.reverse();<span class="comment">// undefined</span></span><br><span class="line">b.reverse(); <span class="comment">//["o", "o", "f"]</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>문자열을 배열 =&gt; 원하는 작업 수행 =&gt; 다시 문자열로 되돌리기</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> c = a.split(<span class="string">""</span>).reverse().join(<span class="string">""</span>)</span><br><span class="line">c; <span class="comment">// "oof"</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ul>
+<br>
+
+<h2 id="2-3-숫자"><a href="#2-3-숫자" class="headerlink" title="2.3 숫자"></a>2.3 숫자</h2><ul>
+<li>숫자 타입은 number가 유일</li>
+<li>정수, 부동 소수점 숫자 모두 아우른다</li>
+</ul>
+<h3 id="2-3-1-숫자-구문"><a href="#2-3-1-숫자-구문" class="headerlink" title="2.3.1 숫자 구문"></a>2.3.1 숫자 구문</h3><ul>
+<li><p>자바스크립트 숫자 리터럴은 10진수 리터럴로 표시한다.</p>
+  <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">42</span>;</span><br><span class="line"><span class="keyword">var</span> b = <span class="number">42.3</span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>소수점 앞 정수가 0이면 생략 가능</p>
+  <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">0.42</span>;</span><br><span class="line"><span class="keyword">var</span> b = <span class="number">.42</span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>소수점 이하가 0일 때도 생략 가능</p>
+  <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">42.0</span>;</span><br><span class="line"><span class="keyword">var</span> b = <span class="number">42</span>;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>하지만 <code>42.</code> 처럼 표기하는 것은 일반적이지도 않고 다른 사람이 코드를 읽을 때 혼동을 일으킬 수 있으니 권장하지 않는다.</li>
+</ul>
+</li>
+<li><p><code>toExponential()</code>: 아주 크거나 아주 작은 숫자를 지수형으로 표시</p>
+</li>
+<li><p><code>toFixed()</code>: 지정한 소수점 이하 자릿수까지 숫자를 나타냄</p>
+</li>
+<li><p>위 메서드들은 숫자 리터럴에서 바로 접근할 수 있으므로 굳이 변수를 만들어 할당하지 않아도 된다. 하지만 <code>.</code>이 소수점일 경우엔 프로퍼티 접근자가 아닌 숫자 리터럴의 일부로 해석되므로 주의하자.</p>
+  <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">42.</span>toFixed(<span class="number">3</span>) <span class="comment">// SyntaxError</span></span><br><span class="line"><span class="comment">// 42.이 리터럴의 일부가 되어버려 .toFixed 메서드에 접근할 .이 없다</span></span><br><span class="line"></span><br><span class="line">(<span class="number">42</span>).toFixed(<span class="number">3</span>); <span class="comment">//"42.000"</span></span><br><span class="line"><span class="number">0.42</span>.toFixed(<span class="number">3</span>); <span class="comment">// "0.420"</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>0다음 대문자 O는 헷갈리니 언제나 소문자로 0o, 0b 와 같이 표기하자</p>
+</li>
+</ul>
+<br>
+
+<h3 id="2-3-2-작은-소수-값"><a href="#2-3-2-작은-소수-값" class="headerlink" title="2.3.2 작은 소수 값"></a>2.3.2 작은 소수 값</h3><ul>
+<li><p>이진 부동 소수점 숫자의 부작용</p>
+  <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">0.1</span> + <span class="number">0.2</span> === <span class="number">0.3</span> <span class="comment">//false</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>실제로는 0.30000000000000004에 가깝기 때문에 정확하게 0.3이 아니다.</li>
+<li>가장 일반적으로 미세한 ‘반올림 오차’(머신 입실론)를 허용 공차로 처리하는 방법</li>
+<li><code>Number.EPSILON</code> (ES6부터)</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-3-3-안전한-정수-범위"><a href="#2-3-3-안전한-정수-범위" class="headerlink" title="2.3.3 안전한 정수 범위"></a>2.3.3 안전한 정수 범위</h3><ul>
+<li>안전하게 표현할 수 있는 (즉. 표현한 값과 실제 값이 정확하게 일치한다고 장담할 수 있는) 정수는 최대 9천 조가 넘는 수</li>
+<li>9천 조가 넘는 수의 사용해야 한다면 Big Number utility 사용을 권장</li>
+</ul>
+<h3 id="2-3-4-정수인지-확인"><a href="#2-3-4-정수인지-확인" class="headerlink" title="2.3.4 정수인지 확인"></a>2.3.4 정수인지 확인</h3><ul>
+<li>ES6부터는 <code>Number.isInteger()</code>로 어떤 값의 정수 여부를 확인한다.  <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Number</span>.isInteger(<span class="number">42</span>); <span class="comment">//true</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="2-3-5-32비트-부호-있는-정수"><a href="#2-3-5-32비트-부호-있는-정수" class="headerlink" title="2.3.5 32비트 (부호 있는) 정수"></a>2.3.5 32비트 (부호 있는) 정수</h3><p><code>스킵</code><br><br></p>
+<h2 id="2-4-특수-값"><a href="#2-4-특수-값" class="headerlink" title="2.4 특수 값"></a>2.4 특수 값</h2><h3 id="2-4-1-값-아닌-값"><a href="#2-4-1-값-아닌-값" class="headerlink" title="2.4.1 값 아닌 값"></a>2.4.1 값 아닌 값</h3><ul>
+<li><code>undefined</code>와 <code>null</code>은 타입과 값이 같다</li>
+<li><code>null</code>은 식별자가 아닌 특별한 키워드이므로 <code>null</code>이라는 변수에 뭔가를 할당할 수 없다.</li>
+</ul>
+<h3 id="2-4-2-Undefined"><a href="#2-4-2-Undefined" class="headerlink" title="2.4.2 Undefined"></a>2.4.2 Undefined</h3><ul>
+<li><p>Normal mode에서는 전역 스코프에서 <code>undefined</code>라는 식별자에 값을 할당할 수 있다. <strong>(절대 추천하지 않음)</strong></p>
+  <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="literal">undefined</span> = <span class="number">2</span>;</span><br><span class="line">&#125;</span><br><span class="line">foo();</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line"><span class="meta">    'use strict'</span></span><br><span class="line">    <span class="literal">undefined</span> = <span class="number">2</span>; <span class="comment">// 타입 에러</span></span><br><span class="line">&#125;</span><br><span class="line">foo()</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>Void 연산자</strong></p>
+<ul>
+<li><p>표현식 void는 어떤 값이든 ‘무효’로 만들어, <strong>항상 결과값을 undefined로 만든다.</strong></p>
+</li>
+<li><p>void 연산자는 어떤 표현식의 결과값이 없다는 것을 확실히 밝혀야할 때 좋다</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">doSomething</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(!App.ready) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">void</span> setTimeout(doSomething, <span class="number">100</span>);</span><br><span class="line">        <span class="comment">// setTimeout은 숫자 값을 반환 하지만 이 숫자 값을 무효로 만들어 </span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">var</span> result;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span>(doSomething()) &#123;</span><br><span class="line">    <span class="comment">// doSomething()의 결과값이 if 문에서 긍정 오류가 일어나지 않게 했다.</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>하지만 밑에 코드처럼 두 줄로 분리해서 쓰는 것을 선호하는 개발자들이 많고 void연산자는 잘 쓰지 않는다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(!App.ready) &#123;</span><br><span class="line">    setTimeout(doSomething, <span class="number">100</span>);</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>어떤 표현식으로부터 값이 존재하는 곳에서 그 값이 <code>undefined</code>가 되어야 좋을 경우에만 사용하자</p>
+<h3 id="2-4-3-특수-숫자"><a href="#2-4-3-특수-숫자" class="headerlink" title="2.4.3 특수 숫자"></a>2.4.3 특수 숫자</h3></li>
+</ul>
+</li>
+<li><p><strong>NaN(Not A Number)</strong></p>
+<ul>
+<li><p>두 피연산자가 전부 숫자가 아닐 경우 유효한 숫자가 나올 수 없으므로 그 결과는 <code>NaN</code>이다.</p>
+</li>
+<li><p>경계 값의 일종으로 숫자 집합 내에서 특별한 종류의 에러 상황을 나타낸다.</p>
+</li>
+<li><p><code>NaN</code>은 어떤 <code>NaN</code>과도 동등하지 않다.(즉, 자기 자신과도 같지 않다.)</p>
+</li>
+<li><p>반사성이 없는(x === x로 식별되지 않는) 유일무이한 값</p>
+</li>
+<li><p>내장 전역 유틸리티<code>isNaN()</code>함수로 <code>NaN</code>여부를 알 수 있다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">2</span> / <span class="string">"foo"</span>;</span><br><span class="line"><span class="keyword">var</span> b = <span class="string">"foo"</span>;</span><br><span class="line"></span><br><span class="line">a; <span class="comment">// NaN</span></span><br><span class="line">b; <span class="comment">// "foo"</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">window</span>.isNaN(a); <span class="comment">//true</span></span><br><span class="line"><span class="built_in">window</span>.isNan(b); <span class="comment">//true</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>“foo”는 당연히 숫자가 아니지만 그렇다고 <code>NaN</code>은 아니다. 이를 해결하기 위해 <code>Number.isNaN()</code>이 ES6부터 등장<br></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>무한대</strong></p>
+<ul>
+<li><p>자바스크립트에서는 0으로 나누기 연산이 잘 정의되어 있어서 에러 없이    <code>Infinity(Number.POSITIVE_INFINITY)</code>라는 결과값이 나온다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">1</span> / <span class="number">0</span> ; <span class="comment">//Infinity</span></span><br><span class="line"><span class="keyword">var</span> b = <span class="number">-1</span> / <span class="number">0</span>; <span class="comment">//-Infinity</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>자바스크립트는 유한 숫자 표현식을 사용하므로 +무한대/ -무한대가 될 수 있다.</p>
+</li>
+<li><p>무한대 / 무한대 : NaN</p>
+</li>
+<li><p>0 / 유한한 양수 : 0</p>
+<br></li>
+</ul>
+</li>
+<li><p><strong>0(영)</strong></p>
+<ul>
+<li><p>음의 영은 표기 뿐만 아니라 연산 결과 또한 -0으로 떨어진다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">0</span> / <span class="number">-3</span>; <span class="comment">//-0;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>하지만 명세에 의하면 -0을 문자열화하면 항상 “0”이다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a.toString(); <span class="comment">//"0"</span></span><br><span class="line"><span class="built_in">JSON</span>.stringify(a); <span class="comment">//"0"</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>반대로 하면 있는 그대로를 보여준다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Number</span>(<span class="string">"-0"</span>); <span class="comment">//-0</span></span><br><span class="line"><span class="built_in">JSON</span>.parse(<span class="string">"-0"</span>);<span class="comment">//-0</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>왜 -0을 만들었을까?</p>
+<ul>
+<li>값의 크기로 어떤 정보(ex: 애니메이션 프레임당 넘김 속도)와 그 값의 부호로 또 다른 정보(ex: 넘김 방향)를 동시에 나타내야 하는 어플리케이션이 있기 때문</li>
+<li>잠재적인 정보 소실을 방지하기 위해 0의 부호를 보존한 셈</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-4-4-특이한-동등-비교"><a href="#2-4-4-특이한-동등-비교" class="headerlink" title="2.4.4 특이한 동등 비교"></a>2.4.4 특이한 동등 비교</h3><ul>
+<li><p><code>NaN</code>과 <code>-0</code>의 동등 비교가 까다로웠는데 ES6부터는 <code>Object.is()</code>라는 유틸리티를 지원한다.</p>
+  <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">2</span> / <span class="string">"foo"</span>;</span><br><span class="line"><span class="keyword">var</span> b = <span class="number">-3</span> * <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="built_in">Object</span>.is(a, <span class="literal">NaN</span>); <span class="comment">//true</span></span><br><span class="line"><span class="built_in">Object</span>.is(b, <span class="number">-0</span>); <span class="comment">//true</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>==</code>나 <code>===</code>가 안전하다면 굳이 <code>Object.is()</code>는 사용하지 않는 편이 좋다. <strong>기본 연산자가 좀 더 효율이 좋고 일반적이기 때문.</strong></p>
+</li>
+</ul>
+<br>
+
+<p>##2.5 값 VS 레퍼런스</p>
+<ul>
+<li><p>값의 타입만으로 <strong>값-복사</strong> 혹은 <strong>레퍼런스-복사</strong>가 결정된다.</p>
+<ul>
+<li><p><strong>원시 값 : 값-복사</strong></p>
+</li>
+<li><p><strong>레퍼런스 값 : 레퍼런스-복사</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">2</span>;</span><br><span class="line"><span class="keyword">var</span> b = a; <span class="comment">//b는 언제나 a에서 값을 복사한다.</span></span><br><span class="line">b++;</span><br><span class="line">a;<span class="comment">// 2</span></span><br><span class="line">b;<span class="comment">// 3</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> c = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>];</span><br><span class="line"><span class="keyword">var</span> d = c; <span class="comment">// d는 공유된 [1,2,3]값의 레퍼런스다.</span></span><br><span class="line">d.push(<span class="number">4</span>);</span><br><span class="line">c;<span class="comment">// [1,2,3,4]</span></span><br><span class="line">d;<span class="comment">// [1,2,3,4]</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>2</code>는 원시 값이므로 <code>a</code>에는 <code>2</code>의 초기 사본이, <code>b</code>에는 또 다른 사본이 들어간다. 따라서 <code>b</code>를 바꿔도 <code>a</code>까지 동시에 바뀔 수 없다.</p>
+</li>
+<li><p><code>c</code>와 <code>d</code>는 모두 함성 값이자 동일한 공유 값 <code>[1,2,3]</code>에 대한 개별 레퍼런스다. (단지 <code>[1,2,3]</code>을 동등하게 참조만!한다는 사실) 따라서 레퍼런스로 실제 공유한 배열 값이 변경되면, 이 공유 값 한 군데에만 영향을 미치므로 두 레퍼런스는 갱신된 값을 동시에 바라보게 된다.</p>
+</li>
+<li><p>레퍼런스는 변수가 아닌 값 자체를 가리키므로 <code>a</code> 레퍼런스로 <code>b</code> 레퍼런스가 가리키는 대상을 변경할 수 없다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</span><br><span class="line"><span class="keyword">var</span> b = a;</span><br><span class="line">a;<span class="comment">//[1,2,3]</span></span><br><span class="line">b;<span class="comment">//[1,2,3]</span></span><br><span class="line"></span><br><span class="line">b = [<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>]</span><br><span class="line">a;<span class="comment">//[1,2,3]</span></span><br><span class="line">b;<span class="comment">//[4,5,6]</span></span><br></pre></td></tr></table></figure>
+
+<br></li>
+<li><p><strong>call by value / call by reference</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params">x</span>) </span>&#123;</span><br><span class="line">    x.push(<span class="number">4</span>);</span><br><span class="line">    x; <span class="comment">//[1,2,3]</span></span><br><span class="line">    </span><br><span class="line">    x = [<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>];</span><br><span class="line">    x.push(<span class="number">7</span>);</span><br><span class="line">    x; <span class="comment">//[4,5,6,7]</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> a = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>];</span><br><span class="line"></span><br><span class="line">foo(a);</span><br><span class="line"></span><br><span class="line">a; <span class="comment">// [1,2,3,4]</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>a</code>를 인자로 넘기면 <code>a</code>의 레퍼런스 사본이 <code>x</code>에 할당 =&gt; <code>x</code>와 <code>a</code>는 동일한 <code>[1,2,3]</code>을 가리키는 별도의 레퍼런스 =&gt; 함수 내부에서 레퍼런스를 이용하여 값 자체를 변경 =&gt; <code>x = [4,5,6]</code>으로 새 값을 할당해도 초기 레퍼런스 <code>a</code>가 참조하고 있던 값에는 아무런 영향이 없다.</li>
+<li><strong>속성 변경 =&gt; 변경</strong></li>
+<li><strong>재할당 =&gt; 서로 다른 객체 바라봄</strong><br></li>
+</ul>
+</li>
+<li><p>배열 같은 합성 값을 <code>값-복사</code>로 전달하려면 값의 사본을 만들어 전달한 레퍼런스가 원본을 가리키지 않게 하면 된다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">foo(a.slice());</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>인자 없이 <code>slice()</code>를 호출하면 전혀 새로운 배열의(shallow copy)사본을 만든다. 이렇게 복사한 사본만을 가리키는 레퍼런스를 전달하니 <code>foo()</code>는 <code>a</code>의 내용을 건드릴 수 없다.<br></li>
+</ul>
+</li>
+<li><p>원시값을 레퍼런스-복사로 전달하려면 원시 값을 <em>다른 합성값</em>으로 감싸야한다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params">wrapper</span>) </span>&#123;</span><br><span class="line">    wrapper.a = <span class="number">42</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line">    a:<span class="number">2</span></span><br><span class="line">&#125;</span><br><span class="line">foo(obj);</span><br><span class="line">obj.a;<span class="comment">// 42</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>obj</code>는 원시 프로퍼티 <code>a</code>를 감싼 wrapper =&gt; <code>foo()</code>에 <code>obj</code> 레퍼런스 사본이 전달 =&gt; 래퍼 인자의 값을 바꿈 =&gt; 래퍼 레퍼런스로 공유된 객체에 접근하여 프로퍼티 수정</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+
+
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/You-Don-t-Know-JS/">You Don't Know JS</a> <a class="tag tag--primary tag--small t-link" href="/tags/javascript/">javascript</a> <a class="tag tag--primary tag--small t-link" href="/tags/value/">value</a>
+
+            </div>
+        
+        
+            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a
+                        class="post-action-btn btn btn--disabled"
+                        aria-hidden="true"
+                    >
+                        
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                    </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2019/12/12/1-타입과-문법-1-타입/"
+                    data-tooltip="You Don&#39;t Know JS - 1.타입과 문법 - 1.타입"
+                    aria-label="NEXT: You Don&#39;t Know JS - 1.타입과 문법 - 1.타입"
+                >
+                    
+                        <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a
+                class="post-action-btn btn btn--default btn-open-shareoptions"
+                href="#btn-open-shareoptions"
+                aria-label="Share this post"
+            >
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/12/12/1-타입과-문법-2-값/"
+                    title="Share on Facebook"
+                    aria-label="Share on Facebook"
+                >
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2019/12/12/1-타입과-문법-2-값/"
+                    title="Share on Twitter"
+                    aria-label="Share on Twitter"
+                >
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://plus.google.com/share?url=http://yoursite.com/2019/12/12/1-타입과-문법-2-값/"
+                    title="Share on Google+"
+                    aria-label="Share on Google+"
+                >
+                    <i class="fab fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a
+                        class="post-action-btn btn btn--default"
+                        href="#disqus_thread"
+                        aria-label="Leave a comment"
+                    >
+                        <i class="fa fa-comment"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+        
+            
+                <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2019 hyerinOh. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a
+                        class="post-action-btn btn btn--disabled"
+                        aria-hidden="true"
+                    >
+                        
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                    </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2019/12/12/1-타입과-문법-1-타입/"
+                    data-tooltip="You Don&#39;t Know JS - 1.타입과 문법 - 1.타입"
+                    aria-label="NEXT: You Don&#39;t Know JS - 1.타입과 문법 - 1.타입"
+                >
+                    
+                        <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a
+                class="post-action-btn btn btn--default btn-open-shareoptions"
+                href="#btn-open-shareoptions"
+                aria-label="Share this post"
+            >
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/12/12/1-타입과-문법-2-값/"
+                    title="Share on Facebook"
+                    aria-label="Share on Facebook"
+                >
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2019/12/12/1-타입과-문법-2-값/"
+                    title="Share on Twitter"
+                    aria-label="Share on Twitter"
+                >
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://plus.google.com/share?url=http://yoursite.com/2019/12/12/1-타입과-문법-2-값/"
+                    title="Share on Google+"
+                    aria-label="Share on Google+"
+                >
+                    <i class="fab fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a
+                        class="post-action-btn btn btn--default"
+                        href="#disqus_thread"
+                        aria-label="Leave a comment"
+                    >
+                        <i class="fa fa-comment"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                
+    <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+        <i id="btn-close-shareoptions" class="fa fa-times"></i>
+        <ul class="share-options">
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/12/12/1-타입과-문법-2-값/"
+                        aria-label="Share on Facebook"
+                    >
+                        <i class="fab fa-facebook" aria-hidden="true"></i><span>Share on Facebook</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://twitter.com/intent/tweet?text=http://yoursite.com/2019/12/12/1-타입과-문법-2-값/"
+                        aria-label="Share on Twitter"
+                    >
+                        <i class="fab fa-twitter" aria-hidden="true"></i><span>Share on Twitter</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://plus.google.com/share?url=http://yoursite.com/2019/12/12/1-타입과-문법-2-값/"
+                        aria-label="Share on Google+"
+                    >
+                        <i class="fab fa-google-plus" aria-hidden="true"></i><span>Share on Google+</span>
+                    </a>
+                </li>
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+        
+    
+        
+                                            <div id="about">
+                                                <div id="about-card">
+                                                    <div id="about-btn-close">
+                                                        <i class="fa fa-times"></i>
+                                                    </div>
+                                                    
+                                                            <h4 id="about-card-name">
+                                                                hyerinOh
+                                                            </h4>
+                                                            
+                                                                <div id="about-card-bio">
+                                                                    <p>프린이</p>
+
+                                                                </div>
+                                                                
+                                                                    
+                                                                        <div id="about-card-job">
+                                                                            <i class="fa fa-briefcase"></i>
+                                                                            <br/>
+                                                                            <p>software engineer</p>
+
+                                                                        </div>
+                                                                        
+                                                                            
+                                                                                <div id="about-card-location">
+                                                                                    <i class="fa fa-map-marker-alt"></i>
+                                                                                    <br/>
+                                                                                    Seoul, Korea
+                                                                                </div>
+                                                                                
+                                                </div>
+                                            </div>
+        
+        
+<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+        <!--SCRIPTS-->
+<script src="/assets/js/jquery.js"></script>
+<script src="/assets/js/jquery.fancybox.js"></script>
+<script src="/assets/js/thumbs.js"></script>
+<script src="/assets/js/tranquilpeak.js"></script>
+<!--SCRIPTS END-->
+
+
+    
+        <script>
+          var disqus_config = function() {
+            this.page.url = 'http://yoursite.com/2019/12/12/1-타입과-문법-2-값/';
+              
+            this.page.identifier = '2019/12/12/1-타입과-문법-2-값/';
+              
+          };
+          (function() {
+            var d = document, s = d.createElement('script');
+            var disqus_shortname = 'web1-s18lyko82r';
+            s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+          })();
+        </script>
+    
+
+
+
+
+    </body>
+</html>
