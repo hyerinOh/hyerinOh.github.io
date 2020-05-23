@@ -1,0 +1,622 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="hyerin.io">
+    <title>Issues-React-1.IE에서_리액트_쓰기 - hyerin.io</title>
+    <meta name="author" content="hyerinOh">
+    
+    
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"hyerinOh","sameAs":["https://github.com/hyerinOh"],"image":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7"},"articleBody":"\n\n\n\nIE 11에서 리액트 쓰기\n문제 상황 !기본적인 CRA로는 IE 11를 지원하지 못함\n\n\n첫 번째 시도\n\nreact-app-polyfill을 install 후 import 시켜주고 node_modules에서 .cache를 지우고 package.json의 browsers list 에 &quot;ie 11&quot;을 추가했지만 ie11에서 The error you provided does not contain a stack trace. 라는 에러를 내며 동작하지 않음.\n\n12import \"react-app-polyfill/ie11\";import \"react-app-polyfill/stable\";\n\n123456789101112131415// package.json\"browserslist\": &#123;    \"production\": [      \"&gt;0.2%\",      \"not dead\",      \"not op_mini all\",      \"ie 11\"    ],    \"development\": [      \"last 1 chrome version\",      \"last 1 firefox version\",      \"last 1 safari version\",      \"ie 11\"    ]  &#125;\n\n\n\n\n\n\n\n두 번째 시도\n\nnpm i fast-text-encoding후 import 시켜줬지만 같은 에러를 내며 동작하지 않음\n\n1import \"fast-text-encoding/text\";\n\n\n\n\n\n\n\n세 번째 시도\n\n./node_modules/react-dev-utils/webpackHotDevClient.js:60에 slashes: true를 추가했더니 성공!!\n\n참고 : https://github.com/facebook/create-react-app/issues/8084p\n\n\n\n\n1234567891011// Connect to WebpackDevServer via a socket.var connection = new WebSocket(  url.format(&#123;    protocol: window.location.protocol === \"https:\" ? \"wss\" : \"ws\",    hostname: window.location.hostname,    port: window.location.port,    // Hardcoded in WebpackDevServer    pathname: \"/sockjs-node\",    slashes: true,  &#125;));\n\n\n\n\n\n\n2020.02.22 추가\n\n세 번째 시도가 필요했던 이유: https 프로토콜 사용 시에는 WebSockets over SSL/TLS (WSS) 프로토콜을 사용해야 하는데, create-react-app 하위 패키지인 react-scripts 패키지 v3.3.0 에서 http 와 https 모두 WebSockets (WS) 를 사용하도록 설정되어 있어서 생긴 이슈\n\n2020.02.14에 3.4.0 버전으로 업데이트 됨!\nhttps://github.com/facebook/create-react-app/releases\n","dateCreated":"2020-01-17T16:11:31+09:00","dateModified":"2020-05-23T17:27:10+09:00","datePublished":"2020-01-17T16:11:31+09:00","description":"","headline":"Issues-React-1.IE에서_리액트_쓰기","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"http://yoursite.com/2020/01/17/Issues-React-01/"},"publisher":{"@type":"Organization","name":"hyerinOh","sameAs":["https://github.com/hyerinOh"],"image":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7"}},"url":"http://yoursite.com/2020/01/17/Issues-React-01/","keywords":"Issues, React, IE11"}</script>
+    <meta name="keywords" content="Issues,React,IE11">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="Issues-React-1.IE에서_리액트_쓰기">
+<meta property="og:url" content="http://yoursite.com/2020/01/17/Issues-React-01/index.html">
+<meta property="og:site_name" content="hyerin.io">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2020-05-23T08:27:10.515Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Issues-React-1.IE에서_리액트_쓰기">
+    
+    
+        
+    
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/all.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
+    <link rel="stylesheet" href="/assets/css/thumbs.css">
+    <link rel="stylesheet" href="/assets/css/tranquilpeak.css">
+    <!--STYLES END-->
+    
+
+    
+
+    
+        
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+
+<header id="header" data-behavior="5">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a
+            class="header-title-link"
+            href="/ "
+            aria-label=""
+        >
+            hyerin.io
+        </a>
+    </div>
+    
+        
+            <a
+                class="header-right-picture "
+                href="#about"
+                aria-label="Open the link: /#about"
+            >
+        
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+<nav id="sidebar" data-behavior="5">
+    <div class="sidebar-container">
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/ "
+                            
+                            title="Home"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Home</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                            title="Categories"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Categories</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                            title="Tags"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Tags</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                            title="About"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">About</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/hyerinOh" target="_blank" rel="noopener" title="GitHub">
+                    
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="5"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            Issues-React-1.IE에서_리액트_쓰기
+        </h1>
+    
+    
+        <div class="post-meta">
+    <time datetime="2020-01-17T16:11:31+09:00">
+	
+		    Jan 17, 2020
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/Issues/">Issues</a>, <a class="category-link" href="/categories/Issues/React/">React</a>
+
+
+    
+</div>
+
+    
+</div>
+
+    
+    <div class="post-content markdown">
+        <div class="main-content-wrap">
+            <br>
+
+<a id="more"></a>
+
+<h2 id="IE-11에서-리액트-쓰기"><a href="#IE-11에서-리액트-쓰기" class="headerlink" title="IE 11에서 리액트 쓰기"></a>IE 11에서 리액트 쓰기</h2><blockquote>
+<p>문제 상황 !<br>기본적인 CRA로는 IE 11를 지원하지 못함</p>
+</blockquote>
+<ol>
+<li><p>첫 번째 시도</p>
+<ul>
+<li><code>react-app-polyfill</code>을 install 후 import 시켜주고 <code>node_modules</code>에서 <code>.cache</code>를 지우고 <code>package.json</code>의 <code>browsers list</code> 에 <code>&quot;ie 11&quot;</code>을 추가했지만 ie11에서 <code>The error you provided does not contain a stack trace.</code> 라는 에러를 내며 동작하지 않음.</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">"react-app-polyfill/ie11"</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">"react-app-polyfill/stable"</span>;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// package.json</span></span><br><span class="line"><span class="string">"browserslist"</span>: &#123;</span><br><span class="line">    <span class="string">"production"</span>: [</span><br><span class="line">      <span class="string">"&gt;0.2%"</span>,</span><br><span class="line">      <span class="string">"not dead"</span>,</span><br><span class="line">      <span class="string">"not op_mini all"</span>,</span><br><span class="line">      <span class="string">"ie 11"</span></span><br><span class="line">    ],</span><br><span class="line">    <span class="string">"development"</span>: [</span><br><span class="line">      <span class="string">"last 1 chrome version"</span>,</span><br><span class="line">      <span class="string">"last 1 firefox version"</span>,</span><br><span class="line">      <span class="string">"last 1 safari version"</span>,</span><br><span class="line">      <span class="string">"ie 11"</span></span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<br>
+<br>
+
+<ol start="2">
+<li><p>두 번째 시도</p>
+<ul>
+<li><code>npm i fast-text-encoding</code>후 import 시켜줬지만 같은 에러를 내며 동작하지 않음</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">"fast-text-encoding/text"</span>;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<br>
+<br>
+
+<ol start="3">
+<li><p>세 번째 시도</p>
+<ul>
+<li><p><code>./node_modules/react-dev-utils/webpackHotDevClient.js:60</code>에 <code>slashes: true</code>를 추가했더니 성공!!</p>
+</li>
+<li><p>참고 : <a href="https://github.com/facebook/create-react-app/issues/8084p" target="_blank" rel="noopener">https://github.com/facebook/create-react-app/issues/8084p</a></p>
+</li>
+</ul>
+<br>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Connect to WebpackDevServer via a socket.</span></span><br><span class="line"><span class="keyword">var</span> connection = <span class="keyword">new</span> WebSocket(</span><br><span class="line">  url.format(&#123;</span><br><span class="line">    protocol: <span class="built_in">window</span>.location.protocol === <span class="string">"https:"</span> ? <span class="string">"wss"</span> : <span class="string">"ws"</span>,</span><br><span class="line">    hostname: <span class="built_in">window</span>.location.hostname,</span><br><span class="line">    port: <span class="built_in">window</span>.location.port,</span><br><span class="line">    <span class="comment">// Hardcoded in WebpackDevServer</span></span><br><span class="line">    pathname: <span class="string">"/sockjs-node"</span>,</span><br><span class="line">    slashes: <span class="literal">true</span>,</span><br><span class="line">  &#125;)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<br>
+
+<hr>
+<p><em><em>2020.02.22 추가</em></em></p>
+<blockquote>
+<p>세 번째 시도가 필요했던 이유: <code>https 프로토콜</code> 사용 시에는 <code>WebSockets over SSL/TLS (WSS) 프로토콜</code>을 사용해야 하는데, <code>create-react-app</code> 하위 패키지인 <code>react-scripts</code> 패키지 v3.3.0 에서 http 와 https 모두 <code>WebSockets (WS)</code> 를 사용하도록 설정되어 있어서 생긴 이슈</p>
+</blockquote>
+<p><strong><em>2020.02.14에 3.4.0 버전으로 업데이트 됨!</em></strong></p>
+<p><a href="https://github.com/facebook/create-react-app/releases" target="_blank" rel="noopener">https://github.com/facebook/create-react-app/releases</a></p>
+
+            
+
+
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/IE11/">IE11</a> <a class="tag tag--primary tag--small t-link" href="/tags/Issues/">Issues</a> <a class="tag tag--primary tag--small t-link" href="/tags/React/">React</a>
+
+            </div>
+        
+        
+            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2020/01/18/Issues-others-ngrok/"
+                    data-tooltip="Issues-others-1.ngrok"
+                    aria-label="PREVIOUS: Issues-others-1.ngrok"
+                >
+                    
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                    </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2020/01/07/Issues-css-01/"
+                    data-tooltip="Issues-CSS-1.사이드메뉴스크롤이슈"
+                    aria-label="NEXT: Issues-CSS-1.사이드메뉴스크롤이슈"
+                >
+                    
+                        <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a
+                class="post-action-btn btn btn--default btn-open-shareoptions"
+                href="#btn-open-shareoptions"
+                aria-label="Share this post"
+            >
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2020/01/17/Issues-React-01/"
+                    title="Share on Facebook"
+                    aria-label="Share on Facebook"
+                >
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2020/01/17/Issues-React-01/"
+                    title="Share on Twitter"
+                    aria-label="Share on Twitter"
+                >
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://plus.google.com/share?url=http://yoursite.com/2020/01/17/Issues-React-01/"
+                    title="Share on Google+"
+                    aria-label="Share on Google+"
+                >
+                    <i class="fab fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a
+                        class="post-action-btn btn btn--default"
+                        href="#disqus_thread"
+                        aria-label="Leave a comment"
+                    >
+                        <i class="fa fa-comment"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+        
+            
+                <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2020 hyerinOh. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2020/01/18/Issues-others-ngrok/"
+                    data-tooltip="Issues-others-1.ngrok"
+                    aria-label="PREVIOUS: Issues-others-1.ngrok"
+                >
+                    
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                    </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2020/01/07/Issues-css-01/"
+                    data-tooltip="Issues-CSS-1.사이드메뉴스크롤이슈"
+                    aria-label="NEXT: Issues-CSS-1.사이드메뉴스크롤이슈"
+                >
+                    
+                        <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a
+                class="post-action-btn btn btn--default btn-open-shareoptions"
+                href="#btn-open-shareoptions"
+                aria-label="Share this post"
+            >
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2020/01/17/Issues-React-01/"
+                    title="Share on Facebook"
+                    aria-label="Share on Facebook"
+                >
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2020/01/17/Issues-React-01/"
+                    title="Share on Twitter"
+                    aria-label="Share on Twitter"
+                >
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://plus.google.com/share?url=http://yoursite.com/2020/01/17/Issues-React-01/"
+                    title="Share on Google+"
+                    aria-label="Share on Google+"
+                >
+                    <i class="fab fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a
+                        class="post-action-btn btn btn--default"
+                        href="#disqus_thread"
+                        aria-label="Leave a comment"
+                    >
+                        <i class="fa fa-comment"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                
+    <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+        <i id="btn-close-shareoptions" class="fa fa-times"></i>
+        <ul class="share-options">
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2020/01/17/Issues-React-01/"
+                        aria-label="Share on Facebook"
+                    >
+                        <i class="fab fa-facebook" aria-hidden="true"></i><span>Share on Facebook</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://twitter.com/intent/tweet?text=http://yoursite.com/2020/01/17/Issues-React-01/"
+                        aria-label="Share on Twitter"
+                    >
+                        <i class="fab fa-twitter" aria-hidden="true"></i><span>Share on Twitter</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://plus.google.com/share?url=http://yoursite.com/2020/01/17/Issues-React-01/"
+                        aria-label="Share on Google+"
+                    >
+                        <i class="fab fa-google-plus" aria-hidden="true"></i><span>Share on Google+</span>
+                    </a>
+                </li>
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+        
+    
+        
+                                            <div id="about">
+                                                <div id="about-card">
+                                                    <div id="about-btn-close">
+                                                        <i class="fa fa-times"></i>
+                                                    </div>
+                                                    
+                                                            <h4 id="about-card-name">
+                                                                hyerinOh
+                                                            </h4>
+                                                            
+                                                                <div id="about-card-bio">
+                                                                    <p>내가 보려고 정리하는 블로그</p>
+
+                                                                </div>
+                                                                
+                                                                    
+                                                                        <div id="about-card-job">
+                                                                            <i class="fa fa-briefcase"></i>
+                                                                            <br/>
+                                                                            <p>front-end developer</p>
+
+                                                                        </div>
+                                                                        
+                                                                            
+                                                                                <div id="about-card-location">
+                                                                                    <i class="fa fa-map-marker-alt"></i>
+                                                                                    <br/>
+                                                                                    Seoul, Korea
+                                                                                </div>
+                                                                                
+                                                </div>
+                                            </div>
+        
+        
+<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+        <!--SCRIPTS-->
+<script src="/assets/js/jquery.js"></script>
+<script src="/assets/js/jquery.fancybox.js"></script>
+<script src="/assets/js/thumbs.js"></script>
+<script src="/assets/js/tranquilpeak.js"></script>
+<!--SCRIPTS END-->
+
+
+    
+        <script>
+          var disqus_config = function() {
+            this.page.url = 'http://yoursite.com/2020/01/17/Issues-React-01/';
+              
+            this.page.identifier = '2020/01/17/Issues-React-01/';
+              
+          };
+          (function() {
+            var d = document, s = d.createElement('script');
+            var disqus_shortname = 'web1-s18lyko82r';
+            s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+          })();
+        </script>
+    
+
+
+
+
+    </body>
+</html>
