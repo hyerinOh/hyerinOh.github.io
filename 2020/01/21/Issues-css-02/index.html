@@ -11,14 +11,14 @@
     
     
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"hyerinOh","sameAs":["https://github.com/hyerinOh"],"image":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7"},"articleBody":"\n\n\n\nTailwindCSS 동작 이슈\n문제 상황 !TailwindCSS의 apply가 동작하지 않는 이슈\n\n\npostcss-loader 설치 또는 npm run tailwind:css\n\n","dateCreated":"2020-01-21T16:16:31+09:00","dateModified":"2020-05-23T16:32:12+09:00","datePublished":"2020-01-21T16:16:31+09:00","description":"","headline":"Issues-CSS-2.TailwindCSS동작이슈","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"http://yoursite.com/2020/01/21/Issues-css-02/"},"publisher":{"@type":"Organization","name":"hyerinOh","sameAs":["https://github.com/hyerinOh"],"image":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7"}},"url":"http://yoursite.com/2020/01/21/Issues-css-02/","keywords":"Issues, CSS, TailwindCSS"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"hyerinOh","sameAs":["https://github.com/hyerinOh"],"image":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7"},"articleBody":"\n\n\n\nTailwindCSS 동작 이슈\n문제 상황 !TailwindCSS의 apply가 동작하지 않는 이슈\n\n\nTailwindCSS에서 @apply 지시문을 사용해서 공통 유틸리티 패턴을 CSS 구성 요소 클래스로 쉽게 추출해서 새 컴포넌트로 확장시키기 좋음\n1234567&lt;button class=\"btn btn-blue\"&gt;  Button&lt;/button&gt;&lt;button class=\"btn btn-gray\"&gt;  Button&lt;/button&gt;\n\n1234567891011121314151617.btn &#123;  @apply font-bold py-2 px-4 rounded;&#125;.btn-blue &#123;  @apply bg-blue-500 text-white;&#125;.btn-blue:hover &#123;  @apply bg-blue-700;&#125;.btn-gray &#123;  @apply bg-gray-400 text-gray-800;&#125;.btn-gray:hover &#123;  @apply bg-gray-500;&#125;\n\nTailwindCSS는 PostCSS를 이용하는 라이브러리이고 React.js는 webpack을 번들러로 사용하므로 postcss-loader를 이용해 TailwindCSS를 번들링해준다.\n\n\n\n\n\npostcss-loader를 설치하지 않으면 커스텀 스타일을 지정해 줄 때마다 npm run tailwind:css를 실행해야 한다.\n\n","dateCreated":"2020-01-21T16:16:31+09:00","dateModified":"2020-05-24T14:42:53+09:00","datePublished":"2020-01-21T16:16:31+09:00","description":"","headline":"Issues-CSS-2.TailwindCSS동작이슈","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"http://yoursite.com/2020/01/21/Issues-css-02/"},"publisher":{"@type":"Organization","name":"hyerinOh","sameAs":["https://github.com/hyerinOh"],"image":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7"}},"url":"http://yoursite.com/2020/01/21/Issues-css-02/","keywords":"Issues, CSS, TailwindCSS"}</script>
     <meta name="keywords" content="Issues,CSS,TailwindCSS">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="Issues-CSS-2.TailwindCSS동작이슈">
 <meta property="og:url" content="http://yoursite.com/2020/01/21/Issues-css-02/index.html">
 <meta property="og:site_name" content="hyerin.io">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2020-05-23T07:32:12.370Z">
+<meta property="og:updated_time" content="2020-05-24T05:42:53.701Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Issues-CSS-2.TailwindCSS동작이슈">
     
@@ -199,7 +199,18 @@
 <p>문제 상황 !<br>TailwindCSS의 <code>apply</code>가 동작하지 않는 이슈</p>
 </blockquote>
 <ul>
-<li><code>postcss-loader</code> 설치 또는 <code>npm run tailwind:css</code></li>
+<li><p>TailwindCSS에서 <code>@apply</code> 지시문을 사용해서 공통 유틸리티 패턴을 CSS 구성 요소 클래스로 쉽게 추출해서 새 컴포넌트로 확장시키기 좋음</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">class</span>=<span class="string">"btn btn-blue"</span>&gt;</span></span><br><span class="line">  Button</span><br><span class="line"><span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">class</span>=<span class="string">"btn btn-gray"</span>&gt;</span></span><br><span class="line">  Button</span><br><span class="line"><span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.btn</span> &#123;</span><br><span class="line">  @apply font-bold py-2 px-4 rounded;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.btn-blue</span> &#123;</span><br><span class="line">  @apply bg-blue-500 text-white;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.btn-blue</span><span class="selector-pseudo">:hover</span> &#123;</span><br><span class="line">  @apply bg-blue-700;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.btn-gray</span> &#123;</span><br><span class="line">  @apply bg-gray-400 text-gray-800;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.btn-gray</span><span class="selector-pseudo">:hover</span> &#123;</span><br><span class="line">  @apply bg-gray-500;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>TailwindCSS는 PostCSS를 이용하는 라이브러리이고 React.js는 webpack을 번들러로 사용하므로 <code>postcss-loader</code>를 이용해 TailwindCSS를 번들링해준다.</p>
+</li>
+</ul>
+<br>
+
+<ul>
+<li><code>postcss-loader</code>를 설치하지 않으면 커스텀 스타일을 지정해 줄 때마다 <code>npm run tailwind:css</code>를 실행해야 한다.</li>
 </ul>
 
             
