@@ -6,21 +6,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="hyerin.io">
-    <title>Issues-CSS-2.TailwindCSS동작이슈 - hyerin.io</title>
+    <title>npm - hyerin.io</title>
     <meta name="author" content="hyerinOh">
     
     
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"hyerinOh","sameAs":["https://github.com/hyerinOh"],"image":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7"},"articleBody":"\n\n\n\nTailwindCSS 동작 이슈\n문제 상황 !TailwindCSS의 apply가 동작하지 않는 이슈\n\n\nTailwindCSS에서 @apply 지시문을 사용해서 공통 유틸리티 패턴을 CSS 구성 요소 클래스로 쉽게 추출해서 새 컴포넌트로 확장시키기 좋음\n1234567&lt;button class=\"btn btn-blue\"&gt;  Button&lt;/button&gt;&lt;button class=\"btn btn-gray\"&gt;  Button&lt;/button&gt;\n\n1234567891011121314151617.btn &#123;  @apply font-bold py-2 px-4 rounded;&#125;.btn-blue &#123;  @apply bg-blue-500 text-white;&#125;.btn-blue:hover &#123;  @apply bg-blue-700;&#125;.btn-gray &#123;  @apply bg-gray-400 text-gray-800;&#125;.btn-gray:hover &#123;  @apply bg-gray-500;&#125;\n\nTailwindCSS는 PostCSS를 이용하는 라이브러리이고 React.js는 webpack을 번들러로 사용하므로 postcss-loader를 이용해 TailwindCSS를 번들링해준다.\n\n\n\n\n\npostcss-loader를 설치하지 않으면 커스텀 스타일을 지정해 줄 때마다 npm run tailwind:css를 실행해야 한다.\n\n","dateCreated":"2020-01-21T16:16:31+09:00","dateModified":"2020-05-24T14:42:53+09:00","datePublished":"2020-01-21T16:16:31+09:00","description":"","headline":"Issues-CSS-2.TailwindCSS동작이슈","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"http://yoursite.com/2020/01/21/Issues-css-02/"},"publisher":{"@type":"Organization","name":"hyerinOh","sameAs":["https://github.com/hyerinOh"],"image":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7"}},"url":"http://yoursite.com/2020/01/21/Issues-css-02/","keywords":"Issues, TailwindCSS, CSS"}</script>
-    <meta name="keywords" content="Issues,TailwindCSS,CSS">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"hyerinOh","sameAs":["https://github.com/hyerinOh"],"image":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7"},"articleBody":"\n\n\n\n\n참고 \nhttps://docs.npmjs.com/about-npm/\nhttps://developer-kelvin.tistory.com/6\nhttps://medium.com/javascript-in-plain-english/yes-its-npx-not-npm-the-difference-explained-58cbb202ec33\n\n\n\n\n\n패키지 매니저 - npmnpm : Node Package Manager\nnpm install이랑 npm install –save의 차이점이 무엇인지 문득 궁금해졌다\n\n\nNode.js의 의존성과 패키지 관리를 위한 패키지 매니저\n\nnpm을 사용해서- 앱용 코드 패키지를 조화시키거나 패키지를 그대로 통합해서 사용할 수 있다.\n\n- 즉시 사용할 수 있는 독립형 도구를 다운로드 할 수 있다.\n\n- npx를 사용해서 다운로드 없이 패키지를 실행할 수 있다.\nNode.js 프로젝트의 의존성을 관리하기 위해 package.json 파일을 프로젝트 폴더 안에 생성\n\nnpm install로 모듈을 의존성에 추가할 수 있다. \n\n\nnpm install과 npm install --save의 차이\nnpm5부터 --save옵션이 기본적으로 설정되어 있기 때문에 작성하지 않아도 모듈 설치할 때 package.json의 dependency 항목에 추가된다.\n\nnpm install --save와 npm install --save-dev의 차이\n--save는 production 빌드시에 모듈이 포함된다. 제품 출시나 구동시 꼭 필요한 모듈일 경우\n--save-dev는 production 빌드시에 모듈이 포함되지 않는다. 제품 개발시 테스트를 위해 필요한 모듈\n\n\nnpx\nnpx는 노트 패키지들을 실행시키는 도구다\n기본적으로, npx 는 실행되어야 하는 패키지가 경로에 있는지 먼저 체크한다.\n만약 있으면 패키지를 실행한다.\n없으면 패키지가 설치되어있지 않은 것이므로 npx가 그 패키지의 최신 버전을 설치해서 실행한다.\n\n\n\n","dateCreated":"2020-05-30T13:42:44+09:00","dateModified":"2020-05-30T15:01:55+09:00","datePublished":"2020-05-30T13:42:44+09:00","description":"","headline":"npm","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"http://yoursite.com/2020/05/30/package-manager-npm/"},"publisher":{"@type":"Organization","name":"hyerinOh","sameAs":["https://github.com/hyerinOh"],"image":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7"}},"url":"http://yoursite.com/2020/05/30/package-manager-npm/","keywords":"package-manager, npm"}</script>
+    <meta name="keywords" content="package-manager,npm">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="Issues-CSS-2.TailwindCSS동작이슈">
-<meta property="og:url" content="http://yoursite.com/2020/01/21/Issues-css-02/index.html">
+<meta property="og:title" content="npm">
+<meta property="og:url" content="http://yoursite.com/2020/05/30/package-manager-npm/index.html">
 <meta property="og:site_name" content="hyerin.io">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2020-05-24T05:42:53.701Z">
+<meta property="og:updated_time" content="2020-05-30T06:01:55.764Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Issues-CSS-2.TailwindCSS동작이슈">
+<meta name="twitter:title" content="npm">
     
     
         
@@ -166,20 +166,20 @@
         <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title">
-            Issues-CSS-2.TailwindCSS동작이슈
+            npm
         </h1>
     
     
         <div class="post-meta">
-    <time datetime="2020-01-21T16:16:31+09:00">
+    <time datetime="2020-05-30T13:42:44+09:00">
 	
-		    Jan 21, 2020
+		    May 30, 2020
     	
     </time>
     
         <span>in </span>
         
-    <a class="category-link" href="/categories/Issues/">Issues</a>, <a class="category-link" href="/categories/Issues/CSS/">CSS</a>
+    <a class="category-link" href="/categories/Dev/">Dev</a>, <a class="category-link" href="/categories/Dev/package-manager/">package-manager</a>, <a class="category-link" href="/categories/Dev/package-manager/npm/">npm</a>
 
 
     
@@ -195,22 +195,47 @@
 
 <a id="more"></a>
 
-<h2 id="TailwindCSS-동작-이슈"><a href="#TailwindCSS-동작-이슈" class="headerlink" title="TailwindCSS 동작 이슈"></a>TailwindCSS 동작 이슈</h2><blockquote>
-<p>문제 상황 !<br>TailwindCSS의 <code>apply</code>가 동작하지 않는 이슈</p>
-</blockquote>
 <ul>
-<li><p>TailwindCSS에서 <code>@apply</code> 지시문을 사용해서 공통 유틸리티 패턴을 CSS 구성 요소 클래스로 쉽게 추출해서 새 컴포넌트로 확장시키기 좋음</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">class</span>=<span class="string">"btn btn-blue"</span>&gt;</span></span><br><span class="line">  Button</span><br><span class="line"><span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">class</span>=<span class="string">"btn btn-gray"</span>&gt;</span></span><br><span class="line">  Button</span><br><span class="line"><span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.btn</span> &#123;</span><br><span class="line">  @apply font-bold py-2 px-4 rounded;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.btn-blue</span> &#123;</span><br><span class="line">  @apply bg-blue-500 text-white;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.btn-blue</span><span class="selector-pseudo">:hover</span> &#123;</span><br><span class="line">  @apply bg-blue-700;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.btn-gray</span> &#123;</span><br><span class="line">  @apply bg-gray-400 text-gray-800;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.btn-gray</span><span class="selector-pseudo">:hover</span> &#123;</span><br><span class="line">  @apply bg-gray-500;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>TailwindCSS는 PostCSS를 이용하는 라이브러리이고 React.js는 webpack을 번들러로 사용하므로 <code>postcss-loader</code>를 이용해 TailwindCSS를 번들링해준다.</p>
+<li>참고 <ul>
+<li><a href="https://docs.npmjs.com/about-npm/" target="_blank" rel="noopener">https://docs.npmjs.com/about-npm/</a></li>
+<li><a href="https://developer-kelvin.tistory.com/6" target="_blank" rel="noopener">https://developer-kelvin.tistory.com/6</a></li>
+<li><a href="https://medium.com/javascript-in-plain-english/yes-its-npx-not-npm-the-difference-explained-58cbb202ec33" target="_blank" rel="noopener">https://medium.com/javascript-in-plain-english/yes-its-npx-not-npm-the-difference-explained-58cbb202ec33</a></li>
+</ul>
 </li>
 </ul>
 <br>
 
+<h2 id="패키지-매니저-npm"><a href="#패키지-매니저-npm" class="headerlink" title="패키지 매니저 - npm"></a>패키지 매니저 - npm</h2><h3 id="npm-Node-Package-Manager"><a href="#npm-Node-Package-Manager" class="headerlink" title="npm : Node Package Manager"></a>npm : Node Package Manager</h3><blockquote>
+<p>npm install이랑 npm install –save의 차이점이 무엇인지 문득 궁금해졌다</p>
+</blockquote>
 <ul>
-<li><code>postcss-loader</code>를 설치하지 않으면 커스텀 스타일을 지정해 줄 때마다 <code>npm run tailwind:css</code>를 실행해야 한다.</li>
+<li>Node.js의 의존성과 패키지 관리를 위한 패키지 매니저</li>
+</ul>
+<h3 id="npm을-사용해서"><a href="#npm을-사용해서" class="headerlink" title="npm을 사용해서"></a>npm을 사용해서</h3><pre><code>- 앱용 코드 패키지를 조화시키거나 패키지를 그대로 통합해서 사용할 수 있다.
+
+- 즉시 사용할 수 있는 독립형 도구를 다운로드 할 수 있다.
+
+- npx를 사용해서 다운로드 없이 패키지를 실행할 수 있다.</code></pre><ul>
+<li><p>Node.js 프로젝트의 의존성을 관리하기 위해 package.json 파일을 프로젝트 폴더 안에 생성</p>
+</li>
+<li><p><code>npm install</code>로 모듈을 의존성에 추가할 수 있다. </p>
+</li>
+</ul>
+<h3 id="npm-install과-npm-install-save의-차이"><a href="#npm-install과-npm-install-save의-차이" class="headerlink" title="npm install과 npm install --save의 차이"></a><code>npm install</code>과 <code>npm install --save</code>의 차이</h3><ul>
+<li><code>npm5</code>부터 <code>--save</code>옵션이 기본적으로 설정되어 있기 때문에 작성하지 않아도 모듈 설치할 때 package.json의 dependency 항목에 추가된다.</li>
+</ul>
+<h3 id="npm-install-save와-npm-install-save-dev의-차이"><a href="#npm-install-save와-npm-install-save-dev의-차이" class="headerlink" title="npm install --save와 npm install --save-dev의 차이"></a><code>npm install --save</code>와 <code>npm install --save-dev</code>의 차이</h3><ul>
+<li><code>--save</code>는 production 빌드시에 모듈이 <strong>포함된다</strong>. 제품 출시나 구동시 꼭 필요한 모듈일 경우</li>
+<li><code>--save-dev</code>는 production 빌드시에 모듈이 <strong>포함되지 않는다</strong>. 제품 개발시 테스트를 위해 필요한 모듈</li>
+</ul>
+<ul>
+<li><strong><em>npx</em></strong><ul>
+<li><code>npx</code>는 노트 패키지들을 실행시키는 도구다</li>
+<li>기본적으로, <code>npx</code> 는 실행되어야 하는 패키지가 경로에 있는지 먼저 체크한다.</li>
+<li>만약 있으면 패키지를 실행한다.</li>
+<li>없으면 패키지가 설치되어있지 않은 것이므로 <code>npx</code>가 그 패키지의 최신 버전을 설치해서 실행한다.</li>
+</ul>
+</li>
 </ul>
 
             
@@ -223,7 +248,7 @@
             <div class="post-footer-tags">
                 <span class="text-color-light text-small">TAGGED IN</span><br/>
                 
-    <a class="tag tag--primary tag--small t-link" href="/tags/CSS/">CSS</a> <a class="tag tag--primary tag--small t-link" href="/tags/Issues/">Issues</a> <a class="tag tag--primary tag--small t-link" href="/tags/TailwindCSS/">TailwindCSS</a>
+    <a class="tag tag--primary tag--small t-link" href="/tags/npm/">npm</a> <a class="tag tag--primary tag--small t-link" href="/tags/package-manager/">package-manager</a>
 
             </div>
         
@@ -233,14 +258,11 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                <a
-                    class="post-action-btn btn btn--default tooltip--top"
-                    href="/2020/02/16/Issues-TypeScript-02/"
-                    data-tooltip="Issues-TypeScript-2.omittable_props"
-                    aria-label="PREVIOUS: Issues-TypeScript-2.omittable_props"
-                >
-                    
+                    <a
+                        class="post-action-btn btn btn--disabled"
+                        aria-hidden="true"
+                    >
+                        
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
                         <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
                     </a>
@@ -250,9 +272,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2020/01/18/Issues-React-02/"
-                    data-tooltip="Issues-React-2.타입스크립트를_지원하는_CRA"
-                    aria-label="NEXT: Issues-React-2.타입스크립트를_지원하는_CRA"
+                    href="/2020/04/23/Issues-React-04/"
+                    data-tooltip="Issues-React-4.useEffect()"
+                    aria-label="NEXT: Issues-React-4.useEffect()"
                 >
                     
                         <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
@@ -277,7 +299,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2020/01/21/Issues-css-02/"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2020/05/30/package-manager-npm/"
                     title="Share on Facebook"
                     aria-label="Share on Facebook"
                 >
@@ -290,7 +312,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2020/01/21/Issues-css-02/"
+                    target="new" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2020/05/30/package-manager-npm/"
                     title="Share on Twitter"
                     aria-label="Share on Twitter"
                 >
@@ -303,7 +325,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=http://yoursite.com/2020/01/21/Issues-css-02/"
+                    target="new" href="https://plus.google.com/share?url=http://yoursite.com/2020/05/30/package-manager-npm/"
                     title="Share on Google+"
                     aria-label="Share on Google+"
                 >
@@ -362,14 +384,11 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                <a
-                    class="post-action-btn btn btn--default tooltip--top"
-                    href="/2020/02/16/Issues-TypeScript-02/"
-                    data-tooltip="Issues-TypeScript-2.omittable_props"
-                    aria-label="PREVIOUS: Issues-TypeScript-2.omittable_props"
-                >
-                    
+                    <a
+                        class="post-action-btn btn btn--disabled"
+                        aria-hidden="true"
+                    >
+                        
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
                         <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
                     </a>
@@ -379,9 +398,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2020/01/18/Issues-React-02/"
-                    data-tooltip="Issues-React-2.타입스크립트를_지원하는_CRA"
-                    aria-label="NEXT: Issues-React-2.타입스크립트를_지원하는_CRA"
+                    href="/2020/04/23/Issues-React-04/"
+                    data-tooltip="Issues-React-4.useEffect()"
+                    aria-label="NEXT: Issues-React-4.useEffect()"
                 >
                     
                         <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
@@ -406,7 +425,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2020/01/21/Issues-css-02/"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2020/05/30/package-manager-npm/"
                     title="Share on Facebook"
                     aria-label="Share on Facebook"
                 >
@@ -419,7 +438,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2020/01/21/Issues-css-02/"
+                    target="new" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2020/05/30/package-manager-npm/"
                     title="Share on Twitter"
                     aria-label="Share on Twitter"
                 >
@@ -432,7 +451,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=http://yoursite.com/2020/01/21/Issues-css-02/"
+                    target="new" href="https://plus.google.com/share?url=http://yoursite.com/2020/05/30/package-manager-npm/"
                     title="Share on Google+"
                     aria-label="Share on Google+"
                 >
@@ -476,7 +495,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2020/01/21/Issues-css-02/"
+                        href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2020/05/30/package-manager-npm/"
                         aria-label="Share on Facebook"
                     >
                         <i class="fab fa-facebook" aria-hidden="true"></i><span>Share on Facebook</span>
@@ -489,7 +508,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://twitter.com/intent/tweet?text=http://yoursite.com/2020/01/21/Issues-css-02/"
+                        href="https://twitter.com/intent/tweet?text=http://yoursite.com/2020/05/30/package-manager-npm/"
                         aria-label="Share on Twitter"
                     >
                         <i class="fab fa-twitter" aria-hidden="true"></i><span>Share on Twitter</span>
@@ -502,7 +521,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://plus.google.com/share?url=http://yoursite.com/2020/01/21/Issues-css-02/"
+                        href="https://plus.google.com/share?url=http://yoursite.com/2020/05/30/package-manager-npm/"
                         aria-label="Share on Google+"
                     >
                         <i class="fab fa-google-plus" aria-hidden="true"></i><span>Share on Google+</span>
@@ -564,9 +583,9 @@
     
         <script>
           var disqus_config = function() {
-            this.page.url = 'http://yoursite.com/2020/01/21/Issues-css-02/';
+            this.page.url = 'http://yoursite.com/2020/05/30/package-manager-npm/';
               
-            this.page.identifier = '2020/01/21/Issues-css-02/';
+            this.page.identifier = '2020/05/30/package-manager-npm/';
               
           };
           (function() {
