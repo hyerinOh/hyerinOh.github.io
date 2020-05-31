@@ -6,21 +6,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="hyerin.io">
-    <title>npm - hyerin.io</title>
+    <title>ws와 wss - hyerin.io</title>
     <meta name="author" content="hyerinOh">
     
     
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"hyerinOh","sameAs":["https://github.com/hyerinOh"],"image":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7"},"articleBody":"\n\n\n\n\n참고 \nhttps://docs.npmjs.com/about-npm/\nhttps://developer-kelvin.tistory.com/6\nhttps://medium.com/javascript-in-plain-english/yes-its-npx-not-npm-the-difference-explained-58cbb202ec33\n\n\n\n\n\n패키지 매니저 - npmnpm : Node Package Manager\nnpm install이랑 npm install –save의 차이점이 무엇인지 문득 궁금해졌다\n\n\nNode.js의 의존성과 패키지 관리를 위한 패키지 매니저\n\nnpm을 사용해서- 앱용 코드 패키지를 조화시키거나 패키지를 그대로 통합해서 사용할 수 있다.\n\n- 즉시 사용할 수 있는 독립형 도구를 다운로드 할 수 있다.\n\n- npx를 사용해서 다운로드 없이 패키지를 실행할 수 있다.\nNode.js 프로젝트의 의존성을 관리하기 위해 package.json 파일을 프로젝트 폴더 안에 생성\n\nnpm install로 모듈을 의존성에 추가할 수 있다. \n\n\nnpm install과 npm install --save의 차이\nnpm5부터 --save옵션이 기본적으로 설정되어 있기 때문에 작성하지 않아도 모듈 설치할 때 package.json의 dependency 항목에 추가된다.\n\nnpm install --save와 npm install --save-dev의 차이\n--save는 production 빌드시에 모듈이 포함된다. 제품 출시나 구동시 꼭 필요한 모듈일 경우\n--save-dev는 production 빌드시에 모듈이 포함되지 않는다. 제품 개발시 테스트를 위해 필요한 모듈\n\n\nnpx\nnpx는 노트 패키지들을 실행시키는 도구다\n기본적으로, npx 는 실행되어야 하는 패키지가 경로에 있는지 먼저 체크한다.\n만약 있으면 패키지를 실행한다.\n없으면 패키지가 설치되어있지 않은 것이므로 npx가 그 패키지의 최신 버전을 설치해서 실행한다.\n\n\n\n","dateCreated":"2020-05-30T13:42:44+09:00","dateModified":"2020-05-30T15:01:55+09:00","datePublished":"2020-05-30T13:42:44+09:00","description":"","headline":"npm","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"http://yoursite.com/2020/05/30/package-manager-npm/"},"publisher":{"@type":"Organization","name":"hyerinOh","sameAs":["https://github.com/hyerinOh"],"image":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7"}},"url":"http://yoursite.com/2020/05/30/package-manager-npm/","keywords":"package-manager, npm"}</script>
-    <meta name="keywords" content="package-manager,npm">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"hyerinOh","sameAs":["https://github.com/hyerinOh"],"image":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7"},"articleBody":"\n\n\n\nHTTP 프로토콜에서 ws와 wss\n참고 : https://medium.com/@icehongssii/%EA%B9%9C%EC%B0%8D%ED%95%9C-%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%A8%B8%EB%93%A4%EC%9D%84-%EC%9C%84%ED%95%9C-%EA%B0%84%EB%8B%A8%ED%95%9C-%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D-%EC%83%81%EC%8B%9D-2-2-http%EB%A5%BC-%EB%84%98%EC%96%B4%EC%84%9C-%EC%8B%A4%EC%8B%9C%EA%B0%84-%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%82%B9websocket-c49125e1b5a0\n\nHTTP (Hyper Text Transfer Protocol) / HTTPS (Hyper Text Transfer Protocol Secure) (+ SSL/TLS (client와 server 통신을 공인된 제 3자 업체(CA)가 보증해주는 전자화된 문서))\n\nHTTP (인터넷에서 서버와 클라이언트가 데이터를 주고 받을 때 사용하는 약속)\n–&gt; connectionless : response 받으면 연결을 끊어버림\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;–SO–&gt; stateless : client의 상태를 알 수 없다.\n–WHY–&gt; 리스소 낭비 줄이려고\n–BUT–&gt; 실시간 상호 작용성이 떨어짐\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;–SO–&gt; WebSocket : full-duplex(이중 통신 : 송신과 수신을 동시에 처리할 수 있는 통신 방식)을 지원하는 통신 규약\n\nHTTP 기반으로 HTTP의 문제점을 해결하는 것을 목표로 나온 기술\nHTML5에 포함돼 프로토콜로 제정되어 있다.\n\n\n\nclient와 server 연결 유지 –SO–&gt; client의 상태를 알 수 있음\n양방향 데이터 통신 가능\n\n\n\n기존의 TCP socket과 WebSocket의 다른 점\n최초 접속이 일반 http요청을 이용한 handshaking으로 이루어짐 : 최초 접속에서만 http 프로토콜 위에서 handshaking을 하기 때문에 최초 접속 때만 헤더 정보를 보냄\n\n  –SO–&gt; 네트워크 비용측면에서 이득\n바이트 스트리밍이 아닌 UTF-8 포멧 형태\n\n\n\n작동원리\nserver와 client 간의 websocket 연결은 HTTP 프로토콜을 통해 이루어짐\nhandshake 과정이 성공적으로 끝나면 HTTP를 webSocket 프로토콜로 바꾸는 protocol switching 과정이 진행된다.\nwebSocket을 위한 새로운 소켓이 만들어지고 이 소켓을 이용해 통신한다. =&gt; ws / wss\nws : 일반 webSocket\nwss : SSL이 적용된 webSocket(HTTPS)\n\n\n\n\nWebSocket 이전에 비슷하게 따라하던 것들\n\nPolling : client가 http request를 server로 계속 날려 event 내용을 전달 받음\n\n  –BUT–&gt; client가 계속 요청을 날리기 때문에 client가 많아지면 server의 부담이 커진다.\n\nLong Polling : client가 server로 일단 http request 날리면 event(혹은 data)가 일어날 때까지 기다림 -&gt; 이벤트가 발생하면 응답을 보내고 연결을 끊음 -&gt; 곧바로 client가 다시 server로 http request 요청 날려서 서버의 다음 이벤트를 기다림\n\n  –BUT–&gt; server에서 event가 자주 생겨서 client의 요청 시간이 짧아진다면  Polling과 다를게 없음\n\nStreaming : client가 server로 요청을 보내면 끊기지 않은 연결 상태에서 끊임없이 data를 받음. Long Polling처럼 하나의 HTTP 연결에서 데이터를 보내는 방식.\n\n  –BUT–&gt; server에서 client로 메세지를 보낼 수 있으나, client에서 server로 메세지를 보내기 힘들다.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; –WHY–&gt; 하나의 TCP포트로 읽기, 쓰기를 동시에 할 수 없다.\n  Long polling/ Streaming =&gt; HTTP Comet (HTTP에서 data를 push하기 위한 기술)\n\n\n","dateCreated":"2020-05-30T21:11:31+09:00","dateModified":"2020-05-31T14:53:57+09:00","datePublished":"2020-05-30T21:11:31+09:00","description":"","headline":"ws와 wss","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"http://yoursite.com/2020/05/30/ws-wss/"},"publisher":{"@type":"Organization","name":"hyerinOh","sameAs":["https://github.com/hyerinOh"],"image":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7"}},"url":"http://yoursite.com/2020/05/30/ws-wss/","keywords":"network, http, websocket"}</script>
+    <meta name="keywords" content="network,http,websocket">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="npm">
-<meta property="og:url" content="http://yoursite.com/2020/05/30/package-manager-npm/index.html">
+<meta property="og:title" content="ws와 wss">
+<meta property="og:url" content="http://yoursite.com/2020/05/30/ws-wss/index.html">
 <meta property="og:site_name" content="hyerin.io">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2020-05-30T06:01:55.764Z">
+<meta property="og:updated_time" content="2020-05-31T05:53:57.281Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="npm">
+<meta name="twitter:title" content="ws와 wss">
     
     
         
@@ -166,12 +166,12 @@
         <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title">
-            npm
+            ws와 wss
         </h1>
     
     
         <div class="post-meta">
-    <time datetime="2020-05-30T13:42:44+09:00">
+    <time datetime="2020-05-30T21:11:31+09:00">
 	
 		    May 30, 2020
     	
@@ -179,7 +179,7 @@
     
         <span>in </span>
         
-    <a class="category-link" href="/categories/Dev/">Dev</a>, <a class="category-link" href="/categories/Dev/package-manager/">package-manager</a>, <a class="category-link" href="/categories/Dev/package-manager/npm/">npm</a>
+    <a class="category-link" href="/categories/Dev/">Dev</a>, <a class="category-link" href="/categories/Dev/Network/">Network</a>
 
 
     
@@ -195,46 +195,60 @@
 
 <a id="more"></a>
 
-<ul>
-<li>참고 <ul>
-<li><a href="https://docs.npmjs.com/about-npm/" target="_blank" rel="noopener">https://docs.npmjs.com/about-npm/</a></li>
-<li><a href="https://developer-kelvin.tistory.com/6" target="_blank" rel="noopener">https://developer-kelvin.tistory.com/6</a></li>
-<li><a href="https://medium.com/javascript-in-plain-english/yes-its-npx-not-npm-the-difference-explained-58cbb202ec33" target="_blank" rel="noopener">https://medium.com/javascript-in-plain-english/yes-its-npx-not-npm-the-difference-explained-58cbb202ec33</a></li>
+<h2 id="HTTP-프로토콜에서-ws와-wss"><a href="#HTTP-프로토콜에서-ws와-wss" class="headerlink" title="HTTP 프로토콜에서 ws와 wss"></a>HTTP 프로토콜에서 ws와 wss</h2><ul>
+<li>참고 : <a href="https://medium.com/@icehongssii/%EA%B9%9C%EC%B0%8D%ED%95%9C-%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%A8%B8%EB%93%A4%EC%9D%84-%EC%9C%84%ED%95%9C-%EA%B0%84%EB%8B%A8%ED%95%9C-%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D-%EC%83%81%EC%8B%9D-2-2-http%EB%A5%BC-%EB%84%98%EC%96%B4%EC%84%9C-%EC%8B%A4%EC%8B%9C%EA%B0%84-%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%82%B9websocket-c49125e1b5a0" target="_blank" rel="noopener">https://medium.com/@icehongssii/%EA%B9%9C%EC%B0%8D%ED%95%9C-%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%A8%B8%EB%93%A4%EC%9D%84-%EC%9C%84%ED%95%9C-%EA%B0%84%EB%8B%A8%ED%95%9C-%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D-%EC%83%81%EC%8B%9D-2-2-http%EB%A5%BC-%EB%84%98%EC%96%B4%EC%84%9C-%EC%8B%A4%EC%8B%9C%EA%B0%84-%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%82%B9websocket-c49125e1b5a0</a></li>
 </ul>
+<h3 id="HTTP-Hyper-Text-Transfer-Protocol-HTTPS-Hyper-Text-Transfer-Protocol-Secure-SSL-TLS-client와-server-통신을-공인된-제-3자-업체-CA-가-보증해주는-전자화된-문서"><a href="#HTTP-Hyper-Text-Transfer-Protocol-HTTPS-Hyper-Text-Transfer-Protocol-Secure-SSL-TLS-client와-server-통신을-공인된-제-3자-업체-CA-가-보증해주는-전자화된-문서" class="headerlink" title="HTTP (Hyper Text Transfer Protocol) / HTTPS (Hyper Text Transfer Protocol Secure) (+ SSL/TLS (client와 server 통신을 공인된 제 3자 업체(CA)가 보증해주는 전자화된 문서))"></a><strong>HTTP</strong> (Hyper Text Transfer Protocol) / <strong>HTTPS</strong> (Hyper Text Transfer Protocol Secure) (+ SSL/TLS (client와 server 통신을 공인된 제 3자 업체(CA)가 보증해주는 전자화된 문서))</h3><br>
+
+<p><strong>HTTP</strong> (인터넷에서 서버와 클라이언트가 데이터를 주고 받을 때 사용하는 약속)</p>
+<p>–&gt; <code>connectionless</code> : response 받으면 연결을 끊어버림</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>–SO–&gt;</strong> <code>stateless</code> : client의 상태를 알 수 없다.</p>
+<p><strong>–WHY–&gt;</strong> 리스소 낭비 줄이려고</p>
+<p><strong>–BUT–&gt;</strong> 실시간 상호 작용성이 떨어짐</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;–SO–&gt; <strong>WebSocket</strong> : full-duplex(이중 통신 : 송신과 수신을 동시에 처리할 수 있는 통신 방식)을 지원하는 통신 규약</p>
+<ul>
+<li>HTTP 기반으로 HTTP의 문제점을 해결하는 것을 목표로 나온 기술</li>
+<li>HTML5에 포함돼 프로토콜로 제정되어 있다.</li>
+</ul>
+<blockquote>
+<ol>
+<li>client와 server 연결 유지 <strong>–SO–&gt;</strong> client의 상태를 알 수 있음</li>
+<li>양방향 데이터 통신 가능</li>
+</ol>
+</blockquote>
+<ul>
+<li>기존의 TCP socket과 WebSocket의 다른 점<ol>
+<li>최초 접속이 일반 http요청을 이용한 handshaking으로 이루어짐 : 최초 접속에서만 http 프로토콜 위에서 handshaking을 하기 때문에 최초 접속 때만 헤더 정보를 보냄<br></li>
+</ol>
+  –<strong>SO</strong>–&gt; 네트워크 비용측면에서 이득<ol start="2">
+<li>바이트 스트리밍이 아닌 UTF-8 포멧 형태</li>
+</ol>
 </li>
+</ul>
+<h3 id="작동원리"><a href="#작동원리" class="headerlink" title="작동원리"></a>작동원리</h3><ul>
+<li>server와 client 간의 websocket 연결은 HTTP 프로토콜을 통해 이루어짐</li>
+<li>handshake 과정이 성공적으로 끝나면 HTTP를 webSocket 프로토콜로 바꾸는 protocol switching 과정이 진행된다.</li>
+<li>webSocket을 위한 <em>새로운 소켓</em>이 만들어지고 이 소켓을 이용해 통신한다. =&gt; <strong>ws / wss</strong></li>
+<li><strong>ws</strong> : 일반 webSocket</li>
+<li><strong>wss</strong> : SSL이 적용된 webSocket(HTTPS)</li>
 </ul>
 <br>
 
-<h2 id="패키지-매니저-npm"><a href="#패키지-매니저-npm" class="headerlink" title="패키지 매니저 - npm"></a>패키지 매니저 - npm</h2><h3 id="npm-Node-Package-Manager"><a href="#npm-Node-Package-Manager" class="headerlink" title="npm : Node Package Manager"></a>npm : Node Package Manager</h3><blockquote>
-<p>npm install이랑 npm install –save의 차이점이 무엇인지 문득 궁금해졌다</p>
-</blockquote>
 <ul>
-<li>Node.js의 의존성과 패키지 관리를 위한 패키지 매니저</li>
-</ul>
-<h3 id="npm을-사용해서"><a href="#npm을-사용해서" class="headerlink" title="npm을 사용해서"></a>npm을 사용해서</h3><pre><code>- 앱용 코드 패키지를 조화시키거나 패키지를 그대로 통합해서 사용할 수 있다.
-
-- 즉시 사용할 수 있는 독립형 도구를 다운로드 할 수 있다.
-
-- npx를 사용해서 다운로드 없이 패키지를 실행할 수 있다.</code></pre><ul>
-<li><p>Node.js 프로젝트의 의존성을 관리하기 위해 package.json 파일을 프로젝트 폴더 안에 생성</p>
-</li>
-<li><p><code>npm install</code>로 모듈을 의존성에 추가할 수 있다. </p>
-</li>
-</ul>
-<h3 id="npm-install과-npm-install-save의-차이"><a href="#npm-install과-npm-install-save의-차이" class="headerlink" title="npm install과 npm install --save의 차이"></a><code>npm install</code>과 <code>npm install --save</code>의 차이</h3><ul>
-<li><code>npm5</code>부터 <code>--save</code>옵션이 기본적으로 설정되어 있기 때문에 작성하지 않아도 모듈 설치할 때 package.json의 dependency 항목에 추가된다.</li>
-</ul>
-<h3 id="npm-install-save와-npm-install-save-dev의-차이"><a href="#npm-install-save와-npm-install-save-dev의-차이" class="headerlink" title="npm install --save와 npm install --save-dev의 차이"></a><code>npm install --save</code>와 <code>npm install --save-dev</code>의 차이</h3><ul>
-<li><code>--save</code>는 production 빌드시에 모듈이 <strong>포함된다</strong>. 제품 출시나 구동시 꼭 필요한 모듈일 경우</li>
-<li><code>--save-dev</code>는 production 빌드시에 모듈이 <strong>포함되지 않는다</strong>. 제품 개발시 테스트를 위해 필요한 모듈</li>
-</ul>
-<ul>
-<li><strong><em>npx</em></strong><ul>
-<li><code>npx</code>는 노트 패키지들을 실행시키는 도구다</li>
-<li>기본적으로, <code>npx</code> 는 실행되어야 하는 패키지가 경로에 있는지 먼저 체크한다.</li>
-<li>만약 있으면 패키지를 실행한다.</li>
-<li>없으면 패키지가 설치되어있지 않은 것이므로 <code>npx</code>가 그 패키지의 최신 버전을 설치해서 실행한다.</li>
-</ul>
+<li><p>WebSocket 이전에 비슷하게 따라하던 것들</p>
+<ol>
+<li><code>Polling</code> : client가 http request를 server로 계속 날려 event 내용을 전달 받음</li>
+</ol>
+<p>  <strong>–BUT–&gt;</strong> client가 계속 요청을 날리기 때문에 client가 많아지면 server의 부담이 커진다.</p>
+<ol start="2">
+<li><code>Long Polling</code> : client가 server로 일단 http request 날리면 event(혹은 data)가 일어날 때까지 기다림 -&gt; 이벤트가 발생하면 응답을 보내고 연결을 끊음 -&gt; 곧바로 client가 다시 server로 http request 요청 날려서 서버의 다음 이벤트를 기다림</li>
+</ol>
+<p>  <strong>–BUT–&gt;</strong> server에서 event가 자주 생겨서 client의 요청 시간이 짧아진다면  Polling과 다를게 없음</p>
+<ol start="3">
+<li><code>Streaming</code> : client가 server로 요청을 보내면 끊기지 않은 연결 상태에서 끊임없이 data를 받음. <code>Long Polling</code>처럼 하나의 HTTP 연결에서 데이터를 보내는 방식.</li>
+</ol>
+<p>  <strong>–BUT–&gt;</strong> server에서 client로 메세지를 보낼 수 있으나, client에서 server로 메세지를 보내기 힘들다.<br>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>–WHY–&gt;</strong> 하나의 TCP포트로 읽기, 쓰기를 동시에 할 수 없다.</p>
+<p>  <em>Long polling/ Streaming</em> =&gt; HTTP Comet (HTTP에서 data를 push하기 위한 기술)</p>
 </li>
 </ul>
 
@@ -248,7 +262,7 @@
             <div class="post-footer-tags">
                 <span class="text-color-light text-small">TAGGED IN</span><br/>
                 
-    <a class="tag tag--primary tag--small t-link" href="/tags/npm/">npm</a> <a class="tag tag--primary tag--small t-link" href="/tags/package-manager/">package-manager</a>
+    <a class="tag tag--primary tag--small t-link" href="/tags/http/">http</a> <a class="tag tag--primary tag--small t-link" href="/tags/network/">network</a> <a class="tag tag--primary tag--small t-link" href="/tags/websocket/">websocket</a>
 
             </div>
         
@@ -258,14 +272,11 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                <a
-                    class="post-action-btn btn btn--default tooltip--top"
-                    href="/2020/05/30/ws-wss/"
-                    data-tooltip="ws와 wss"
-                    aria-label="PREVIOUS: ws와 wss"
-                >
-                    
+                    <a
+                        class="post-action-btn btn btn--disabled"
+                        aria-hidden="true"
+                    >
+                        
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
                         <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
                     </a>
@@ -275,9 +286,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2020/04/23/Issues-React-04/"
-                    data-tooltip="Issues-React-4.useEffect()"
-                    aria-label="NEXT: Issues-React-4.useEffect()"
+                    href="/2020/05/30/package-manager-npm/"
+                    data-tooltip="npm"
+                    aria-label="NEXT: npm"
                 >
                     
                         <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
@@ -302,7 +313,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2020/05/30/package-manager-npm/"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2020/05/30/ws-wss/"
                     title="Share on Facebook"
                     aria-label="Share on Facebook"
                 >
@@ -315,7 +326,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2020/05/30/package-manager-npm/"
+                    target="new" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2020/05/30/ws-wss/"
                     title="Share on Twitter"
                     aria-label="Share on Twitter"
                 >
@@ -328,7 +339,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=http://yoursite.com/2020/05/30/package-manager-npm/"
+                    target="new" href="https://plus.google.com/share?url=http://yoursite.com/2020/05/30/ws-wss/"
                     title="Share on Google+"
                     aria-label="Share on Google+"
                 >
@@ -387,14 +398,11 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                <a
-                    class="post-action-btn btn btn--default tooltip--top"
-                    href="/2020/05/30/ws-wss/"
-                    data-tooltip="ws와 wss"
-                    aria-label="PREVIOUS: ws와 wss"
-                >
-                    
+                    <a
+                        class="post-action-btn btn btn--disabled"
+                        aria-hidden="true"
+                    >
+                        
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
                         <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
                     </a>
@@ -404,9 +412,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2020/04/23/Issues-React-04/"
-                    data-tooltip="Issues-React-4.useEffect()"
-                    aria-label="NEXT: Issues-React-4.useEffect()"
+                    href="/2020/05/30/package-manager-npm/"
+                    data-tooltip="npm"
+                    aria-label="NEXT: npm"
                 >
                     
                         <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
@@ -431,7 +439,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2020/05/30/package-manager-npm/"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2020/05/30/ws-wss/"
                     title="Share on Facebook"
                     aria-label="Share on Facebook"
                 >
@@ -444,7 +452,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2020/05/30/package-manager-npm/"
+                    target="new" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2020/05/30/ws-wss/"
                     title="Share on Twitter"
                     aria-label="Share on Twitter"
                 >
@@ -457,7 +465,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=http://yoursite.com/2020/05/30/package-manager-npm/"
+                    target="new" href="https://plus.google.com/share?url=http://yoursite.com/2020/05/30/ws-wss/"
                     title="Share on Google+"
                     aria-label="Share on Google+"
                 >
@@ -501,7 +509,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2020/05/30/package-manager-npm/"
+                        href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2020/05/30/ws-wss/"
                         aria-label="Share on Facebook"
                     >
                         <i class="fab fa-facebook" aria-hidden="true"></i><span>Share on Facebook</span>
@@ -514,7 +522,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://twitter.com/intent/tweet?text=http://yoursite.com/2020/05/30/package-manager-npm/"
+                        href="https://twitter.com/intent/tweet?text=http://yoursite.com/2020/05/30/ws-wss/"
                         aria-label="Share on Twitter"
                     >
                         <i class="fab fa-twitter" aria-hidden="true"></i><span>Share on Twitter</span>
@@ -527,7 +535,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://plus.google.com/share?url=http://yoursite.com/2020/05/30/package-manager-npm/"
+                        href="https://plus.google.com/share?url=http://yoursite.com/2020/05/30/ws-wss/"
                         aria-label="Share on Google+"
                     >
                         <i class="fab fa-google-plus" aria-hidden="true"></i><span>Share on Google+</span>
@@ -589,9 +597,9 @@
     
         <script>
           var disqus_config = function() {
-            this.page.url = 'http://yoursite.com/2020/05/30/package-manager-npm/';
+            this.page.url = 'http://yoursite.com/2020/05/30/ws-wss/';
               
-            this.page.identifier = '2020/05/30/package-manager-npm/';
+            this.page.identifier = '2020/05/30/ws-wss/';
               
           };
           (function() {
