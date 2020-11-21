@@ -6,21 +6,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="hyerin.io">
-    <title>Node.js - hyerin.io</title>
+    <title>소소한 JS 팁 - hyerin.io</title>
     <meta name="author" content="hyerinOh">
     
     
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"hyerinOh","sameAs":["https://github.com/hyerinOh"],"image":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7"},"articleBody":"\n\n\n\nWeb Browser에서 작동하는 Javascript와 Node.js의 차이javascript\n언어로서의 자바스크립트, Run time(언어가 작동하는 환경)으로의 자바스크립트\n프로그래밍 언어로 web browser를 제어하거나 server를 제어\n자바스크립트라는 언어가 web에서 어떻게 쓰이는지, server에서 어떻게 쓰이는지 알아야 한다.\nweb과 node.js는 서로 협력적인 관계\n\nNode.js의 장점\n클라이언트와 서버에서의 언어가 동일\n\nv8 engine\n\nevent-driven 방식 : 사용자가 이벤트를 발생시켰을 때, 즉, 입력장치로 데이터를 전송했을 때에만 작동하는 방식. 발생한 이벤트에 대해서만 웹서버가 연결을 해주기 때문에 자원을 최소화. 대부분의 웹 서버는 사용자가 이벤트를 발생시키기까지를 기다리면서 자원(대기시간/메모리)를 계속 소비\n\nnon-blocking 패러다임 :Blocking I/O 방식(동기식 Input/Ouput) : Read/write 이벤트가 발생하면 이벤트가 끝날때까지 해당 모듈을 점유. 다른 일을 못함. 메모리 버퍼에 데이터를 차지하게 되므로 메모리도 소비. 요청한 I/O(db, file, network)가 완료될때까지 해당 쓰레드를 ‘대기모드’로 전환시켰다가 요청한 I/O 완료 후 유저코드를 실행.\nNon-Blocking I/O:Blocking 방식의 비효율성을 극복하고자 만들어진 방식. I/O작업을 진행하는 동안 유저 프로세스의 작업을 중단시키지 않음. Read/Write 이벤트가 시작하자마자 모듈을 변환시켜 다른 작업을 하도록 준비상태. 따라서 속도도 blocking 방식보다 빠르고 메모리도 덜 차지.\n\nsingle thread : 적은양의 자원으로 일을 처리하는 것이 가능하다는 장점. 하지만 어느 한 곳에 예외상황 및 에러가 발생한다면 어플리케이션 전체에 영향.\n\n\n","dateCreated":"2019-07-19T00:00:00+09:00","dateModified":"2019-09-16T01:35:08+09:00","datePublished":"2019-07-19T00:00:00+09:00","description":"","headline":"Node.js","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"http://yoursite.com/2019/07/19/node/"},"publisher":{"@type":"Organization","name":"hyerinOh","sameAs":["https://github.com/hyerinOh"],"image":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7"}},"url":"http://yoursite.com/2019/07/19/node/","keywords":"javascript, node.js"}</script>
-    <meta name="keywords" content="javascript,node.js">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"hyerinOh","sameAs":["https://github.com/hyerinOh"],"image":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7"},"articleBody":"\n\n\n\n\n재미로 풀어본 JS quiz 사이트인데 소소하게 팁들을 알게되어 정리해본다!https://javascriptquiz.com/?fbclid=IwAR31L9U2qjkB_krPoQtn2R_F6RShcez6-hZzwmf8rdTHWmaOmGQJEkaUdrw\n\n\n\n\n📓 &nbsp;Quiz 11234const isTrue = true == [];const isFalse = true == ![];console.log(isTrue + isFalse);\n\n\n\n📝 &nbsp; A: &nbsp; 0\n빈 배열은 당연히 truthy라고 생각해서 isTrue는 true가 된다고 생각했고, isFalse는 false라고 생각해서 1 + 0으로 답은 1일 줄 알았다.\n하지만 true == []는 false\n구글링한 결과, 아래 stack overflow에서 답을 찾을 수 있었다.  \n\n\n\nif ([]) called on object (Array is instance of Object in JS) will check if the object is present, and returns true/false.\nWhen you call if (arr == false) you compare values of this object and the primitive false value.\n\n\n1if([]) 'true'  // 'true'\n\n위의 if문에서는 객체가 존재하는지 확인하고 값을 반환한다.하지만 문제처럼 값을 비교하게 된다면 객체의 값과 비교하는 것이므로 false를 반환하는 것이다.실제로 true == [&#39;1&#39;]은 true이다.\n\nhttps://stackoverflow.com/questions/5491605/empty-arrays-seem-to-equal-true-and-false-at-the-same-time\n\n","dateCreated":"2020-11-21T00:00:00+09:00","dateModified":"2020-11-21T18:04:01+09:00","datePublished":"2020-11-21T00:00:00+09:00","description":"","headline":"소소한 JS 팁","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"http://yoursite.com/2020/11/21/JS_Quiz/"},"publisher":{"@type":"Organization","name":"hyerinOh","sameAs":["https://github.com/hyerinOh"],"image":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7"}},"url":"http://yoursite.com/2020/11/21/JS_Quiz/","keywords":"javascript"}</script>
+    <meta name="keywords" content="javascript">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="Node.js">
-<meta property="og:url" content="http://yoursite.com/2019/07/19/node/index.html">
+<meta property="og:title" content="소소한 JS 팁">
+<meta property="og:url" content="http://yoursite.com/2020/11/21/JS_Quiz/index.html">
 <meta property="og:site_name" content="hyerin.io">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-09-15T16:35:08.116Z">
+<meta property="og:updated_time" content="2020-11-21T09:04:01.607Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Node.js">
+<meta name="twitter:title" content="소소한 JS 팁">
     
     
         
@@ -166,14 +166,14 @@
         <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title">
-            Node.js
+            소소한 JS 팁
         </h1>
     
     
         <div class="post-meta">
-    <time datetime="2019-07-19T00:00:00+09:00">
+    <time datetime="2020-11-21T00:00:00+09:00">
 	
-		    Jul 19, 2019
+		    Nov 21, 2020
     	
     </time>
     
@@ -195,24 +195,32 @@
 
 <a id="more"></a>
 
-<h2 id="Web-Browser에서-작동하는-Javascript와-Node-js의-차이"><a href="#Web-Browser에서-작동하는-Javascript와-Node-js의-차이" class="headerlink" title="Web Browser에서 작동하는 Javascript와 Node.js의 차이"></a>Web Browser에서 작동하는 Javascript와 Node.js의 차이</h2><h3 id="javascript"><a href="#javascript" class="headerlink" title="javascript"></a>javascript</h3><ul>
-<li>언어로서의 자바스크립트, Run time(언어가 작동하는 환경)으로의 자바스크립트</li>
-<li>프로그래밍 언어로 web browser를 제어하거나 server를 제어</li>
-<li>자바스크립트라는 언어가 web에서 어떻게 쓰이는지, server에서 어떻게 쓰이는지 알아야 한다.</li>
-<li>web과 node.js는 서로 협력적인 관계</li>
+<blockquote>
+<p>재미로 풀어본 JS quiz 사이트인데 소소하게 팁들을 알게되어 정리해본다!<br><a href="https://javascriptquiz.com/?fbclid=IwAR31L9U2qjkB_krPoQtn2R_F6RShcez6-hZzwmf8rdTHWmaOmGQJEkaUdrw" target="_blank" rel="noopener">https://javascriptquiz.com/?fbclid=IwAR31L9U2qjkB_krPoQtn2R_F6RShcez6-hZzwmf8rdTHWmaOmGQJEkaUdrw</a></p>
+</blockquote>
+<br>
+<br>
+
+<h3 id="📓-nbsp-Quiz-1"><a href="#📓-nbsp-Quiz-1" class="headerlink" title="📓 &nbsp;Quiz 1"></a>📓 &nbsp;Quiz 1</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> isTrue = <span class="literal">true</span> == [];</span><br><span class="line"><span class="keyword">const</span> isFalse = <span class="literal">true</span> == ![];</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(isTrue + isFalse);</span><br></pre></td></tr></table></figure>
+
+<br>
+
+<h3 id="📝-nbsp-A-nbsp-0"><a href="#📝-nbsp-A-nbsp-0" class="headerlink" title="📝 &nbsp; A: &nbsp; 0"></a>📝 &nbsp; A: &nbsp; 0</h3><ul>
+<li>빈 배열은 당연히 truthy라고 생각해서 <code>isTrue</code>는 <code>true</code>가 된다고 생각했고, <code>isFalse</code>는 <code>false</code>라고 생각해서 <code>1 + 0</code>으로 답은 1일 줄 알았다.</li>
+<li>하지만 <code>true == []</code>는 <code>false</code></li>
+<li>구글링한 결과, 아래 stack overflow에서 답을 찾을 수 있었다.  </li>
 </ul>
-<h3 id="Node-js의-장점"><a href="#Node-js의-장점" class="headerlink" title="Node.js의 장점"></a>Node.js의 장점</h3><ul>
-<li><p>클라이언트와 서버에서의 언어가 동일</p>
-</li>
-<li><p>v8 engine</p>
-</li>
-<li><p>event-driven 방식 : 사용자가 이벤트를 발생시켰을 때, 즉, 입력장치로 데이터를 전송했을 때에만 작동하는 방식. 발생한 이벤트에 대해서만 웹서버가 연결을 해주기 때문에 자원을 최소화. 대부분의 웹 서버는 사용자가 이벤트를 발생시키기까지를 기다리면서 자원(대기시간/메모리)를 계속 소비</p>
-</li>
-<li><p>non-blocking 패러다임 :<br><code>Blocking I/O 방식(동기식 Input/Ouput)</code> : Read/write 이벤트가 발생하면 이벤트가 끝날때까지 해당 모듈을 점유. 다른 일을 못함. 메모리 버퍼에 데이터를 차지하게 되므로 메모리도 소비. 요청한 I/O(db, file, network)가 완료될때까지 해당 쓰레드를 ‘대기모드’로 전환시켰다가 요청한 I/O 완료 후 유저코드를 실행.</p>
-<p><code>Non-Blocking I/O</code>:<br>Blocking 방식의 비효율성을 극복하고자 만들어진 방식. I/O작업을 진행하는 동안 유저 프로세스의 작업을 중단시키지 않음. Read/Write 이벤트가 시작하자마자 모듈을 변환시켜 다른 작업을 하도록 준비상태. 따라서 속도도 blocking 방식보다 빠르고 메모리도 덜 차지.</p>
-</li>
-<li><p>single thread : 적은양의 자원으로 일을 처리하는 것이 가능하다는 장점. 하지만 어느 한 곳에 예외상황 및 에러가 발생한다면 어플리케이션 전체에 영향.</p>
-</li>
+<br>
+
+<p><em><code>if ([])</code> called on object (Array is instance of Object in JS) will <strong>check if the object is present</strong>, and returns true/false.</em></p>
+<p><em>When you call if (arr == false) you <strong>compare values of this object</strong> and the primitive false value.</em></p>
+<br>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>([]) <span class="string">'true'</span>  <span class="comment">// 'true'</span></span><br></pre></td></tr></table></figure>
+
+<p>위의 if문에서는 <strong>객체가 존재하는지</strong> 확인하고 값을 반환한다.<br>하지만 문제처럼 값을 비교하게 된다면 <strong>객체의 값</strong>과 비교하는 것이므로 <code>false</code>를 반환하는 것이다.<br>실제로 <code>true == [&#39;1&#39;]</code>은 <code>true</code>이다.</p>
+<ul>
+<li><a href="https://stackoverflow.com/questions/5491605/empty-arrays-seem-to-equal-true-and-false-at-the-same-time" target="_blank" rel="noopener">https://stackoverflow.com/questions/5491605/empty-arrays-seem-to-equal-true-and-false-at-the-same-time</a></li>
 </ul>
 
             
@@ -225,7 +233,7 @@
             <div class="post-footer-tags">
                 <span class="text-color-light text-small">TAGGED IN</span><br/>
                 
-    <a class="tag tag--primary tag--small t-link" href="/tags/javascript/">javascript</a> <a class="tag tag--primary tag--small t-link" href="/tags/node-js/">node.js</a>
+    <a class="tag tag--primary tag--small t-link" href="/tags/javascript/">javascript</a>
 
             </div>
         
@@ -235,14 +243,11 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                <a
-                    class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/07/19/primitive-types/"
-                    data-tooltip="2. Primitive types"
-                    aria-label="PREVIOUS: 2. Primitive types"
-                >
-                    
+                    <a
+                        class="post-action-btn btn btn--disabled"
+                        aria-hidden="true"
+                    >
+                        
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
                         <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
                     </a>
@@ -252,9 +257,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/07/18/call-stack/"
-                    data-tooltip="1. Call Stack"
-                    aria-label="NEXT: 1. Call Stack"
+                    href="/2020/07/20/CS50-1-컴퓨팅사고-1-2진법/"
+                    data-tooltip="CS50 1.컴퓨팅사고 - 1)2진법"
+                    aria-label="NEXT: CS50 1.컴퓨팅사고 - 1)2진법"
                 >
                     
                         <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
@@ -279,7 +284,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/07/19/node/"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2020/11/21/JS_Quiz/"
                     title="Share on Facebook"
                     aria-label="Share on Facebook"
                 >
@@ -292,7 +297,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2019/07/19/node/"
+                    target="new" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2020/11/21/JS_Quiz/"
                     title="Share on Twitter"
                     aria-label="Share on Twitter"
                 >
@@ -305,7 +310,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=http://yoursite.com/2019/07/19/node/"
+                    target="new" href="https://plus.google.com/share?url=http://yoursite.com/2020/11/21/JS_Quiz/"
                     title="Share on Google+"
                     aria-label="Share on Google+"
                 >
@@ -364,14 +369,11 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                <a
-                    class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/07/19/primitive-types/"
-                    data-tooltip="2. Primitive types"
-                    aria-label="PREVIOUS: 2. Primitive types"
-                >
-                    
+                    <a
+                        class="post-action-btn btn btn--disabled"
+                        aria-hidden="true"
+                    >
+                        
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
                         <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
                     </a>
@@ -381,9 +383,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/07/18/call-stack/"
-                    data-tooltip="1. Call Stack"
-                    aria-label="NEXT: 1. Call Stack"
+                    href="/2020/07/20/CS50-1-컴퓨팅사고-1-2진법/"
+                    data-tooltip="CS50 1.컴퓨팅사고 - 1)2진법"
+                    aria-label="NEXT: CS50 1.컴퓨팅사고 - 1)2진법"
                 >
                     
                         <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
@@ -408,7 +410,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/07/19/node/"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2020/11/21/JS_Quiz/"
                     title="Share on Facebook"
                     aria-label="Share on Facebook"
                 >
@@ -421,7 +423,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2019/07/19/node/"
+                    target="new" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2020/11/21/JS_Quiz/"
                     title="Share on Twitter"
                     aria-label="Share on Twitter"
                 >
@@ -434,7 +436,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=http://yoursite.com/2019/07/19/node/"
+                    target="new" href="https://plus.google.com/share?url=http://yoursite.com/2020/11/21/JS_Quiz/"
                     title="Share on Google+"
                     aria-label="Share on Google+"
                 >
@@ -478,7 +480,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/07/19/node/"
+                        href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2020/11/21/JS_Quiz/"
                         aria-label="Share on Facebook"
                     >
                         <i class="fab fa-facebook" aria-hidden="true"></i><span>Share on Facebook</span>
@@ -491,7 +493,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://twitter.com/intent/tweet?text=http://yoursite.com/2019/07/19/node/"
+                        href="https://twitter.com/intent/tweet?text=http://yoursite.com/2020/11/21/JS_Quiz/"
                         aria-label="Share on Twitter"
                     >
                         <i class="fab fa-twitter" aria-hidden="true"></i><span>Share on Twitter</span>
@@ -504,7 +506,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://plus.google.com/share?url=http://yoursite.com/2019/07/19/node/"
+                        href="https://plus.google.com/share?url=http://yoursite.com/2020/11/21/JS_Quiz/"
                         aria-label="Share on Google+"
                     >
                         <i class="fab fa-google-plus" aria-hidden="true"></i><span>Share on Google+</span>
@@ -566,9 +568,9 @@
     
         <script>
           var disqus_config = function() {
-            this.page.url = 'http://yoursite.com/2019/07/19/node/';
+            this.page.url = 'http://yoursite.com/2020/11/21/JS_Quiz/';
               
-            this.page.identifier = '2019/07/19/node/';
+            this.page.identifier = '2020/11/21/JS_Quiz/';
               
           };
           (function() {
