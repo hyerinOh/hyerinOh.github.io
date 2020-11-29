@@ -6,21 +6,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="hyerin.io">
-    <title>소소한 JS 팁(1) - hyerin.io</title>
+    <title>Issues-others-5.package-lock.json - hyerin.io</title>
     <meta name="author" content="hyerinOh">
     
     
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"hyerinOh","sameAs":["https://github.com/hyerinOh"],"image":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7"},"articleBody":"\n\n\n\n\n재미로 풀어본 JS quiz 사이트인데 소소하게 팁들을 알게되어 정리해본다!https://javascriptquiz.com/?fbclid=IwAR31L9U2qjkB_krPoQtn2R_F6RShcez6-hZzwmf8rdTHWmaOmGQJEkaUdrw\n\n\n\n\n📓 &nbsp;Quiz 11234const isTrue = true == [];const isFalse = true == ![];console.log(isTrue + isFalse);\n\n\n\n📝 &nbsp; A: &nbsp; 0\n빈 배열은 당연히 truthy라고 생각해서 isTrue는 true가 된다고 생각했고, isFalse는 false라고 생각해서 1 + 0으로 답은 1일 줄 알았다.\n하지만 true == []는 false\n구글링한 결과, 아래 stack overflow에서 답을 찾을 수 있었다.  \n\n\n\nif ([]) called on object (Array is instance of Object in JS) will check if the object is present, and returns true/false.\nWhen you call if (arr == false) you compare values of this object and the primitive false value.\n\n\n1if([]) 'true'  // 'true'\n\n위의 if문에서는 객체가 존재하는지 확인하고 값을 반환한다.하지만 문제처럼 값을 비교하게 된다면 객체의 값과 비교하는 것이므로 false를 반환하는 것이다.실제로 true == [&#39;1&#39;]은 true이다.\n\nhttps://stackoverflow.com/questions/5491605/empty-arrays-seem-to-equal-true-and-false-at-the-same-time\n\n","dateCreated":"2020-11-21T00:00:00+09:00","dateModified":"2020-11-21T18:10:42+09:00","datePublished":"2020-11-21T00:00:00+09:00","description":"","headline":"소소한 JS 팁(1)","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"http://yoursite.com/2020/11/21/JS_tips/"},"publisher":{"@type":"Organization","name":"hyerinOh","sameAs":["https://github.com/hyerinOh"],"image":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7"}},"url":"http://yoursite.com/2020/11/21/JS_tips/","keywords":"javascript"}</script>
-    <meta name="keywords" content="javascript">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"hyerinOh","sameAs":["https://github.com/hyerinOh"],"image":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7"},"articleBody":"\n\n\n\npackage-lock.json을 .gitignore에 포함시켜야할까?\n문제 상황 !금요일 퇴근하기 전까지만 해도 잘 돌아가던 Jenkins가 월요일 아침 개발계, 검증계에서 모두 빌드 에러를 냈다. \n\n\n에러 로그에서 라이브러리들의 버전에 대해 문제를 말하는 것 같았음\nReact의 버전, typescript의 버전, 다른 라이브러리들의 버전 등 버전 문제 의심\n현재 우리의 서비스 리포지토리에는 package-lock.json 파일을 올리지 않고 있었는데 그로인해 Jenkins에서 정확한 버전을 알지 못해 빌드 에러를 내는 것으로 보여 package-lock.json을 리포지토리에 커밋해봄\n문제 상황 해결\n\n\n\n문제는 해결됐지만 왜? 라는 생각이 들었다.  \n\npackage.json만 있어도 이 프로젝트에서 어떤 버전이 필요한지 알 수 있지 않나?\n\n아니었다.\n\n참고 : https://medium.com/@han7096/package-lock-json-%EC%97%90-%EA%B4%80%ED%95%98%EC%97%AC-5652f90b734c \n\npackage-lock.json이란?\nnpm을 사용하여 package.json 파일 또는   node_modules 파일을 수정하면 자동으로 생서되는 파일\n파일이 생성되는 시점의 의존성 트리에 대한 정보를 가짐\npackage.json 파일의 의존성 선언에는 version range가 사용되는데, 이는 특정 버전이 아닌 버전의 범위를 의미\n예를들어 보자면, npm i express를 실행하게 되면 package.json 파일에는 “^4.16.3”(Caret Ranges)로 버전 범위가 추가된다. 이 package.json 를 기반으로 npm i을 실행하면 현재는 4.16.3 버전이 설치 되지만 새로이 express의 마이너 패치가 이루어진 버전이 퍼블리시 되어있다면 동일한 package.json파일로 npm i을 실행해도 4.16.4, 이나 4.17.1 같은 다른 버전이 설치될 수 있는 것이다.(위 블로그 글 발췌)\npackage-lock.json 파일은 의존성 트리에 대한 정보를 가지고 있으며, 작성된 시점의 의존성 트리가 다시 생성될 수 있도록 보장\npackage-lock.json 파일은 node_modules 없이 배포하는 경우 반드시 필요 \n\n\n\n따라서 간혹 업데이트된 버전이 오류를 발생시키는 경우가 있기 때문에 안정성을 위해 package-lock.json은 매우 중요하다\n\n\n","dateCreated":"2020-11-23T21:21:00+09:00","dateModified":"2020-11-29T23:54:38+09:00","datePublished":"2020-11-23T21:21:00+09:00","description":"","headline":"Issues-others-5.package-lock.json","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"http://yoursite.com/2020/11/23/Issues-others-package_lock_json/"},"publisher":{"@type":"Organization","name":"hyerinOh","sameAs":["https://github.com/hyerinOh"],"image":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7"}},"url":"http://yoursite.com/2020/11/23/Issues-others-package_lock_json/","keywords":"Issues, package-lock.json, Jenkins"}</script>
+    <meta name="keywords" content="Issues,package-lock.json,Jenkins">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="소소한 JS 팁(1)">
-<meta property="og:url" content="http://yoursite.com/2020/11/21/JS_tips/index.html">
+<meta property="og:title" content="Issues-others-5.package-lock.json">
+<meta property="og:url" content="http://yoursite.com/2020/11/23/Issues-others-package_lock_json/index.html">
 <meta property="og:site_name" content="hyerin.io">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2020-11-21T09:10:42.046Z">
+<meta property="og:updated_time" content="2020-11-29T14:54:38.867Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="소소한 JS 팁(1)">
+<meta name="twitter:title" content="Issues-others-5.package-lock.json">
     
     
         
@@ -166,20 +166,20 @@
         <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title">
-            소소한 JS 팁(1)
+            Issues-others-5.package-lock.json
         </h1>
     
     
         <div class="post-meta">
-    <time datetime="2020-11-21T00:00:00+09:00">
+    <time datetime="2020-11-23T21:21:00+09:00">
 	
-		    Nov 21, 2020
+		    Nov 23, 2020
     	
     </time>
     
         <span>in </span>
         
-    <a class="category-link" href="/categories/Dev/">Dev</a>, <a class="category-link" href="/categories/Dev/JavaScript/">JavaScript</a>
+    <a class="category-link" href="/categories/Issues/">Issues</a>, <a class="category-link" href="/categories/Issues/others/">others</a>
 
 
     
@@ -195,33 +195,38 @@
 
 <a id="more"></a>
 
-<blockquote>
-<p>재미로 풀어본 JS quiz 사이트인데 소소하게 팁들을 알게되어 정리해본다!<br><a href="https://javascriptquiz.com/?fbclid=IwAR31L9U2qjkB_krPoQtn2R_F6RShcez6-hZzwmf8rdTHWmaOmGQJEkaUdrw" target="_blank" rel="noopener">https://javascriptquiz.com/?fbclid=IwAR31L9U2qjkB_krPoQtn2R_F6RShcez6-hZzwmf8rdTHWmaOmGQJEkaUdrw</a></p>
+<h2 id="package-lock-json을-gitignore에-포함시켜야할까"><a href="#package-lock-json을-gitignore에-포함시켜야할까" class="headerlink" title="package-lock.json을 .gitignore에 포함시켜야할까?"></a>package-lock.json을 .gitignore에 포함시켜야할까?</h2><blockquote>
+<p>문제 상황 !<br>금요일 퇴근하기 전까지만 해도 잘 돌아가던 Jenkins가 월요일 아침 개발계, 검증계에서 모두 빌드 에러를 냈다. </p>
 </blockquote>
-<br>
-<br>
-
-<h3 id="📓-nbsp-Quiz-1"><a href="#📓-nbsp-Quiz-1" class="headerlink" title="📓 &nbsp;Quiz 1"></a>📓 &nbsp;Quiz 1</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> isTrue = <span class="literal">true</span> == [];</span><br><span class="line"><span class="keyword">const</span> isFalse = <span class="literal">true</span> == ![];</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(isTrue + isFalse);</span><br></pre></td></tr></table></figure>
-
-<br>
-
-<h3 id="📝-nbsp-A-nbsp-0"><a href="#📝-nbsp-A-nbsp-0" class="headerlink" title="📝 &nbsp; A: &nbsp; 0"></a>📝 &nbsp; A: &nbsp; 0</h3><ul>
-<li>빈 배열은 당연히 truthy라고 생각해서 <code>isTrue</code>는 <code>true</code>가 된다고 생각했고, <code>isFalse</code>는 <code>false</code>라고 생각해서 <code>1 + 0</code>으로 답은 1일 줄 알았다.</li>
-<li>하지만 <code>true == []</code>는 <code>false</code></li>
-<li>구글링한 결과, 아래 stack overflow에서 답을 찾을 수 있었다.  </li>
-</ul>
-<br>
-
-<p><em><code>if ([])</code> called on object (Array is instance of Object in JS) will <strong>check if the object is present</strong>, and returns true/false.</em></p>
-<p><em>When you call if (arr == false) you <strong>compare values of this object</strong> and the primitive false value.</em></p>
-<br>
-
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>([]) <span class="string">'true'</span>  <span class="comment">// 'true'</span></span><br></pre></td></tr></table></figure>
-
-<p>위의 if문에서는 <strong>객체가 존재하는지</strong> 확인하고 값을 반환한다.<br>하지만 문제처럼 값을 비교하게 된다면 <strong>객체의 값</strong>과 비교하는 것이므로 <code>false</code>를 반환하는 것이다.<br>실제로 <code>true == [&#39;1&#39;]</code>은 <code>true</code>이다.</p>
 <ul>
-<li><a href="https://stackoverflow.com/questions/5491605/empty-arrays-seem-to-equal-true-and-false-at-the-same-time" target="_blank" rel="noopener">https://stackoverflow.com/questions/5491605/empty-arrays-seem-to-equal-true-and-false-at-the-same-time</a></li>
+<li>에러 로그에서 라이브러리들의 버전에 대해 문제를 말하는 것 같았음</li>
+<li>React의 버전, typescript의 버전, 다른 라이브러리들의 버전 등 버전 문제 의심</li>
+<li>현재 우리의 서비스 리포지토리에는 <code>package-lock.json</code> 파일을 올리지 않고 있었는데 그로인해 Jenkins에서 정확한 버전을 알지 못해 빌드 에러를 내는 것으로 보여 <code>package-lock.json</code>을 리포지토리에 커밋해봄</li>
+<li>문제 상황 해결</li>
 </ul>
+<br>
+
+<p>문제는 해결됐지만 왜? 라는 생각이 들었다.  </p>
+<blockquote>
+<p><code>package.json</code>만 있어도 이 프로젝트에서 어떤 버전이 필요한지 알 수 있지 않나?</p>
+</blockquote>
+<p><del>아니었다.</del></p>
+<ul>
+<li>참고 : <a href="https://medium.com/@han7096/package-lock-json-%EC%97%90-%EA%B4%80%ED%95%98%EC%97%AC-5652f90b734c" target="_blank" rel="noopener">https://medium.com/@han7096/package-lock-json-%EC%97%90-%EA%B4%80%ED%95%98%EC%97%AC-5652f90b734c</a> </li>
+</ul>
+<h2 id="package-lock-json이란"><a href="#package-lock-json이란" class="headerlink" title="package-lock.json이란?"></a>package-lock.json이란?</h2><ul>
+<li>npm을 사용하여 <code>package.json</code> 파일 또는   <code>node_modules</code> 파일을 수정하면 자동으로 생서되는 파일</li>
+<li>파일이 생성되는 시점의 의존성 트리에 대한 정보를 가짐</li>
+<li><code>package.json</code> 파일의 의존성 선언에는 <strong>version range</strong>가 사용되는데, 이는 <strong>특정 버전이 아닌 버전의 범위를 의미</strong></li>
+<li><em>예를들어 보자면, <code>npm i express</code>를 실행하게 되면 package.json 파일에는 “^4.16.3”(Caret Ranges)로 버전 범위가 추가된다. 이 <code>package.json</code> 를 기반으로 <code>npm i</code>을 실행하면 현재는 4.16.3 버전이 설치 되지만 <strong>새로이 express의 마이너 패치가 이루어진 버전이 퍼블리시 되어있다면</strong> 동일한 <code>package.json</code>파일로 <code>npm i</code>을 실행해도 4.16.4, 이나 4.17.1 같은 <strong>다른 버전이 설치</strong>될 수 있는 것이다.</em><br>(위 블로그 글 발췌)</li>
+<li><code>package-lock.json</code> 파일은 의존성 트리에 대한 정보를 가지고 있으며, <strong>작성된 시점의 의존성 트리가 다시 생성될 수 있도록 보장</strong></li>
+<li><strong><code>package-lock.json</code> 파일은 <code>node_modules</code> 없이 배포하는 경우 반드시 필요</strong> </li>
+</ul>
+<blockquote>
+<blockquote>
+<p>따라서 간혹 업데이트된 버전이 오류를 발생시키는 경우가 있기 때문에 <strong>안정성</strong>을 위해 <code>package-lock.json</code>은 <strong>매우 중요하다</strong></p>
+</blockquote>
+</blockquote>
 
             
 
@@ -233,7 +238,7 @@
             <div class="post-footer-tags">
                 <span class="text-color-light text-small">TAGGED IN</span><br/>
                 
-    <a class="tag tag--primary tag--small t-link" href="/tags/javascript/">javascript</a>
+    <a class="tag tag--primary tag--small t-link" href="/tags/Issues/">Issues</a> <a class="tag tag--primary tag--small t-link" href="/tags/Jenkins/">Jenkins</a> <a class="tag tag--primary tag--small t-link" href="/tags/package-lock-json/">package-lock.json</a>
 
             </div>
         
@@ -243,14 +248,11 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                <a
-                    class="post-action-btn btn btn--default tooltip--top"
-                    href="/2020/11/22/JS_tips(3)/"
-                    data-tooltip="소소한 JS 팁(3)"
-                    aria-label="PREVIOUS: 소소한 JS 팁(3)"
-                >
-                    
+                    <a
+                        class="post-action-btn btn btn--disabled"
+                        aria-hidden="true"
+                    >
+                        
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
                         <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
                     </a>
@@ -260,9 +262,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2020/11/21/JS_tips(2)/"
-                    data-tooltip="소소한 JS 팁(2)"
-                    aria-label="NEXT: 소소한 JS 팁(2)"
+                    href="/2020/11/22/JS_tips(4)/"
+                    data-tooltip="소소한 JS 팁(4)"
+                    aria-label="NEXT: 소소한 JS 팁(4)"
                 >
                     
                         <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
@@ -287,7 +289,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2020/11/21/JS_tips/"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2020/11/23/Issues-others-package_lock_json/"
                     title="Share on Facebook"
                     aria-label="Share on Facebook"
                 >
@@ -300,7 +302,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2020/11/21/JS_tips/"
+                    target="new" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2020/11/23/Issues-others-package_lock_json/"
                     title="Share on Twitter"
                     aria-label="Share on Twitter"
                 >
@@ -313,7 +315,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=http://yoursite.com/2020/11/21/JS_tips/"
+                    target="new" href="https://plus.google.com/share?url=http://yoursite.com/2020/11/23/Issues-others-package_lock_json/"
                     title="Share on Google+"
                     aria-label="Share on Google+"
                 >
@@ -372,14 +374,11 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                <a
-                    class="post-action-btn btn btn--default tooltip--top"
-                    href="/2020/11/22/JS_tips(3)/"
-                    data-tooltip="소소한 JS 팁(3)"
-                    aria-label="PREVIOUS: 소소한 JS 팁(3)"
-                >
-                    
+                    <a
+                        class="post-action-btn btn btn--disabled"
+                        aria-hidden="true"
+                    >
+                        
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
                         <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
                     </a>
@@ -389,9 +388,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2020/11/21/JS_tips(2)/"
-                    data-tooltip="소소한 JS 팁(2)"
-                    aria-label="NEXT: 소소한 JS 팁(2)"
+                    href="/2020/11/22/JS_tips(4)/"
+                    data-tooltip="소소한 JS 팁(4)"
+                    aria-label="NEXT: 소소한 JS 팁(4)"
                 >
                     
                         <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
@@ -416,7 +415,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2020/11/21/JS_tips/"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2020/11/23/Issues-others-package_lock_json/"
                     title="Share on Facebook"
                     aria-label="Share on Facebook"
                 >
@@ -429,7 +428,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2020/11/21/JS_tips/"
+                    target="new" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2020/11/23/Issues-others-package_lock_json/"
                     title="Share on Twitter"
                     aria-label="Share on Twitter"
                 >
@@ -442,7 +441,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=http://yoursite.com/2020/11/21/JS_tips/"
+                    target="new" href="https://plus.google.com/share?url=http://yoursite.com/2020/11/23/Issues-others-package_lock_json/"
                     title="Share on Google+"
                     aria-label="Share on Google+"
                 >
@@ -486,7 +485,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2020/11/21/JS_tips/"
+                        href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2020/11/23/Issues-others-package_lock_json/"
                         aria-label="Share on Facebook"
                     >
                         <i class="fab fa-facebook" aria-hidden="true"></i><span>Share on Facebook</span>
@@ -499,7 +498,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://twitter.com/intent/tweet?text=http://yoursite.com/2020/11/21/JS_tips/"
+                        href="https://twitter.com/intent/tweet?text=http://yoursite.com/2020/11/23/Issues-others-package_lock_json/"
                         aria-label="Share on Twitter"
                     >
                         <i class="fab fa-twitter" aria-hidden="true"></i><span>Share on Twitter</span>
@@ -512,7 +511,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://plus.google.com/share?url=http://yoursite.com/2020/11/21/JS_tips/"
+                        href="https://plus.google.com/share?url=http://yoursite.com/2020/11/23/Issues-others-package_lock_json/"
                         aria-label="Share on Google+"
                     >
                         <i class="fab fa-google-plus" aria-hidden="true"></i><span>Share on Google+</span>
@@ -574,9 +573,9 @@
     
         <script>
           var disqus_config = function() {
-            this.page.url = 'http://yoursite.com/2020/11/21/JS_tips/';
+            this.page.url = 'http://yoursite.com/2020/11/23/Issues-others-package_lock_json/';
               
-            this.page.identifier = '2020/11/21/JS_tips/';
+            this.page.identifier = '2020/11/23/Issues-others-package_lock_json/';
               
           };
           (function() {
