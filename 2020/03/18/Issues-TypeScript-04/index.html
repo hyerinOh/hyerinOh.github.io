@@ -10,7 +10,7 @@
     <meta name="author" content="hyerinOh">
     
     
-        <link rel="icon" href="http://yoursite.com/assets/images/_images/favicon.ico">
+        <link rel="icon" href="http://yoursite.com/assets/images/images/favicon.ico">
     
     
     <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"hyerinOh","sameAs":["https://github.com/hyerinOh"],"image":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7"},"articleBody":"\n\n\n\nindex signature 추가하기\n문제 상황 !객체의 key 값으로 접근해서 value 값을 가져오고 싶었는데 Index signature of object type implicitly has an &#39;any&#39; type라는 에러 발생\n\n\nstack overflow에 해결 방법이 있었다!\n\nhttps://stackoverflow.com/questions/32968332/how-do-i-prevent-the-error-index-signature-of-object-type-implicitly-has-an-an\n\nindex signature를 추가해서 타입스크립트가 key 값에 어떤 타입이 들어가는지 알 수 있도록 해주라는 것\n\n\n1234type sampleObject = &#123;  firstKey: string;  [key: stirng]: string;&#125;;\n\n\n\n","dateCreated":"2020-03-18T14:34:31+09:00","dateModified":"2020-12-13T14:08:30+09:00","datePublished":"2020-03-18T14:34:31+09:00","description":"","headline":"4.index signature issue","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"http://yoursite.com/2020/03/18/Issues-TypeScript-04/"},"publisher":{"@type":"Organization","name":"hyerinOh","sameAs":["https://github.com/hyerinOh"],"image":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7"}},"url":"http://yoursite.com/2020/03/18/Issues-TypeScript-04/","keywords":"Issues, React, TypeScript"}</script>
