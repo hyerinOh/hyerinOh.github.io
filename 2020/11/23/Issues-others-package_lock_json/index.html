@@ -6,21 +6,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="hyerin.io">
-    <title>Issues-others-5.package-lock.json - hyerin.io</title>
+    <title>5.package-lock.json - hyerin.io</title>
     <meta name="author" content="hyerinOh">
     
     
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"hyerinOh","sameAs":["https://github.com/hyerinOh"],"image":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7"},"articleBody":"\n\n\n\npackage-lock.json을 .gitignore에 포함시켜야할까?\n문제 상황 !금요일 퇴근하기 전까지만 해도 잘 돌아가던 Jenkins가 월요일 아침 개발계, 검증계에서 모두 빌드 에러를 냈다. \n\n\n에러 로그에서 라이브러리들의 버전에 대해 문제를 말하는 것 같았음\nReact의 버전, typescript의 버전, 다른 라이브러리들의 버전 등 버전 문제 의심\n현재 우리의 서비스 리포지토리에는 package-lock.json 파일을 올리지 않고 있었는데 그로인해 Jenkins에서 정확한 버전을 알지 못해 빌드 에러를 내는 것으로 보여 package-lock.json을 리포지토리에 커밋해봄\n문제 상황 해결\n\n\n\n문제는 해결됐지만 왜? 라는 생각이 들었다.  \n\npackage.json만 있어도 이 프로젝트에서 어떤 버전이 필요한지 알 수 있지 않나?\n\n아니었다.\n\n참고 : https://medium.com/@han7096/package-lock-json-%EC%97%90-%EA%B4%80%ED%95%98%EC%97%AC-5652f90b734c \n\npackage-lock.json이란?\nnpm을 사용하여 package.json 파일 또는   node_modules 파일을 수정하면 자동으로 생서되는 파일\n파일이 생성되는 시점의 의존성 트리에 대한 정보를 가짐\npackage.json 파일의 의존성 선언에는 version range가 사용되는데, 이는 특정 버전이 아닌 버전의 범위를 의미\n예를들어 보자면, npm i express를 실행하게 되면 package.json 파일에는 “^4.16.3”(Caret Ranges)로 버전 범위가 추가된다. 이 package.json 를 기반으로 npm i을 실행하면 현재는 4.16.3 버전이 설치 되지만 새로이 express의 마이너 패치가 이루어진 버전이 퍼블리시 되어있다면 동일한 package.json파일로 npm i을 실행해도 4.16.4, 이나 4.17.1 같은 다른 버전이 설치될 수 있는 것이다.(위 블로그 글 발췌)\npackage-lock.json 파일은 의존성 트리에 대한 정보를 가지고 있으며, 작성된 시점의 의존성 트리가 다시 생성될 수 있도록 보장\npackage-lock.json 파일은 node_modules 없이 배포하는 경우 반드시 필요 \n\n\n\n따라서 간혹 업데이트된 버전이 오류를 발생시키는 경우가 있기 때문에 안정성을 위해 package-lock.json은 매우 중요하다\n\n\n","dateCreated":"2020-11-23T21:21:00+09:00","dateModified":"2020-11-29T23:54:38+09:00","datePublished":"2020-11-23T21:21:00+09:00","description":"","headline":"Issues-others-5.package-lock.json","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"http://yoursite.com/2020/11/23/Issues-others-package_lock_json/"},"publisher":{"@type":"Organization","name":"hyerinOh","sameAs":["https://github.com/hyerinOh"],"image":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7"}},"url":"http://yoursite.com/2020/11/23/Issues-others-package_lock_json/","keywords":"Issues, package-lock.json, Jenkins"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"hyerinOh","sameAs":["https://github.com/hyerinOh"],"image":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7"},"articleBody":"\n\n\n\npackage-lock.json을 .gitignore에 포함시켜야할까?\n문제 상황 !금요일 퇴근하기 전까지만 해도 잘 돌아가던 Jenkins가 월요일 아침 개발계, 검증계에서 모두 빌드 에러를 냈다. \n\n\n에러 로그에서 라이브러리들의 버전에 대해 문제를 말하는 것 같았음\nReact의 버전, typescript의 버전, 다른 라이브러리들의 버전 등 버전 문제 의심\n현재 우리의 서비스 리포지토리에는 package-lock.json 파일을 올리지 않고 있었는데 그로인해 Jenkins에서 정확한 버전을 알지 못해 빌드 에러를 내는 것으로 보여 package-lock.json을 리포지토리에 커밋해봄\n문제 상황 해결\n\n\n\n문제는 해결됐지만 왜? 라는 생각이 들었다.  \n\npackage.json만 있어도 이 프로젝트에서 어떤 버전이 필요한지 알 수 있지 않나?\n\n아니었다.\n\n참고 : https://medium.com/@han7096/package-lock-json-%EC%97%90-%EA%B4%80%ED%95%98%EC%97%AC-5652f90b734c \n\npackage-lock.json이란?\nnpm을 사용하여 package.json 파일 또는   node_modules 파일을 수정하면 자동으로 생서되는 파일\n파일이 생성되는 시점의 의존성 트리에 대한 정보를 가짐\npackage.json 파일의 의존성 선언에는 version range가 사용되는데, 이는 특정 버전이 아닌 버전의 범위를 의미\n예를들어 보자면, npm i express를 실행하게 되면 package.json 파일에는 “^4.16.3”(Caret Ranges)로 버전 범위가 추가된다. 이 package.json 를 기반으로 npm i을 실행하면 현재는 4.16.3 버전이 설치 되지만 새로이 express의 마이너 패치가 이루어진 버전이 퍼블리시 되어있다면 동일한 package.json파일로 npm i을 실행해도 4.16.4, 이나 4.17.1 같은 다른 버전이 설치될 수 있는 것이다.(위 블로그 글 발췌)\npackage-lock.json 파일은 의존성 트리에 대한 정보를 가지고 있으며, 작성된 시점의 의존성 트리가 다시 생성될 수 있도록 보장\npackage-lock.json 파일은 node_modules 없이 배포하는 경우 반드시 필요 \n\n\n\n따라서 간혹 업데이트된 버전이 오류를 발생시키는 경우가 있기 때문에 안정성을 위해 package-lock.json은 매우 중요하다\n\n\n","dateCreated":"2020-11-23T21:21:00+09:00","dateModified":"2020-12-13T14:07:24+09:00","datePublished":"2020-11-23T21:21:00+09:00","description":"","headline":"5.package-lock.json","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"http://yoursite.com/2020/11/23/Issues-others-package_lock_json/"},"publisher":{"@type":"Organization","name":"hyerinOh","sameAs":["https://github.com/hyerinOh"],"image":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7"}},"url":"http://yoursite.com/2020/11/23/Issues-others-package_lock_json/","keywords":"Issues, package-lock.json, Jenkins"}</script>
     <meta name="keywords" content="Issues,package-lock.json,Jenkins">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="Issues-others-5.package-lock.json">
+<meta property="og:title" content="5.package-lock.json">
 <meta property="og:url" content="http://yoursite.com/2020/11/23/Issues-others-package_lock_json/index.html">
 <meta property="og:site_name" content="hyerin.io">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2020-11-29T14:54:38.867Z">
+<meta property="og:updated_time" content="2020-12-13T05:07:24.247Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Issues-others-5.package-lock.json">
+<meta name="twitter:title" content="5.package-lock.json">
     
     
         
@@ -166,7 +166,7 @@
         <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title">
-            Issues-others-5.package-lock.json
+            5.package-lock.json
         </h1>
     
     
@@ -252,8 +252,8 @@
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
                     href="/2020/12/11/Issues-JavaScript-03/"
-                    data-tooltip="Issues-JavaScript-3.정규표현식"
-                    aria-label="PREVIOUS: Issues-JavaScript-3.정규표현식"
+                    data-tooltip="3.정규표현식"
+                    aria-label="PREVIOUS: 3.정규표현식"
                 >
                     
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
@@ -381,8 +381,8 @@
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
                     href="/2020/12/11/Issues-JavaScript-03/"
-                    data-tooltip="Issues-JavaScript-3.정규표현식"
-                    aria-label="PREVIOUS: Issues-JavaScript-3.정규표현식"
+                    data-tooltip="3.정규표현식"
+                    aria-label="PREVIOUS: 3.정규표현식"
                 >
                     
                         <i class="fa fa-angle-left" aria-hidden="true"></i>

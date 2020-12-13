@@ -6,21 +6,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="hyerin.io">
-    <title>Issues-React-4.useEffect() - hyerin.io</title>
+    <title>4.useEffect() - hyerin.io</title>
     <meta name="author" content="hyerinOh">
     
     
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"hyerinOh","sameAs":["https://github.com/hyerinOh"],"image":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7"},"articleBody":"\n\n\n\nuseEffect()\n문제 상황 !서버에서 data로 받아온 array안의 객체의 value가 수정했을 때 화면에서 바로 업데이트되도록 하고 싶었다.\n\n12345678910111213141516const [data, setData] = useState([]);const [saveAction, setSaveActiono] = useState(0);useEffect(() =&gt; &#123;  if (data.length) &#123;    setData([      ...data,      &#123;        isOpen: \"Y\",      &#125;,    ]);  &#125;  // 데이터 요청  getAllList();&#125;, [saveAction]);\n\n\nonSave 함수를 클릭하면 saveAction이 1씩 증가하도록해서 이 변화를 감지해서 업데이트 하도록 했는데 의미없는 saveAction 변수를 사용하므로 다른 방법 찾아보기!\n\n","dateCreated":"2020-04-23T15:11:31+09:00","dateModified":"2020-05-24T21:52:56+09:00","datePublished":"2020-04-23T15:11:31+09:00","description":"","headline":"Issues-React-4.useEffect()","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"http://yoursite.com/2020/04/23/Issues-React-04/"},"publisher":{"@type":"Organization","name":"hyerinOh","sameAs":["https://github.com/hyerinOh"],"image":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7"}},"url":"http://yoursite.com/2020/04/23/Issues-React-04/","keywords":"Issues, React, hooks, useEffect"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"hyerinOh","sameAs":["https://github.com/hyerinOh"],"image":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7"},"articleBody":"\n\n\n\nuseEffect()\n문제 상황 !서버에서 data로 받아온 array안의 객체의 value가 수정했을 때 화면에서 바로 업데이트되도록 하고 싶었다.\n\n12345678910111213141516const [data, setData] = useState([]);const [saveAction, setSaveActiono] = useState(0);useEffect(() =&gt; &#123;  if (data.length) &#123;    setData([      ...data,      &#123;        isOpen: \"Y\",      &#125;,    ]);  &#125;  // 데이터 요청  getAllList();&#125;, [saveAction]);\n\n\nonSave 함수를 클릭하면 saveAction이 1씩 증가하도록해서 이 변화를 감지해서 업데이트 하도록 했는데 의미없는 saveAction 변수를 사용하므로 다른 방법 찾아보기!\n\n","dateCreated":"2020-04-23T15:11:31+09:00","dateModified":"2020-12-13T14:07:54+09:00","datePublished":"2020-04-23T15:11:31+09:00","description":"","headline":"4.useEffect()","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"http://yoursite.com/2020/04/23/Issues-React-04/"},"publisher":{"@type":"Organization","name":"hyerinOh","sameAs":["https://github.com/hyerinOh"],"image":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7"}},"url":"http://yoursite.com/2020/04/23/Issues-React-04/","keywords":"Issues, React, hooks, useEffect"}</script>
     <meta name="keywords" content="Issues,React,hooks,useEffect">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="Issues-React-4.useEffect()">
+<meta property="og:title" content="4.useEffect()">
 <meta property="og:url" content="http://yoursite.com/2020/04/23/Issues-React-04/index.html">
 <meta property="og:site_name" content="hyerin.io">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2020-05-24T12:52:56.321Z">
+<meta property="og:updated_time" content="2020-12-13T05:07:54.704Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Issues-React-4.useEffect()">
+<meta name="twitter:title" content="4.useEffect()">
     
     
         
@@ -166,7 +166,7 @@
         <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title">
-            Issues-React-4.useEffect()
+            4.useEffect()
         </h1>
     
     
@@ -242,8 +242,8 @@
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
                     href="/2020/04/07/Issues-JavaScript-02/"
-                    data-tooltip="Issues-JavaScript-2.concat"
-                    aria-label="NEXT: Issues-JavaScript-2.concat"
+                    data-tooltip="2.concat"
+                    aria-label="NEXT: 2.concat"
                 >
                     
                         <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
@@ -371,8 +371,8 @@
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
                     href="/2020/04/07/Issues-JavaScript-02/"
-                    data-tooltip="Issues-JavaScript-2.concat"
-                    aria-label="NEXT: Issues-JavaScript-2.concat"
+                    data-tooltip="2.concat"
+                    aria-label="NEXT: 2.concat"
                 >
                     
                         <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
