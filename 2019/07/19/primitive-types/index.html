@@ -10,7 +10,7 @@
     <meta name="author" content="hyerinOh">
     
     
-        <link rel="icon" href="http://yoursite.com/assets/images/images/favicon.ico">
+        <link rel="icon" href="http://yoursite.com/assets/images/source/assets/images/favicon.ico">
     
     
     <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"hyerinOh","sameAs":["https://github.com/hyerinOh"],"image":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7"},"articleBody":"\n\n\n\n자바스크립트에는 6가지 종류의 primitive type이 있다. 쉽게 말하자면 자바스크립트에서 객체가 아닌 것들이며, 값 그 자체로 저장된 것을 말한다.\nTypes\nprimitive type\nreference type\n\nPrimitive type\nboolean\nnumber (두 배의 정밀함을 가진 64-bit float. 자바스크립트에는 정수 타입이 존재하지 않음)\nstring\nnull\nundefined\nsymbol (ES6에 처음 생긴 원시타입)\n\n\n\n\n모든 원시 타입은 값을 표현하는 리터럴(코드에 직접 입력된 이름이나 가격처럼 변수에 저장되지 않은 값. 값 자체) 형식이 있다.\n자바스크립트 변수는 원시타입 값이 그대로 저장된다.(메모리 참조가 아닌 값의 복사)\n원시 타입에는 어떠한 메소드도 붙지 않는다. 이러한 특성 때문에 원시타입은 불변성(immutable)을 갖는다. =&gt; 자신을 변경할 수 있는 메소드를 갖지 않기 때문\n원시타입은 참조로 저장되는 object와 다르게 값 그 자체로 저장. 값이 동일한지 체크할 때 앞의 문장이 정확히 무슨 의미인지 알 수 있음. 아래의 배열과 객체는 내용은 같지만 다른 곳을 참조하고 있기 때문에 false를 리턴\n\n123456\"dog\" === \"dog\" // true14 === 14 // ture&#123;&#125; === &#123;&#125; // false[] === [] // false(function()&#123;]&#125;) === (function() &#123;&#125;) // false\n\n123456789var color1 = 'red';var color2 = color1;console.log(color2); //'red'color1 = 'blue';console.log(color1); // 'blue'console.log(color2); // 'red'\n\nReference type\nprimitive type이 아닌 것은 object =&gt; 함수, 배열 포함\n\nes5에서 클래스가 없기 때문에 클래스와 가장 가까운 개념참조 값은 참조 타입의 인스턴스이며 객체와 같은 말이다.객체는 순서가 없는 프로퍼티로 이루어져 있으며 프로퍼티는 key와 value의 구성이다.\n1var object = new Object();\n\n참조타입은 할당된 변수에 값을 직접 저장하지 않음. object에 저장된 값은 객체 인스턴스가 아니라 객체가있는 메모리상 위치를 가리키는 포인터.\n123var object1 = new Object();var object2 = object1;// object2와 object1은 같은 포인터를 참조\n\n\n함수\n함수는 특별한 프로퍼티들을 가진 새로운 형태의 객체. (생성자, 콜)\n일반적인 객체와 같이 함수에 새로운 프로퍼티를 추가하는 것도 가능=&gt; 이러한 특성들 떄문에 함수는 1급 객체=&gt; 1. 다른 함수의 인자값으로 넘겨질 수 있음=&gt; 2. 변수나 데이터에 할당 가능=&gt; 3. 객체의 리턴 값으로 리턴 가능\n\n\n\n\n메소드\n\n함수와 같이 객체의 프로퍼티\n\n\n생성자 함수\n\nnew라는 키워드를 사용해서 리턴 값으로 생성하는 함수를 객체 그 자체로서 반환하는 함수\n어떤 함수든 생성자 함수가 될 수 있음\n생성자 함수는 object를 리턴하게 되는데 obejct에 새로운 프로퍼티들을 할당하기 위해 this를 함수의 몸통 안에서 사용할 수 있다.“baz”값으로 초기화 된 bar라는 프로퍼티를 가진 object를 많이 만들고 싶다면 그 로직을 캡슐화하는 Foo라는 생성자 함수를 생성할 수 있다.\n\n1234567const Foo = function () &#123;    this.bar = \"baz\";&#125;const qux = new Foo();qux; //&#123;bar : \"baz\"&#125;qux instanceof Foo; // truequx instanceof Object; // true\n\nWrapper Object\n\nString, Number, Boolean, Function 와 같은 원시타입을 new 키워드로 생성하면 원시타입에 대한 래퍼 오브젝트(Wrapper Object)가 생성\nString은 문자열이 인자로 들어왔을 때, 원시 문자열(Primitive String)을 생성하는 전역 함수. String 은 인자로 들어온 값을 문자열로 바꾸려 함.\nnew 키워드를 붙인다면 생성자 함수로 쓰일 수 있음\n\n1234567891011String(\"dog\") === \"dog\" // trueconst pet = new String(\"dog\"); =&gt; wrapper objecttypeof pet; // \"object\"pet === \"dog\" // falsepet = &#123;    0 : \"d\",    1 : \"o\",    2 : \"g\",    length: 3&#125;\n\nAuto-Boxing\n\n여기서 흥미로운 점 : 1. 원시 타입 문자열 생성자와 일반 오브젝트 생성자 둘 다 String 함수를 이용한다는 것. 2. 원시 문자열 타입에서 .constructor 를 이용하여 생성자 프로퍼티를 확인할 수 있다는 것=&gt; 원시 타입은 메소드 가질 수 없다 배웠는데?\n\n123const pet = new String(\"dog\");pet.constructor === String // trueString(\"dog\").constructor === String; // true\n\n\nauto-boxing : 우리가 특정한 원시타입에서 프로퍼티나 메소드를 호출하려 할 때, 자바스크립트는 처음으로 이것을 임시 래퍼 오브젝트로 바꾼 뒤에 프로퍼티나 메소드에 접근. 이 과정에서 원본에는 아무런 영향을 미치지 않는다.\n\n123const foo = \"bar\";foo.length; // 3foo === \"bar\" // true\n\n\n위의 예에서, length 라는 프로퍼티에 접근하기 위해 자바스크립트는 foo를 auto-boxing하고 이것을 래퍼 오브젝트에 넣는다. 그리고 래퍼 오브젝트의 length 프로퍼티에 접근하고 값을 이용한 뒤에는 지워버림. 이 모든 과정은 foo라는 원시타입 변수에 전혀 영향을 미치지 않음. foo는 여전히 그저 원시 타입 문자열일 뿐.\n\n자바스크립트가 왜 아무런 경고나 에러메시지를 출력하지 않는지 =&gt; 프로퍼티를 할당할 때 잠시 원시 타입을 이용한 Wrapper Object를 만들고 거기에 할당하기 때문.\n\n만일 undefined나 null과 같이 래퍼 오브젝트가 없는 원시 타입에 대해서 프로퍼티를 할당하려고 하면 자바스크립트는 에러메시지를 나타낼 것입니다.\n\n\n12const foo = null;foo.bar = \"baz\" // Uncaught TypeError: Cannot set property 'bar' of null\n\n\n\n객체 참조 제거자바스크립트는 가비지 컬렉터가 있어서 메모리 할당과 제거에 대해 고민하지 않아도 되지만 사용하지 않는 변수에 대해서는 참조를 제거해 주는 것이 좋다.\n12var object = new Object();object = null;\n\n요약\n자바스크립트의 모든 것이 Object(객체)인 것은 아니다.\n자바스크립트에는 6개의 원시 타입이 존재한다.\n원시 타입이 아닌 것들은 모두 Object(객체)이다.\n함수는 단순히 특별한 타입의 Object(객체)일 뿐이다.\n함수는 새로운 Object(객체)를 만들기 위해 사용될 수 있다. (생성자 함수)\nStrings, Booleans, Numbers 는 원시 타입이면서 오브젝트이다. (래퍼 오브젝트를 갖는다.)\n자바스크립트 내부에 존재하는 오토박싱(Autoboxing)이라는 기능 때문에 몇몇 원시 타입들 (Strings, Numbers, Booleans) 는 Object(객체)처럼 동작한다.\n\n","dateCreated":"2019-07-19T00:00:00+09:00","dateModified":"2019-09-16T01:51:51+09:00","datePublished":"2019-07-19T00:00:00+09:00","description":"","headline":"2. Primitive types","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"http://yoursite.com/2019/07/19/primitive-types/"},"publisher":{"@type":"Organization","name":"hyerinOh","sameAs":["https://github.com/hyerinOh"],"image":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7"}},"url":"http://yoursite.com/2019/07/19/primitive-types/","keywords":"javascript, 33-js-concepts, primitive type, reference type"}</script>
@@ -319,9 +319,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/07/20/value-Types/"
-                    data-tooltip="3. Value Types and Reference Types"
-                    aria-label="PREVIOUS: 3. Value Types and Reference Types"
+                    href="/2019/07/19/node/"
+                    data-tooltip="Node.js"
+                    aria-label="PREVIOUS: Node.js"
                 >
                     
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
@@ -333,9 +333,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/07/19/node/"
-                    data-tooltip="Node.js"
-                    aria-label="NEXT: Node.js"
+                    href="/2019/07/18/call-stack/"
+                    data-tooltip="1. Call Stack"
+                    aria-label="NEXT: 1. Call Stack"
                 >
                     
                         <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
@@ -448,9 +448,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/07/20/value-Types/"
-                    data-tooltip="3. Value Types and Reference Types"
-                    aria-label="PREVIOUS: 3. Value Types and Reference Types"
+                    href="/2019/07/19/node/"
+                    data-tooltip="Node.js"
+                    aria-label="PREVIOUS: Node.js"
                 >
                     
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
@@ -462,9 +462,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/07/19/node/"
-                    data-tooltip="Node.js"
-                    aria-label="NEXT: Node.js"
+                    href="/2019/07/18/call-stack/"
+                    data-tooltip="1. Call Stack"
+                    aria-label="NEXT: 1. Call Stack"
                 >
                     
                         <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
