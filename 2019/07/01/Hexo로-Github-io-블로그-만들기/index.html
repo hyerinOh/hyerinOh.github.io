@@ -1,20 +1,14 @@
-
 <!DOCTYPE html>
-<html lang="en">
-    
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="generator" content="hyerin.io">
-    <title>Hexo로 아주 아주 기본적인 Github.io 블로그 만들기 - hyerin.io</title>
-    <meta name="author" content="hyerinOh">
-    
-    
-    
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"hyerinOh","sameAs":["https://github.com/hyerinOh"],"image":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7"},"articleBody":"아래 블로그들에서 너무나 설명을 자세히 해주셔서 따라 만들어봤는데 (나는) 생각보다 쉽게 만들어지지 않아서…!! 다음에 혹시나 다시 할 때 또다시 헤매지 않도록 정리를 해놓기로 했다.\n\n\n\nreference\nhttps://mingpd.github.io/2019/04/14/github-blog-with-hexo-1/\nhttps://taetaetae.github.io/2016/09/18/hexo_github_blog/\nhttps://hexo.io/ko/\n\n\n\n\n\n\n시작하기 전 준비사항!\nnode\ngit\nhexo와 연결시킬 repository (&lt;자기계정명&gt;.github.io)\n블로그 관리용 repository\n\n\n\nhexo 설치12345678910// hexo-cil를 설치$npm install hexo-cli-g// 디렉토리 만들기mkdir &lt;폴더명&gt;// hexo 프로젝트 생성hexo init &lt;폴더명&gt;cd &lt;폴더명&gt;$npm install\n\n\n\ntheme 적용하기mingpd 님의 블로그처럼 Tranquilpeak 테마를 적용해봤다. \n\nreleases의 Assets에서 한 개만 다운로드한 후 압축을 풀어주기\n폴더 이름을 tranquilpeak으로 변경하고 위에서 생성한 hexo 프로젝트 내의 themes 폴더 안에 넣기\nhexo 프로젝트의 _config.yml파일 안의 theme을 theme:tranquilpeak으로 변경  (주의!!!themes/tranquilpeak/_config.yml 아님)\n\n\n\n여기까지 하고 $hexo server를 실행하면 다들 에러 없이 테스트가 작동하는 것 같았는데나에게는 Cannot find module &#39;jsdom&#39;이라는 에러가 발생했다..열심히 구글링 한 결과\n123cd themescd tranquilpeaknpm install &amp;&amp; npm run prod\n\n위의 명령문들을 실행해주면 문제가 해결되었다!!npm run prod를 실행해야 테마가 빌드 되어서 수정사항들이 바뀐다고 한다.\n\n\n그리고 바로 $hexo server를 해주는 것이 아니라 hexo 프로젝트 폴더로 돌아가서 $hexo server를 실행해주고 http://localhost:4000에 들어가면 Hello World가 나오는 예쁜 블로그를 볼 수 있다.\n간혹 실행이 안 될 경우가 있다는데 그럴 때는\n12$hexo clean$hexo server\n\nclean 명령어를 실행해준 뒤 다시 server 명령어를 실행시켜주면 작동한다고 한다.\n\n\ngrunttheme안의 css, js등을 변경한 후에 grunt라는 javascript 빌드 툴을 이용해서 빌드해준다.초기 설정할 때는\n1234$npm install -g grunt-cli$cd themes/tranquilpeak$npm install grunt --save-dev\n\n초기 설정후에 css,js 파일을 수정한 다음에는\n12// themes/tranquilpeak 폴더에서$grunt build\n\n새로 빌드 한 후에 hexo server를 실행하면 변경된 사항을 확인할 수 있다.\n\n\n포스트 만들기일반 post와 draft(초안)을 만들 수 있는데 일반 post로 자주 만들 것 같다.\n12345678// 일반 post 만들기$hexo new post \"제목\"// draft 만들기$hexo new draft \"제목\"// draft를 post로 만들기$hexo publish \"제목\"\n\n\n\n\n템플릿일반 post =&gt; scaffolds/post.mddraft =&gt; scaffolds/draft.md\n\n1234567891011121314// post.md 파일---title: Hexo로 Github.io 블로그 만들기date: &#123;&#123; date &#125;&#125;categories:- Web- Hexotags: - hexo- github.io- blogthumbnail:permalink: \"http://hyerinOh/Hexo로 Github.io 블로그 만들기\"---\n\n\n\n카테고리를 어떻게 만드나 한참 찾았는데 categories 하위에 순서대로 넣어주면 알아서 카테고리가 만들어진다. tags는 순서 상관없이 동등한 관계!parmalink로 원하는 경로를 설정할 수 있다.\n\n\n\nGithub page 배포하기먼저 라이브러리를 설치해주고 \n1$ npm install hexo-deployer-git --save\n\n_config.yml의 deploy 부분을 \n1234deploy:    type: git    repo: https://github.com/자기계정명/자기계정명.github.io.git    branch: master\n\n이렇게 설정해주고\n1$hexo deploy\n\n배포를 해주면 알아서 리포지토리로 push가 된다! (바보같이 직접 push하려고 고생했…)\n포스트 쓴 후에 배포하려면\n12hexo cleanhexo d -g\n\n이렇게하면 아주 아주 기본적인 github.io 블로그가 완성된다!!뿌듯하니까 첫 포스팅의 주제는 이걸로!;)\n","dateCreated":"2019-07-01T00:00:00+09:00","dateModified":"2019-09-16T16:34:06+09:00","datePublished":"2019-07-01T00:00:00+09:00","description":"아래 블로그들에서 너무나 설명을 자세히 해주셔서 따라 만들어봤는데 (나는) 생각보다 쉽게 만들어지지 않아서…!! 다음에 혹시나 다시 할 때 또다시 헤매지 않도록 정리를 해놓기로 했다.","headline":"Hexo로 아주 아주 기본적인 Github.io 블로그 만들기","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"http://yoursite.com/2019/07/01/Hexo로-Github-io-블로그-만들기/"},"publisher":{"@type":"Organization","name":"hyerinOh","sameAs":["https://github.com/hyerinOh"],"image":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7"}},"url":"http://yoursite.com/2019/07/01/Hexo로-Github-io-블로그-만들기/","keywords":"hexo, github.io, blog"}</script>
+<html lang=en>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="description" content="아래 블로그들에서 너무나 설명을 자세히 해주셔서 따라 만들어봤는데 (나는) 생각보다 쉽게 만들어지지 않아서…!! 다음에 혹시나 다시 할 때 또다시 헤매지 않도록 정리를 해놓기로 했다.">
 <meta name="keywords" content="hexo,github.io,blog">
-<meta property="og:type" content="blog">
+<meta property="og:type" content="article">
 <meta property="og:title" content="Hexo로 아주 아주 기본적인 Github.io 블로그 만들기">
 <meta property="og:url" content="http://yoursite.com/2019/07/01/Hexo로-Github-io-블로그-만들기/index.html">
 <meta property="og:site_name" content="hyerin.io">
@@ -26,175 +20,138 @@
 <meta name="twitter:description" content="아래 블로그들에서 너무나 설명을 자세히 해주셔서 따라 만들어봤는데 (나는) 생각보다 쉽게 만들어지지 않아서…!! 다음에 혹시나 다시 할 때 또다시 헤매지 않도록 정리를 해놓기로 했다.">
     
     
+      
         
-    
-    
-    
-    
-    
-    <!--STYLES-->
-    <link rel="stylesheet" href="/assets/css/all.css">
-    <link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
-    <link rel="stylesheet" href="/assets/css/thumbs.css">
-    <link rel="stylesheet" href="/assets/css/tranquilpeak.css">
-    <!--STYLES END-->
-    
-
-    
-
-    
+          <link rel="shortcut icon" href="/images/favicon.ico">
         
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Hexo로 아주 아주 기본적인 Github.io 블로그 만들기</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
     
 </head>
 
-    <body>
-        <div id="blog">
-            <!-- Define author's picture -->
-
-
+<body class="max-width mx-auto px3 ltr">
     
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/projects_url">Projects</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/07/18/call-stack/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/07/01/Hexo로-Github-io-블로그-만들기/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/07/01/Hexo로-Github-io-블로그-만들기/&text=Hexo로 아주 아주 기본적인 Github.io 블로그 만들기"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/07/01/Hexo로-Github-io-블로그-만들기/&title=Hexo로 아주 아주 기본적인 Github.io 블로그 만들기"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/07/01/Hexo로-Github-io-블로그-만들기/&is_video=false&description=Hexo로 아주 아주 기본적인 Github.io 블로그 만들기"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Hexo로 아주 아주 기본적인 Github.io 블로그 만들기&body=Check out this article: http://yoursite.com/2019/07/01/Hexo로-Github-io-블로그-만들기/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/07/01/Hexo로-Github-io-블로그-만들기/&title=Hexo로 아주 아주 기본적인 Github.io 블로그 만들기"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/07/01/Hexo로-Github-io-블로그-만들기/&title=Hexo로 아주 아주 기본적인 Github.io 블로그 만들기"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/07/01/Hexo로-Github-io-블로그-만들기/&title=Hexo로 아주 아주 기본적인 Github.io 블로그 만들기"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/07/01/Hexo로-Github-io-블로그-만들기/&title=Hexo로 아주 아주 기본적인 Github.io 블로그 만들기"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/07/01/Hexo로-Github-io-블로그-만들기/&name=Hexo로 아주 아주 기본적인 Github.io 블로그 만들기&description=&lt;p&gt;아래 블로그들에서 너무나 설명을 자세히 해주셔서 따라 만들어봤는데 &lt;del&gt;(나는)&lt;/del&gt; 생각보다 쉽게 만들어지지 않아서…!! 다음에 혹시나 다시 할 때 또다시 헤매지 않도록 정리를 해놓기로 했다.&lt;/p&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://yoursite.com/2019/07/01/Hexo로-Github-io-블로그-만들기/&t=Hexo로 아주 아주 기본적인 Github.io 블로그 만들기"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
 
-<header id="header" data-behavior="5">
-    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
-    <div class="header-title">
-        <a
-            class="header-title-link"
-            href="/ "
-            aria-label=""
-        >
-            hyerin.io
-        </a>
     </div>
-    
-        
-            <a
-                class="header-right-picture "
-                href="#about"
-                aria-label="Open the link: /#about"
-            >
-        
-        
-        </a>
-    
-</header>
-
-            <!-- Define author's picture -->
-
-
-<nav id="sidebar" data-behavior="5">
-    <div class="sidebar-container">
-        
-        
-            <ul class="sidebar-buttons">
-            
-                <li class="sidebar-button">
-                    
-                        <a  class="sidebar-button-link "
-                             href="/ "
-                            
-                            title="Home"
-                        >
-                    
-                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Home</span>
-                    </a>
-            </li>
-            
-                <li class="sidebar-button">
-                    
-                        <a  class="sidebar-button-link "
-                             href="/all-categories"
-                            
-                            title="Categories"
-                        >
-                    
-                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Categories</span>
-                    </a>
-            </li>
-            
-                <li class="sidebar-button">
-                    
-                        <a  class="sidebar-button-link "
-                             href="/all-tags"
-                            
-                            title="Tags"
-                        >
-                    
-                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Tags</span>
-                    </a>
-            </li>
-            
-                <li class="sidebar-button">
-                    
-                        <a  class="sidebar-button-link "
-                             href="#about"
-                            
-                            title="About"
-                        >
-                    
-                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">About</span>
-                    </a>
-            </li>
-            
-        </ul>
-        
-            <ul class="sidebar-buttons">
-            
-                <li class="sidebar-button">
-                    
-                        <a  class="sidebar-button-link " href="https://github.com/hyerinOh" target="_blank" rel="noopener" title="GitHub">
-                    
-                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">GitHub</span>
-                    </a>
-            </li>
-            
-        </ul>
-        
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#시작하기-전-준비사항"><span class="toc-number">1.</span> <span class="toc-text">시작하기 전 준비사항!</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#hexo-설치"><span class="toc-number">2.</span> <span class="toc-text">hexo 설치</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#theme-적용하기"><span class="toc-number">3.</span> <span class="toc-text">theme 적용하기</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#grunt"><span class="toc-number">4.</span> <span class="toc-text">grunt</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#포스트-만들기"><span class="toc-number">5.</span> <span class="toc-text">포스트 만들기</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Github-page-배포하기"><span class="toc-number">6.</span> <span class="toc-text">Github page 배포하기</span></a></li></ol>
     </div>
-</nav>
-
-            
-            <div id="main" data-behavior="5"
-                 class="
-                        hasCoverMetaIn
-                        ">
-                
-<article class="post">
-    
-    
-        <div class="post-header main-content-wrap text-left">
-    
-        <h1 class="post-title">
-            Hexo로 아주 아주 기본적인 Github.io 블로그 만들기
-        </h1>
-    
-    
-        <div class="post-meta">
-    <time datetime="2019-07-01T00:00:00+09:00">
-	
-		    Jul 01, 2019
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/web/">web</a>, <a class="category-link" href="/categories/web/hexo/">hexo</a>
-
-
-    
+  </span>
 </div>
 
     
-</div>
-
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
     
-    <div class="post-content markdown">
-        <div class="main-content-wrap">
-            <p>아래 블로그들에서 너무나 설명을 자세히 해주셔서 따라 만들어봤는데 <del>(나는)</del> 생각보다 쉽게 만들어지지 않아서…!! 다음에 혹시나 다시 할 때 또다시 헤매지 않도록 정리를 해놓기로 했다.</p>
+    <h1 class="posttitle" itemprop="name headline">
+        Hexo로 아주 아주 기본적인 Github.io 블로그 만들기
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">hyerinOh</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-06-30T15:00:00.000Z" itemprop="datePublished">2019-07-01</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/web/">web</a> › <a class="category-link" href="/categories/web/hexo/">hexo</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/blog/">blog</a>, <a class="tag-link" href="/tags/github-io/">github.io</a>, <a class="tag-link" href="/tags/hexo/">hexo</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>아래 블로그들에서 너무나 설명을 자세히 해주셔서 따라 만들어봤는데 <del>(나는)</del> 생각보다 쉽게 만들어지지 않아서…!! 다음에 혹시나 다시 할 때 또다시 헤매지 않도록 정리를 해놓기로 했다.</p>
 <a id="more"></a>
 
 <ul>
@@ -281,369 +238,128 @@
 
 <p>이렇게하면 아주 아주 기본적인 github.io 블로그가 완성된다!!<br>뿌듯하니까 첫 포스팅의 주제는 이걸로!;)</p>
 
-            
-
-
-        </div>
-    </div>
-    <div id="post-footer" class="post-footer main-content-wrap">
-        
-            <div class="post-footer-tags">
-                <span class="text-color-light text-small">TAGGED IN</span><br/>
-                
-    <a class="tag tag--primary tag--small t-link" href="/tags/blog/">blog</a> <a class="tag tag--primary tag--small t-link" href="/tags/github-io/">github.io</a> <a class="tag tag--primary tag--small t-link" href="/tags/hexo/">hexo</a>
-
-            </div>
-        
-        
-            <div class="post-actions-wrap">
-    <nav>
-        <ul class="post-actions post-action-nav">
-            <li class="post-action">
-                
-                    
-                <a
-                    class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/07/18/call-stack/"
-                    data-tooltip="1. Call Stack"
-                    aria-label="PREVIOUS: 1. Call Stack"
-                >
-                    
-                        <i class="fa fa-angle-left" aria-hidden="true"></i>
-                        <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
-                    </a>
-            </li>
-            <li class="post-action">
-                
-                    <a
-                        class="post-action-btn btn btn--disabled"
-                        aria-hidden="true"
-                    >
-                        
-                        <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
-                        <i class="fa fa-angle-right" aria-hidden="true"></i>
-                    </a>
-            </li>
-        </ul>
-    </nav>
-    <ul class="post-actions post-action-share">
-        <li class="post-action hide-lg hide-md hide-sm">
-            <a
-                class="post-action-btn btn btn--default btn-open-shareoptions"
-                href="#btn-open-shareoptions"
-                aria-label="Share this post"
-            >
-                <i class="fa fa-share-alt" aria-hidden="true"></i>
-            </a>
-        </li>
-        
-            
-            
-            <li class="post-action hide-xs">
-                <a
-                    class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/07/01/Hexo로-Github-io-블로그-만들기/"
-                    title="Share on Facebook"
-                    aria-label="Share on Facebook"
-                >
-                    <i class="fab fa-facebook" aria-hidden="true"></i>
-                </a>
-            </li>
-        
-            
-            
-            <li class="post-action hide-xs">
-                <a
-                    class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2019/07/01/Hexo로-Github-io-블로그-만들기/"
-                    title="Share on Twitter"
-                    aria-label="Share on Twitter"
-                >
-                    <i class="fab fa-twitter" aria-hidden="true"></i>
-                </a>
-            </li>
-        
-            
-            
-            <li class="post-action hide-xs">
-                <a
-                    class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=http://yoursite.com/2019/07/01/Hexo로-Github-io-블로그-만들기/"
-                    title="Share on Google+"
-                    aria-label="Share on Google+"
-                >
-                    <i class="fab fa-google-plus" aria-hidden="true"></i>
-                </a>
-            </li>
-        
-        
-            
-                <li class="post-action">
-                    <a
-                        class="post-action-btn btn btn--default"
-                        href="#disqus_thread"
-                        aria-label="Leave a comment"
-                    >
-                        <i class="fa fa-comment"></i>
-                    </a>
-                </li>
-            
-        
-        <li class="post-action">
-            
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
-            
-                <i class="fa fa-list" aria-hidden="true"></i>
-            </a>
-        </li>
-    </ul>
-</div>
-
-
-        
-        
-            
-                <div id="disqus_thread">
-    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-</div>
-            
-        
-    </div>
+  </div>
 </article>
 
 
 
-                <footer id="footer" class="main-content-wrap">
-    <span class="copyrights">
-        Copyrights &copy; 2020 hyerinOh. All Rights Reserved.
-    </span>
-</footer>
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
 
-            </div>
-            
-                <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
-                    <div class="post-actions-wrap">
-    <nav>
-        <ul class="post-actions post-action-nav">
-            <li class="post-action">
-                
-                    
-                <a
-                    class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/07/18/call-stack/"
-                    data-tooltip="1. Call Stack"
-                    aria-label="PREVIOUS: 1. Call Stack"
-                >
-                    
-                        <i class="fa fa-angle-left" aria-hidden="true"></i>
-                        <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
-                    </a>
-            </li>
-            <li class="post-action">
-                
-                    <a
-                        class="post-action-btn btn btn--disabled"
-                        aria-hidden="true"
-                    >
-                        
-                        <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
-                        <i class="fa fa-angle-right" aria-hidden="true"></i>
-                    </a>
-            </li>
-        </ul>
-    </nav>
-    <ul class="post-actions post-action-share">
-        <li class="post-action hide-lg hide-md hide-sm">
-            <a
-                class="post-action-btn btn btn--default btn-open-shareoptions"
-                href="#btn-open-shareoptions"
-                aria-label="Share this post"
-            >
-                <i class="fa fa-share-alt" aria-hidden="true"></i>
-            </a>
-        </li>
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/projects_url">Projects</a></li>
         
-            
-            
-            <li class="post-action hide-xs">
-                <a
-                    class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/07/01/Hexo로-Github-io-블로그-만들기/"
-                    title="Share on Facebook"
-                    aria-label="Share on Facebook"
-                >
-                    <i class="fab fa-facebook" aria-hidden="true"></i>
-                </a>
-            </li>
-        
-            
-            
-            <li class="post-action hide-xs">
-                <a
-                    class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2019/07/01/Hexo로-Github-io-블로그-만들기/"
-                    title="Share on Twitter"
-                    aria-label="Share on Twitter"
-                >
-                    <i class="fab fa-twitter" aria-hidden="true"></i>
-                </a>
-            </li>
-        
-            
-            
-            <li class="post-action hide-xs">
-                <a
-                    class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=http://yoursite.com/2019/07/01/Hexo로-Github-io-블로그-만들기/"
-                    title="Share on Google+"
-                    aria-label="Share on Google+"
-                >
-                    <i class="fab fa-google-plus" aria-hidden="true"></i>
-                </a>
-            </li>
-        
-        
-            
-                <li class="post-action">
-                    <a
-                        class="post-action-btn btn btn--default"
-                        href="#disqus_thread"
-                        aria-label="Leave a comment"
-                    >
-                        <i class="fa fa-comment"></i>
-                    </a>
-                </li>
-            
-        
-        <li class="post-action">
-            
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
-            
-                <i class="fa fa-list" aria-hidden="true"></i>
-            </a>
-        </li>
-    </ul>
-</div>
-
-
-                </div>
-                
-    <div id="share-options-bar" class="share-options-bar" data-behavior="5">
-        <i id="btn-close-shareoptions" class="fa fa-times"></i>
-        <ul class="share-options">
-            
-                
-                
-                <li class="share-option">
-                    <a
-                        class="share-option-btn"
-                        target="new"
-                        href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/07/01/Hexo로-Github-io-블로그-만들기/"
-                        aria-label="Share on Facebook"
-                    >
-                        <i class="fab fa-facebook" aria-hidden="true"></i><span>Share on Facebook</span>
-                    </a>
-                </li>
-            
-                
-                
-                <li class="share-option">
-                    <a
-                        class="share-option-btn"
-                        target="new"
-                        href="https://twitter.com/intent/tweet?text=http://yoursite.com/2019/07/01/Hexo로-Github-io-블로그-만들기/"
-                        aria-label="Share on Twitter"
-                    >
-                        <i class="fab fa-twitter" aria-hidden="true"></i><span>Share on Twitter</span>
-                    </a>
-                </li>
-            
-                
-                
-                <li class="share-option">
-                    <a
-                        class="share-option-btn"
-                        target="new"
-                        href="https://plus.google.com/share?url=http://yoursite.com/2019/07/01/Hexo로-Github-io-블로그-만들기/"
-                        aria-label="Share on Google+"
-                    >
-                        <i class="fab fa-google-plus" aria-hidden="true"></i><span>Share on Google+</span>
-                    </a>
-                </li>
-            
-        </ul>
+      </ul>
     </div>
 
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#시작하기-전-준비사항"><span class="toc-number">1.</span> <span class="toc-text">시작하기 전 준비사항!</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#hexo-설치"><span class="toc-number">2.</span> <span class="toc-text">hexo 설치</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#theme-적용하기"><span class="toc-number">3.</span> <span class="toc-text">theme 적용하기</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#grunt"><span class="toc-number">4.</span> <span class="toc-text">grunt</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#포스트-만들기"><span class="toc-number">5.</span> <span class="toc-text">포스트 만들기</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Github-page-배포하기"><span class="toc-number">6.</span> <span class="toc-text">Github page 배포하기</span></a></li></ol>
+    </div>
 
-            
-        </div>
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/07/01/Hexo로-Github-io-블로그-만들기/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/07/01/Hexo로-Github-io-블로그-만들기/&text=Hexo로 아주 아주 기본적인 Github.io 블로그 만들기"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/07/01/Hexo로-Github-io-블로그-만들기/&title=Hexo로 아주 아주 기본적인 Github.io 블로그 만들기"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/07/01/Hexo로-Github-io-블로그-만들기/&is_video=false&description=Hexo로 아주 아주 기본적인 Github.io 블로그 만들기"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Hexo로 아주 아주 기본적인 Github.io 블로그 만들기&body=Check out this article: http://yoursite.com/2019/07/01/Hexo로-Github-io-블로그-만들기/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/07/01/Hexo로-Github-io-블로그-만들기/&title=Hexo로 아주 아주 기본적인 Github.io 블로그 만들기"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/07/01/Hexo로-Github-io-블로그-만들기/&title=Hexo로 아주 아주 기본적인 Github.io 블로그 만들기"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/07/01/Hexo로-Github-io-블로그-만들기/&title=Hexo로 아주 아주 기본적인 Github.io 블로그 만들기"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/07/01/Hexo로-Github-io-블로그-만들기/&title=Hexo로 아주 아주 기본적인 Github.io 블로그 만들기"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/07/01/Hexo로-Github-io-블로그-만들기/&name=Hexo로 아주 아주 기본적인 Github.io 블로그 만들기&description=&lt;p&gt;아래 블로그들에서 너무나 설명을 자세히 해주셔서 따라 만들어봤는데 &lt;del&gt;(나는)&lt;/del&gt; 생각보다 쉽게 만들어지지 않아서…!! 다음에 혹시나 다시 할 때 또다시 헤매지 않도록 정리를 해놓기로 했다.&lt;/p&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://yoursite.com/2019/07/01/Hexo로-Github-io-블로그-만들기/&t=Hexo로 아주 아주 기본적인 Github.io 블로그 만들기"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
         
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
     
-        
-                                            <div id="about">
-                                                <div id="about-card">
-                                                    <div id="about-btn-close">
-                                                        <i class="fa fa-times"></i>
-                                                    </div>
-                                                    
-                                                            <h4 id="about-card-name">
-                                                                hyerinOh
-                                                            </h4>
-                                                            
-                                                                <div id="about-card-bio">
-                                                                    <p>내가 보려고 정리하는 블로그</p>
-
-                                                                </div>
-                                                                
-                                                                    
-                                                                        <div id="about-card-job">
-                                                                            <i class="fa fa-briefcase"></i>
-                                                                            <br/>
-                                                                            <p>front-end developer</p>
-
-                                                                        </div>
-                                                                        
-                                                                            
-                                                                                <div id="about-card-location">
-                                                                                    <i class="fa fa-map-marker-alt"></i>
-                                                                                    <br/>
-                                                                                    Seoul, Korea
-                                                                                </div>
-                                                                                
-                                                </div>
-                                            </div>
-        
-        
-<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
-        <!--SCRIPTS-->
-<script src="/assets/js/jquery.js"></script>
-<script src="/assets/js/jquery.fancybox.js"></script>
-<script src="/assets/js/thumbs.js"></script>
-<script src="/assets/js/tranquilpeak.js"></script>
-<!--SCRIPTS END-->
-
-
     
-        <script>
-          var disqus_config = function() {
-            this.page.url = 'http://yoursite.com/2019/07/01/Hexo로-Github-io-블로그-만들기/';
-              
-            this.page.identifier = '2019/07/01/Hexo로-Github-io-블로그-만들기/';
-              
-          };
-          (function() {
-            var d = document, s = d.createElement('script');
-            var disqus_shortname = 'web1-s18lyko82r';
-            s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    2016-2020
+    hyerinOh
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/projects_url">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
 
-            s.setAttribute('data-timestamp', +new Date());
-            (d.head || d.body).appendChild(s);
-          })();
-        </script>
-    
+    </div>
+    <!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+    <!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<!-- clipboard -->
+
+  <script src="/lib/clipboard/clipboard.min.js"></script>
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
 
 
-
-
-    </body>
+</body>
 </html>

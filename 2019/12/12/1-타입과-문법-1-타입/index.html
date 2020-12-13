@@ -1,19 +1,13 @@
-
 <!DOCTYPE html>
-<html lang="en">
-    
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="generator" content="hyerin.io">
-    <title>You Don&#39;t Know JS - 1.타입과 문법 - 1.타입 - hyerin.io</title>
-    <meta name="author" content="hyerinOh">
-    
-    
-    
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"hyerinOh","sameAs":["https://github.com/hyerinOh"],"image":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7"},"articleBody":"\n\n\n[ You Don’t Know JS 정리 ]\n1. 타입\n\n1.1 타입, 그 실체를 이해하자1.2 내장 타입1.3 값은 타입을 가진다&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.3.1 값이 없는 vs 선언되지 않은&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.3.2 선언되지 않은 변수\n\n\n1.1 타입, 그 실체를 이해하자\n타입 : 자바스크립트 엔진, 개발자 모두에게 어떤 값을 다른 값과 분별할 수 있는, 고유한 내부 특성의 집합\n\n거의 모든 자바스크립트 프로그램에서 강제 변환이 일어나므로 타입을 확실하게 인지하고 사용하는 것이 중요\n\n\n1.2 내장 타입\n7가지 내장 타입 (es6 기준) \n\nnull : primitive type\nundefined : primitive type\nboolean : primitive type\nnumber : primitive type\nstring : primitive type\nobject : reference type\nsymbol : primitive type\n\n\n\n값 타입은 typeof 연산자로 알 수 있다.\n12345typeof undefined === \"undefined\"; // truetypeof true === \"boolean\"; // truetypeof 42 === \"number\" // truetypeof &#123;life : 42&#125; === \"object\" // truetypeof Symbol() === \"symbol\" // true\n\n\n\n하지만 내장 타입과 1:1로 정확하게 매치되지는 않는다.\n1typeof null === \"object\" // true\n\nnull은 ‘falsy’한 유일한 원시 값이지만, 타입은 ‘object’인 특별한 존재다.\n그래서 타입으로 null 값을 정확히 확인하려면 조건이 하나 더 필요하다.\n12var a = null;(!a &amp;&amp; typeof a === \"object\") // true\n\ntypeof가 반환하는 문자열은 하나 더 있다.\n1typeof function a()&#123;...&#125; === \"function\" // true\n\n마치 function이 최상위 레벨의 내장 타입처럼 보이지만 실제로는 ‘object’의 하위 타입이다. =&gt; 호출 가능한 객체\n따라서 함수에 프로퍼티를 둘 수 있고, 함수에 선언된 인자 개수는 함수 객체의 length 프로퍼티로 알 수 있다.\n1234function a(a,b) &#123;    /* ... */&#125;a.length // 2\n\n\n\n1.3 값은 타입을 가진다.\n값에는 타입이 있지만, 변수에는 타입이란 없다. \n자바스크립트는 타입 강제를 하지 않는다. 변수값이 처음에 할당된 값과 동일한 타입일 필요 없다.\ntypeof의 연산자의 반환 값은 언제나 문자열이다. ex) “string”, “number”\n\n1.3.1 값이 없는 vs 선언되지 않은\n“undefined”(값이 없는)과 “undeclared”(선언되지 않은)을 동의어처럼 생각하기 쉬운데 둘은 완전히 다른 개념\nundefined : 접근 가능한 스코프에 변수가 선언되었으나 현재 아무런 값도 할당되지 않은 상태를 가리킨다\nundeclared : 접근 가능한 스코프에 변수 자체가 선언조차 되지 않은 상태123var a;a; // undefinedb; // ReferenceError : b is not defined\n\n\n\n\n\n1.3.2 선언되지 않은 변수\n여러 스크립트 파일의 변수들이 전역 네임스페이스를 공유할 때, typeof가 유용\n\ntypeof 로 전역 변수 체크\n\n프로그램의 ‘디버그 모드’를 DEBUG라는 전역 변수로 조정한다고 쳤을 때\n\n콘솔 창에 메시지 로깅 등 디버깅 작업을 수행하기 전, 이 변수의 선언 여부를 체크\n\n최상위 전역 스코프에 var DEBUG = true 라고 ‘debug.js’ 파일에만 선언하고, 개발/테스트 단계에서 이 파일을 브라우저가 로깅하기만 하면 된다.\n\n그러나 나머지 어플리케이션 코드에서 ReferenceError가 나지 않게 하려면 조심해서 DEBUG 전역 변수를 체크해야 한다.\n12345678910111213141516171819202122232425[utility.js]function sum(a,b) &#123;    return a + b;&#125;function product(a,b) &#123;    return a * b;&#125;export &#123;product, sum&#125;;[app.js]import &#123;product, sum&#125; from 'utility';console.log(product(1,2)) //2console.log(sum(1,2)) //3// 에러 발생if (DEBUG) &#123;    console.log(\"디버깅 시작\")&#125;// 안전하게 존재 여부 체크if (typeof DEBUG !== \"undefined\") &#123;    console.log(\"디버깅 시작\")&#125;\n\n\n\ntypeof 없이 전역 변수를 체크하는 다른 방법\n\n전역 변수가 모두 전역 객체(브라우저는 window)의 프로퍼티라는 점을 이용하는 것\n123if (window.DEBUG) &#123;   // ... &#125;\n\n하지만 가급적 삼가는 것이 좋다.\n\n전역 변수를 꼭 window 객체로만 호출하지 않는 다중 자바스크립트 환경(브라우저뿐만 아니라 서버에서 실행되는 node.js)이라면 더욱\n\n\n\n\n\n전역 변수를 사용하지 않을 때\n\n일부 개발자들은 이런 설계 방식이 그다지 바람직하지 않다고 말한다.\n\nex) 다른 개발자가 유틸리티 함수를 자신의 모듈/프로그램에 카피 앤 페이스트하여 사용하는데, 가져다 쓰는 프로그램에 유틸리티의 특정 변숫값이 정의되어 있는지 체크해야하는 상황\n12345678function doSomethingCool() &#123;    var helper =         (typeof FeatureXYZ !== \"undefined\") ?         FeatureXYZ :     \tfunction() &#123; /*기본 XYZ 기능*/&#125;;        var val = helper();&#125;\n\ndoSomethingCool함수는 FeatureXYZ 변수가 있으면 그대로 사용하고, 없으면 함수 바디를 정의한다.\n\n이렇게 해야 다른 사람이 카피 앤 페이스트를 해도 안전하게 FeatureXYZ가 존재하는지 체크할 수 있다.\n\n\n\n\n의존성 주입 설계 패턴\n\n명시적으로 의존 관계를 전달123456function doSomethingCool(FeatureXYZ) &#123;    var helper = FeatureXYZ ||        function() &#123;/*기본 XYZ 기능*/&#125;;        var val = helper(); &#125;\n\n\n\n\n\n\n\n\n\n","dateCreated":"2019-12-12T18:59:17+09:00","dateModified":"2019-12-13T15:23:14+09:00","datePublished":"2019-12-12T18:59:17+09:00","description":"","headline":"You Don't Know JS - 1.타입과 문법 - 1.타입","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"http://yoursite.com/2019/12/12/1-타입과-문법-1-타입/"},"publisher":{"@type":"Organization","name":"hyerinOh","sameAs":["https://github.com/hyerinOh"],"image":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7"}},"url":"http://yoursite.com/2019/12/12/1-타입과-문법-1-타입/","keywords":"javascript, You Don't Know JS, type"}</script>
+<html lang=en>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="keywords" content="javascript,You Don&#39;t Know JS,type">
-<meta property="og:type" content="blog">
+<meta property="og:type" content="article">
 <meta property="og:title" content="You Don&#39;t Know JS - 1.타입과 문법 - 1.타입">
 <meta property="og:url" content="http://yoursite.com/2019/12/12/1-타입과-문법-1-타입/index.html">
 <meta property="og:site_name" content="hyerin.io">
@@ -23,175 +17,140 @@
 <meta name="twitter:title" content="You Don&#39;t Know JS - 1.타입과 문법 - 1.타입">
     
     
+      
         
-    
-    
-    
-    
-    
-    <!--STYLES-->
-    <link rel="stylesheet" href="/assets/css/all.css">
-    <link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
-    <link rel="stylesheet" href="/assets/css/thumbs.css">
-    <link rel="stylesheet" href="/assets/css/tranquilpeak.css">
-    <!--STYLES END-->
-    
-
-    
-
-    
+          <link rel="shortcut icon" href="/images/favicon.ico">
         
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>You Don&#39;t Know JS - 1.타입과 문법 - 1.타입</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
     
 </head>
 
-    <body>
-        <div id="blog">
-            <!-- Define author's picture -->
-
-
+<body class="max-width mx-auto px3 ltr">
     
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/projects_url">Projects</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/12/12/1-타입과-문법-2-값/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/09/29/event-loop/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/12/12/1-타입과-문법-1-타입/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/12/12/1-타입과-문법-1-타입/&text=You Don&#39;t Know JS - 1.타입과 문법 - 1.타입"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/12/12/1-타입과-문법-1-타입/&title=You Don&#39;t Know JS - 1.타입과 문법 - 1.타입"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/12/12/1-타입과-문법-1-타입/&is_video=false&description=You Don&#39;t Know JS - 1.타입과 문법 - 1.타입"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=You Don&#39;t Know JS - 1.타입과 문법 - 1.타입&body=Check out this article: http://yoursite.com/2019/12/12/1-타입과-문법-1-타입/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/12/12/1-타입과-문법-1-타입/&title=You Don&#39;t Know JS - 1.타입과 문법 - 1.타입"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/12/12/1-타입과-문법-1-타입/&title=You Don&#39;t Know JS - 1.타입과 문법 - 1.타입"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/12/12/1-타입과-문법-1-타입/&title=You Don&#39;t Know JS - 1.타입과 문법 - 1.타입"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/12/12/1-타입과-문법-1-타입/&title=You Don&#39;t Know JS - 1.타입과 문법 - 1.타입"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/12/12/1-타입과-문법-1-타입/&name=You Don&#39;t Know JS - 1.타입과 문법 - 1.타입&description=&lt;br&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://yoursite.com/2019/12/12/1-타입과-문법-1-타입/&t=You Don&#39;t Know JS - 1.타입과 문법 - 1.타입"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
 
-<header id="header" data-behavior="5">
-    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
-    <div class="header-title">
-        <a
-            class="header-title-link"
-            href="/ "
-            aria-label=""
-        >
-            hyerin.io
-        </a>
     </div>
-    
-        
-            <a
-                class="header-right-picture "
-                href="#about"
-                aria-label="Open the link: /#about"
-            >
-        
-        
-        </a>
-    
-</header>
-
-            <!-- Define author's picture -->
-
-
-<nav id="sidebar" data-behavior="5">
-    <div class="sidebar-container">
-        
-        
-            <ul class="sidebar-buttons">
-            
-                <li class="sidebar-button">
-                    
-                        <a  class="sidebar-button-link "
-                             href="/ "
-                            
-                            title="Home"
-                        >
-                    
-                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Home</span>
-                    </a>
-            </li>
-            
-                <li class="sidebar-button">
-                    
-                        <a  class="sidebar-button-link "
-                             href="/all-categories"
-                            
-                            title="Categories"
-                        >
-                    
-                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Categories</span>
-                    </a>
-            </li>
-            
-                <li class="sidebar-button">
-                    
-                        <a  class="sidebar-button-link "
-                             href="/all-tags"
-                            
-                            title="Tags"
-                        >
-                    
-                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Tags</span>
-                    </a>
-            </li>
-            
-                <li class="sidebar-button">
-                    
-                        <a  class="sidebar-button-link "
-                             href="#about"
-                            
-                            title="About"
-                        >
-                    
-                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">About</span>
-                    </a>
-            </li>
-            
-        </ul>
-        
-            <ul class="sidebar-buttons">
-            
-                <li class="sidebar-button">
-                    
-                        <a  class="sidebar-button-link " href="https://github.com/hyerinOh" target="_blank" rel="noopener" title="GitHub">
-                    
-                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">GitHub</span>
-                    </a>
-            </li>
-            
-        </ul>
-        
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-타입"><span class="toc-number">1.</span> <span class="toc-text">1. 타입</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-타입-그-실체를-이해하자"><span class="toc-number">1.1.</span> <span class="toc-text">1.1 타입, 그 실체를 이해하자</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-내장-타입"><span class="toc-number">1.2.</span> <span class="toc-text">1.2 내장 타입</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-3-값은-타입을-가진다"><span class="toc-number">1.3.</span> <span class="toc-text">1.3 값은 타입을 가진다.</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-1-값이-없는-vs-선언되지-않은"><span class="toc-number">1.3.1.</span> <span class="toc-text">1.3.1 값이 없는 vs 선언되지 않은</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-2-선언되지-않은-변수"><span class="toc-number">1.3.2.</span> <span class="toc-text">1.3.2 선언되지 않은 변수</span></a></li></ol></li></ol></li></ol>
     </div>
-</nav>
-
-            
-            <div id="main" data-behavior="5"
-                 class="
-                        hasCoverMetaIn
-                        ">
-                
-<article class="post">
-    
-    
-        <div class="post-header main-content-wrap text-left">
-    
-        <h1 class="post-title">
-            You Don&#39;t Know JS - 1.타입과 문법 - 1.타입
-        </h1>
-    
-    
-        <div class="post-meta">
-    <time datetime="2019-12-12T18:59:17+09:00">
-	
-		    Dec 12, 2019
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/Dev/">Dev</a>, <a class="category-link" href="/categories/Dev/JavaScript/">JavaScript</a>, <a class="category-link" href="/categories/Dev/JavaScript/You-Don-t-Know-JS/">You Don't Know JS</a>
-
-
-    
+  </span>
 </div>
 
     
-</div>
-
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
     
-    <div class="post-content markdown">
-        <div class="main-content-wrap">
-            <br>
+    <h1 class="posttitle" itemprop="name headline">
+        You Don&#39;t Know JS - 1.타입과 문법 - 1.타입
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">hyerinOh</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-12-12T09:59:17.000Z" itemprop="datePublished">2019-12-12</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/Dev/">Dev</a> › <a class="category-link" href="/categories/Dev/JavaScript/">JavaScript</a> › <a class="category-link" href="/categories/Dev/JavaScript/You-Don-t-Know-JS/">You Don't Know JS</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/You-Don-t-Know-JS/">You Don't Know JS</a>, <a class="tag-link" href="/tags/javascript/">javascript</a>, <a class="tag-link" href="/tags/type/">type</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <br>
 
 <a id="more"></a>
 <p><strong>[ You Don’t Know JS 정리 ]</strong></p>
@@ -310,375 +269,128 @@
 </li>
 </ul>
 
-            
-
-
-        </div>
-    </div>
-    <div id="post-footer" class="post-footer main-content-wrap">
-        
-            <div class="post-footer-tags">
-                <span class="text-color-light text-small">TAGGED IN</span><br/>
-                
-    <a class="tag tag--primary tag--small t-link" href="/tags/You-Don-t-Know-JS/">You Don't Know JS</a> <a class="tag tag--primary tag--small t-link" href="/tags/javascript/">javascript</a> <a class="tag tag--primary tag--small t-link" href="/tags/type/">type</a>
-
-            </div>
-        
-        
-            <div class="post-actions-wrap">
-    <nav>
-        <ul class="post-actions post-action-nav">
-            <li class="post-action">
-                
-                    
-                <a
-                    class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/12/12/1-타입과-문법-2-값/"
-                    data-tooltip="You Don&#39;t Know JS - 1.타입과 문법 - 2.값"
-                    aria-label="PREVIOUS: You Don&#39;t Know JS - 1.타입과 문법 - 2.값"
-                >
-                    
-                        <i class="fa fa-angle-left" aria-hidden="true"></i>
-                        <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
-                    </a>
-            </li>
-            <li class="post-action">
-                
-                    
-                <a
-                    class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/09/29/event-loop/"
-                    data-tooltip="9. event loop"
-                    aria-label="NEXT: 9. event loop"
-                >
-                    
-                        <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
-                        <i class="fa fa-angle-right" aria-hidden="true"></i>
-                    </a>
-            </li>
-        </ul>
-    </nav>
-    <ul class="post-actions post-action-share">
-        <li class="post-action hide-lg hide-md hide-sm">
-            <a
-                class="post-action-btn btn btn--default btn-open-shareoptions"
-                href="#btn-open-shareoptions"
-                aria-label="Share this post"
-            >
-                <i class="fa fa-share-alt" aria-hidden="true"></i>
-            </a>
-        </li>
-        
-            
-            
-            <li class="post-action hide-xs">
-                <a
-                    class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/12/12/1-타입과-문법-1-타입/"
-                    title="Share on Facebook"
-                    aria-label="Share on Facebook"
-                >
-                    <i class="fab fa-facebook" aria-hidden="true"></i>
-                </a>
-            </li>
-        
-            
-            
-            <li class="post-action hide-xs">
-                <a
-                    class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2019/12/12/1-타입과-문법-1-타입/"
-                    title="Share on Twitter"
-                    aria-label="Share on Twitter"
-                >
-                    <i class="fab fa-twitter" aria-hidden="true"></i>
-                </a>
-            </li>
-        
-            
-            
-            <li class="post-action hide-xs">
-                <a
-                    class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=http://yoursite.com/2019/12/12/1-타입과-문법-1-타입/"
-                    title="Share on Google+"
-                    aria-label="Share on Google+"
-                >
-                    <i class="fab fa-google-plus" aria-hidden="true"></i>
-                </a>
-            </li>
-        
-        
-            
-                <li class="post-action">
-                    <a
-                        class="post-action-btn btn btn--default"
-                        href="#disqus_thread"
-                        aria-label="Leave a comment"
-                    >
-                        <i class="fa fa-comment"></i>
-                    </a>
-                </li>
-            
-        
-        <li class="post-action">
-            
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
-            
-                <i class="fa fa-list" aria-hidden="true"></i>
-            </a>
-        </li>
-    </ul>
-</div>
-
-
-        
-        
-            
-                <div id="disqus_thread">
-    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-</div>
-            
-        
-    </div>
+  </div>
 </article>
 
 
 
-                <footer id="footer" class="main-content-wrap">
-    <span class="copyrights">
-        Copyrights &copy; 2020 hyerinOh. All Rights Reserved.
-    </span>
-</footer>
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
 
-            </div>
-            
-                <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
-                    <div class="post-actions-wrap">
-    <nav>
-        <ul class="post-actions post-action-nav">
-            <li class="post-action">
-                
-                    
-                <a
-                    class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/12/12/1-타입과-문법-2-값/"
-                    data-tooltip="You Don&#39;t Know JS - 1.타입과 문법 - 2.값"
-                    aria-label="PREVIOUS: You Don&#39;t Know JS - 1.타입과 문법 - 2.값"
-                >
-                    
-                        <i class="fa fa-angle-left" aria-hidden="true"></i>
-                        <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
-                    </a>
-            </li>
-            <li class="post-action">
-                
-                    
-                <a
-                    class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/09/29/event-loop/"
-                    data-tooltip="9. event loop"
-                    aria-label="NEXT: 9. event loop"
-                >
-                    
-                        <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
-                        <i class="fa fa-angle-right" aria-hidden="true"></i>
-                    </a>
-            </li>
-        </ul>
-    </nav>
-    <ul class="post-actions post-action-share">
-        <li class="post-action hide-lg hide-md hide-sm">
-            <a
-                class="post-action-btn btn btn--default btn-open-shareoptions"
-                href="#btn-open-shareoptions"
-                aria-label="Share this post"
-            >
-                <i class="fa fa-share-alt" aria-hidden="true"></i>
-            </a>
-        </li>
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/projects_url">Projects</a></li>
         
-            
-            
-            <li class="post-action hide-xs">
-                <a
-                    class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/12/12/1-타입과-문법-1-타입/"
-                    title="Share on Facebook"
-                    aria-label="Share on Facebook"
-                >
-                    <i class="fab fa-facebook" aria-hidden="true"></i>
-                </a>
-            </li>
-        
-            
-            
-            <li class="post-action hide-xs">
-                <a
-                    class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2019/12/12/1-타입과-문법-1-타입/"
-                    title="Share on Twitter"
-                    aria-label="Share on Twitter"
-                >
-                    <i class="fab fa-twitter" aria-hidden="true"></i>
-                </a>
-            </li>
-        
-            
-            
-            <li class="post-action hide-xs">
-                <a
-                    class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=http://yoursite.com/2019/12/12/1-타입과-문법-1-타입/"
-                    title="Share on Google+"
-                    aria-label="Share on Google+"
-                >
-                    <i class="fab fa-google-plus" aria-hidden="true"></i>
-                </a>
-            </li>
-        
-        
-            
-                <li class="post-action">
-                    <a
-                        class="post-action-btn btn btn--default"
-                        href="#disqus_thread"
-                        aria-label="Leave a comment"
-                    >
-                        <i class="fa fa-comment"></i>
-                    </a>
-                </li>
-            
-        
-        <li class="post-action">
-            
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
-            
-                <i class="fa fa-list" aria-hidden="true"></i>
-            </a>
-        </li>
-    </ul>
-</div>
-
-
-                </div>
-                
-    <div id="share-options-bar" class="share-options-bar" data-behavior="5">
-        <i id="btn-close-shareoptions" class="fa fa-times"></i>
-        <ul class="share-options">
-            
-                
-                
-                <li class="share-option">
-                    <a
-                        class="share-option-btn"
-                        target="new"
-                        href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/12/12/1-타입과-문법-1-타입/"
-                        aria-label="Share on Facebook"
-                    >
-                        <i class="fab fa-facebook" aria-hidden="true"></i><span>Share on Facebook</span>
-                    </a>
-                </li>
-            
-                
-                
-                <li class="share-option">
-                    <a
-                        class="share-option-btn"
-                        target="new"
-                        href="https://twitter.com/intent/tweet?text=http://yoursite.com/2019/12/12/1-타입과-문법-1-타입/"
-                        aria-label="Share on Twitter"
-                    >
-                        <i class="fab fa-twitter" aria-hidden="true"></i><span>Share on Twitter</span>
-                    </a>
-                </li>
-            
-                
-                
-                <li class="share-option">
-                    <a
-                        class="share-option-btn"
-                        target="new"
-                        href="https://plus.google.com/share?url=http://yoursite.com/2019/12/12/1-타입과-문법-1-타입/"
-                        aria-label="Share on Google+"
-                    >
-                        <i class="fab fa-google-plus" aria-hidden="true"></i><span>Share on Google+</span>
-                    </a>
-                </li>
-            
-        </ul>
+      </ul>
     </div>
 
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-타입"><span class="toc-number">1.</span> <span class="toc-text">1. 타입</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-타입-그-실체를-이해하자"><span class="toc-number">1.1.</span> <span class="toc-text">1.1 타입, 그 실체를 이해하자</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-내장-타입"><span class="toc-number">1.2.</span> <span class="toc-text">1.2 내장 타입</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-3-값은-타입을-가진다"><span class="toc-number">1.3.</span> <span class="toc-text">1.3 값은 타입을 가진다.</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-1-값이-없는-vs-선언되지-않은"><span class="toc-number">1.3.1.</span> <span class="toc-text">1.3.1 값이 없는 vs 선언되지 않은</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-2-선언되지-않은-변수"><span class="toc-number">1.3.2.</span> <span class="toc-text">1.3.2 선언되지 않은 변수</span></a></li></ol></li></ol></li></ol>
+    </div>
 
-            
-        </div>
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/12/12/1-타입과-문법-1-타입/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/12/12/1-타입과-문법-1-타입/&text=You Don&#39;t Know JS - 1.타입과 문법 - 1.타입"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/12/12/1-타입과-문법-1-타입/&title=You Don&#39;t Know JS - 1.타입과 문법 - 1.타입"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/12/12/1-타입과-문법-1-타입/&is_video=false&description=You Don&#39;t Know JS - 1.타입과 문법 - 1.타입"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=You Don&#39;t Know JS - 1.타입과 문법 - 1.타입&body=Check out this article: http://yoursite.com/2019/12/12/1-타입과-문법-1-타입/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/12/12/1-타입과-문법-1-타입/&title=You Don&#39;t Know JS - 1.타입과 문법 - 1.타입"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/12/12/1-타입과-문법-1-타입/&title=You Don&#39;t Know JS - 1.타입과 문법 - 1.타입"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/12/12/1-타입과-문법-1-타입/&title=You Don&#39;t Know JS - 1.타입과 문법 - 1.타입"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/12/12/1-타입과-문법-1-타입/&title=You Don&#39;t Know JS - 1.타입과 문법 - 1.타입"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/12/12/1-타입과-문법-1-타입/&name=You Don&#39;t Know JS - 1.타입과 문법 - 1.타입&description=&lt;br&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://yoursite.com/2019/12/12/1-타입과-문법-1-타입/&t=You Don&#39;t Know JS - 1.타입과 문법 - 1.타입"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
         
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
     
-        
-                                            <div id="about">
-                                                <div id="about-card">
-                                                    <div id="about-btn-close">
-                                                        <i class="fa fa-times"></i>
-                                                    </div>
-                                                    
-                                                            <h4 id="about-card-name">
-                                                                hyerinOh
-                                                            </h4>
-                                                            
-                                                                <div id="about-card-bio">
-                                                                    <p>내가 보려고 정리하는 블로그</p>
-
-                                                                </div>
-                                                                
-                                                                    
-                                                                        <div id="about-card-job">
-                                                                            <i class="fa fa-briefcase"></i>
-                                                                            <br/>
-                                                                            <p>front-end developer</p>
-
-                                                                        </div>
-                                                                        
-                                                                            
-                                                                                <div id="about-card-location">
-                                                                                    <i class="fa fa-map-marker-alt"></i>
-                                                                                    <br/>
-                                                                                    Seoul, Korea
-                                                                                </div>
-                                                                                
-                                                </div>
-                                            </div>
-        
-        
-<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
-        <!--SCRIPTS-->
-<script src="/assets/js/jquery.js"></script>
-<script src="/assets/js/jquery.fancybox.js"></script>
-<script src="/assets/js/thumbs.js"></script>
-<script src="/assets/js/tranquilpeak.js"></script>
-<!--SCRIPTS END-->
-
-
     
-        <script>
-          var disqus_config = function() {
-            this.page.url = 'http://yoursite.com/2019/12/12/1-타입과-문법-1-타입/';
-              
-            this.page.identifier = '2019/12/12/1-타입과-문법-1-타입/';
-              
-          };
-          (function() {
-            var d = document, s = d.createElement('script');
-            var disqus_shortname = 'web1-s18lyko82r';
-            s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    2016-2020
+    hyerinOh
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/projects_url">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
 
-            s.setAttribute('data-timestamp', +new Date());
-            (d.head || d.body).appendChild(s);
-          })();
-        </script>
-    
+    </div>
+    <!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+    <!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<!-- clipboard -->
+
+  <script src="/lib/clipboard/clipboard.min.js"></script>
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
 
 
-
-
-    </body>
+</body>
 </html>

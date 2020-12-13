@@ -1,19 +1,13 @@
-
 <!DOCTYPE html>
-<html lang="en">
-    
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="generator" content="hyerin.io">
-    <title>1.IE에서_리액트_쓰기 - hyerin.io</title>
-    <meta name="author" content="hyerinOh">
-    
-    
-    
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"hyerinOh","sameAs":["https://github.com/hyerinOh"],"image":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7"},"articleBody":"\n\n\n\nIE 11에서 리액트 쓰기\n문제 상황 !기본적인 CRA로는 IE 11를 지원하지 못함\n\n\n첫 번째 시도\n\nreact-app-polyfill을 install 후 import 시켜주고 node_modules에서 .cache를 지우고 package.json의 browsers list 에 &quot;ie 11&quot;을 추가했지만 ie11에서 The error you provided does not contain a stack trace. 라는 에러를 내며 동작하지 않음.\n\n12import \"react-app-polyfill/ie11\";import \"react-app-polyfill/stable\";\n\n123456789101112131415// package.json\"browserslist\": &#123;    \"production\": [      \"&gt;0.2%\",      \"not dead\",      \"not op_mini all\",      \"ie 11\"    ],    \"development\": [      \"last 1 chrome version\",      \"last 1 firefox version\",      \"last 1 safari version\",      \"ie 11\"    ]  &#125;\n\n\n\n\n\n\n\n두 번째 시도\n\nnpm i fast-text-encoding후 import 시켜줬지만 같은 에러를 내며 동작하지 않음\n\n1import \"fast-text-encoding/text\";\n\n\n\n\n\n\n\n세 번째 시도\n\n./node_modules/react-dev-utils/webpackHotDevClient.js:60에 slashes: true를 추가했더니 성공!!\n\n참고 : \n\nhttps://velog.io/@ryu/react-scripts-3.3.0-WebSocket-%EC%9D%B4%EC%8A%88-%ED%95%B4%EA%B2%B0%ED%95%98%EA%B8%B0\nhttps://github.com/facebook/create-react-app/issues/8150\n\n\n\n\n\n\n\nv3.3.0의 react-scripts 패키지 일 때\n\n   1234567891011// Connect to WebpackDevServer via a socket.var connection = new WebSocket(  url.format(&#123;    protocol: window.location.protocol === \"https:\" ? \"wss\" : \"ws\",    hostname: window.location.hostname,    port: window.location.port,    // Hardcoded in WebpackDevServer    pathname: \"/sockjs-node\",    slashes: true,  &#125;));\n\n\n\n\n2020.02.22 추가\n\n세 번째 시도가 필요했던 이유: \n\nhttps 프로토콜 사용 시에는 WebSockets over SSL/TLS (WSS) 프로토콜을 사용해야 하는데, create-react-app 하위 패키지인 react-scripts 패키지 v3.3.0 에서 http 와 https 모두 WebSockets (WS) 를 사용하도록 설정되어 있어서 생긴 이슈\nreact-scripts 패키지 v3.3.0 에서 webPackDevServer 설정이 SockJS에서 WebSocket으로 전환되었다. url.format이 ws://localhost이 아니라 ws:localhost처럼 URL을 리턴하기 때문에(no slashes) IE에서 Syntax Error를 던진다.\n\n\n2020.02.14에 3.4.0 버전으로 업데이트 됨!\nhttps://github.com/facebook/create-react-app/releases\n","dateCreated":"2020-01-17T16:11:31+09:00","dateModified":"2020-12-13T14:07:29+09:00","datePublished":"2020-01-17T16:11:31+09:00","description":"","headline":"1.IE에서_리액트_쓰기","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"http://yoursite.com/2020/01/17/Issues-React-01/"},"publisher":{"@type":"Organization","name":"hyerinOh","sameAs":["https://github.com/hyerinOh"],"image":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7"}},"url":"http://yoursite.com/2020/01/17/Issues-React-01/","keywords":"Issues, React, IE11"}</script>
+<html lang=en>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="keywords" content="Issues,React,IE11">
-<meta property="og:type" content="blog">
+<meta property="og:type" content="article">
 <meta property="og:title" content="1.IE에서_리액트_쓰기">
 <meta property="og:url" content="http://yoursite.com/2020/01/17/Issues-React-01/index.html">
 <meta property="og:site_name" content="hyerin.io">
@@ -25,175 +19,140 @@
 <meta name="twitter:image" content="http://yoursite.com/images/wss.jpg">
     
     
+      
         
-    
-    
-    
-    
-    
-    <!--STYLES-->
-    <link rel="stylesheet" href="/assets/css/all.css">
-    <link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
-    <link rel="stylesheet" href="/assets/css/thumbs.css">
-    <link rel="stylesheet" href="/assets/css/tranquilpeak.css">
-    <!--STYLES END-->
-    
-
-    
-
-    
+          <link rel="shortcut icon" href="/images/favicon.ico">
         
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>1.IE에서_리액트_쓰기</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
     
 </head>
 
-    <body>
-        <div id="blog">
-            <!-- Define author's picture -->
-
-
+<body class="max-width mx-auto px3 ltr">
     
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/projects_url">Projects</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/01/18/Issues-others-ngrok/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/01/07/Issues-css-01/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2020/01/17/Issues-React-01/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/01/17/Issues-React-01/&text=1.IE에서_리액트_쓰기"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2020/01/17/Issues-React-01/&title=1.IE에서_리액트_쓰기"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2020/01/17/Issues-React-01/&is_video=false&description=1.IE에서_리액트_쓰기"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=1.IE에서_리액트_쓰기&body=Check out this article: http://yoursite.com/2020/01/17/Issues-React-01/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2020/01/17/Issues-React-01/&title=1.IE에서_리액트_쓰기"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2020/01/17/Issues-React-01/&title=1.IE에서_리액트_쓰기"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2020/01/17/Issues-React-01/&title=1.IE에서_리액트_쓰기"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2020/01/17/Issues-React-01/&title=1.IE에서_리액트_쓰기"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2020/01/17/Issues-React-01/&name=1.IE에서_리액트_쓰기&description=&lt;br&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://yoursite.com/2020/01/17/Issues-React-01/&t=1.IE에서_리액트_쓰기"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
 
-<header id="header" data-behavior="5">
-    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
-    <div class="header-title">
-        <a
-            class="header-title-link"
-            href="/ "
-            aria-label=""
-        >
-            hyerin.io
-        </a>
     </div>
-    
-        
-            <a
-                class="header-right-picture "
-                href="#about"
-                aria-label="Open the link: /#about"
-            >
-        
-        
-        </a>
-    
-</header>
-
-            <!-- Define author's picture -->
-
-
-<nav id="sidebar" data-behavior="5">
-    <div class="sidebar-container">
-        
-        
-            <ul class="sidebar-buttons">
-            
-                <li class="sidebar-button">
-                    
-                        <a  class="sidebar-button-link "
-                             href="/ "
-                            
-                            title="Home"
-                        >
-                    
-                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Home</span>
-                    </a>
-            </li>
-            
-                <li class="sidebar-button">
-                    
-                        <a  class="sidebar-button-link "
-                             href="/all-categories"
-                            
-                            title="Categories"
-                        >
-                    
-                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Categories</span>
-                    </a>
-            </li>
-            
-                <li class="sidebar-button">
-                    
-                        <a  class="sidebar-button-link "
-                             href="/all-tags"
-                            
-                            title="Tags"
-                        >
-                    
-                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Tags</span>
-                    </a>
-            </li>
-            
-                <li class="sidebar-button">
-                    
-                        <a  class="sidebar-button-link "
-                             href="#about"
-                            
-                            title="About"
-                        >
-                    
-                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">About</span>
-                    </a>
-            </li>
-            
-        </ul>
-        
-            <ul class="sidebar-buttons">
-            
-                <li class="sidebar-button">
-                    
-                        <a  class="sidebar-button-link " href="https://github.com/hyerinOh" target="_blank" rel="noopener" title="GitHub">
-                    
-                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">GitHub</span>
-                    </a>
-            </li>
-            
-        </ul>
-        
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#IE-11에서-리액트-쓰기"><span class="toc-number">1.</span> <span class="toc-text">IE 11에서 리액트 쓰기</span></a></li></ol>
     </div>
-</nav>
-
-            
-            <div id="main" data-behavior="5"
-                 class="
-                        hasCoverMetaIn
-                        ">
-                
-<article class="post">
-    
-    
-        <div class="post-header main-content-wrap text-left">
-    
-        <h1 class="post-title">
-            1.IE에서_리액트_쓰기
-        </h1>
-    
-    
-        <div class="post-meta">
-    <time datetime="2020-01-17T16:11:31+09:00">
-	
-		    Jan 17, 2020
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/Issues/">Issues</a>, <a class="category-link" href="/categories/Issues/React/">React</a>
-
-
-    
+  </span>
 </div>
 
     
-</div>
-
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
     
-    <div class="post-content markdown">
-        <div class="main-content-wrap">
-            <br>
+    <h1 class="posttitle" itemprop="name headline">
+        1.IE에서_리액트_쓰기
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">hyerinOh</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-01-17T07:11:31.000Z" itemprop="datePublished">2020-01-17</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/Issues/">Issues</a> › <a class="category-link" href="/categories/Issues/React/">React</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/IE11/">IE11</a>, <a class="tag-link" href="/tags/Issues/">Issues</a>, <a class="tag-link" href="/tags/React/">React</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <br>
 
 <a id="more"></a>
 
@@ -260,375 +219,128 @@
 <p><strong><em>2020.02.14에 3.4.0 버전으로 업데이트 됨!</em></strong></p>
 <p><a href="https://github.com/facebook/create-react-app/releases" target="_blank" rel="noopener">https://github.com/facebook/create-react-app/releases</a></p>
 
-            
-
-
-        </div>
-    </div>
-    <div id="post-footer" class="post-footer main-content-wrap">
-        
-            <div class="post-footer-tags">
-                <span class="text-color-light text-small">TAGGED IN</span><br/>
-                
-    <a class="tag tag--primary tag--small t-link" href="/tags/IE11/">IE11</a> <a class="tag tag--primary tag--small t-link" href="/tags/Issues/">Issues</a> <a class="tag tag--primary tag--small t-link" href="/tags/React/">React</a>
-
-            </div>
-        
-        
-            <div class="post-actions-wrap">
-    <nav>
-        <ul class="post-actions post-action-nav">
-            <li class="post-action">
-                
-                    
-                <a
-                    class="post-action-btn btn btn--default tooltip--top"
-                    href="/2020/01/18/Issues-others-ngrok/"
-                    data-tooltip="1.ngrok"
-                    aria-label="PREVIOUS: 1.ngrok"
-                >
-                    
-                        <i class="fa fa-angle-left" aria-hidden="true"></i>
-                        <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
-                    </a>
-            </li>
-            <li class="post-action">
-                
-                    
-                <a
-                    class="post-action-btn btn btn--default tooltip--top"
-                    href="/2020/01/07/Issues-css-01/"
-                    data-tooltip="1.사이드 메뉴 스크롤 이슈"
-                    aria-label="NEXT: 1.사이드 메뉴 스크롤 이슈"
-                >
-                    
-                        <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
-                        <i class="fa fa-angle-right" aria-hidden="true"></i>
-                    </a>
-            </li>
-        </ul>
-    </nav>
-    <ul class="post-actions post-action-share">
-        <li class="post-action hide-lg hide-md hide-sm">
-            <a
-                class="post-action-btn btn btn--default btn-open-shareoptions"
-                href="#btn-open-shareoptions"
-                aria-label="Share this post"
-            >
-                <i class="fa fa-share-alt" aria-hidden="true"></i>
-            </a>
-        </li>
-        
-            
-            
-            <li class="post-action hide-xs">
-                <a
-                    class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2020/01/17/Issues-React-01/"
-                    title="Share on Facebook"
-                    aria-label="Share on Facebook"
-                >
-                    <i class="fab fa-facebook" aria-hidden="true"></i>
-                </a>
-            </li>
-        
-            
-            
-            <li class="post-action hide-xs">
-                <a
-                    class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2020/01/17/Issues-React-01/"
-                    title="Share on Twitter"
-                    aria-label="Share on Twitter"
-                >
-                    <i class="fab fa-twitter" aria-hidden="true"></i>
-                </a>
-            </li>
-        
-            
-            
-            <li class="post-action hide-xs">
-                <a
-                    class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=http://yoursite.com/2020/01/17/Issues-React-01/"
-                    title="Share on Google+"
-                    aria-label="Share on Google+"
-                >
-                    <i class="fab fa-google-plus" aria-hidden="true"></i>
-                </a>
-            </li>
-        
-        
-            
-                <li class="post-action">
-                    <a
-                        class="post-action-btn btn btn--default"
-                        href="#disqus_thread"
-                        aria-label="Leave a comment"
-                    >
-                        <i class="fa fa-comment"></i>
-                    </a>
-                </li>
-            
-        
-        <li class="post-action">
-            
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
-            
-                <i class="fa fa-list" aria-hidden="true"></i>
-            </a>
-        </li>
-    </ul>
-</div>
-
-
-        
-        
-            
-                <div id="disqus_thread">
-    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-</div>
-            
-        
-    </div>
+  </div>
 </article>
 
 
 
-                <footer id="footer" class="main-content-wrap">
-    <span class="copyrights">
-        Copyrights &copy; 2020 hyerinOh. All Rights Reserved.
-    </span>
-</footer>
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
 
-            </div>
-            
-                <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
-                    <div class="post-actions-wrap">
-    <nav>
-        <ul class="post-actions post-action-nav">
-            <li class="post-action">
-                
-                    
-                <a
-                    class="post-action-btn btn btn--default tooltip--top"
-                    href="/2020/01/18/Issues-others-ngrok/"
-                    data-tooltip="1.ngrok"
-                    aria-label="PREVIOUS: 1.ngrok"
-                >
-                    
-                        <i class="fa fa-angle-left" aria-hidden="true"></i>
-                        <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
-                    </a>
-            </li>
-            <li class="post-action">
-                
-                    
-                <a
-                    class="post-action-btn btn btn--default tooltip--top"
-                    href="/2020/01/07/Issues-css-01/"
-                    data-tooltip="1.사이드 메뉴 스크롤 이슈"
-                    aria-label="NEXT: 1.사이드 메뉴 스크롤 이슈"
-                >
-                    
-                        <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
-                        <i class="fa fa-angle-right" aria-hidden="true"></i>
-                    </a>
-            </li>
-        </ul>
-    </nav>
-    <ul class="post-actions post-action-share">
-        <li class="post-action hide-lg hide-md hide-sm">
-            <a
-                class="post-action-btn btn btn--default btn-open-shareoptions"
-                href="#btn-open-shareoptions"
-                aria-label="Share this post"
-            >
-                <i class="fa fa-share-alt" aria-hidden="true"></i>
-            </a>
-        </li>
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/projects_url">Projects</a></li>
         
-            
-            
-            <li class="post-action hide-xs">
-                <a
-                    class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2020/01/17/Issues-React-01/"
-                    title="Share on Facebook"
-                    aria-label="Share on Facebook"
-                >
-                    <i class="fab fa-facebook" aria-hidden="true"></i>
-                </a>
-            </li>
-        
-            
-            
-            <li class="post-action hide-xs">
-                <a
-                    class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2020/01/17/Issues-React-01/"
-                    title="Share on Twitter"
-                    aria-label="Share on Twitter"
-                >
-                    <i class="fab fa-twitter" aria-hidden="true"></i>
-                </a>
-            </li>
-        
-            
-            
-            <li class="post-action hide-xs">
-                <a
-                    class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=http://yoursite.com/2020/01/17/Issues-React-01/"
-                    title="Share on Google+"
-                    aria-label="Share on Google+"
-                >
-                    <i class="fab fa-google-plus" aria-hidden="true"></i>
-                </a>
-            </li>
-        
-        
-            
-                <li class="post-action">
-                    <a
-                        class="post-action-btn btn btn--default"
-                        href="#disqus_thread"
-                        aria-label="Leave a comment"
-                    >
-                        <i class="fa fa-comment"></i>
-                    </a>
-                </li>
-            
-        
-        <li class="post-action">
-            
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
-            
-                <i class="fa fa-list" aria-hidden="true"></i>
-            </a>
-        </li>
-    </ul>
-</div>
-
-
-                </div>
-                
-    <div id="share-options-bar" class="share-options-bar" data-behavior="5">
-        <i id="btn-close-shareoptions" class="fa fa-times"></i>
-        <ul class="share-options">
-            
-                
-                
-                <li class="share-option">
-                    <a
-                        class="share-option-btn"
-                        target="new"
-                        href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2020/01/17/Issues-React-01/"
-                        aria-label="Share on Facebook"
-                    >
-                        <i class="fab fa-facebook" aria-hidden="true"></i><span>Share on Facebook</span>
-                    </a>
-                </li>
-            
-                
-                
-                <li class="share-option">
-                    <a
-                        class="share-option-btn"
-                        target="new"
-                        href="https://twitter.com/intent/tweet?text=http://yoursite.com/2020/01/17/Issues-React-01/"
-                        aria-label="Share on Twitter"
-                    >
-                        <i class="fab fa-twitter" aria-hidden="true"></i><span>Share on Twitter</span>
-                    </a>
-                </li>
-            
-                
-                
-                <li class="share-option">
-                    <a
-                        class="share-option-btn"
-                        target="new"
-                        href="https://plus.google.com/share?url=http://yoursite.com/2020/01/17/Issues-React-01/"
-                        aria-label="Share on Google+"
-                    >
-                        <i class="fab fa-google-plus" aria-hidden="true"></i><span>Share on Google+</span>
-                    </a>
-                </li>
-            
-        </ul>
+      </ul>
     </div>
 
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#IE-11에서-리액트-쓰기"><span class="toc-number">1.</span> <span class="toc-text">IE 11에서 리액트 쓰기</span></a></li></ol>
+    </div>
 
-            
-        </div>
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2020/01/17/Issues-React-01/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/01/17/Issues-React-01/&text=1.IE에서_리액트_쓰기"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2020/01/17/Issues-React-01/&title=1.IE에서_리액트_쓰기"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2020/01/17/Issues-React-01/&is_video=false&description=1.IE에서_리액트_쓰기"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=1.IE에서_리액트_쓰기&body=Check out this article: http://yoursite.com/2020/01/17/Issues-React-01/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2020/01/17/Issues-React-01/&title=1.IE에서_리액트_쓰기"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2020/01/17/Issues-React-01/&title=1.IE에서_리액트_쓰기"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2020/01/17/Issues-React-01/&title=1.IE에서_리액트_쓰기"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2020/01/17/Issues-React-01/&title=1.IE에서_리액트_쓰기"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2020/01/17/Issues-React-01/&name=1.IE에서_리액트_쓰기&description=&lt;br&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://yoursite.com/2020/01/17/Issues-React-01/&t=1.IE에서_리액트_쓰기"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
         
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
     
-        
-                                            <div id="about">
-                                                <div id="about-card">
-                                                    <div id="about-btn-close">
-                                                        <i class="fa fa-times"></i>
-                                                    </div>
-                                                    
-                                                            <h4 id="about-card-name">
-                                                                hyerinOh
-                                                            </h4>
-                                                            
-                                                                <div id="about-card-bio">
-                                                                    <p>내가 보려고 정리하는 블로그</p>
-
-                                                                </div>
-                                                                
-                                                                    
-                                                                        <div id="about-card-job">
-                                                                            <i class="fa fa-briefcase"></i>
-                                                                            <br/>
-                                                                            <p>front-end developer</p>
-
-                                                                        </div>
-                                                                        
-                                                                            
-                                                                                <div id="about-card-location">
-                                                                                    <i class="fa fa-map-marker-alt"></i>
-                                                                                    <br/>
-                                                                                    Seoul, Korea
-                                                                                </div>
-                                                                                
-                                                </div>
-                                            </div>
-        
-        
-<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
-        <!--SCRIPTS-->
-<script src="/assets/js/jquery.js"></script>
-<script src="/assets/js/jquery.fancybox.js"></script>
-<script src="/assets/js/thumbs.js"></script>
-<script src="/assets/js/tranquilpeak.js"></script>
-<!--SCRIPTS END-->
-
-
     
-        <script>
-          var disqus_config = function() {
-            this.page.url = 'http://yoursite.com/2020/01/17/Issues-React-01/';
-              
-            this.page.identifier = '2020/01/17/Issues-React-01/';
-              
-          };
-          (function() {
-            var d = document, s = d.createElement('script');
-            var disqus_shortname = 'web1-s18lyko82r';
-            s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    2016-2020
+    hyerinOh
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/projects_url">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
 
-            s.setAttribute('data-timestamp', +new Date());
-            (d.head || d.body).appendChild(s);
-          })();
-        </script>
-    
+    </div>
+    <!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+    <!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<!-- clipboard -->
+
+  <script src="/lib/clipboard/clipboard.min.js"></script>
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
 
 
-
-
-    </body>
+</body>
 </html>

@@ -1,19 +1,13 @@
-
 <!DOCTYPE html>
-<html lang="en">
-    
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="generator" content="hyerin.io">
-    <title>9. event loop - hyerin.io</title>
-    <meta name="author" content="hyerinOh">
-    
-    
-    
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"hyerinOh","sameAs":["https://github.com/hyerinOh"],"image":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7"},"articleBody":"\n\n\n\n\nreference : https://www.youtube.com/watch?v=8aGhZQkoFbQ\n\n\n\n자바스크립트 런타임자바스크립트의 런타임을 보면 메모리 할당이 일어나는 힙과 콜 스택이있다.그런데 V8 프로젝트를 클론해서 코드 베이스를 들여다보면 setTimeout이나 DOM, HTTP요청을 관리하는 코드들은 찾아볼 수 없다.\n\n위 그림을 보면 V8 런타임과 DOM, AJAX, setTimout과 같이 브라우저가 제공하는 webAPI가 있고, 그 유명한 event loop와 콜백 큐가 있다.하지만 이것들이 어떤식으로 연결되어 움직이는지 정확하게 이해하는 사람들이 많이 없을 것이다.\n자바스크립트는 싱글 스레드 프로그래밍 언어 = 하나의 콜스택 = 하나의 프로그램은 동시에 하나의 코드만 실행 가능\n\ncall stack1234567891011121314function multiply(a, b) &#123;    return a * b;&#125;function square(n) &#123;    return multiply(n, n);&#125;function printSquare(n) &#123;    var squared = square(n);    console.log(squared);&#125;printSquare(4);\n\ncall stack은 자료 구조 중 하나로 코드가 실행되는 순서를 기억하고 있다. 함수를 실행하려면 스택에 해당하는 함수를 넣고 함수에서 리턴이 일어나면 스택의 가장 위쪽에서 함수를 꺼낸다.\n\n위 코드를 실행하면 실행되는 코드 자체를 말하는 main함수를 스택에 먼저 넣게 된다.\n함수들을 정의한다.\n마지막의 printSquare함수를 호출하므로 스택에 함수를 추가한다.\nprintSquare함수 안의 square함수가 호출되고있으니 스택에 square함수를 추가한다.\nsquare함수에서는 multiply함수를 호출하고 그 안에서 return을 시켜주고 있으니 a와 b의 곱을 반환한다.\n리턴할때마다 스택의 맨 위의 함수를 꺼내야하니 multiply -&gt; square -&gt; printSquare 순으로 pop된다.\nprintSquare에서 console.log(squared)를 실행하게되고, 여기에서 리턴은 보이지 않지만 함수의 마지막줄에 도달했기 때문에 암묵적으로 리턴한다.\n\n\n12345678910111213function foo() &#123;    throw new Error('Oops!');&#125;function bar() &#123;    foo();&#125;function baz() &#123;    bar();&#125;baz();\n\nbaz함수가 bar함수를 호출하고, bar함수가 foo함수를 호출하는데 foo함수는 ‘Oops!’라는 에러를 던지게되면 크롬 개발자 도구에서는 스택의 꼬리를 물면서 Oops!라는 에러를 표시하게 된다. 에러가 발생한 스택의 상태를 보여주는 것이다. Uncaught error는 foo에서 발새했는데 bar가 foo를 호출했고 bar는 또 baz에게서 호출되었다. 이런식으로 익명함수인 main함수까지 올라가게 된다.\n\n“스택을 날려먹었다”라는 표현을 사용하기도 하는데, foo함수를 호출하는 foo함수가 있다면 어떻게 될까?\n12345function foo()&#123;    return foo();&#125;foo();\n\n1RangeError : Maximum call stack size exceeded\n\n크롬에서 스스로 호출하는 함수를 16,000번이나 반복한것은 아니라고 판단하여 자체적으로 중지시켜버린다.\nblocking이라는 것에 대해 정확한 정의는 존재하지 않고 그저 느리게 동작하는 코드라고 할 수 있다.console.log는 느리지 않지만 while문에서 수십억번 실행된다면 느릴 것이다. 네트워크 요청이나 이미지 프로세싱은 느릴 것이다. 이런 느린 동작이 스택에 남아있는 것을 보통 blocking이라고 말한다.\n\n만약 아래의 코드가 동기적으로 실행된다고 가정해보자.동기적으로 ajax 요청을 보내는 jquery 함수 getSync가 있다고 가정하면\n1234567var foo = $.getSync('//foo.com');var bar = $.getSync('//bar.com');var qux = $.getSync('//qux.com');console.log(foo);console.log(bar);console.log(qux);\n\nfoo의 getSync함수를 실행하고 우리는 기다리게된다. 성공적으로 실행되었다고 한다면, 다음 줄로 넘어가고 다시 기다린다.싱글 스레드 프로그래밍 언어에서는 네트워크 요청을 하고는 끝날때까지 마냥 기다린다.이것은 웹 브라우저에서 코드가 실행되고 있기 때문이다. 브라우저는 모든 요청이 완료될때까지 멈춰있을 것이다. 멈춰있는 동안 행동을 기억하고 있었지만 렌더링뿐만아니라 아무것도 할 수 없었다. 왜냐하면 콜 스택에 어떤 것들이 남아있으면 동기적으로 실행되는 네트워크 요청이 콜 스택을 블로킹하여 브라우저는 다른 일들을 할 수 없다. 렌더링이나 다른 코드들을 실행하지 못하고 멈춰버린다.\n\n어떻게 해결해야할까? 제일 쉽게 접할 수 있는 것은 비동기 콜백이다. 브라우저나 노드는 비동기로 만들어져서 블로킹 함수가 거의 없다. 이것은 결국 콜백을 받고 나중에 실행한다는 말이다.\n그렇다면 이 코드는 실제로 어떤식으로 실행될까?\n1234567console.log('hi');setTimeout(function cb()&#123;    console.log('there');&#125;, 5000);console.log('JSconfEU');\n\n&#39;hi&#39;가 가장 먼저 출력되고 setTimeout을 실행하게 되는데 그 안의 console.log는 큐에 등록되어 나중에 실행되게 된다. 그 후 &#39;JSconfEU&#39;를 먼저 출력하고 5초 뒤에 &#39;there&#39;를 출력한다.어떻게 가능할까? 이벤트 루프와 동시성으로 설명할 수 있다.\n자바스크립트는 한 번에 한 가지 일밖에 못한다고 했지만 이걸 동시에 할 수 있는 이유는 브라우저는 단순 런타임 이상을 의미하기 때문이다.브라우저에서 제공하는 webAPI는 자바스크립트에서 호출할 수 있는 스레드를 효과적으로 지원한다. 여기에 동시성이 들어온다.\nsetTimeout은 브라우저에서 제공하는 API이고 v8 소스코드에는 존재하지 않는다. 자바스크립트가 실행되는 런타임 환경에 존재하는 별도의 API이다. 따라서 브라우저가 타이머를 실행하고 카운트 다운을 시작한다. 이것은 setTimeout 호출 자체는 완료되었다는 의미이고, 스택에서 함수를 지울 수 있다. 그리고 &#39;JSconfEU&#39;를 출력하고 지워진다.\n이제 webAPI에서 실행하고있는 타이머가 남아있는데 webAPI는 어느 순간 갑자기 스택에 함수를 집어넣던가 하는 행위를 할 수 없다. 따라서 task queue와 call back queue가 이 행위를 해주어야한다.\n모든 webAPI는 작동이 완료되면 콜백을 task queue에 밀어넣는다. 그 후 이벤트 루프가 역할을 해야하는데, 이벤트 루프는 콜 스택과 테스크 큐를 주시하는 역할을 한다. 스택이 비어있으면 테스크 큐의 첫번째 콜백을 스택에 쌓아 효과적으로 실행할 수 있게 해준다. 스택은 자바스크립트의 영역이라는 것을 기억하고 이제 v8엔진으로 돌아가서 콜백함수의 console.log를 실행하고 &#39;there&#39;를 출력한다. \n\n이제 자바스크립트의 비동기 함수가 어떤식으로 동작하는지 알게되었을 것이다. 특히 알 수 없는 문제가 생겼을 때 누군가 “setTimeout 0초를 사용하면 해결될거야” 라고 말하는 상황이 생겼을 때를 이해하게 되었을 것이다. 일반적으로 이것은 스택이 비어있을때까지 기다리게 하기 위해서이다. 어떠한 콜백을 마지막까지 지연시키고 싶기 때문이다.\n모든 이런 종류의 webAPI는 동일한 방식으로 동작한다.\n1234567console.log('hi');$.get('url', function cb(data)&#123;    console.log(data);&#125;);console.log('JSconfEU');\n\najax 요청은 url로 호출할 때 콜백을 함께 실행하게 된다. 이것도 동일하게 작동한다. &#39;hi&#39;를 출력하고 ajax요청을 하고, ajax요청은 자바스크립트 런타임이 아니라 브라우저의 webAPI에서 실행되고, XHR(XMLHttpRequest) webAPI가 실행되는 동안 다른 코드들은 정상적으로 실행할 수 있다. XHR실행이 완료되었다면 cb은 큐에 쌓이게되고, 이벤트 루프에 의해 실행된다.\n\n다음은 실제로 맞닥뜨릴만한 상황들이지만 async API와 관련해서 생각하지 못했을 부분들에 대해 살펴보자.\n123456789101112131415setTimeout(function timeout()&#123;    console.log('hi');&#125;, 1000);setTimeout(function timeout()&#123;    console.log('hi');&#125;, 1000);setTimeout(function timeout()&#123;    console.log('hi');&#125;, 1000);setTimeout(function timeout()&#123;    console.log('hi');&#125;, 1000);\n\n만약 1분 딜레이가 설정된 setTimeout을 4번 호출하고 &#39;hi&#39;를 콘솔에 찍는다면, timeout 콜백들이 큐에 들어가는 것을 알 수 있다. 콜백이 큐에 쌓인 후 네번째 콜백이 1초후에 실행되어야 함에도 불구하고 여전히 실행되지않고 기다리고있다. 이것을 보면 setTimeout이 실제로 정해진 시간과는 달리 제대로 작동하지 않을 수도 있고, 다만 딜레이되는 최소의 시간만을 지정할 수 있다는 것을 알 수 있다. 마치 0초로 설정된 코드가 바로 실해되지 않는 것 처럼 말이다.\n\n다음 예시에서는 콜백에 대해서 더 얘기해보려 한다.누구에게 묻느냐에따라 콜백의 정의는 다르겠지만 둘 중에 하나로 묘사된다.\n121. 콜백은 다른 함수가 부르는 함수이다.2. 앞으로 큐에 쌓일 비동기식 함수이다.\n\n12345678910111213[1,2,3,4].forEach(function()&#123;    console.log(i);&#125;);function asyncForEach(array, cb) &#123;    array.forEach(function()&#123;        setTimeout(cb, 0);    &#125;)&#125;asyncForEach([1,2,3,4], function()&#123;    console.log(i);&#125;)\n\nforEach의 경우 콜백이라고 할 수 있지만 자신의 자체적 스택에서 실행시키고 비동기적으로 실행하지는 않는다. 한편 asyncForEach를 하나 선언해서 배열과 콜백을 받아 각 요소에서 setTimeout을 0초로 실행하는 것도 가능하다. \n실행을 해보면, forEach의 경우 실행이 다 끝날때까지 스택을 차지한다. 하지만 asyncForEach에서는 여러개의 콜백을 큐에 쌓게되고 스택이 비워지면 쌓인 콜백들이 실행된다.만약 forEach로 각 배열 요소에 대해 오래 걸리는 처리를 해야한다면 렌더가 막히게 된다. 렌더가 막히면 화면의 텍스트를 선택하거나 반응을 보거나 하는 것들이 불가능하다.\n브라우저는 우리가 자바스크립트로 하는 무언가로 인해 제약을 받는다. 브라우저는 기본적으로 화면을 매 16.6밀리세컨드, 즉 1초에 60프레임을 repaint하는 것이 이상적이다. 하지만 브라우저는 우리가 자바스크립트로 하는 것들로 인해 제약을 받는다. 그래서 스택에 코드가있으면 렌더링을 못한다. 렌더도 하나의 콜백처럼 행동하기 때문이다. 그래서 스택이 비워질 때 까지 기다려야 한다. 다른 점은 렌더는 다른 콜백들에 비해 더 높은 우선순위를 갖는다. 매 16ms 마다 큐에 렌더가 들어가고, 스택이 깨끗해진 후에야 렌더링을 한다. \n사람들이 “event loop를 막지마”라고 할때 바로 이런 현상을 뜻하는 것이다.&quot;스택에 필요없는 느린 코드를 쌓아서 브라우저가 할 일을 못하게 만들지 말아라.&quot;, &quot;유동적인 UI를 만들어라.&quot;\n이미지 처리나 애니메이션이 너무 잦아졌을 때 큐 관리에 주의를 기울이지 않으면 이런 일들이 일어난다. 예를 들어 DOM에서 매우 자주 발생하는 스크롤 이벤트가 매 16ms 마다 발생한다고 가정하고 스크롤 이벤트가 발생할때 애니메이션을 넣거나 무언가를 한다고 했을 때, 스크롤 할 때마다 큐에 엄청나게 많은 콜백을 쌓는다. 그리고 매번 이걸 처리하면서 각각의 느린 프로세싱이 일어날 때 마다, 스택을 채우지는 않지만 큐를 이벤트들로 범람시킨다.이는 매 몇초마다 혹은 유저가 스크롤을 멈출때까지 작업량을 줄인다던지 하는 방향으로 해결책을 생각해볼 수 있다.\n","dateCreated":"2019-09-29T19:46:44+09:00","dateModified":"2019-09-30T23:36:38+09:00","datePublished":"2019-09-29T19:46:44+09:00","description":"","headline":"9. event loop","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"http://yoursite.com/2019/09/29/event-loop/"},"publisher":{"@type":"Organization","name":"hyerinOh","sameAs":["https://github.com/hyerinOh"],"image":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7"}},"url":"http://yoursite.com/2019/09/29/event-loop/","keywords":"javascript, 33-js-concepts, IIFE, modules, namespaces"}</script>
+<html lang=en>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="keywords" content="javascript,33-js-concepts,IIFE,modules,namespaces">
-<meta property="og:type" content="blog">
+<meta property="og:type" content="article">
 <meta property="og:title" content="9. event loop">
 <meta property="og:url" content="http://yoursite.com/2019/09/29/event-loop/index.html">
 <meta property="og:site_name" content="hyerin.io">
@@ -25,175 +19,140 @@
 <meta name="twitter:image" content="https://user-images.githubusercontent.com/38285577/61391496-c8288d00-a8f7-11e9-8f86-77e8c2c75e0c.png">
     
     
+      
         
-    
-    
-    
-    
-    
-    <!--STYLES-->
-    <link rel="stylesheet" href="/assets/css/all.css">
-    <link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
-    <link rel="stylesheet" href="/assets/css/thumbs.css">
-    <link rel="stylesheet" href="/assets/css/tranquilpeak.css">
-    <!--STYLES END-->
-    
-
-    
-
-    
+          <link rel="shortcut icon" href="/images/favicon.ico">
         
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>9. event loop</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
     
 </head>
 
-    <body>
-        <div id="blog">
-            <!-- Define author's picture -->
-
-
+<body class="max-width mx-auto px3 ltr">
     
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/projects_url">Projects</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/12/12/1-타입과-문법-1-타입/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/09/26/IIFE-modules-namespaces/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/09/29/event-loop/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/09/29/event-loop/&text=9. event loop"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/09/29/event-loop/&title=9. event loop"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/09/29/event-loop/&is_video=false&description=9. event loop"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=9. event loop&body=Check out this article: http://yoursite.com/2019/09/29/event-loop/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/09/29/event-loop/&title=9. event loop"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/09/29/event-loop/&title=9. event loop"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/09/29/event-loop/&title=9. event loop"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/09/29/event-loop/&title=9. event loop"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/09/29/event-loop/&name=9. event loop&description=&lt;br&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://yoursite.com/2019/09/29/event-loop/&t=9. event loop"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
 
-<header id="header" data-behavior="5">
-    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
-    <div class="header-title">
-        <a
-            class="header-title-link"
-            href="/ "
-            aria-label=""
-        >
-            hyerin.io
-        </a>
     </div>
-    
-        
-            <a
-                class="header-right-picture "
-                href="#about"
-                aria-label="Open the link: /#about"
-            >
-        
-        
-        </a>
-    
-</header>
-
-            <!-- Define author's picture -->
-
-
-<nav id="sidebar" data-behavior="5">
-    <div class="sidebar-container">
-        
-        
-            <ul class="sidebar-buttons">
-            
-                <li class="sidebar-button">
-                    
-                        <a  class="sidebar-button-link "
-                             href="/ "
-                            
-                            title="Home"
-                        >
-                    
-                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Home</span>
-                    </a>
-            </li>
-            
-                <li class="sidebar-button">
-                    
-                        <a  class="sidebar-button-link "
-                             href="/all-categories"
-                            
-                            title="Categories"
-                        >
-                    
-                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Categories</span>
-                    </a>
-            </li>
-            
-                <li class="sidebar-button">
-                    
-                        <a  class="sidebar-button-link "
-                             href="/all-tags"
-                            
-                            title="Tags"
-                        >
-                    
-                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Tags</span>
-                    </a>
-            </li>
-            
-                <li class="sidebar-button">
-                    
-                        <a  class="sidebar-button-link "
-                             href="#about"
-                            
-                            title="About"
-                        >
-                    
-                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">About</span>
-                    </a>
-            </li>
-            
-        </ul>
-        
-            <ul class="sidebar-buttons">
-            
-                <li class="sidebar-button">
-                    
-                        <a  class="sidebar-button-link " href="https://github.com/hyerinOh" target="_blank" rel="noopener" title="GitHub">
-                    
-                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">GitHub</span>
-                    </a>
-            </li>
-            
-        </ul>
-        
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#자바스크립트-런타임"><span class="toc-number">1.</span> <span class="toc-text">자바스크립트 런타임</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#call-stack"><span class="toc-number">1.1.</span> <span class="toc-text">call stack</span></a></li></ol></li></ol>
     </div>
-</nav>
-
-            
-            <div id="main" data-behavior="5"
-                 class="
-                        hasCoverMetaIn
-                        ">
-                
-<article class="post">
-    
-    
-        <div class="post-header main-content-wrap text-left">
-    
-        <h1 class="post-title">
-            9. event loop
-        </h1>
-    
-    
-        <div class="post-meta">
-    <time datetime="2019-09-29T19:46:44+09:00">
-	
-		    Sep 29, 2019
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/Dev/">Dev</a>, <a class="category-link" href="/categories/Dev/JavaScript/">JavaScript</a>, <a class="category-link" href="/categories/Dev/JavaScript/33-js-concepts/">33-js-concepts</a>
-
-
-    
+  </span>
 </div>
 
     
-</div>
-
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
     
-    <div class="post-content markdown">
-        <div class="main-content-wrap">
-            <br>
+    <h1 class="posttitle" itemprop="name headline">
+        9. event loop
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">hyerinOh</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-09-29T10:46:44.000Z" itemprop="datePublished">2019-09-29</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/Dev/">Dev</a> › <a class="category-link" href="/categories/Dev/JavaScript/">JavaScript</a> › <a class="category-link" href="/categories/Dev/JavaScript/33-js-concepts/">33-js-concepts</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/33-js-concepts/">33-js-concepts</a>, <a class="tag-link" href="/tags/IIFE/">IIFE</a>, <a class="tag-link" href="/tags/javascript/">javascript</a>, <a class="tag-link" href="/tags/modules/">modules</a>, <a class="tag-link" href="/tags/namespaces/">namespaces</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <br>
 
 <a id="more"></a>
 
@@ -269,375 +228,128 @@
 <p>사람들이 “event loop를 막지마”라고 할때 바로 이런 현상을 뜻하는 것이다.<br><code>&quot;스택에 필요없는 느린 코드를 쌓아서 브라우저가 할 일을 못하게 만들지 말아라.&quot;</code>, <code>&quot;유동적인 UI를 만들어라.&quot;</code></p>
 <p>이미지 처리나 애니메이션이 너무 잦아졌을 때 큐 관리에 주의를 기울이지 않으면 이런 일들이 일어난다. 예를 들어 DOM에서 매우 자주 발생하는 스크롤 이벤트가 매 16ms 마다 발생한다고 가정하고 스크롤 이벤트가 발생할때 애니메이션을 넣거나 무언가를 한다고 했을 때, 스크롤 할 때마다 큐에 엄청나게 많은 콜백을 쌓는다. 그리고 매번 이걸 처리하면서 각각의 느린 프로세싱이 일어날 때 마다, 스택을 채우지는 않지만 큐를 이벤트들로 범람시킨다.<br>이는 매 몇초마다 혹은 유저가 스크롤을 멈출때까지 작업량을 줄인다던지 하는 방향으로 해결책을 생각해볼 수 있다.</p>
 
-            
-
-
-        </div>
-    </div>
-    <div id="post-footer" class="post-footer main-content-wrap">
-        
-            <div class="post-footer-tags">
-                <span class="text-color-light text-small">TAGGED IN</span><br/>
-                
-    <a class="tag tag--primary tag--small t-link" href="/tags/33-js-concepts/">33-js-concepts</a> <a class="tag tag--primary tag--small t-link" href="/tags/IIFE/">IIFE</a> <a class="tag tag--primary tag--small t-link" href="/tags/javascript/">javascript</a> <a class="tag tag--primary tag--small t-link" href="/tags/modules/">modules</a> <a class="tag tag--primary tag--small t-link" href="/tags/namespaces/">namespaces</a>
-
-            </div>
-        
-        
-            <div class="post-actions-wrap">
-    <nav>
-        <ul class="post-actions post-action-nav">
-            <li class="post-action">
-                
-                    
-                <a
-                    class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/12/12/1-타입과-문법-1-타입/"
-                    data-tooltip="You Don&#39;t Know JS - 1.타입과 문법 - 1.타입"
-                    aria-label="PREVIOUS: You Don&#39;t Know JS - 1.타입과 문법 - 1.타입"
-                >
-                    
-                        <i class="fa fa-angle-left" aria-hidden="true"></i>
-                        <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
-                    </a>
-            </li>
-            <li class="post-action">
-                
-                    
-                <a
-                    class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/09/26/IIFE-modules-namespaces/"
-                    data-tooltip="8. IIFE, modules, namespaces"
-                    aria-label="NEXT: 8. IIFE, modules, namespaces"
-                >
-                    
-                        <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
-                        <i class="fa fa-angle-right" aria-hidden="true"></i>
-                    </a>
-            </li>
-        </ul>
-    </nav>
-    <ul class="post-actions post-action-share">
-        <li class="post-action hide-lg hide-md hide-sm">
-            <a
-                class="post-action-btn btn btn--default btn-open-shareoptions"
-                href="#btn-open-shareoptions"
-                aria-label="Share this post"
-            >
-                <i class="fa fa-share-alt" aria-hidden="true"></i>
-            </a>
-        </li>
-        
-            
-            
-            <li class="post-action hide-xs">
-                <a
-                    class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/09/29/event-loop/"
-                    title="Share on Facebook"
-                    aria-label="Share on Facebook"
-                >
-                    <i class="fab fa-facebook" aria-hidden="true"></i>
-                </a>
-            </li>
-        
-            
-            
-            <li class="post-action hide-xs">
-                <a
-                    class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2019/09/29/event-loop/"
-                    title="Share on Twitter"
-                    aria-label="Share on Twitter"
-                >
-                    <i class="fab fa-twitter" aria-hidden="true"></i>
-                </a>
-            </li>
-        
-            
-            
-            <li class="post-action hide-xs">
-                <a
-                    class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=http://yoursite.com/2019/09/29/event-loop/"
-                    title="Share on Google+"
-                    aria-label="Share on Google+"
-                >
-                    <i class="fab fa-google-plus" aria-hidden="true"></i>
-                </a>
-            </li>
-        
-        
-            
-                <li class="post-action">
-                    <a
-                        class="post-action-btn btn btn--default"
-                        href="#disqus_thread"
-                        aria-label="Leave a comment"
-                    >
-                        <i class="fa fa-comment"></i>
-                    </a>
-                </li>
-            
-        
-        <li class="post-action">
-            
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
-            
-                <i class="fa fa-list" aria-hidden="true"></i>
-            </a>
-        </li>
-    </ul>
-</div>
-
-
-        
-        
-            
-                <div id="disqus_thread">
-    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-</div>
-            
-        
-    </div>
+  </div>
 </article>
 
 
 
-                <footer id="footer" class="main-content-wrap">
-    <span class="copyrights">
-        Copyrights &copy; 2020 hyerinOh. All Rights Reserved.
-    </span>
-</footer>
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
 
-            </div>
-            
-                <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
-                    <div class="post-actions-wrap">
-    <nav>
-        <ul class="post-actions post-action-nav">
-            <li class="post-action">
-                
-                    
-                <a
-                    class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/12/12/1-타입과-문법-1-타입/"
-                    data-tooltip="You Don&#39;t Know JS - 1.타입과 문법 - 1.타입"
-                    aria-label="PREVIOUS: You Don&#39;t Know JS - 1.타입과 문법 - 1.타입"
-                >
-                    
-                        <i class="fa fa-angle-left" aria-hidden="true"></i>
-                        <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
-                    </a>
-            </li>
-            <li class="post-action">
-                
-                    
-                <a
-                    class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/09/26/IIFE-modules-namespaces/"
-                    data-tooltip="8. IIFE, modules, namespaces"
-                    aria-label="NEXT: 8. IIFE, modules, namespaces"
-                >
-                    
-                        <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
-                        <i class="fa fa-angle-right" aria-hidden="true"></i>
-                    </a>
-            </li>
-        </ul>
-    </nav>
-    <ul class="post-actions post-action-share">
-        <li class="post-action hide-lg hide-md hide-sm">
-            <a
-                class="post-action-btn btn btn--default btn-open-shareoptions"
-                href="#btn-open-shareoptions"
-                aria-label="Share this post"
-            >
-                <i class="fa fa-share-alt" aria-hidden="true"></i>
-            </a>
-        </li>
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/projects_url">Projects</a></li>
         
-            
-            
-            <li class="post-action hide-xs">
-                <a
-                    class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/09/29/event-loop/"
-                    title="Share on Facebook"
-                    aria-label="Share on Facebook"
-                >
-                    <i class="fab fa-facebook" aria-hidden="true"></i>
-                </a>
-            </li>
-        
-            
-            
-            <li class="post-action hide-xs">
-                <a
-                    class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2019/09/29/event-loop/"
-                    title="Share on Twitter"
-                    aria-label="Share on Twitter"
-                >
-                    <i class="fab fa-twitter" aria-hidden="true"></i>
-                </a>
-            </li>
-        
-            
-            
-            <li class="post-action hide-xs">
-                <a
-                    class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=http://yoursite.com/2019/09/29/event-loop/"
-                    title="Share on Google+"
-                    aria-label="Share on Google+"
-                >
-                    <i class="fab fa-google-plus" aria-hidden="true"></i>
-                </a>
-            </li>
-        
-        
-            
-                <li class="post-action">
-                    <a
-                        class="post-action-btn btn btn--default"
-                        href="#disqus_thread"
-                        aria-label="Leave a comment"
-                    >
-                        <i class="fa fa-comment"></i>
-                    </a>
-                </li>
-            
-        
-        <li class="post-action">
-            
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
-            
-                <i class="fa fa-list" aria-hidden="true"></i>
-            </a>
-        </li>
-    </ul>
-</div>
-
-
-                </div>
-                
-    <div id="share-options-bar" class="share-options-bar" data-behavior="5">
-        <i id="btn-close-shareoptions" class="fa fa-times"></i>
-        <ul class="share-options">
-            
-                
-                
-                <li class="share-option">
-                    <a
-                        class="share-option-btn"
-                        target="new"
-                        href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/09/29/event-loop/"
-                        aria-label="Share on Facebook"
-                    >
-                        <i class="fab fa-facebook" aria-hidden="true"></i><span>Share on Facebook</span>
-                    </a>
-                </li>
-            
-                
-                
-                <li class="share-option">
-                    <a
-                        class="share-option-btn"
-                        target="new"
-                        href="https://twitter.com/intent/tweet?text=http://yoursite.com/2019/09/29/event-loop/"
-                        aria-label="Share on Twitter"
-                    >
-                        <i class="fab fa-twitter" aria-hidden="true"></i><span>Share on Twitter</span>
-                    </a>
-                </li>
-            
-                
-                
-                <li class="share-option">
-                    <a
-                        class="share-option-btn"
-                        target="new"
-                        href="https://plus.google.com/share?url=http://yoursite.com/2019/09/29/event-loop/"
-                        aria-label="Share on Google+"
-                    >
-                        <i class="fab fa-google-plus" aria-hidden="true"></i><span>Share on Google+</span>
-                    </a>
-                </li>
-            
-        </ul>
+      </ul>
     </div>
 
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#자바스크립트-런타임"><span class="toc-number">1.</span> <span class="toc-text">자바스크립트 런타임</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#call-stack"><span class="toc-number">1.1.</span> <span class="toc-text">call stack</span></a></li></ol></li></ol>
+    </div>
 
-            
-        </div>
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/09/29/event-loop/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/09/29/event-loop/&text=9. event loop"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/09/29/event-loop/&title=9. event loop"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/09/29/event-loop/&is_video=false&description=9. event loop"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=9. event loop&body=Check out this article: http://yoursite.com/2019/09/29/event-loop/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/09/29/event-loop/&title=9. event loop"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/09/29/event-loop/&title=9. event loop"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/09/29/event-loop/&title=9. event loop"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/09/29/event-loop/&title=9. event loop"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/09/29/event-loop/&name=9. event loop&description=&lt;br&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://yoursite.com/2019/09/29/event-loop/&t=9. event loop"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
         
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
     
-        
-                                            <div id="about">
-                                                <div id="about-card">
-                                                    <div id="about-btn-close">
-                                                        <i class="fa fa-times"></i>
-                                                    </div>
-                                                    
-                                                            <h4 id="about-card-name">
-                                                                hyerinOh
-                                                            </h4>
-                                                            
-                                                                <div id="about-card-bio">
-                                                                    <p>내가 보려고 정리하는 블로그</p>
-
-                                                                </div>
-                                                                
-                                                                    
-                                                                        <div id="about-card-job">
-                                                                            <i class="fa fa-briefcase"></i>
-                                                                            <br/>
-                                                                            <p>front-end developer</p>
-
-                                                                        </div>
-                                                                        
-                                                                            
-                                                                                <div id="about-card-location">
-                                                                                    <i class="fa fa-map-marker-alt"></i>
-                                                                                    <br/>
-                                                                                    Seoul, Korea
-                                                                                </div>
-                                                                                
-                                                </div>
-                                            </div>
-        
-        
-<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
-        <!--SCRIPTS-->
-<script src="/assets/js/jquery.js"></script>
-<script src="/assets/js/jquery.fancybox.js"></script>
-<script src="/assets/js/thumbs.js"></script>
-<script src="/assets/js/tranquilpeak.js"></script>
-<!--SCRIPTS END-->
-
-
     
-        <script>
-          var disqus_config = function() {
-            this.page.url = 'http://yoursite.com/2019/09/29/event-loop/';
-              
-            this.page.identifier = '2019/09/29/event-loop/';
-              
-          };
-          (function() {
-            var d = document, s = d.createElement('script');
-            var disqus_shortname = 'web1-s18lyko82r';
-            s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    2016-2020
+    hyerinOh
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/projects_url">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
 
-            s.setAttribute('data-timestamp', +new Date());
-            (d.head || d.body).appendChild(s);
-          })();
-        </script>
-    
+    </div>
+    <!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+    <!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<!-- clipboard -->
+
+  <script src="/lib/clipboard/clipboard.min.js"></script>
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
 
 
-
-
-    </body>
+</body>
 </html>

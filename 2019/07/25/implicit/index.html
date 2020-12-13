@@ -1,19 +1,13 @@
-
 <!DOCTYPE html>
-<html lang="en">
-    
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="generator" content="hyerin.io">
-    <title>4. Implicit, Explicit, Nominal, Structuring and Duck Typing - hyerin.io</title>
-    <meta name="author" content="hyerinOh">
-    
-    
-    
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"hyerinOh","sameAs":["https://github.com/hyerinOh"],"image":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7"},"articleBody":"\n\n\n\n\nImplicit coercion(암묵적 타입 변환)예상치 못한 타입을 받았을 때 예상 가능한 타입으로 바꿔주는 것 - 그로 인해 사용자는 숫자값을 넘겨야 하는 곳에 문자열을 넣을 수도 있고 문자열을 넣어야하는 곳에 객체를 넣을 수도 있다. 이러한 일이 발생했을 때 자바스크립트 엔진은 사용자가 잘못 넣은 타입을 올바른 타입으로 변환하려고 시도 =&gt; 자바스크립트의 주요 기능 중 하나이며 가장 피해야할 기능12345678910111213141516173 \\* \"3\" // 91 + \"2\" + 1 // 121    true + true // 2    10 - true // 9    const foo = &#123;        valueOf: () =&gt; 2    &#125;    3 + foo // 5    4 * foo // 8    const bar = &#123;        toString: () =&gt; \" promise is a boy :)\"    &#125;    1 + bar // \"1 promise is a boy :)\"\n\n  123456784 * [] // 04 * [2] // 84 + [2] // \"42\"4 + [1, 2] // \"41, 2\"4 * [1, 2] // NaN\"string\" ? 4 : 1 // 4undefined ? 4 : 1 // 1\n\n숫자 표현식에서 숫자가 아닌 값\n\n문자열 : 사용자가 숫자 표현식에서 문자열(-, *, /, %을 포함한 문자열)을 피연산자로 넘겼을 때마다 숫자의 암묵적 타입변환 프로세스는 문자열을 인자로 자바스크립트 내부에 내장된 Number 함수를 불러오는 것과 비슷.숫자 문자(Numeric Characters)를 가졌다면 어떤 문자열이라도 동등한 숫자로 바뀜. 하지만 만일 문자열에 숫자가 아닌 것(Non-Numeric Characters)이 포함되어 있으면 NaN을 리턴.\n\n1234567891011121314153 * \"3\" // 3 * 33 * Number(\"3\") // 3 * 3Number(\"5\") // 5Number(\"1.\") // 1Number(\"1.34\") // 1.34Number(\"0\") // 0Number(\"012\") // 12Number(\"1,\") // NaNNumber(\"1+1\") // NaNNumber(\"1a\") // NaNNumber(\"la\") // NaNNumber(\"one\") // NaNNumber(\"text\") // NaN\n\n\n+ 연산자 : + 연산자는 다른 수학적 연산자들과는 다르게 2가지의 기능을 한다. (loaded operator)\n\n\n수학적인 덧셈\n문자열 합치기\n\n문자열이 + 연산자의 피연산자로 주어졌을 때, 자바스크립트는 문자열을 숫자로 바꾸려 하지 않고 숫자를 문자로 바꾸려 한다.\n123456789101112131415// concatenation1 + \"2\" // \"12\"1 + \"js\" // \"1js\"// addition1 + 2 // 31 + 2 + 1 // 4// addition, then concatenation1 + 2 + \"1\" // \"31\"(1 + 2) + \"1\" // \"31\"// concatenation all through1 + \"2\" + 1 // \"121\"(1 + \"2\") + 1 // \"121\"\n\n\n객체 : 자바스크립트에서 객체의 대부분의 암묵적 형변환은 결과 값으로 [object Object]를 반환\n\n1\"name\" + &#123;&#125; // \"name[object Object]\"\n\n모든 자바스크립트 객체는 toString 메소드를 상속받습니다. 상속받은 toString 메소드는 객체가 문자열 타입으로 변해야 할 때마다 쓰임. toString의 반환 값은 문자열 합치기(string concatenation) 혹은 수학적 표현식(mathematical expressions) 과 같은 연산에서 쓰이게 됨.\n12345678const foo = &#123;&#125;foo.toString() // [object Object]const baz = &#123;    toString: () =&gt; \"I'm object baz\"&#125;baz + \"!\" // \"I'm object baz!\"\n\n객체가 수학적 표현식 사이에 들어갔을 때는, 자바스크립트는 반환 값을 숫자로 변환하려 할 것입니다.\n12345678910111213141516171819202122const foo = &#123;toString: () =&gt; 4&#125;2 \\* foo // 82 / foo // 0.52 + foo // 6\"four\" + foo // \"four4\"const baz = &#123;toString: () =&gt; \"four\"&#125;2 \\* baz // NaN2 + baz // 2fourconst bar = &#123;toString: () =&gt; \"2\"&#125;2 + bar // \"22\"2 \\* bar // 4\n\n\n배열 객체 : 배열에서 상속된 toString 메소드는 약간 다르게 동작한다. 이것은 배열에서 아무런 인자도 넣지 않은 join 메소드를 호출한 것과 비슷한 방식으로 작동하게 됨.\n\n12345678[1, 2, 3].toString() // \"1,2,3\"[1, 2, 3].join() // \"1,2,3\"[].toString() // \"\"[].join() // \"\"\"me\" + [1,2,3] // \"me1,2,3\"4 + [1,2,3] // \"41,2,3\"4 * [1,2,3] // NaN\n\n배열을 어딘가로 넘길 때는 언제나 toString 메소드를 거치면 어떻게 되는지를 생각해봅시다. 숫자로 변할지 문자열로 변할지 말이죠.\n123456789101112134 * [] // 04 / [2] // 2//similar to4 * Number([].toString())4 * Number(\"\")4 * 0//4 / Number([2].toString())4 / Number(\"2\")4 / 2\n\n\nTrue, False, “”\n\n12345678Number(true) // 1Number(false) // 0Number(\"\") // 04 + true // 53 * false // 03 * \"\" // 03 + \"\" // 3\n\n\nvalueOf 메소드문자열이나 숫자가 올 곳에 객체를 넘길 때마다 자바스크립트 엔진에 의해 사용될 valueOf메소드를 정의하는 것도 가능\n123456const foo = &#123;    valueOf: () =&gt; 3&#125;3 + foo // 63 * foo // 9\n\n객체에 toString과 valueOf메소드가 전부 정의되어 있을 때는 자바스크립트 엔진은 valueOf메소드를 사용\n12345678const bar = &#123;    valueOf: () =&gt; 5,    toString: () =&gt; 2&#125;\"sa\" + bar // \"sa5\"3 * bar // 152 + bar // 7\n\nvalueOf메소드는 객체가 어떠한 숫자값을 나타낼 때 사용하기 위해 만들어짐\n123const two = new Number(2)two.valueOf() // 2\n\nFalsy와 Truthy : 모든 자바스크립트 값은 true나 false로 변환될 수 있는 특성을 갖고 있음. true로 형변환을 강제하는 것을 truthy, false로 형변환을 강제하는 것을 falsy라고 함.\n\nfalsy로 취급되는 값들\nfalse\n0\nnull\nundefined\n“”\nNaN\n-0\n\n\n\n\n\n이외에는 전부 truthy\n123if (-1) // truthyif (\"0\") // truthyif (&#123;&#125;) // truthy\n\n위의 코드처럼 truthy를 이용해도 괜찮지만 값이 참임을 명시적으로 표현해주는 것이 더 좋은 작성법. 명심해야 할 것은 자바스크립트의 묵시적인 형변환에 의존하지 말라는 것.\n1234567const counter = 2보다if(counter === 2)if(counter)보다if(typeof counter === \"number\")\n\n예를 들어 아래 함수는 number 타입의 변수를 받아 실행하도록 하고 싶어 만든 함수\n1234const add = (number) =&gt; &#123;    if(!number) new Error(\"Only accepts arguments of type: number\")    // your code&#125;\n\n이 경우에 인자 값으로 0을 주면 의도치 않은 에러가 발생\n12345678910add(0) // Error: Only accepts arguments of type: number  // 아래처럼 명시적으로 표현해주는 것이 더 좋은 방법  const add = (number) =&gt; &#123;      if (typeof number !== \"number\") new Error(\"Only accepts arguments of type: number\")      // your code  &#125;  add(0) // no error\n\n또한 ==이 boolean을 만나면 숫자로 변환시켜서\n123console.log(\"true\" == true)// NaN == 1// false\n\n에서 true는 1이 되고 앞에 문자열을 숫자로 변환시키려하는데 “true”를 숫자로 변환시키려하면 NaN이 되어서 결국 false를 반환한다.\n\nNaN : NaN은 자바스크립트에서 유일하게 자기 자신과도 같지 않은 특별한 숫자 값\n123456NaN === NaN // falseconst notANumber = 3 * \"a\" // NaNnotANumber == notANumber // falsenotANumber === notANumber // false\n\nES6에서는 NaN을 체크하기 위한 메소드(Number.isNaN)를 만들었음.\n12Number.isNaN(NaN) // trueNumber.isNaN(\"name\") // false\n\n전역 isNaN함수에 대해서도 알아둬야 함. 이 함수는 인자가 실제로 NaN인지 체크하기 전에 인자로 들어온 값의 형변환을 강제한다. 예를 들면\n12isNaN(\"name\") // trueisNaN(\"1\") // false\n\n전역 isNaN함수는 사용하지 않는 것이 좋다. 이 함수의 동작은 다음의 코드과 비슷\n12345678910const coerceThenCheckNaN = (val) =&gt; &#123;const coercedVal = Number(val)return coerce !== coercedVal ? true : false&#125;coerceThenCheckNaN(\"1a\") // truecoerceThenCheckNaN(\"1\") // falsecoerceThenCheckNaN(\"as\") // truecoerceThenCheckNaN(NaN) // truecoerceThenCheckNaN(10) // false\n\n\n\n","dateCreated":"2019-07-25T00:00:00+09:00","dateModified":"2019-09-16T01:40:19+09:00","datePublished":"2019-07-25T00:00:00+09:00","description":"","headline":"4. Implicit, Explicit, Nominal, Structuring and Duck Typing","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"http://yoursite.com/2019/07/25/implicit/"},"publisher":{"@type":"Organization","name":"hyerinOh","sameAs":["https://github.com/hyerinOh"],"image":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7"}},"url":"http://yoursite.com/2019/07/25/implicit/","keywords":"javascript, 33-js-concepts, type coercion, Implicit coercion"}</script>
+<html lang=en>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="keywords" content="javascript,33-js-concepts,type coercion,Implicit coercion">
-<meta property="og:type" content="blog">
+<meta property="og:type" content="article">
 <meta property="og:title" content="4. Implicit, Explicit, Nominal, Structuring and Duck Typing">
 <meta property="og:url" content="http://yoursite.com/2019/07/25/implicit/index.html">
 <meta property="og:site_name" content="hyerin.io">
@@ -23,175 +17,140 @@
 <meta name="twitter:title" content="4. Implicit, Explicit, Nominal, Structuring and Duck Typing">
     
     
+      
         
-    
-    
-    
-    
-    
-    <!--STYLES-->
-    <link rel="stylesheet" href="/assets/css/all.css">
-    <link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
-    <link rel="stylesheet" href="/assets/css/thumbs.css">
-    <link rel="stylesheet" href="/assets/css/tranquilpeak.css">
-    <!--STYLES END-->
-    
-
-    
-
-    
+          <link rel="shortcut icon" href="/images/favicon.ico">
         
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>4. Implicit, Explicit, Nominal, Structuring and Duck Typing</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
     
 </head>
 
-    <body>
-        <div id="blog">
-            <!-- Define author's picture -->
-
-
+<body class="max-width mx-auto px3 ltr">
     
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/projects_url">Projects</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/08/04/vs-vs-typeof/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/07/20/value-Types/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/07/25/implicit/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/07/25/implicit/&text=4. Implicit, Explicit, Nominal, Structuring and Duck Typing"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/07/25/implicit/&title=4. Implicit, Explicit, Nominal, Structuring and Duck Typing"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/07/25/implicit/&is_video=false&description=4. Implicit, Explicit, Nominal, Structuring and Duck Typing"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=4. Implicit, Explicit, Nominal, Structuring and Duck Typing&body=Check out this article: http://yoursite.com/2019/07/25/implicit/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/07/25/implicit/&title=4. Implicit, Explicit, Nominal, Structuring and Duck Typing"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/07/25/implicit/&title=4. Implicit, Explicit, Nominal, Structuring and Duck Typing"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/07/25/implicit/&title=4. Implicit, Explicit, Nominal, Structuring and Duck Typing"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/07/25/implicit/&title=4. Implicit, Explicit, Nominal, Structuring and Duck Typing"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/07/25/implicit/&name=4. Implicit, Explicit, Nominal, Structuring and Duck Typing&description=&lt;br&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://yoursite.com/2019/07/25/implicit/&t=4. Implicit, Explicit, Nominal, Structuring and Duck Typing"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
 
-<header id="header" data-behavior="5">
-    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
-    <div class="header-title">
-        <a
-            class="header-title-link"
-            href="/ "
-            aria-label=""
-        >
-            hyerin.io
-        </a>
     </div>
-    
-        
-            <a
-                class="header-right-picture "
-                href="#about"
-                aria-label="Open the link: /#about"
-            >
-        
-        
-        </a>
-    
-</header>
-
-            <!-- Define author's picture -->
-
-
-<nav id="sidebar" data-behavior="5">
-    <div class="sidebar-container">
-        
-        
-            <ul class="sidebar-buttons">
-            
-                <li class="sidebar-button">
-                    
-                        <a  class="sidebar-button-link "
-                             href="/ "
-                            
-                            title="Home"
-                        >
-                    
-                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Home</span>
-                    </a>
-            </li>
-            
-                <li class="sidebar-button">
-                    
-                        <a  class="sidebar-button-link "
-                             href="/all-categories"
-                            
-                            title="Categories"
-                        >
-                    
-                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Categories</span>
-                    </a>
-            </li>
-            
-                <li class="sidebar-button">
-                    
-                        <a  class="sidebar-button-link "
-                             href="/all-tags"
-                            
-                            title="Tags"
-                        >
-                    
-                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Tags</span>
-                    </a>
-            </li>
-            
-                <li class="sidebar-button">
-                    
-                        <a  class="sidebar-button-link "
-                             href="#about"
-                            
-                            title="About"
-                        >
-                    
-                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">About</span>
-                    </a>
-            </li>
-            
-        </ul>
-        
-            <ul class="sidebar-buttons">
-            
-                <li class="sidebar-button">
-                    
-                        <a  class="sidebar-button-link " href="https://github.com/hyerinOh" target="_blank" rel="noopener" title="GitHub">
-                    
-                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">GitHub</span>
-                    </a>
-            </li>
-            
-        </ul>
-        
+    <div id="toc">
+      
     </div>
-</nav>
-
-            
-            <div id="main" data-behavior="5"
-                 class="
-                        hasCoverMetaIn
-                        ">
-                
-<article class="post">
-    
-    
-        <div class="post-header main-content-wrap text-left">
-    
-        <h1 class="post-title">
-            4. Implicit, Explicit, Nominal, Structuring and Duck Typing
-        </h1>
-    
-    
-        <div class="post-meta">
-    <time datetime="2019-07-25T00:00:00+09:00">
-	
-		    Jul 25, 2019
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/Dev/">Dev</a>, <a class="category-link" href="/categories/Dev/JavaScript/">JavaScript</a>, <a class="category-link" href="/categories/Dev/JavaScript/33-js-concepts/">33-js-concepts</a>
-
-
-    
+  </span>
 </div>
 
     
-</div>
-
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
     
-    <div class="post-content markdown">
-        <div class="main-content-wrap">
-            <br>
+    <h1 class="posttitle" itemprop="name headline">
+        4. Implicit, Explicit, Nominal, Structuring and Duck Typing
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">hyerinOh</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-07-24T15:00:00.000Z" itemprop="datePublished">2019-07-25</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/Dev/">Dev</a> › <a class="category-link" href="/categories/Dev/JavaScript/">JavaScript</a> › <a class="category-link" href="/categories/Dev/JavaScript/33-js-concepts/">33-js-concepts</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/33-js-concepts/">33-js-concepts</a>, <a class="tag-link" href="/tags/Implicit-coercion/">Implicit coercion</a>, <a class="tag-link" href="/tags/javascript/">javascript</a>, <a class="tag-link" href="/tags/type-coercion/">type coercion</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <br>
 
 <a id="more"></a>
 
@@ -297,375 +256,128 @@
 </li>
 </ul>
 
-            
-
-
-        </div>
-    </div>
-    <div id="post-footer" class="post-footer main-content-wrap">
-        
-            <div class="post-footer-tags">
-                <span class="text-color-light text-small">TAGGED IN</span><br/>
-                
-    <a class="tag tag--primary tag--small t-link" href="/tags/33-js-concepts/">33-js-concepts</a> <a class="tag tag--primary tag--small t-link" href="/tags/Implicit-coercion/">Implicit coercion</a> <a class="tag tag--primary tag--small t-link" href="/tags/javascript/">javascript</a> <a class="tag tag--primary tag--small t-link" href="/tags/type-coercion/">type coercion</a>
-
-            </div>
-        
-        
-            <div class="post-actions-wrap">
-    <nav>
-        <ul class="post-actions post-action-nav">
-            <li class="post-action">
-                
-                    
-                <a
-                    class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/08/04/vs-vs-typeof/"
-                    data-tooltip="5. == vs === vs typeof"
-                    aria-label="PREVIOUS: 5. == vs === vs typeof"
-                >
-                    
-                        <i class="fa fa-angle-left" aria-hidden="true"></i>
-                        <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
-                    </a>
-            </li>
-            <li class="post-action">
-                
-                    
-                <a
-                    class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/07/20/value-Types/"
-                    data-tooltip="3. Value Types and Reference Types"
-                    aria-label="NEXT: 3. Value Types and Reference Types"
-                >
-                    
-                        <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
-                        <i class="fa fa-angle-right" aria-hidden="true"></i>
-                    </a>
-            </li>
-        </ul>
-    </nav>
-    <ul class="post-actions post-action-share">
-        <li class="post-action hide-lg hide-md hide-sm">
-            <a
-                class="post-action-btn btn btn--default btn-open-shareoptions"
-                href="#btn-open-shareoptions"
-                aria-label="Share this post"
-            >
-                <i class="fa fa-share-alt" aria-hidden="true"></i>
-            </a>
-        </li>
-        
-            
-            
-            <li class="post-action hide-xs">
-                <a
-                    class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/07/25/implicit/"
-                    title="Share on Facebook"
-                    aria-label="Share on Facebook"
-                >
-                    <i class="fab fa-facebook" aria-hidden="true"></i>
-                </a>
-            </li>
-        
-            
-            
-            <li class="post-action hide-xs">
-                <a
-                    class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2019/07/25/implicit/"
-                    title="Share on Twitter"
-                    aria-label="Share on Twitter"
-                >
-                    <i class="fab fa-twitter" aria-hidden="true"></i>
-                </a>
-            </li>
-        
-            
-            
-            <li class="post-action hide-xs">
-                <a
-                    class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=http://yoursite.com/2019/07/25/implicit/"
-                    title="Share on Google+"
-                    aria-label="Share on Google+"
-                >
-                    <i class="fab fa-google-plus" aria-hidden="true"></i>
-                </a>
-            </li>
-        
-        
-            
-                <li class="post-action">
-                    <a
-                        class="post-action-btn btn btn--default"
-                        href="#disqus_thread"
-                        aria-label="Leave a comment"
-                    >
-                        <i class="fa fa-comment"></i>
-                    </a>
-                </li>
-            
-        
-        <li class="post-action">
-            
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
-            
-                <i class="fa fa-list" aria-hidden="true"></i>
-            </a>
-        </li>
-    </ul>
-</div>
-
-
-        
-        
-            
-                <div id="disqus_thread">
-    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-</div>
-            
-        
-    </div>
+  </div>
 </article>
 
 
 
-                <footer id="footer" class="main-content-wrap">
-    <span class="copyrights">
-        Copyrights &copy; 2020 hyerinOh. All Rights Reserved.
-    </span>
-</footer>
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
 
-            </div>
-            
-                <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
-                    <div class="post-actions-wrap">
-    <nav>
-        <ul class="post-actions post-action-nav">
-            <li class="post-action">
-                
-                    
-                <a
-                    class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/08/04/vs-vs-typeof/"
-                    data-tooltip="5. == vs === vs typeof"
-                    aria-label="PREVIOUS: 5. == vs === vs typeof"
-                >
-                    
-                        <i class="fa fa-angle-left" aria-hidden="true"></i>
-                        <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
-                    </a>
-            </li>
-            <li class="post-action">
-                
-                    
-                <a
-                    class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/07/20/value-Types/"
-                    data-tooltip="3. Value Types and Reference Types"
-                    aria-label="NEXT: 3. Value Types and Reference Types"
-                >
-                    
-                        <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
-                        <i class="fa fa-angle-right" aria-hidden="true"></i>
-                    </a>
-            </li>
-        </ul>
-    </nav>
-    <ul class="post-actions post-action-share">
-        <li class="post-action hide-lg hide-md hide-sm">
-            <a
-                class="post-action-btn btn btn--default btn-open-shareoptions"
-                href="#btn-open-shareoptions"
-                aria-label="Share this post"
-            >
-                <i class="fa fa-share-alt" aria-hidden="true"></i>
-            </a>
-        </li>
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/projects_url">Projects</a></li>
         
-            
-            
-            <li class="post-action hide-xs">
-                <a
-                    class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/07/25/implicit/"
-                    title="Share on Facebook"
-                    aria-label="Share on Facebook"
-                >
-                    <i class="fab fa-facebook" aria-hidden="true"></i>
-                </a>
-            </li>
-        
-            
-            
-            <li class="post-action hide-xs">
-                <a
-                    class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2019/07/25/implicit/"
-                    title="Share on Twitter"
-                    aria-label="Share on Twitter"
-                >
-                    <i class="fab fa-twitter" aria-hidden="true"></i>
-                </a>
-            </li>
-        
-            
-            
-            <li class="post-action hide-xs">
-                <a
-                    class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=http://yoursite.com/2019/07/25/implicit/"
-                    title="Share on Google+"
-                    aria-label="Share on Google+"
-                >
-                    <i class="fab fa-google-plus" aria-hidden="true"></i>
-                </a>
-            </li>
-        
-        
-            
-                <li class="post-action">
-                    <a
-                        class="post-action-btn btn btn--default"
-                        href="#disqus_thread"
-                        aria-label="Leave a comment"
-                    >
-                        <i class="fa fa-comment"></i>
-                    </a>
-                </li>
-            
-        
-        <li class="post-action">
-            
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
-            
-                <i class="fa fa-list" aria-hidden="true"></i>
-            </a>
-        </li>
-    </ul>
-</div>
-
-
-                </div>
-                
-    <div id="share-options-bar" class="share-options-bar" data-behavior="5">
-        <i id="btn-close-shareoptions" class="fa fa-times"></i>
-        <ul class="share-options">
-            
-                
-                
-                <li class="share-option">
-                    <a
-                        class="share-option-btn"
-                        target="new"
-                        href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/07/25/implicit/"
-                        aria-label="Share on Facebook"
-                    >
-                        <i class="fab fa-facebook" aria-hidden="true"></i><span>Share on Facebook</span>
-                    </a>
-                </li>
-            
-                
-                
-                <li class="share-option">
-                    <a
-                        class="share-option-btn"
-                        target="new"
-                        href="https://twitter.com/intent/tweet?text=http://yoursite.com/2019/07/25/implicit/"
-                        aria-label="Share on Twitter"
-                    >
-                        <i class="fab fa-twitter" aria-hidden="true"></i><span>Share on Twitter</span>
-                    </a>
-                </li>
-            
-                
-                
-                <li class="share-option">
-                    <a
-                        class="share-option-btn"
-                        target="new"
-                        href="https://plus.google.com/share?url=http://yoursite.com/2019/07/25/implicit/"
-                        aria-label="Share on Google+"
-                    >
-                        <i class="fab fa-google-plus" aria-hidden="true"></i><span>Share on Google+</span>
-                    </a>
-                </li>
-            
-        </ul>
+      </ul>
     </div>
 
+    <div id="toc-footer" style="display: none">
+      
+    </div>
 
-            
-        </div>
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/07/25/implicit/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/07/25/implicit/&text=4. Implicit, Explicit, Nominal, Structuring and Duck Typing"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/07/25/implicit/&title=4. Implicit, Explicit, Nominal, Structuring and Duck Typing"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/07/25/implicit/&is_video=false&description=4. Implicit, Explicit, Nominal, Structuring and Duck Typing"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=4. Implicit, Explicit, Nominal, Structuring and Duck Typing&body=Check out this article: http://yoursite.com/2019/07/25/implicit/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/07/25/implicit/&title=4. Implicit, Explicit, Nominal, Structuring and Duck Typing"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/07/25/implicit/&title=4. Implicit, Explicit, Nominal, Structuring and Duck Typing"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/07/25/implicit/&title=4. Implicit, Explicit, Nominal, Structuring and Duck Typing"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/07/25/implicit/&title=4. Implicit, Explicit, Nominal, Structuring and Duck Typing"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/07/25/implicit/&name=4. Implicit, Explicit, Nominal, Structuring and Duck Typing&description=&lt;br&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://yoursite.com/2019/07/25/implicit/&t=4. Implicit, Explicit, Nominal, Structuring and Duck Typing"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
         
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
     
-        
-                                            <div id="about">
-                                                <div id="about-card">
-                                                    <div id="about-btn-close">
-                                                        <i class="fa fa-times"></i>
-                                                    </div>
-                                                    
-                                                            <h4 id="about-card-name">
-                                                                hyerinOh
-                                                            </h4>
-                                                            
-                                                                <div id="about-card-bio">
-                                                                    <p>내가 보려고 정리하는 블로그</p>
-
-                                                                </div>
-                                                                
-                                                                    
-                                                                        <div id="about-card-job">
-                                                                            <i class="fa fa-briefcase"></i>
-                                                                            <br/>
-                                                                            <p>front-end developer</p>
-
-                                                                        </div>
-                                                                        
-                                                                            
-                                                                                <div id="about-card-location">
-                                                                                    <i class="fa fa-map-marker-alt"></i>
-                                                                                    <br/>
-                                                                                    Seoul, Korea
-                                                                                </div>
-                                                                                
-                                                </div>
-                                            </div>
-        
-        
-<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
-        <!--SCRIPTS-->
-<script src="/assets/js/jquery.js"></script>
-<script src="/assets/js/jquery.fancybox.js"></script>
-<script src="/assets/js/thumbs.js"></script>
-<script src="/assets/js/tranquilpeak.js"></script>
-<!--SCRIPTS END-->
-
-
     
-        <script>
-          var disqus_config = function() {
-            this.page.url = 'http://yoursite.com/2019/07/25/implicit/';
-              
-            this.page.identifier = '2019/07/25/implicit/';
-              
-          };
-          (function() {
-            var d = document, s = d.createElement('script');
-            var disqus_shortname = 'web1-s18lyko82r';
-            s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    2016-2020
+    hyerinOh
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/projects_url">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
 
-            s.setAttribute('data-timestamp', +new Date());
-            (d.head || d.body).appendChild(s);
-          })();
-        </script>
-    
+    </div>
+    <!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+    <!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<!-- clipboard -->
+
+  <script src="/lib/clipboard/clipboard.min.js"></script>
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
 
 
-
-
-    </body>
+</body>
 </html>
