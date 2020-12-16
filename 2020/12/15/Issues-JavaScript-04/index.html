@@ -6,23 +6,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="hyerin.io">
-    <title>1.modules import issue - hyerin.io</title>
+    <title>4. 더블 클릭 방지 - hyerin.io</title>
     <meta name="author" content="hyerinOh">
     
     
         <link rel="icon" href="http://yoursite.com/assets/images/source/assets/images/favicon.ico">
     
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"hyerinOh","sameAs":["https://github.com/hyerinOh"],"image":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7"},"articleBody":"\n\n\n\n모듈 import 할 때\n문제 상황 !TypeScript 지원 안되는 모듈일 경우 에러 발생\n\n\n@types/모듈명을 지원하는지 확인\n지원하면 install\n지원하지 않으면\ntsconfig에서 noImplicitAny를 false로\n다른 대안 모듈 찾기\n\n\n\n\n\n","dateCreated":"2019-12-30T11:34:31+09:00","dateModified":"2020-12-13T14:08:04+09:00","datePublished":"2019-12-30T11:34:31+09:00","description":"","headline":"1.modules import issue","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"http://yoursite.com/2019/12/30/Issues-TypeScript-01/"},"publisher":{"@type":"Organization","name":"hyerinOh","sameAs":["https://github.com/hyerinOh"],"image":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7"}},"url":"http://yoursite.com/2019/12/30/Issues-TypeScript-01/","keywords":"Issues, React, TypeScript"}</script>
-    <meta name="keywords" content="Issues,React,TypeScript">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"hyerinOh","sameAs":["https://github.com/hyerinOh"],"image":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7"},"articleBody":"\n\n\n\n더블 클릭 방지\n문제 상황 ❗️\n\n\n더블 클릭 방지 = 이미 요청된 상황에서 재요청을 방지하겠다는 것\n\n\n만약 debounce로 구현하면, 인터넷 속도가 느린 환경에서는 특정 시간이 넘으면 사용자가 몇 번이고 더 호출할 수 있는 이슈가 생김​\n\nDebouce() 는? 🤔​\n\n처음 요청과 마지막 요청 중 한 번만 호출\n이벤트가 끝난 후 호출\ninput 입력, 브라우저 리사이즈 등에 적합\n\n​\ncf) throttle() 은? 🤔​\n\n이벤트가 발생하면 일정 주기로 계속 호출\n이벤트 중간 중간 호출\n무한 스크롤 등에 적합​\n\n\n​\n그렇다면 재요청 방지(or 더블 클릭) 에 적합한 방법은? 🤔\n일반적인 방법 : loading 상태를 사용\n\napollo Hooks의 useMutation()는 배열을 리턴하는데, 첫 번째 원소는 mutation을 호출해야하는 순간에 호출해야하는 함수, 두 번째 원소는 error, loading(로딩 여부)이 들어있는 객체이다.​\n123const [verifyCertNum, &#123;loading, error&#125;] = useVerifyCertNumMutation(&#123;    client: ApolloUser,  &#125;);\n\n쿼리가 실행 중이라 보여줄 데이터가 아직 없을 때 loading 값이 true\n\nloading은 유저가 mutation 실행 중에 입력 필드나 버튼을 사용할 수 없도록 disabled 할 때 사용할 수 있음​\n1&lt;input disabled=&#123;loading&#125; /&gt;\n\nerror는 mutation 실행이 실패했을 때 입력 필드 주변에 오류 정보를 보여주기 위해 사용\n\n버튼을 눌렀을 때 data를 받아오기 전 loading 상태가 true일 경우에는 return 시켜서 여러번 서버를 호출하는 것을 막는다\n\n\n\n\n","dateCreated":"2020-12-15T14:50:00+09:00","dateModified":"2020-12-16T22:53:39+09:00","datePublished":"2020-12-15T14:50:00+09:00","description":"","headline":"4. 더블 클릭 방지","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"http://yoursite.com/2020/12/15/Issues-JavaScript-04/"},"publisher":{"@type":"Organization","name":"hyerinOh","sameAs":["https://github.com/hyerinOh"],"image":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7"}},"url":"http://yoursite.com/2020/12/15/Issues-JavaScript-04/","keywords":"Issues, JavaScript, Apollo Hooks, debounce, throttle"}</script>
+    <meta name="keywords" content="Issues,JavaScript,Apollo Hooks,debounce,throttle">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="1.modules import issue">
-<meta property="og:url" content="http://yoursite.com/2019/12/30/Issues-TypeScript-01/index.html">
+<meta property="og:title" content="4. 더블 클릭 방지">
+<meta property="og:url" content="http://yoursite.com/2020/12/15/Issues-JavaScript-04/index.html">
 <meta property="og:site_name" content="hyerin.io">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2020-12-13T05:08:04.950Z">
+<meta property="og:updated_time" content="2020-12-16T13:53:39.421Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="1.modules import issue">
+<meta name="twitter:title" content="4. 더블 클릭 방지">
     
     
         
@@ -168,20 +168,20 @@
         <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title">
-            1.modules import issue
+            4. 더블 클릭 방지
         </h1>
     
     
         <div class="post-meta">
-    <time datetime="2019-12-30T11:34:31+09:00">
+    <time datetime="2020-12-15T14:50:00+09:00">
 	
-		    Dec 30, 2019
+		    Dec 15, 2020
     	
     </time>
     
         <span>in </span>
         
-    <a class="category-link" href="/categories/Issues/">Issues</a>, <a class="category-link" href="/categories/Issues/TypeScript/">TypeScript</a>
+    <a class="category-link" href="/categories/Issues/">Issues</a>, <a class="category-link" href="/categories/Issues/JavaScript/">JavaScript</a>
 
 
     
@@ -197,16 +197,44 @@
 
 <a id="more"></a>
 
-<h2 id="모듈-import-할-때"><a href="#모듈-import-할-때" class="headerlink" title="모듈 import 할 때"></a>모듈 import 할 때</h2><blockquote>
-<p>문제 상황 !<br>TypeScript 지원 안되는 모듈일 경우 에러 발생</p>
+<h2 id="더블-클릭-방지"><a href="#더블-클릭-방지" class="headerlink" title="더블 클릭 방지"></a>더블 클릭 방지</h2><blockquote>
+<p>문제 상황 ❗️</p>
 </blockquote>
+<blockquote>
+<p>더블 클릭 방지 = 이미 요청된 상황에서 재요청을 방지하겠다는 것</p>
+</blockquote>
+<blockquote>
+<p>만약 <code>debounce</code>로 구현하면, 인터넷 속도가 느린 환경에서는 특정 시간이 넘으면 사용자가 몇 번이고 더 호출할 수 있는 이슈가 생김<br>​<br><br></p>
+</blockquote>
+<h3 id="Debouce-는-🤔"><a href="#Debouce-는-🤔" class="headerlink" title="Debouce() 는? 🤔"></a><strong><code>Debouce()</code></strong> 는? 🤔</h3><p>​</p>
 <ul>
-<li><code>@types/모듈명</code>을 지원하는지 확인<ul>
-<li>지원하면 install</li>
-<li>지원하지 않으면<ul>
-<li><code>tsconfig</code>에서 <code>noImplicitAny</code>를 <code>false</code>로</li>
-<li>다른 대안 모듈 찾기</li>
+<li>처음 요청과 마지막 요청 중 한 번만 호출</li>
+<li>이벤트가 끝난 후 호출</li>
+<li>input 입력, 브라우저 리사이즈 등에 적합</li>
 </ul>
+<p>​<br><br></p>
+<h3 id="cf-throttle-은-🤔"><a href="#cf-throttle-은-🤔" class="headerlink" title="cf) throttle() 은? 🤔"></a>cf) <strong><code>throttle()</code></strong> 은? 🤔</h3><p>​</p>
+<ul>
+<li>이벤트가 발생하면 일정 주기로 계속 호출</li>
+<li>이벤트 중간 중간 호출</li>
+<li>무한 스크롤 등에 적합<br>​</li>
+</ul>
+<hr>
+<p>​</p>
+<h3 id="그렇다면-재요청-방지-or-더블-클릭-에-적합한-방법은-🤔"><a href="#그렇다면-재요청-방지-or-더블-클릭-에-적합한-방법은-🤔" class="headerlink" title="그렇다면 재요청 방지(or 더블 클릭) 에 적합한 방법은? 🤔"></a>그렇다면 <strong>재요청 방지(or 더블 클릭)</strong> 에 적합한 방법은? 🤔</h3><ul>
+<li><p>일반적인 방법 : <strong>loading 상태</strong>를 사용</p>
+<ul>
+<li><p><code>apollo Hooks</code>의 <code>useMutation()</code>는 배열을 리턴하는데, 첫 번째 원소는 mutation을 호출해야하는 순간에 호출해야하는 함수, 두 번째 원소는 error, <strong>loading</strong>(로딩 여부)이 들어있는 객체이다.<br>​</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> [verifyCertNum, &#123;loading, error&#125;] = useVerifyCertNumMutation(&#123;</span><br><span class="line">    client: ApolloUser,</span><br><span class="line">  &#125;);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>쿼리가 실행 중이라 보여줄 데이터가 아직 없을 때 <code>loading</code> 값이 <code>true</code></p>
+</li>
+<li><p><code>loading</code>은 유저가 mutation 실행 중에 <strong>입력 필드나 버튼을 사용할 수 없도록</strong> disabled 할 때 사용할 수 있음<br>​</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">disabled</span>=<span class="string">&#123;loading&#125;</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>error</code>는 mutation 실행이 실패했을 때 입력 필드 주변에 오류 정보를 보여주기 위해 사용</p>
+</li>
+<li><p>버튼을 눌렀을 때 data를 받아오기 전 <code>loading</code> 상태가 <code>true</code>일 경우에는 <code>return</code> 시켜서 여러번 서버를 호출하는 것을 막는다</p>
 </li>
 </ul>
 </li>
@@ -222,7 +250,7 @@
             <div class="post-footer-tags">
                 <span class="text-color-light text-small">TAGGED IN</span><br/>
                 
-    <a class="tag tag--primary tag--small t-link" href="/tags/Issues/">Issues</a> <a class="tag tag--primary tag--small t-link" href="/tags/React/">React</a> <a class="tag tag--primary tag--small t-link" href="/tags/TypeScript/">TypeScript</a>
+    <a class="tag tag--primary tag--small t-link" href="/tags/Apollo-Hooks/">Apollo Hooks</a> <a class="tag tag--primary tag--small t-link" href="/tags/Issues/">Issues</a> <a class="tag tag--primary tag--small t-link" href="/tags/JavaScript/">JavaScript</a> <a class="tag tag--primary tag--small t-link" href="/tags/debounce/">debounce</a> <a class="tag tag--primary tag--small t-link" href="/tags/throttle/">throttle</a>
 
             </div>
         
@@ -232,14 +260,11 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                <a
-                    class="post-action-btn btn btn--default tooltip--top"
-                    href="/2020/01/07/Issues-css-01/"
-                    data-tooltip="1.사이드 메뉴 스크롤 이슈"
-                    aria-label="PREVIOUS: 1.사이드 메뉴 스크롤 이슈"
-                >
-                    
+                    <a
+                        class="post-action-btn btn btn--disabled"
+                        aria-hidden="true"
+                    >
+                        
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
                         <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
                     </a>
@@ -249,9 +274,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/12/12/1-타입과-문법-3-네이티브/"
-                    data-tooltip="You Don&#39;t Know JS - 1.타입과 문법 - 3.네이티브"
-                    aria-label="NEXT: You Don&#39;t Know JS - 1.타입과 문법 - 3.네이티브"
+                    href="/2020/12/11/Issues-JavaScript-03/"
+                    data-tooltip="3.정규표현식"
+                    aria-label="NEXT: 3.정규표현식"
                 >
                     
                         <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
@@ -276,7 +301,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/12/30/Issues-TypeScript-01/"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2020/12/15/Issues-JavaScript-04/"
                     title="Share on Facebook"
                     aria-label="Share on Facebook"
                 >
@@ -289,7 +314,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2019/12/30/Issues-TypeScript-01/"
+                    target="new" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2020/12/15/Issues-JavaScript-04/"
                     title="Share on Twitter"
                     aria-label="Share on Twitter"
                 >
@@ -302,7 +327,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=http://yoursite.com/2019/12/30/Issues-TypeScript-01/"
+                    target="new" href="https://plus.google.com/share?url=http://yoursite.com/2020/12/15/Issues-JavaScript-04/"
                     title="Share on Google+"
                     aria-label="Share on Google+"
                 >
@@ -361,14 +386,11 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                <a
-                    class="post-action-btn btn btn--default tooltip--top"
-                    href="/2020/01/07/Issues-css-01/"
-                    data-tooltip="1.사이드 메뉴 스크롤 이슈"
-                    aria-label="PREVIOUS: 1.사이드 메뉴 스크롤 이슈"
-                >
-                    
+                    <a
+                        class="post-action-btn btn btn--disabled"
+                        aria-hidden="true"
+                    >
+                        
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
                         <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
                     </a>
@@ -378,9 +400,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/12/12/1-타입과-문법-3-네이티브/"
-                    data-tooltip="You Don&#39;t Know JS - 1.타입과 문법 - 3.네이티브"
-                    aria-label="NEXT: You Don&#39;t Know JS - 1.타입과 문법 - 3.네이티브"
+                    href="/2020/12/11/Issues-JavaScript-03/"
+                    data-tooltip="3.정규표현식"
+                    aria-label="NEXT: 3.정규표현식"
                 >
                     
                         <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
@@ -405,7 +427,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/12/30/Issues-TypeScript-01/"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2020/12/15/Issues-JavaScript-04/"
                     title="Share on Facebook"
                     aria-label="Share on Facebook"
                 >
@@ -418,7 +440,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2019/12/30/Issues-TypeScript-01/"
+                    target="new" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2020/12/15/Issues-JavaScript-04/"
                     title="Share on Twitter"
                     aria-label="Share on Twitter"
                 >
@@ -431,7 +453,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=http://yoursite.com/2019/12/30/Issues-TypeScript-01/"
+                    target="new" href="https://plus.google.com/share?url=http://yoursite.com/2020/12/15/Issues-JavaScript-04/"
                     title="Share on Google+"
                     aria-label="Share on Google+"
                 >
@@ -475,7 +497,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/12/30/Issues-TypeScript-01/"
+                        href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2020/12/15/Issues-JavaScript-04/"
                         aria-label="Share on Facebook"
                     >
                         <i class="fab fa-facebook" aria-hidden="true"></i><span>Share on Facebook</span>
@@ -488,7 +510,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://twitter.com/intent/tweet?text=http://yoursite.com/2019/12/30/Issues-TypeScript-01/"
+                        href="https://twitter.com/intent/tweet?text=http://yoursite.com/2020/12/15/Issues-JavaScript-04/"
                         aria-label="Share on Twitter"
                     >
                         <i class="fab fa-twitter" aria-hidden="true"></i><span>Share on Twitter</span>
@@ -501,7 +523,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://plus.google.com/share?url=http://yoursite.com/2019/12/30/Issues-TypeScript-01/"
+                        href="https://plus.google.com/share?url=http://yoursite.com/2020/12/15/Issues-JavaScript-04/"
                         aria-label="Share on Google+"
                     >
                         <i class="fab fa-google-plus" aria-hidden="true"></i><span>Share on Google+</span>
@@ -563,9 +585,9 @@
     
         <script>
           var disqus_config = function() {
-            this.page.url = 'http://yoursite.com/2019/12/30/Issues-TypeScript-01/';
+            this.page.url = 'http://yoursite.com/2020/12/15/Issues-JavaScript-04/';
               
-            this.page.identifier = '2019/12/30/Issues-TypeScript-01/';
+            this.page.identifier = '2020/12/15/Issues-JavaScript-04/';
               
           };
           (function() {
