@@ -1,6 +1,6 @@
 
     <!DOCTYPE html>
-    <html lang="ko">
+    <html lang="en">
     
 <head>
     <meta charset="UTF-8">
@@ -13,13 +13,13 @@
         <link rel="icon" href="http://yoursite.com/assets/images/favicon.ico">
     
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"hyerinOh","sameAs":["https://github.com/hyerinOh","hyerinoh1108@gmail.com"],"image":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7"},"articleBody":"\n\n\n\nhtml meta tag\n문제 상황 !초기 설계 단계에서 html meta 태그 중 http-equiv = &quot;X-UA-Compatible&quot;라는 것을 접하게 됨\n\n\n참고:\n\nhttps://webdir.tistory.com/38\nhttps://m.blog.naver.com/PostView.nhn?blogId=lion_kwon&amp;logNo=40203033430&amp;proxyReferer=https:%2F%2Fwww.google.com%2F\n\n\n\nIE8이 등장하면서 ‘호환성 보기’라는 새로운 버튼이 생겨났는데 이 버튼은 IE8이 웹 페이지에 접근했을 때 어떤 렌더링 엔진을 사용할 것인지를 선택하게 하는 용도의 버튼이다.\n\n\n과거 IE6나 IE7이 브라우저 점유율의 대부분을 차지하고 있을 때 제작된 웹 페이지는 웹 표준들에 맞지 않게 제작되었고, 이러한 오류들을 우회하면서 제작되었기 때문에 현재의 웹 표준과는 다른 방식으로 렌더링된다. 이로 인해 최신 브라우저에서 웹 표준을 지키지 않은 웹 페이지에 방문하게 되면 레이아웃이 깨지거나 작동하지 않는 버그가 발생한다.\n\n\n현재의 웹 표준을 지키는 브라우저들을 기준으로 제작된 웹 페이지들은 호환성 보기 버튼이 필요하지 않고, 해당 브라우저의 최신 렌더링 모드로 작동을 강제할 필요가 생겼는데 &lt;meta&gt;태그를 사용해서 어떤 렌더링 엔진을 사용할 것인지 전달할 수 있게 되었다.\n\n\n\n\n1&lt;meta http-equiv=\"X-UA-Compatible content=\"IE=edge\"&gt;\n\n\n브라우저 모드\n표준모드(Standard Mode) : 모든 표준이 엄격하게 지켜짐\n관용모드(Quirks Mode) : 구버전 브라우저의 렌더링을 흉내냄\n\n\n\n\ncontent에 들어갈 수 있는 값들\nIE=5: 관용모드로, 지정된 DOCTYPE에 상관없이 IE5 렌더링 방식 사용\nIE=7: IE7 표준모드로, 지정된 DOCTYPE에 상관없이 IE7 표준모드 렌더링 방식 사용\nIE=EmulateIE7: IE7 에뮬레이션 모드로, 지정된 DOCTYPE에 따라 IE7 표준모드나 관용모드로 렌더링 됨\nIE=8: IE8 표준모드로, 지정된 DOCTYPE에 상관없이 IE8 표준모드로 렌더링\nIE=EmulateIE8: IE8 에뮬레이션 모드로, 지정된 DOCTYPE에 따라 IE8 표준모드나 관용모드로 렌더링 됨\nIE=edge: 최신모드로, 지정된 DOCTYPE에 상관없이 IE8 이상 버전에서 항상 최신 표준 모드로 렌더링\n\n\n\n","dateCreated":"2020-03-16T13:50:31+09:00","dateModified":"2020-12-13T14:07:13+09:00","datePublished":"2020-03-16T13:50:31+09:00","description":"","headline":"3.IE 호환성 처리","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"http://yoursite.com/2020/03/16/Issues-others-meta-tag/"},"publisher":{"@type":"Organization","name":"hyerinOh","sameAs":["https://github.com/hyerinOh","hyerinoh1108@gmail.com"],"image":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7"}},"url":"http://yoursite.com/2020/03/16/Issues-others-meta-tag/","keywords":"Issues, html, meta tag"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"hyerinOh","sameAs":["https://github.com/hyerinOh","hyerinoh1108@gmail.com"],"image":"favicon.ico"},"articleBody":"\n\n\n\nhtml meta tag\n문제 상황 !초기 설계 단계에서 html meta 태그 중 http-equiv = &quot;X-UA-Compatible&quot;라는 것을 접하게 됨\n\n\n참고:\n\nhttps://webdir.tistory.com/38\nhttps://m.blog.naver.com/PostView.nhn?blogId=lion_kwon&amp;logNo=40203033430&amp;proxyReferer=https:%2F%2Fwww.google.com%2F\n\n\n\nIE8이 등장하면서 ‘호환성 보기’라는 새로운 버튼이 생겨났는데 이 버튼은 IE8이 웹 페이지에 접근했을 때 어떤 렌더링 엔진을 사용할 것인지를 선택하게 하는 용도의 버튼이다.\n\n\n과거 IE6나 IE7이 브라우저 점유율의 대부분을 차지하고 있을 때 제작된 웹 페이지는 웹 표준들에 맞지 않게 제작되었고, 이러한 오류들을 우회하면서 제작되었기 때문에 현재의 웹 표준과는 다른 방식으로 렌더링된다. 이로 인해 최신 브라우저에서 웹 표준을 지키지 않은 웹 페이지에 방문하게 되면 레이아웃이 깨지거나 작동하지 않는 버그가 발생한다.\n\n\n현재의 웹 표준을 지키는 브라우저들을 기준으로 제작된 웹 페이지들은 호환성 보기 버튼이 필요하지 않고, 해당 브라우저의 최신 렌더링 모드로 작동을 강제할 필요가 생겼는데 &lt;meta&gt;태그를 사용해서 어떤 렌더링 엔진을 사용할 것인지 전달할 수 있게 되었다.\n\n\n\n\n1&lt;meta http-equiv=\"X-UA-Compatible content=\"IE=edge\"&gt;\n\n\n브라우저 모드\n표준모드(Standard Mode) : 모든 표준이 엄격하게 지켜짐\n관용모드(Quirks Mode) : 구버전 브라우저의 렌더링을 흉내냄\n\n\n\n\ncontent에 들어갈 수 있는 값들\nIE=5: 관용모드로, 지정된 DOCTYPE에 상관없이 IE5 렌더링 방식 사용\nIE=7: IE7 표준모드로, 지정된 DOCTYPE에 상관없이 IE7 표준모드 렌더링 방식 사용\nIE=EmulateIE7: IE7 에뮬레이션 모드로, 지정된 DOCTYPE에 따라 IE7 표준모드나 관용모드로 렌더링 됨\nIE=8: IE8 표준모드로, 지정된 DOCTYPE에 상관없이 IE8 표준모드로 렌더링\nIE=EmulateIE8: IE8 에뮬레이션 모드로, 지정된 DOCTYPE에 따라 IE8 표준모드나 관용모드로 렌더링 됨\nIE=edge: 최신모드로, 지정된 DOCTYPE에 상관없이 IE8 이상 버전에서 항상 최신 표준 모드로 렌더링\n\n\n\n","dateCreated":"2020-03-16T13:50:31+09:00","dateModified":"2020-12-13T14:07:13+09:00","datePublished":"2020-03-16T13:50:31+09:00","description":"","headline":"3.IE 호환성 처리","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"http://yoursite.com/2020/03/16/Issues-others-meta-tag/"},"publisher":{"@type":"Organization","name":"hyerinOh","sameAs":["https://github.com/hyerinOh","hyerinoh1108@gmail.com"],"image":"favicon.ico","logo":{"@type":"ImageObject","url":"favicon.ico"}},"url":"http://yoursite.com/2020/03/16/Issues-others-meta-tag/","keywords":"Issues, html, meta tag"}</script>
     <meta name="keywords" content="Issues,html,meta tag">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="3.IE 호환성 처리">
 <meta property="og:url" content="http://yoursite.com/2020/03/16/Issues-others-meta-tag/index.html">
 <meta property="og:site_name" content="hyerin.io">
-<meta property="og:locale" content="ko">
+<meta property="og:locale" content="en">
 <meta property="og:updated_time" content="2020-12-13T05:07:13.652Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="3.IE 호환성 처리">
@@ -27,6 +27,8 @@
     
         
     
+    
+        <meta property="og:image" content="http://yoursite.com/assets/images/favicon.ico"/>
     
     
     
@@ -53,6 +55,10 @@
 
 
     
+        
+            
+        
+    
 
 <header id="header" data-behavior="4">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
@@ -70,9 +76,11 @@
             <a
                 class="header-right-picture "
                 href="#about"
-                aria-label="링크 열기: /#about"
+                aria-label="Open the link: /#about"
             >
         
+        
+            <img class="header-picture" src="/assets/images/favicon.ico" alt="Author&#39;s picture"/>
         
         </a>
     
@@ -81,8 +89,26 @@
                     <!-- Define author's picture -->
 
 
+
+        
+    
+
 <nav id="sidebar" data-behavior="4">
     <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a
+                    href="/#about"
+                    aria-label="Read more about the author"
+                >
+                    <img class="sidebar-profile-picture" src="/assets/images/favicon.ico" alt="Author&#39;s picture"/>
+                </a>
+                <h4 class="sidebar-profile-name">hyerinOh</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>내가 보려고 정리하는 블로그</p>
+</h5>
+                
+            </div>
         
         
             <ul class="sidebar-buttons">
@@ -105,11 +131,11 @@
                         <a  class="sidebar-button-link "
                              href="/all-categories"
                             
-                            title="카테고리"
+                            title="Categories"
                         >
                     
                         <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">카테고리</span>
+                        <span class="sidebar-button-desc">Categories</span>
                     </a>
             </li>
             
@@ -118,11 +144,11 @@
                         <a  class="sidebar-button-link "
                              href="/all-tags"
                             
-                            title="태그"
+                            title="Tags"
                         >
                     
                         <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">태그</span>
+                        <span class="sidebar-button-desc">Tags</span>
                     </a>
             </li>
             
@@ -187,11 +213,11 @@
         <div class="post-meta">
     <time datetime="2020-03-16T13:50:31+09:00">
 	
-		    2020/03/16
+		    Mar 16, 2020
     	
     </time>
     
-        <span>카테고리 </span>
+        <span>in </span>
         
     <a class="category-link" href="/categories/Issues/">Issues</a>, <a class="category-link" href="/categories/Issues/others/">others</a>
 
@@ -260,7 +286,7 @@
     <div id="post-footer" class="post-footer main-content-wrap">
         
             <div class="post-footer-tags">
-                <span class="text-color-light text-small">태그</span><br/>
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
                 
     <a class="tag tag--primary tag--small t-link" href="/tags/Issues/">Issues</a> <a class="tag tag--primary tag--small t-link" href="/tags/html/">html</a> <a class="tag tag--primary tag--small t-link" href="/tags/meta-tag/">meta tag</a>
 
@@ -277,11 +303,11 @@
                     class="post-action-btn btn btn--default tooltip--top"
                     href="/2020/03/18/Issues-TypeScript-04/"
                     data-tooltip="4.index signature issue"
-                    aria-label="이전: 4.index signature issue"
+                    aria-label="PREVIOUS: 4.index signature issue"
                 >
                     
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
-                        <span class="hide-xs hide-sm text-small icon-ml">이전</span>
+                        <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
                     </a>
             </li>
             <li class="post-action">
@@ -291,10 +317,10 @@
                     class="post-action-btn btn btn--default tooltip--top"
                     href="/2020/02/21/Issues-TypeScript-03/"
                     data-tooltip="3.props type"
-                    aria-label="다음: 3.props type"
+                    aria-label="NEXT: 3.props type"
                 >
                     
-                        <span class="hide-xs hide-sm text-small icon-mr">다음</span>
+                        <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                         <i class="fa fa-angle-right" aria-hidden="true"></i>
                     </a>
             </li>
@@ -305,7 +331,7 @@
             <a
                 class="post-action-btn btn btn--default btn-open-shareoptions"
                 href="#btn-open-shareoptions"
-                aria-label="이 포스트 공유하기"
+                aria-label="Share this post"
             >
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
@@ -317,8 +343,8 @@
                 <a
                     class="post-action-btn btn btn--default"
                     target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2020/03/16/Issues-others-meta-tag/"
-                    title="Facebook에 공유하기"
-                    aria-label="Facebook에 공유하기"
+                    title="Share on Facebook"
+                    aria-label="Share on Facebook"
                 >
                     <i class="fab fa-facebook" aria-hidden="true"></i>
                 </a>
@@ -330,8 +356,8 @@
                 <a
                     class="post-action-btn btn btn--default"
                     target="new" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2020/03/16/Issues-others-meta-tag/"
-                    title="Twitter에 공유하기"
-                    aria-label="Twitter에 공유하기"
+                    title="Share on Twitter"
+                    aria-label="Share on Twitter"
                 >
                     <i class="fab fa-twitter" aria-hidden="true"></i>
                 </a>
@@ -343,8 +369,8 @@
                 <a
                     class="post-action-btn btn btn--default"
                     target="new" href="https://plus.google.com/share?url=http://yoursite.com/2020/03/16/Issues-others-meta-tag/"
-                    title="Google+에 공유하기"
-                    aria-label="Google+에 공유하기"
+                    title="Share on Google+"
+                    aria-label="Share on Google+"
                 >
                     <i class="fab fa-google-plus" aria-hidden="true"></i>
                 </a>
@@ -356,7 +382,7 @@
                     <a
                         class="post-action-btn btn btn--default"
                         href="#disqus_thread"
-                        aria-label="댓글을 남겨주세요"
+                        aria-label="Leave a comment"
                     >
                         <i class="fa fa-comment"></i>
                     </a>
@@ -365,7 +391,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="맨 위로">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -406,11 +432,11 @@
                     class="post-action-btn btn btn--default tooltip--top"
                     href="/2020/03/18/Issues-TypeScript-04/"
                     data-tooltip="4.index signature issue"
-                    aria-label="이전: 4.index signature issue"
+                    aria-label="PREVIOUS: 4.index signature issue"
                 >
                     
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
-                        <span class="hide-xs hide-sm text-small icon-ml">이전</span>
+                        <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
                     </a>
             </li>
             <li class="post-action">
@@ -420,10 +446,10 @@
                     class="post-action-btn btn btn--default tooltip--top"
                     href="/2020/02/21/Issues-TypeScript-03/"
                     data-tooltip="3.props type"
-                    aria-label="다음: 3.props type"
+                    aria-label="NEXT: 3.props type"
                 >
                     
-                        <span class="hide-xs hide-sm text-small icon-mr">다음</span>
+                        <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                         <i class="fa fa-angle-right" aria-hidden="true"></i>
                     </a>
             </li>
@@ -434,7 +460,7 @@
             <a
                 class="post-action-btn btn btn--default btn-open-shareoptions"
                 href="#btn-open-shareoptions"
-                aria-label="이 포스트 공유하기"
+                aria-label="Share this post"
             >
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
@@ -446,8 +472,8 @@
                 <a
                     class="post-action-btn btn btn--default"
                     target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2020/03/16/Issues-others-meta-tag/"
-                    title="Facebook에 공유하기"
-                    aria-label="Facebook에 공유하기"
+                    title="Share on Facebook"
+                    aria-label="Share on Facebook"
                 >
                     <i class="fab fa-facebook" aria-hidden="true"></i>
                 </a>
@@ -459,8 +485,8 @@
                 <a
                     class="post-action-btn btn btn--default"
                     target="new" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2020/03/16/Issues-others-meta-tag/"
-                    title="Twitter에 공유하기"
-                    aria-label="Twitter에 공유하기"
+                    title="Share on Twitter"
+                    aria-label="Share on Twitter"
                 >
                     <i class="fab fa-twitter" aria-hidden="true"></i>
                 </a>
@@ -472,8 +498,8 @@
                 <a
                     class="post-action-btn btn btn--default"
                     target="new" href="https://plus.google.com/share?url=http://yoursite.com/2020/03/16/Issues-others-meta-tag/"
-                    title="Google+에 공유하기"
-                    aria-label="Google+에 공유하기"
+                    title="Share on Google+"
+                    aria-label="Share on Google+"
                 >
                     <i class="fab fa-google-plus" aria-hidden="true"></i>
                 </a>
@@ -485,7 +511,7 @@
                     <a
                         class="post-action-btn btn btn--default"
                         href="#disqus_thread"
-                        aria-label="댓글을 남겨주세요"
+                        aria-label="Leave a comment"
                     >
                         <i class="fa fa-comment"></i>
                     </a>
@@ -494,7 +520,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="맨 위로">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -516,9 +542,9 @@
                         class="share-option-btn"
                         target="new"
                         href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2020/03/16/Issues-others-meta-tag/"
-                        aria-label="Facebook에 공유하기"
+                        aria-label="Share on Facebook"
                     >
-                        <i class="fab fa-facebook" aria-hidden="true"></i><span>Facebook에 공유하기</span>
+                        <i class="fab fa-facebook" aria-hidden="true"></i><span>Share on Facebook</span>
                     </a>
                 </li>
             
@@ -529,9 +555,9 @@
                         class="share-option-btn"
                         target="new"
                         href="https://twitter.com/intent/tweet?text=http://yoursite.com/2020/03/16/Issues-others-meta-tag/"
-                        aria-label="Twitter에 공유하기"
+                        aria-label="Share on Twitter"
                     >
-                        <i class="fab fa-twitter" aria-hidden="true"></i><span>Twitter에 공유하기</span>
+                        <i class="fab fa-twitter" aria-hidden="true"></i><span>Share on Twitter</span>
                     </a>
                 </li>
             
@@ -542,9 +568,9 @@
                         class="share-option-btn"
                         target="new"
                         href="https://plus.google.com/share?url=http://yoursite.com/2020/03/16/Issues-others-meta-tag/"
-                        aria-label="Google+에 공유하기"
+                        aria-label="Share on Google+"
                     >
-                        <i class="fab fa-google-plus" aria-hidden="true"></i><span>Google+에 공유하기</span>
+                        <i class="fab fa-google-plus" aria-hidden="true"></i><span>Share on Google+</span>
                     </a>
                 </li>
             
@@ -557,18 +583,24 @@
             
     
         
+                    
+                                
+                                    
+                                        
                                             <div id="about">
                                                 <div id="about-card">
                                                     <div id="about-btn-close">
                                                         <i class="fa fa-times"></i>
                                                     </div>
                                                     
+                                                        <img id="about-card-picture" src="/assets/images/favicon.ico" alt="Author&#39;s picture" />
+                                                        
                                                             <h4 id="about-card-name">
                                                                 hyerinOh
                                                             </h4>
                                                             
                                                                 <div id="about-card-bio">
-                                                                    <p>author.bio</p>
+                                                                    <p>내가 보려고 정리하는 블로그</p>
 
                                                                 </div>
                                                                 
@@ -576,7 +608,7 @@
                                                                         <div id="about-card-job">
                                                                             <i class="fa fa-briefcase"></i>
                                                                             <br/>
-                                                                            <p>author.job</p>
+                                                                            <p>front-end developer</p>
 
                                                                         </div>
                                                                         

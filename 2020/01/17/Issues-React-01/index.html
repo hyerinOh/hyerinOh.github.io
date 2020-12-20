@@ -1,6 +1,6 @@
 
     <!DOCTYPE html>
-    <html lang="ko">
+    <html lang="en">
     
 <head>
     <meta charset="UTF-8">
@@ -13,13 +13,13 @@
         <link rel="icon" href="http://yoursite.com/assets/images/favicon.ico">
     
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"hyerinOh","sameAs":["https://github.com/hyerinOh","hyerinoh1108@gmail.com"],"image":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7"},"articleBody":"\n\n\n\nIE 11에서 리액트 쓰기\n문제 상황 !기본적인 CRA로는 IE 11를 지원하지 못함\n\n\n첫 번째 시도\n\nreact-app-polyfill을 install 후 import 시켜주고 node_modules에서 .cache를 지우고 package.json의 browsers list 에 &quot;ie 11&quot;을 추가했지만 ie11에서 The error you provided does not contain a stack trace. 라는 에러를 내며 동작하지 않음.\n\n12import \"react-app-polyfill/ie11\";import \"react-app-polyfill/stable\";\n\n123456789101112131415// package.json\"browserslist\": &#123;    \"production\": [      \"&gt;0.2%\",      \"not dead\",      \"not op_mini all\",      \"ie 11\"    ],    \"development\": [      \"last 1 chrome version\",      \"last 1 firefox version\",      \"last 1 safari version\",      \"ie 11\"    ]  &#125;\n\n\n\n\n\n\n\n두 번째 시도\n\nnpm i fast-text-encoding후 import 시켜줬지만 같은 에러를 내며 동작하지 않음\n\n1import \"fast-text-encoding/text\";\n\n\n\n\n\n\n\n세 번째 시도\n\n./node_modules/react-dev-utils/webpackHotDevClient.js:60에 slashes: true를 추가했더니 성공!!\n\n참고 : \n\nhttps://velog.io/@ryu/react-scripts-3.3.0-WebSocket-%EC%9D%B4%EC%8A%88-%ED%95%B4%EA%B2%B0%ED%95%98%EA%B8%B0\nhttps://github.com/facebook/create-react-app/issues/8150\n\n\n\n\n\n\n\nv3.3.0의 react-scripts 패키지 일 때\n\n   1234567891011// Connect to WebpackDevServer via a socket.var connection = new WebSocket(  url.format(&#123;    protocol: window.location.protocol === \"https:\" ? \"wss\" : \"ws\",    hostname: window.location.hostname,    port: window.location.port,    // Hardcoded in WebpackDevServer    pathname: \"/sockjs-node\",    slashes: true,  &#125;));\n\n\n\n\n2020.02.22 추가\n\n세 번째 시도가 필요했던 이유: \n\nhttps 프로토콜 사용 시에는 WebSockets over SSL/TLS (WSS) 프로토콜을 사용해야 하는데, create-react-app 하위 패키지인 react-scripts 패키지 v3.3.0 에서 http 와 https 모두 WebSockets (WS) 를 사용하도록 설정되어 있어서 생긴 이슈\nreact-scripts 패키지 v3.3.0 에서 webPackDevServer 설정이 SockJS에서 WebSocket으로 전환되었다. url.format이 ws://localhost이 아니라 ws:localhost처럼 URL을 리턴하기 때문에(no slashes) IE에서 Syntax Error를 던진다.\n\n\n2020.02.14에 3.4.0 버전으로 업데이트 됨!\nhttps://github.com/facebook/create-react-app/releases\n","dateCreated":"2020-01-17T16:11:31+09:00","dateModified":"2020-12-13T14:07:29+09:00","datePublished":"2020-01-17T16:11:31+09:00","description":"","headline":"1.IE에서_리액트_쓰기","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"http://yoursite.com/2020/01/17/Issues-React-01/"},"publisher":{"@type":"Organization","name":"hyerinOh","sameAs":["https://github.com/hyerinOh","hyerinoh1108@gmail.com"],"image":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7"}},"url":"http://yoursite.com/2020/01/17/Issues-React-01/","keywords":"Issues, React, IE11"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"hyerinOh","sameAs":["https://github.com/hyerinOh","hyerinoh1108@gmail.com"],"image":"favicon.ico"},"articleBody":"\n\n\n\nIE 11에서 리액트 쓰기\n문제 상황 !기본적인 CRA로는 IE 11를 지원하지 못함\n\n\n첫 번째 시도\n\nreact-app-polyfill을 install 후 import 시켜주고 node_modules에서 .cache를 지우고 package.json의 browsers list 에 &quot;ie 11&quot;을 추가했지만 ie11에서 The error you provided does not contain a stack trace. 라는 에러를 내며 동작하지 않음.\n\n12import \"react-app-polyfill/ie11\";import \"react-app-polyfill/stable\";\n\n123456789101112131415// package.json\"browserslist\": &#123;    \"production\": [      \"&gt;0.2%\",      \"not dead\",      \"not op_mini all\",      \"ie 11\"    ],    \"development\": [      \"last 1 chrome version\",      \"last 1 firefox version\",      \"last 1 safari version\",      \"ie 11\"    ]  &#125;\n\n\n\n\n\n\n\n두 번째 시도\n\nnpm i fast-text-encoding후 import 시켜줬지만 같은 에러를 내며 동작하지 않음\n\n1import \"fast-text-encoding/text\";\n\n\n\n\n\n\n\n세 번째 시도\n\n./node_modules/react-dev-utils/webpackHotDevClient.js:60에 slashes: true를 추가했더니 성공!!\n\n참고 : \n\nhttps://velog.io/@ryu/react-scripts-3.3.0-WebSocket-%EC%9D%B4%EC%8A%88-%ED%95%B4%EA%B2%B0%ED%95%98%EA%B8%B0\nhttps://github.com/facebook/create-react-app/issues/8150\n\n\n\n\n\n\n\nv3.3.0의 react-scripts 패키지 일 때\n\n   1234567891011// Connect to WebpackDevServer via a socket.var connection = new WebSocket(  url.format(&#123;    protocol: window.location.protocol === \"https:\" ? \"wss\" : \"ws\",    hostname: window.location.hostname,    port: window.location.port,    // Hardcoded in WebpackDevServer    pathname: \"/sockjs-node\",    slashes: true,  &#125;));\n\n\n\n\n2020.02.22 추가\n\n세 번째 시도가 필요했던 이유: \n\nhttps 프로토콜 사용 시에는 WebSockets over SSL/TLS (WSS) 프로토콜을 사용해야 하는데, create-react-app 하위 패키지인 react-scripts 패키지 v3.3.0 에서 http 와 https 모두 WebSockets (WS) 를 사용하도록 설정되어 있어서 생긴 이슈\nreact-scripts 패키지 v3.3.0 에서 webPackDevServer 설정이 SockJS에서 WebSocket으로 전환되었다. url.format이 ws://localhost이 아니라 ws:localhost처럼 URL을 리턴하기 때문에(no slashes) IE에서 Syntax Error를 던진다.\n\n\n2020.02.14에 3.4.0 버전으로 업데이트 됨!\nhttps://github.com/facebook/create-react-app/releases\n","dateCreated":"2020-01-17T16:11:31+09:00","dateModified":"2020-12-13T14:07:29+09:00","datePublished":"2020-01-17T16:11:31+09:00","description":"","headline":"1.IE에서_리액트_쓰기","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"http://yoursite.com/2020/01/17/Issues-React-01/"},"publisher":{"@type":"Organization","name":"hyerinOh","sameAs":["https://github.com/hyerinOh","hyerinoh1108@gmail.com"],"image":"favicon.ico","logo":{"@type":"ImageObject","url":"favicon.ico"}},"url":"http://yoursite.com/2020/01/17/Issues-React-01/","keywords":"Issues, React, IE11"}</script>
     <meta name="keywords" content="Issues,React,IE11">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="1.IE에서_리액트_쓰기">
 <meta property="og:url" content="http://yoursite.com/2020/01/17/Issues-React-01/index.html">
 <meta property="og:site_name" content="hyerin.io">
-<meta property="og:locale" content="ko">
+<meta property="og:locale" content="en">
 <meta property="og:image" content="http://yoursite.com/images/wss.jpg">
 <meta property="og:updated_time" content="2020-12-13T05:07:29.250Z">
 <meta name="twitter:card" content="summary">
@@ -29,6 +29,8 @@
     
         
     
+    
+        <meta property="og:image" content="http://yoursite.com/assets/images/favicon.ico"/>
     
     
     
@@ -55,6 +57,10 @@
 
 
     
+        
+            
+        
+    
 
 <header id="header" data-behavior="4">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
@@ -72,9 +78,11 @@
             <a
                 class="header-right-picture "
                 href="#about"
-                aria-label="링크 열기: /#about"
+                aria-label="Open the link: /#about"
             >
         
+        
+            <img class="header-picture" src="/assets/images/favicon.ico" alt="Author&#39;s picture"/>
         
         </a>
     
@@ -83,8 +91,26 @@
                     <!-- Define author's picture -->
 
 
+
+        
+    
+
 <nav id="sidebar" data-behavior="4">
     <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a
+                    href="/#about"
+                    aria-label="Read more about the author"
+                >
+                    <img class="sidebar-profile-picture" src="/assets/images/favicon.ico" alt="Author&#39;s picture"/>
+                </a>
+                <h4 class="sidebar-profile-name">hyerinOh</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>내가 보려고 정리하는 블로그</p>
+</h5>
+                
+            </div>
         
         
             <ul class="sidebar-buttons">
@@ -107,11 +133,11 @@
                         <a  class="sidebar-button-link "
                              href="/all-categories"
                             
-                            title="카테고리"
+                            title="Categories"
                         >
                     
                         <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">카테고리</span>
+                        <span class="sidebar-button-desc">Categories</span>
                     </a>
             </li>
             
@@ -120,11 +146,11 @@
                         <a  class="sidebar-button-link "
                              href="/all-tags"
                             
-                            title="태그"
+                            title="Tags"
                         >
                     
                         <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">태그</span>
+                        <span class="sidebar-button-desc">Tags</span>
                     </a>
             </li>
             
@@ -189,11 +215,11 @@
         <div class="post-meta">
     <time datetime="2020-01-17T16:11:31+09:00">
 	
-		    2020/01/17
+		    Jan 17, 2020
     	
     </time>
     
-        <span>카테고리 </span>
+        <span>in </span>
         
     <a class="category-link" href="/categories/Issues/">Issues</a>, <a class="category-link" href="/categories/Issues/React/">React</a>
 
@@ -282,7 +308,7 @@
     <div id="post-footer" class="post-footer main-content-wrap">
         
             <div class="post-footer-tags">
-                <span class="text-color-light text-small">태그</span><br/>
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
                 
     <a class="tag tag--primary tag--small t-link" href="/tags/IE11/">IE11</a> <a class="tag tag--primary tag--small t-link" href="/tags/Issues/">Issues</a> <a class="tag tag--primary tag--small t-link" href="/tags/React/">React</a>
 
@@ -299,11 +325,11 @@
                     class="post-action-btn btn btn--default tooltip--top"
                     href="/2020/01/18/Issues-others-ngrok/"
                     data-tooltip="1.ngrok"
-                    aria-label="이전: 1.ngrok"
+                    aria-label="PREVIOUS: 1.ngrok"
                 >
                     
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
-                        <span class="hide-xs hide-sm text-small icon-ml">이전</span>
+                        <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
                     </a>
             </li>
             <li class="post-action">
@@ -313,10 +339,10 @@
                     class="post-action-btn btn btn--default tooltip--top"
                     href="/2020/01/07/Issues-css-01/"
                     data-tooltip="1.사이드 메뉴 스크롤 이슈"
-                    aria-label="다음: 1.사이드 메뉴 스크롤 이슈"
+                    aria-label="NEXT: 1.사이드 메뉴 스크롤 이슈"
                 >
                     
-                        <span class="hide-xs hide-sm text-small icon-mr">다음</span>
+                        <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                         <i class="fa fa-angle-right" aria-hidden="true"></i>
                     </a>
             </li>
@@ -327,7 +353,7 @@
             <a
                 class="post-action-btn btn btn--default btn-open-shareoptions"
                 href="#btn-open-shareoptions"
-                aria-label="이 포스트 공유하기"
+                aria-label="Share this post"
             >
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
@@ -339,8 +365,8 @@
                 <a
                     class="post-action-btn btn btn--default"
                     target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2020/01/17/Issues-React-01/"
-                    title="Facebook에 공유하기"
-                    aria-label="Facebook에 공유하기"
+                    title="Share on Facebook"
+                    aria-label="Share on Facebook"
                 >
                     <i class="fab fa-facebook" aria-hidden="true"></i>
                 </a>
@@ -352,8 +378,8 @@
                 <a
                     class="post-action-btn btn btn--default"
                     target="new" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2020/01/17/Issues-React-01/"
-                    title="Twitter에 공유하기"
-                    aria-label="Twitter에 공유하기"
+                    title="Share on Twitter"
+                    aria-label="Share on Twitter"
                 >
                     <i class="fab fa-twitter" aria-hidden="true"></i>
                 </a>
@@ -365,8 +391,8 @@
                 <a
                     class="post-action-btn btn btn--default"
                     target="new" href="https://plus.google.com/share?url=http://yoursite.com/2020/01/17/Issues-React-01/"
-                    title="Google+에 공유하기"
-                    aria-label="Google+에 공유하기"
+                    title="Share on Google+"
+                    aria-label="Share on Google+"
                 >
                     <i class="fab fa-google-plus" aria-hidden="true"></i>
                 </a>
@@ -378,7 +404,7 @@
                     <a
                         class="post-action-btn btn btn--default"
                         href="#disqus_thread"
-                        aria-label="댓글을 남겨주세요"
+                        aria-label="Leave a comment"
                     >
                         <i class="fa fa-comment"></i>
                     </a>
@@ -387,7 +413,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="맨 위로">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -428,11 +454,11 @@
                     class="post-action-btn btn btn--default tooltip--top"
                     href="/2020/01/18/Issues-others-ngrok/"
                     data-tooltip="1.ngrok"
-                    aria-label="이전: 1.ngrok"
+                    aria-label="PREVIOUS: 1.ngrok"
                 >
                     
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
-                        <span class="hide-xs hide-sm text-small icon-ml">이전</span>
+                        <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
                     </a>
             </li>
             <li class="post-action">
@@ -442,10 +468,10 @@
                     class="post-action-btn btn btn--default tooltip--top"
                     href="/2020/01/07/Issues-css-01/"
                     data-tooltip="1.사이드 메뉴 스크롤 이슈"
-                    aria-label="다음: 1.사이드 메뉴 스크롤 이슈"
+                    aria-label="NEXT: 1.사이드 메뉴 스크롤 이슈"
                 >
                     
-                        <span class="hide-xs hide-sm text-small icon-mr">다음</span>
+                        <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                         <i class="fa fa-angle-right" aria-hidden="true"></i>
                     </a>
             </li>
@@ -456,7 +482,7 @@
             <a
                 class="post-action-btn btn btn--default btn-open-shareoptions"
                 href="#btn-open-shareoptions"
-                aria-label="이 포스트 공유하기"
+                aria-label="Share this post"
             >
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
@@ -468,8 +494,8 @@
                 <a
                     class="post-action-btn btn btn--default"
                     target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2020/01/17/Issues-React-01/"
-                    title="Facebook에 공유하기"
-                    aria-label="Facebook에 공유하기"
+                    title="Share on Facebook"
+                    aria-label="Share on Facebook"
                 >
                     <i class="fab fa-facebook" aria-hidden="true"></i>
                 </a>
@@ -481,8 +507,8 @@
                 <a
                     class="post-action-btn btn btn--default"
                     target="new" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2020/01/17/Issues-React-01/"
-                    title="Twitter에 공유하기"
-                    aria-label="Twitter에 공유하기"
+                    title="Share on Twitter"
+                    aria-label="Share on Twitter"
                 >
                     <i class="fab fa-twitter" aria-hidden="true"></i>
                 </a>
@@ -494,8 +520,8 @@
                 <a
                     class="post-action-btn btn btn--default"
                     target="new" href="https://plus.google.com/share?url=http://yoursite.com/2020/01/17/Issues-React-01/"
-                    title="Google+에 공유하기"
-                    aria-label="Google+에 공유하기"
+                    title="Share on Google+"
+                    aria-label="Share on Google+"
                 >
                     <i class="fab fa-google-plus" aria-hidden="true"></i>
                 </a>
@@ -507,7 +533,7 @@
                     <a
                         class="post-action-btn btn btn--default"
                         href="#disqus_thread"
-                        aria-label="댓글을 남겨주세요"
+                        aria-label="Leave a comment"
                     >
                         <i class="fa fa-comment"></i>
                     </a>
@@ -516,7 +542,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="맨 위로">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -538,9 +564,9 @@
                         class="share-option-btn"
                         target="new"
                         href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2020/01/17/Issues-React-01/"
-                        aria-label="Facebook에 공유하기"
+                        aria-label="Share on Facebook"
                     >
-                        <i class="fab fa-facebook" aria-hidden="true"></i><span>Facebook에 공유하기</span>
+                        <i class="fab fa-facebook" aria-hidden="true"></i><span>Share on Facebook</span>
                     </a>
                 </li>
             
@@ -551,9 +577,9 @@
                         class="share-option-btn"
                         target="new"
                         href="https://twitter.com/intent/tweet?text=http://yoursite.com/2020/01/17/Issues-React-01/"
-                        aria-label="Twitter에 공유하기"
+                        aria-label="Share on Twitter"
                     >
-                        <i class="fab fa-twitter" aria-hidden="true"></i><span>Twitter에 공유하기</span>
+                        <i class="fab fa-twitter" aria-hidden="true"></i><span>Share on Twitter</span>
                     </a>
                 </li>
             
@@ -564,9 +590,9 @@
                         class="share-option-btn"
                         target="new"
                         href="https://plus.google.com/share?url=http://yoursite.com/2020/01/17/Issues-React-01/"
-                        aria-label="Google+에 공유하기"
+                        aria-label="Share on Google+"
                     >
-                        <i class="fab fa-google-plus" aria-hidden="true"></i><span>Google+에 공유하기</span>
+                        <i class="fab fa-google-plus" aria-hidden="true"></i><span>Share on Google+</span>
                     </a>
                 </li>
             
@@ -579,18 +605,24 @@
             
     
         
+                    
+                                
+                                    
+                                        
                                             <div id="about">
                                                 <div id="about-card">
                                                     <div id="about-btn-close">
                                                         <i class="fa fa-times"></i>
                                                     </div>
                                                     
+                                                        <img id="about-card-picture" src="/assets/images/favicon.ico" alt="Author&#39;s picture" />
+                                                        
                                                             <h4 id="about-card-name">
                                                                 hyerinOh
                                                             </h4>
                                                             
                                                                 <div id="about-card-bio">
-                                                                    <p>author.bio</p>
+                                                                    <p>내가 보려고 정리하는 블로그</p>
 
                                                                 </div>
                                                                 
@@ -598,7 +630,7 @@
                                                                         <div id="about-card-job">
                                                                             <i class="fa fa-briefcase"></i>
                                                                             <br/>
-                                                                            <p>author.job</p>
+                                                                            <p>front-end developer</p>
 
                                                                         </div>
                                                                         

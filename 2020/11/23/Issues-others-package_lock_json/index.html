@@ -1,6 +1,6 @@
 
     <!DOCTYPE html>
-    <html lang="ko">
+    <html lang="en">
     
 <head>
     <meta charset="UTF-8">
@@ -13,13 +13,13 @@
         <link rel="icon" href="http://yoursite.com/assets/images/favicon.ico">
     
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"hyerinOh","sameAs":["https://github.com/hyerinOh","hyerinoh1108@gmail.com"],"image":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7"},"articleBody":"\n\n\n\npackage-lock.json을 .gitignore에 포함시켜야할까?\n문제 상황 !금요일 퇴근하기 전까지만 해도 잘 돌아가던 Jenkins가 월요일 아침 개발계, 검증계에서 모두 빌드 에러를 냈다. \n\n\n에러 로그에서 라이브러리들의 버전에 대해 문제를 말하는 것 같았음\nReact의 버전, typescript의 버전, 다른 라이브러리들의 버전 등 버전 문제 의심\n현재 우리의 서비스 리포지토리에는 package-lock.json 파일을 올리지 않고 있었는데 그로인해 Jenkins에서 정확한 버전을 알지 못해 빌드 에러를 내는 것으로 보여 package-lock.json을 리포지토리에 커밋해봄\n문제 상황 해결\n\n\n\n문제는 해결됐지만 왜? 라는 생각이 들었다.  \n\npackage.json만 있어도 이 프로젝트에서 어떤 버전이 필요한지 알 수 있지 않나?\n\n아니었다.\n\n참고 : https://medium.com/@han7096/package-lock-json-%EC%97%90-%EA%B4%80%ED%95%98%EC%97%AC-5652f90b734c \n\npackage-lock.json이란?\nnpm을 사용하여 package.json 파일 또는   node_modules 파일을 수정하면 자동으로 생서되는 파일\n파일이 생성되는 시점의 의존성 트리에 대한 정보를 가짐\npackage.json 파일의 의존성 선언에는 version range가 사용되는데, 이는 특정 버전이 아닌 버전의 범위를 의미\n예를들어 보자면, npm i express를 실행하게 되면 package.json 파일에는 “^4.16.3”(Caret Ranges)로 버전 범위가 추가된다. 이 package.json 를 기반으로 npm i을 실행하면 현재는 4.16.3 버전이 설치 되지만 새로이 express의 마이너 패치가 이루어진 버전이 퍼블리시 되어있다면 동일한 package.json파일로 npm i을 실행해도 4.16.4, 이나 4.17.1 같은 다른 버전이 설치될 수 있는 것이다.(위 블로그 글 발췌)\npackage-lock.json 파일은 의존성 트리에 대한 정보를 가지고 있으며, 작성된 시점의 의존성 트리가 다시 생성될 수 있도록 보장\npackage-lock.json 파일은 node_modules 없이 배포하는 경우 반드시 필요 \n\n\n\n따라서 간혹 업데이트된 버전이 오류를 발생시키는 경우가 있기 때문에 안정성을 위해 package-lock.json은 매우 중요하다\n\n\n","dateCreated":"2020-11-23T21:21:00+09:00","dateModified":"2020-12-13T14:07:24+09:00","datePublished":"2020-11-23T21:21:00+09:00","description":"","headline":"5.package-lock.json","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"http://yoursite.com/2020/11/23/Issues-others-package_lock_json/"},"publisher":{"@type":"Organization","name":"hyerinOh","sameAs":["https://github.com/hyerinOh","hyerinoh1108@gmail.com"],"image":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7"}},"url":"http://yoursite.com/2020/11/23/Issues-others-package_lock_json/","keywords":"Issues, package-lock.json, Jenkins"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"hyerinOh","sameAs":["https://github.com/hyerinOh","hyerinoh1108@gmail.com"],"image":"favicon.ico"},"articleBody":"\n\n\n\npackage-lock.json을 .gitignore에 포함시켜야할까?\n문제 상황 !금요일 퇴근하기 전까지만 해도 잘 돌아가던 Jenkins가 월요일 아침 개발계, 검증계에서 모두 빌드 에러를 냈다. \n\n\n에러 로그에서 라이브러리들의 버전에 대해 문제를 말하는 것 같았음\nReact의 버전, typescript의 버전, 다른 라이브러리들의 버전 등 버전 문제 의심\n현재 우리의 서비스 리포지토리에는 package-lock.json 파일을 올리지 않고 있었는데 그로인해 Jenkins에서 정확한 버전을 알지 못해 빌드 에러를 내는 것으로 보여 package-lock.json을 리포지토리에 커밋해봄\n문제 상황 해결\n\n\n\n문제는 해결됐지만 왜? 라는 생각이 들었다.  \n\npackage.json만 있어도 이 프로젝트에서 어떤 버전이 필요한지 알 수 있지 않나?\n\n아니었다.\n\n참고 : https://medium.com/@han7096/package-lock-json-%EC%97%90-%EA%B4%80%ED%95%98%EC%97%AC-5652f90b734c \n\npackage-lock.json이란?\nnpm을 사용하여 package.json 파일 또는   node_modules 파일을 수정하면 자동으로 생서되는 파일\n파일이 생성되는 시점의 의존성 트리에 대한 정보를 가짐\npackage.json 파일의 의존성 선언에는 version range가 사용되는데, 이는 특정 버전이 아닌 버전의 범위를 의미\n예를들어 보자면, npm i express를 실행하게 되면 package.json 파일에는 “^4.16.3”(Caret Ranges)로 버전 범위가 추가된다. 이 package.json 를 기반으로 npm i을 실행하면 현재는 4.16.3 버전이 설치 되지만 새로이 express의 마이너 패치가 이루어진 버전이 퍼블리시 되어있다면 동일한 package.json파일로 npm i을 실행해도 4.16.4, 이나 4.17.1 같은 다른 버전이 설치될 수 있는 것이다.(위 블로그 글 발췌)\npackage-lock.json 파일은 의존성 트리에 대한 정보를 가지고 있으며, 작성된 시점의 의존성 트리가 다시 생성될 수 있도록 보장\npackage-lock.json 파일은 node_modules 없이 배포하는 경우 반드시 필요 \n\n\n\n따라서 간혹 업데이트된 버전이 오류를 발생시키는 경우가 있기 때문에 안정성을 위해 package-lock.json은 매우 중요하다\n\n\n","dateCreated":"2020-11-23T21:21:00+09:00","dateModified":"2020-12-13T14:07:24+09:00","datePublished":"2020-11-23T21:21:00+09:00","description":"","headline":"5.package-lock.json","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"http://yoursite.com/2020/11/23/Issues-others-package_lock_json/"},"publisher":{"@type":"Organization","name":"hyerinOh","sameAs":["https://github.com/hyerinOh","hyerinoh1108@gmail.com"],"image":"favicon.ico","logo":{"@type":"ImageObject","url":"favicon.ico"}},"url":"http://yoursite.com/2020/11/23/Issues-others-package_lock_json/","keywords":"Issues, package-lock.json, Jenkins"}</script>
     <meta name="keywords" content="Issues,package-lock.json,Jenkins">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="5.package-lock.json">
 <meta property="og:url" content="http://yoursite.com/2020/11/23/Issues-others-package_lock_json/index.html">
 <meta property="og:site_name" content="hyerin.io">
-<meta property="og:locale" content="ko">
+<meta property="og:locale" content="en">
 <meta property="og:updated_time" content="2020-12-13T05:07:24.247Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="5.package-lock.json">
@@ -27,6 +27,8 @@
     
         
     
+    
+        <meta property="og:image" content="http://yoursite.com/assets/images/favicon.ico"/>
     
     
     
@@ -53,6 +55,10 @@
 
 
     
+        
+            
+        
+    
 
 <header id="header" data-behavior="4">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
@@ -70,9 +76,11 @@
             <a
                 class="header-right-picture "
                 href="#about"
-                aria-label="링크 열기: /#about"
+                aria-label="Open the link: /#about"
             >
         
+        
+            <img class="header-picture" src="/assets/images/favicon.ico" alt="Author&#39;s picture"/>
         
         </a>
     
@@ -81,8 +89,26 @@
                     <!-- Define author's picture -->
 
 
+
+        
+    
+
 <nav id="sidebar" data-behavior="4">
     <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a
+                    href="/#about"
+                    aria-label="Read more about the author"
+                >
+                    <img class="sidebar-profile-picture" src="/assets/images/favicon.ico" alt="Author&#39;s picture"/>
+                </a>
+                <h4 class="sidebar-profile-name">hyerinOh</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>내가 보려고 정리하는 블로그</p>
+</h5>
+                
+            </div>
         
         
             <ul class="sidebar-buttons">
@@ -105,11 +131,11 @@
                         <a  class="sidebar-button-link "
                              href="/all-categories"
                             
-                            title="카테고리"
+                            title="Categories"
                         >
                     
                         <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">카테고리</span>
+                        <span class="sidebar-button-desc">Categories</span>
                     </a>
             </li>
             
@@ -118,11 +144,11 @@
                         <a  class="sidebar-button-link "
                              href="/all-tags"
                             
-                            title="태그"
+                            title="Tags"
                         >
                     
                         <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">태그</span>
+                        <span class="sidebar-button-desc">Tags</span>
                     </a>
             </li>
             
@@ -187,11 +213,11 @@
         <div class="post-meta">
     <time datetime="2020-11-23T21:21:00+09:00">
 	
-		    2020/11/23
+		    Nov 23, 2020
     	
     </time>
     
-        <span>카테고리 </span>
+        <span>in </span>
         
     <a class="category-link" href="/categories/Issues/">Issues</a>, <a class="category-link" href="/categories/Issues/others/">others</a>
 
@@ -250,7 +276,7 @@
     <div id="post-footer" class="post-footer main-content-wrap">
         
             <div class="post-footer-tags">
-                <span class="text-color-light text-small">태그</span><br/>
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
                 
     <a class="tag tag--primary tag--small t-link" href="/tags/Issues/">Issues</a> <a class="tag tag--primary tag--small t-link" href="/tags/Jenkins/">Jenkins</a> <a class="tag tag--primary tag--small t-link" href="/tags/package-lock-json/">package-lock.json</a>
 
@@ -267,11 +293,11 @@
                     class="post-action-btn btn btn--default tooltip--top"
                     href="/2020/12/01/Issues-html-01/"
                     data-tooltip="1.&lt;Pre&gt; 태그"
-                    aria-label="이전: 1.&lt;Pre&gt; 태그"
+                    aria-label="PREVIOUS: 1.&lt;Pre&gt; 태그"
                 >
                     
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
-                        <span class="hide-xs hide-sm text-small icon-ml">이전</span>
+                        <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
                     </a>
             </li>
             <li class="post-action">
@@ -281,10 +307,10 @@
                     class="post-action-btn btn btn--default tooltip--top"
                     href="/2020/11/22/JS_tips(4)/"
                     data-tooltip="소소한 JS 팁(4)"
-                    aria-label="다음: 소소한 JS 팁(4)"
+                    aria-label="NEXT: 소소한 JS 팁(4)"
                 >
                     
-                        <span class="hide-xs hide-sm text-small icon-mr">다음</span>
+                        <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                         <i class="fa fa-angle-right" aria-hidden="true"></i>
                     </a>
             </li>
@@ -295,7 +321,7 @@
             <a
                 class="post-action-btn btn btn--default btn-open-shareoptions"
                 href="#btn-open-shareoptions"
-                aria-label="이 포스트 공유하기"
+                aria-label="Share this post"
             >
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
@@ -307,8 +333,8 @@
                 <a
                     class="post-action-btn btn btn--default"
                     target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2020/11/23/Issues-others-package_lock_json/"
-                    title="Facebook에 공유하기"
-                    aria-label="Facebook에 공유하기"
+                    title="Share on Facebook"
+                    aria-label="Share on Facebook"
                 >
                     <i class="fab fa-facebook" aria-hidden="true"></i>
                 </a>
@@ -320,8 +346,8 @@
                 <a
                     class="post-action-btn btn btn--default"
                     target="new" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2020/11/23/Issues-others-package_lock_json/"
-                    title="Twitter에 공유하기"
-                    aria-label="Twitter에 공유하기"
+                    title="Share on Twitter"
+                    aria-label="Share on Twitter"
                 >
                     <i class="fab fa-twitter" aria-hidden="true"></i>
                 </a>
@@ -333,8 +359,8 @@
                 <a
                     class="post-action-btn btn btn--default"
                     target="new" href="https://plus.google.com/share?url=http://yoursite.com/2020/11/23/Issues-others-package_lock_json/"
-                    title="Google+에 공유하기"
-                    aria-label="Google+에 공유하기"
+                    title="Share on Google+"
+                    aria-label="Share on Google+"
                 >
                     <i class="fab fa-google-plus" aria-hidden="true"></i>
                 </a>
@@ -346,7 +372,7 @@
                     <a
                         class="post-action-btn btn btn--default"
                         href="#disqus_thread"
-                        aria-label="댓글을 남겨주세요"
+                        aria-label="Leave a comment"
                     >
                         <i class="fa fa-comment"></i>
                     </a>
@@ -355,7 +381,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="맨 위로">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -396,11 +422,11 @@
                     class="post-action-btn btn btn--default tooltip--top"
                     href="/2020/12/01/Issues-html-01/"
                     data-tooltip="1.&lt;Pre&gt; 태그"
-                    aria-label="이전: 1.&lt;Pre&gt; 태그"
+                    aria-label="PREVIOUS: 1.&lt;Pre&gt; 태그"
                 >
                     
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
-                        <span class="hide-xs hide-sm text-small icon-ml">이전</span>
+                        <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
                     </a>
             </li>
             <li class="post-action">
@@ -410,10 +436,10 @@
                     class="post-action-btn btn btn--default tooltip--top"
                     href="/2020/11/22/JS_tips(4)/"
                     data-tooltip="소소한 JS 팁(4)"
-                    aria-label="다음: 소소한 JS 팁(4)"
+                    aria-label="NEXT: 소소한 JS 팁(4)"
                 >
                     
-                        <span class="hide-xs hide-sm text-small icon-mr">다음</span>
+                        <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                         <i class="fa fa-angle-right" aria-hidden="true"></i>
                     </a>
             </li>
@@ -424,7 +450,7 @@
             <a
                 class="post-action-btn btn btn--default btn-open-shareoptions"
                 href="#btn-open-shareoptions"
-                aria-label="이 포스트 공유하기"
+                aria-label="Share this post"
             >
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
@@ -436,8 +462,8 @@
                 <a
                     class="post-action-btn btn btn--default"
                     target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2020/11/23/Issues-others-package_lock_json/"
-                    title="Facebook에 공유하기"
-                    aria-label="Facebook에 공유하기"
+                    title="Share on Facebook"
+                    aria-label="Share on Facebook"
                 >
                     <i class="fab fa-facebook" aria-hidden="true"></i>
                 </a>
@@ -449,8 +475,8 @@
                 <a
                     class="post-action-btn btn btn--default"
                     target="new" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2020/11/23/Issues-others-package_lock_json/"
-                    title="Twitter에 공유하기"
-                    aria-label="Twitter에 공유하기"
+                    title="Share on Twitter"
+                    aria-label="Share on Twitter"
                 >
                     <i class="fab fa-twitter" aria-hidden="true"></i>
                 </a>
@@ -462,8 +488,8 @@
                 <a
                     class="post-action-btn btn btn--default"
                     target="new" href="https://plus.google.com/share?url=http://yoursite.com/2020/11/23/Issues-others-package_lock_json/"
-                    title="Google+에 공유하기"
-                    aria-label="Google+에 공유하기"
+                    title="Share on Google+"
+                    aria-label="Share on Google+"
                 >
                     <i class="fab fa-google-plus" aria-hidden="true"></i>
                 </a>
@@ -475,7 +501,7 @@
                     <a
                         class="post-action-btn btn btn--default"
                         href="#disqus_thread"
-                        aria-label="댓글을 남겨주세요"
+                        aria-label="Leave a comment"
                     >
                         <i class="fa fa-comment"></i>
                     </a>
@@ -484,7 +510,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="맨 위로">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -506,9 +532,9 @@
                         class="share-option-btn"
                         target="new"
                         href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2020/11/23/Issues-others-package_lock_json/"
-                        aria-label="Facebook에 공유하기"
+                        aria-label="Share on Facebook"
                     >
-                        <i class="fab fa-facebook" aria-hidden="true"></i><span>Facebook에 공유하기</span>
+                        <i class="fab fa-facebook" aria-hidden="true"></i><span>Share on Facebook</span>
                     </a>
                 </li>
             
@@ -519,9 +545,9 @@
                         class="share-option-btn"
                         target="new"
                         href="https://twitter.com/intent/tweet?text=http://yoursite.com/2020/11/23/Issues-others-package_lock_json/"
-                        aria-label="Twitter에 공유하기"
+                        aria-label="Share on Twitter"
                     >
-                        <i class="fab fa-twitter" aria-hidden="true"></i><span>Twitter에 공유하기</span>
+                        <i class="fab fa-twitter" aria-hidden="true"></i><span>Share on Twitter</span>
                     </a>
                 </li>
             
@@ -532,9 +558,9 @@
                         class="share-option-btn"
                         target="new"
                         href="https://plus.google.com/share?url=http://yoursite.com/2020/11/23/Issues-others-package_lock_json/"
-                        aria-label="Google+에 공유하기"
+                        aria-label="Share on Google+"
                     >
-                        <i class="fab fa-google-plus" aria-hidden="true"></i><span>Google+에 공유하기</span>
+                        <i class="fab fa-google-plus" aria-hidden="true"></i><span>Share on Google+</span>
                     </a>
                 </li>
             
@@ -547,18 +573,24 @@
             
     
         
+                    
+                                
+                                    
+                                        
                                             <div id="about">
                                                 <div id="about-card">
                                                     <div id="about-btn-close">
                                                         <i class="fa fa-times"></i>
                                                     </div>
                                                     
+                                                        <img id="about-card-picture" src="/assets/images/favicon.ico" alt="Author&#39;s picture" />
+                                                        
                                                             <h4 id="about-card-name">
                                                                 hyerinOh
                                                             </h4>
                                                             
                                                                 <div id="about-card-bio">
-                                                                    <p>author.bio</p>
+                                                                    <p>내가 보려고 정리하는 블로그</p>
 
                                                                 </div>
                                                                 
@@ -566,7 +598,7 @@
                                                                         <div id="about-card-job">
                                                                             <i class="fa fa-briefcase"></i>
                                                                             <br/>
-                                                                            <p>author.job</p>
+                                                                            <p>front-end developer</p>
 
                                                                         </div>
                                                                         

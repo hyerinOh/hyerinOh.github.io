@@ -1,6 +1,6 @@
 
     <!DOCTYPE html>
-    <html lang="ko">
+    <html lang="en">
     
 <head>
     <meta charset="UTF-8">
@@ -13,12 +13,12 @@
         <link rel="icon" href="http://yoursite.com/assets/images/favicon.ico">
     
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"Website","@id":"http://yoursite.com","author":{"@type":"Person","name":"hyerinOh","sameAs":["https://github.com/hyerinOh","hyerinoh1108@gmail.com"],"image":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7"},"name":"hyerin.io","description":null,"url":"http://yoursite.com"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"Website","@id":"http://yoursite.com","author":{"@type":"Person","name":"hyerinOh","sameAs":["https://github.com/hyerinOh","hyerinoh1108@gmail.com"],"image":"favicon.ico"},"name":"hyerin.io","description":null,"url":"http://yoursite.com"}</script>
     <meta property="og:type" content="blog">
 <meta property="og:title" content="all-tags">
 <meta property="og:url" content="http://yoursite.com/all-tags/index.html">
 <meta property="og:site_name" content="hyerin.io">
-<meta property="og:locale" content="ko">
+<meta property="og:locale" content="en">
 <meta property="og:updated_time" content="2019-09-12T08:55:25.422Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="all-tags">
@@ -26,6 +26,8 @@
     
         
     
+    
+        <meta property="og:image" content="http://yoursite.com/assets/images/favicon.ico"/>
     
     
     
@@ -50,6 +52,10 @@
 
 
     
+        
+            
+        
+    
 
 <header id="header" data-behavior="1">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
@@ -67,9 +73,11 @@
             <a
                 class="header-right-picture "
                 href="#about"
-                aria-label="링크 열기: /#about"
+                aria-label="Open the link: /#about"
             >
         
+        
+            <img class="header-picture" src="/assets/images/favicon.ico" alt="Author&#39;s picture"/>
         
         </a>
     
@@ -78,8 +86,26 @@
                     <!-- Define author's picture -->
 
 
+
+        
+    
+
 <nav id="sidebar" data-behavior="1">
     <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a
+                    href="/#about"
+                    aria-label="Read more about the author"
+                >
+                    <img class="sidebar-profile-picture" src="/assets/images/favicon.ico" alt="Author&#39;s picture"/>
+                </a>
+                <h4 class="sidebar-profile-name">hyerinOh</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>내가 보려고 정리하는 블로그</p>
+</h5>
+                
+            </div>
         
         
             <ul class="sidebar-buttons">
@@ -102,11 +128,11 @@
                         <a  class="sidebar-button-link "
                              href="/all-categories"
                             
-                            title="카테고리"
+                            title="Categories"
                         >
                     
                         <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">카테고리</span>
+                        <span class="sidebar-button-desc">Categories</span>
                     </a>
             </li>
             
@@ -115,11 +141,11 @@
                         <a  class="sidebar-button-link "
                              href="/all-tags"
                             
-                            title="태그"
+                            title="Tags"
                         >
                     
                         <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">태그</span>
+                        <span class="sidebar-button-desc">Tags</span>
                     </a>
             </li>
             
@@ -172,12 +198,12 @@
                         ">
                                 <div id="tags-archives" class="main-content-wrap">
     <form id="filter-form" action="#">
-        <input name="tag" type="text" class="form-control input--xlarge" placeholder="태그 검색" autofocus="autofocus">
+        <input name="tag" type="text" class="form-control input--xlarge" placeholder="Search tag" autofocus="autofocus">
     </form>
     <h4 class="archive-result text-color-base text-xlarge"
-        data-message-zero="태그가 없습니다."
-        data-message-one="1 개의 태그가 있습니다."
-        data-message-other="{n} 개의 태그가 있습니다."></h4>
+        data-message-zero="no tag found"
+        data-message-one="1 tag found"
+        data-message-other="{n} tags found"></h4>
 
         <section>
         
@@ -441,7 +467,7 @@
                                 9. event loop
                             </a>
                             <span class="archive-post-date">
-                                 - 2019/09/29
+                                 - sep 29, 2019
                             </span>
                         </li>
                     
@@ -450,7 +476,7 @@
                                 8. IIFE, modules, namespaces
                             </a>
                             <span class="archive-post-date">
-                                 - 2019/09/26
+                                 - sep 26, 2019
                             </span>
                         </li>
                     
@@ -459,7 +485,7 @@
                                 7. Expression vs statement
                             </a>
                             <span class="archive-post-date">
-                                 - 2019/09/15
+                                 - sep 15, 2019
                             </span>
                         </li>
                     
@@ -468,7 +494,7 @@
                                 6. Function Scope, Block Scope and Lexical Scope
                             </a>
                             <span class="archive-post-date">
-                                 - 2019/09/15
+                                 - sep 15, 2019
                             </span>
                         </li>
                     
@@ -477,7 +503,7 @@
                                 5. == vs === vs typeof
                             </a>
                             <span class="archive-post-date">
-                                 - 2019/08/04
+                                 - aug 04, 2019
                             </span>
                         </li>
                     
@@ -486,7 +512,7 @@
                                 4. Implicit, Explicit, Nominal, Structuring and Duck Typing
                             </a>
                             <span class="archive-post-date">
-                                 - 2019/07/25
+                                 - jul 25, 2019
                             </span>
                         </li>
                     
@@ -495,7 +521,7 @@
                                 3. Value Types and Reference Types
                             </a>
                             <span class="archive-post-date">
-                                 - 2019/07/20
+                                 - jul 20, 2019
                             </span>
                         </li>
                     
@@ -504,7 +530,7 @@
                                 2. Primitive types
                             </a>
                             <span class="archive-post-date">
-                                 - 2019/07/19
+                                 - jul 19, 2019
                             </span>
                         </li>
                     
@@ -513,7 +539,7 @@
                                 1. Call Stack
                             </a>
                             <span class="archive-post-date">
-                                 - 2019/07/18
+                                 - jul 18, 2019
                             </span>
                         </li>
                     
@@ -533,7 +559,7 @@
                                 amathon 후기
                             </a>
                             <span class="archive-post-date">
-                                 - 2019/09/08
+                                 - sep 08, 2019
                             </span>
                         </li>
                     
@@ -553,7 +579,7 @@
                                 4. 더블 클릭 방지
                             </a>
                             <span class="archive-post-date">
-                                 - 2020/12/15
+                                 - dec 15, 2020
                             </span>
                         </li>
                     
@@ -573,7 +599,7 @@
                                 2.TailwindCSS동작이슈
                             </a>
                             <span class="archive-post-date">
-                                 - 2020/01/21
+                                 - jan 21, 2020
                             </span>
                         </li>
                     
@@ -582,7 +608,7 @@
                                 1.사이드 메뉴 스크롤 이슈
                             </a>
                             <span class="archive-post-date">
-                                 - 2020/01/07
+                                 - jan 07, 2020
                             </span>
                         </li>
                     
@@ -602,7 +628,7 @@
                                 1.&lt;Pre&gt; 태그
                             </a>
                             <span class="archive-post-date">
-                                 - 2020/12/01
+                                 - dec 01, 2020
                             </span>
                         </li>
                     
@@ -622,7 +648,7 @@
                                 1.IE에서_리액트_쓰기
                             </a>
                             <span class="archive-post-date">
-                                 - 2020/01/17
+                                 - jan 17, 2020
                             </span>
                         </li>
                     
@@ -642,7 +668,7 @@
                                 9. event loop
                             </a>
                             <span class="archive-post-date">
-                                 - 2019/09/29
+                                 - sep 29, 2019
                             </span>
                         </li>
                     
@@ -651,7 +677,7 @@
                                 8. IIFE, modules, namespaces
                             </a>
                             <span class="archive-post-date">
-                                 - 2019/09/26
+                                 - sep 26, 2019
                             </span>
                         </li>
                     
@@ -671,7 +697,7 @@
                                 4. Implicit, Explicit, Nominal, Structuring and Duck Typing
                             </a>
                             <span class="archive-post-date">
-                                 - 2019/07/25
+                                 - jul 25, 2019
                             </span>
                         </li>
                     
@@ -691,7 +717,7 @@
                                 4. 더블 클릭 방지
                             </a>
                             <span class="archive-post-date">
-                                 - 2020/12/15
+                                 - dec 15, 2020
                             </span>
                         </li>
                     
@@ -700,7 +726,7 @@
                                 3.정규표현식
                             </a>
                             <span class="archive-post-date">
-                                 - 2020/12/11
+                                 - dec 11, 2020
                             </span>
                         </li>
                     
@@ -709,7 +735,7 @@
                                 1.&lt;Pre&gt; 태그
                             </a>
                             <span class="archive-post-date">
-                                 - 2020/12/01
+                                 - dec 01, 2020
                             </span>
                         </li>
                     
@@ -718,7 +744,7 @@
                                 5.package-lock.json
                             </a>
                             <span class="archive-post-date">
-                                 - 2020/11/23
+                                 - nov 23, 2020
                             </span>
                         </li>
                     
@@ -727,7 +753,7 @@
                                 4.useEffect()
                             </a>
                             <span class="archive-post-date">
-                                 - 2020/04/23
+                                 - apr 23, 2020
                             </span>
                         </li>
                     
@@ -736,7 +762,7 @@
                                 2.concat
                             </a>
                             <span class="archive-post-date">
-                                 - 2020/04/07
+                                 - apr 07, 2020
                             </span>
                         </li>
                     
@@ -745,7 +771,7 @@
                                 6.set array type
                             </a>
                             <span class="archive-post-date">
-                                 - 2020/04/07
+                                 - apr 07, 2020
                             </span>
                         </li>
                     
@@ -754,7 +780,7 @@
                                 1.hasOwnProperty
                             </a>
                             <span class="archive-post-date">
-                                 - 2020/03/25
+                                 - mar 25, 2020
                             </span>
                         </li>
                     
@@ -763,7 +789,7 @@
                                 5.set data Types from server
                             </a>
                             <span class="archive-post-date">
-                                 - 2020/03/24
+                                 - mar 24, 2020
                             </span>
                         </li>
                     
@@ -772,7 +798,7 @@
                                 4.git stash
                             </a>
                             <span class="archive-post-date">
-                                 - 2020/03/20
+                                 - mar 20, 2020
                             </span>
                         </li>
                     
@@ -781,7 +807,7 @@
                                 4.index signature issue
                             </a>
                             <span class="archive-post-date">
-                                 - 2020/03/18
+                                 - mar 18, 2020
                             </span>
                         </li>
                     
@@ -790,7 +816,7 @@
                                 3.IE 호환성 처리
                             </a>
                             <span class="archive-post-date">
-                                 - 2020/03/16
+                                 - mar 16, 2020
                             </span>
                         </li>
                     
@@ -799,7 +825,7 @@
                                 3.props type
                             </a>
                             <span class="archive-post-date">
-                                 - 2020/02/21
+                                 - feb 21, 2020
                             </span>
                         </li>
                     
@@ -808,7 +834,7 @@
                                 2.방화벽?외부로의차단?
                             </a>
                             <span class="archive-post-date">
-                                 - 2020/02/18
+                                 - feb 18, 2020
                             </span>
                         </li>
                     
@@ -817,7 +843,7 @@
                                 3.React.FC vs function()
                             </a>
                             <span class="archive-post-date">
-                                 - 2020/02/16
+                                 - feb 16, 2020
                             </span>
                         </li>
                     
@@ -826,7 +852,7 @@
                                 2.omittable props
                             </a>
                             <span class="archive-post-date">
-                                 - 2020/02/16
+                                 - feb 16, 2020
                             </span>
                         </li>
                     
@@ -835,7 +861,7 @@
                                 2.TailwindCSS동작이슈
                             </a>
                             <span class="archive-post-date">
-                                 - 2020/01/21
+                                 - jan 21, 2020
                             </span>
                         </li>
                     
@@ -844,7 +870,7 @@
                                 2.타입스크립트를 지원하는 CRA
                             </a>
                             <span class="archive-post-date">
-                                 - 2020/01/18
+                                 - jan 18, 2020
                             </span>
                         </li>
                     
@@ -853,7 +879,7 @@
                                 1.ngrok
                             </a>
                             <span class="archive-post-date">
-                                 - 2020/01/18
+                                 - jan 18, 2020
                             </span>
                         </li>
                     
@@ -862,7 +888,7 @@
                                 1.IE에서_리액트_쓰기
                             </a>
                             <span class="archive-post-date">
-                                 - 2020/01/17
+                                 - jan 17, 2020
                             </span>
                         </li>
                     
@@ -871,7 +897,7 @@
                                 1.사이드 메뉴 스크롤 이슈
                             </a>
                             <span class="archive-post-date">
-                                 - 2020/01/07
+                                 - jan 07, 2020
                             </span>
                         </li>
                     
@@ -880,7 +906,7 @@
                                 1.modules import issue
                             </a>
                             <span class="archive-post-date">
-                                 - 2019/12/30
+                                 - dec 30, 2019
                             </span>
                         </li>
                     
@@ -900,7 +926,7 @@
                                 4. 더블 클릭 방지
                             </a>
                             <span class="archive-post-date">
-                                 - 2020/12/15
+                                 - dec 15, 2020
                             </span>
                         </li>
                     
@@ -909,7 +935,7 @@
                                 3.정규표현식
                             </a>
                             <span class="archive-post-date">
-                                 - 2020/12/11
+                                 - dec 11, 2020
                             </span>
                         </li>
                     
@@ -918,7 +944,7 @@
                                 2.concat
                             </a>
                             <span class="archive-post-date">
-                                 - 2020/04/07
+                                 - apr 07, 2020
                             </span>
                         </li>
                     
@@ -927,7 +953,7 @@
                                 1.hasOwnProperty
                             </a>
                             <span class="archive-post-date">
-                                 - 2020/03/25
+                                 - mar 25, 2020
                             </span>
                         </li>
                     
@@ -947,7 +973,7 @@
                                 5.package-lock.json
                             </a>
                             <span class="archive-post-date">
-                                 - 2020/11/23
+                                 - nov 23, 2020
                             </span>
                         </li>
                     
@@ -967,7 +993,7 @@
                                 4.useEffect()
                             </a>
                             <span class="archive-post-date">
-                                 - 2020/04/23
+                                 - apr 23, 2020
                             </span>
                         </li>
                     
@@ -976,7 +1002,7 @@
                                 6.set array type
                             </a>
                             <span class="archive-post-date">
-                                 - 2020/04/07
+                                 - apr 07, 2020
                             </span>
                         </li>
                     
@@ -985,7 +1011,7 @@
                                 5.set data Types from server
                             </a>
                             <span class="archive-post-date">
-                                 - 2020/03/24
+                                 - mar 24, 2020
                             </span>
                         </li>
                     
@@ -994,7 +1020,7 @@
                                 4.index signature issue
                             </a>
                             <span class="archive-post-date">
-                                 - 2020/03/18
+                                 - mar 18, 2020
                             </span>
                         </li>
                     
@@ -1003,7 +1029,7 @@
                                 3.props type
                             </a>
                             <span class="archive-post-date">
-                                 - 2020/02/21
+                                 - feb 21, 2020
                             </span>
                         </li>
                     
@@ -1012,7 +1038,7 @@
                                 3.React.FC vs function()
                             </a>
                             <span class="archive-post-date">
-                                 - 2020/02/16
+                                 - feb 16, 2020
                             </span>
                         </li>
                     
@@ -1021,7 +1047,7 @@
                                 2.omittable props
                             </a>
                             <span class="archive-post-date">
-                                 - 2020/02/16
+                                 - feb 16, 2020
                             </span>
                         </li>
                     
@@ -1030,7 +1056,7 @@
                                 2.타입스크립트를 지원하는 CRA
                             </a>
                             <span class="archive-post-date">
-                                 - 2020/01/18
+                                 - jan 18, 2020
                             </span>
                         </li>
                     
@@ -1039,7 +1065,7 @@
                                 1.IE에서_리액트_쓰기
                             </a>
                             <span class="archive-post-date">
-                                 - 2020/01/17
+                                 - jan 17, 2020
                             </span>
                         </li>
                     
@@ -1048,7 +1074,7 @@
                                 1.modules import issue
                             </a>
                             <span class="archive-post-date">
-                                 - 2019/12/30
+                                 - dec 30, 2019
                             </span>
                         </li>
                     
@@ -1068,7 +1094,7 @@
                                 2.TailwindCSS동작이슈
                             </a>
                             <span class="archive-post-date">
-                                 - 2020/01/21
+                                 - jan 21, 2020
                             </span>
                         </li>
                     
@@ -1088,7 +1114,7 @@
                                 6.set array type
                             </a>
                             <span class="archive-post-date">
-                                 - 2020/04/07
+                                 - apr 07, 2020
                             </span>
                         </li>
                     
@@ -1097,7 +1123,7 @@
                                 5.set data Types from server
                             </a>
                             <span class="archive-post-date">
-                                 - 2020/03/24
+                                 - mar 24, 2020
                             </span>
                         </li>
                     
@@ -1106,7 +1132,7 @@
                                 4.index signature issue
                             </a>
                             <span class="archive-post-date">
-                                 - 2020/03/18
+                                 - mar 18, 2020
                             </span>
                         </li>
                     
@@ -1115,7 +1141,7 @@
                                 3.props type
                             </a>
                             <span class="archive-post-date">
-                                 - 2020/02/21
+                                 - feb 21, 2020
                             </span>
                         </li>
                     
@@ -1124,7 +1150,7 @@
                                 3.React.FC vs function()
                             </a>
                             <span class="archive-post-date">
-                                 - 2020/02/16
+                                 - feb 16, 2020
                             </span>
                         </li>
                     
@@ -1133,7 +1159,7 @@
                                 2.omittable props
                             </a>
                             <span class="archive-post-date">
-                                 - 2020/02/16
+                                 - feb 16, 2020
                             </span>
                         </li>
                     
@@ -1142,7 +1168,7 @@
                                 2.타입스크립트를 지원하는 CRA
                             </a>
                             <span class="archive-post-date">
-                                 - 2020/01/18
+                                 - jan 18, 2020
                             </span>
                         </li>
                     
@@ -1151,7 +1177,7 @@
                                 1.modules import issue
                             </a>
                             <span class="archive-post-date">
-                                 - 2019/12/30
+                                 - dec 30, 2019
                             </span>
                         </li>
                     
@@ -1171,7 +1197,7 @@
                                 You Don&#39;t Know JS - 1.타입과 문법 - 4.강제변환
                             </a>
                             <span class="archive-post-date">
-                                 - 2019/12/12
+                                 - dec 12, 2019
                             </span>
                         </li>
                     
@@ -1180,7 +1206,7 @@
                                 You Don&#39;t Know JS - 1.타입과 문법 - 3.네이티브
                             </a>
                             <span class="archive-post-date">
-                                 - 2019/12/12
+                                 - dec 12, 2019
                             </span>
                         </li>
                     
@@ -1189,7 +1215,7 @@
                                 You Don&#39;t Know JS - 1.타입과 문법 - 2.값
                             </a>
                             <span class="archive-post-date">
-                                 - 2019/12/12
+                                 - dec 12, 2019
                             </span>
                         </li>
                     
@@ -1198,7 +1224,7 @@
                                 You Don&#39;t Know JS - 1.타입과 문법 - 1.타입
                             </a>
                             <span class="archive-post-date">
-                                 - 2019/12/12
+                                 - dec 12, 2019
                             </span>
                         </li>
                     
@@ -1218,7 +1244,7 @@
                                 amathon 후기
                             </a>
                             <span class="archive-post-date">
-                                 - 2019/09/08
+                                 - sep 08, 2019
                             </span>
                         </li>
                     
@@ -1238,7 +1264,7 @@
                                 Atomic Design
                             </a>
                             <span class="archive-post-date">
-                                 - 2020/06/01
+                                 - jun 01, 2020
                             </span>
                         </li>
                     
@@ -1258,7 +1284,7 @@
                                 6. Function Scope, Block Scope and Lexical Scope
                             </a>
                             <span class="archive-post-date">
-                                 - 2019/09/15
+                                 - sep 15, 2019
                             </span>
                         </li>
                     
@@ -1278,7 +1304,7 @@
                                 Hexo로 아주 아주 기본적인 Github.io 블로그 만들기
                             </a>
                             <span class="archive-post-date">
-                                 - 2019/07/01
+                                 - jul 01, 2019
                             </span>
                         </li>
                     
@@ -1298,7 +1324,7 @@
                                 1. Call Stack
                             </a>
                             <span class="archive-post-date">
-                                 - 2019/07/18
+                                 - jul 18, 2019
                             </span>
                         </li>
                     
@@ -1318,7 +1344,7 @@
                                 You Don&#39;t Know JS - 1.타입과 문법 - 4.강제변환
                             </a>
                             <span class="archive-post-date">
-                                 - 2019/12/12
+                                 - dec 12, 2019
                             </span>
                         </li>
                     
@@ -1338,7 +1364,7 @@
                                 Atomic Design
                             </a>
                             <span class="archive-post-date">
-                                 - 2020/06/01
+                                 - jun 01, 2020
                             </span>
                         </li>
                     
@@ -1358,7 +1384,7 @@
                                 4. 더블 클릭 방지
                             </a>
                             <span class="archive-post-date">
-                                 - 2020/12/15
+                                 - dec 15, 2020
                             </span>
                         </li>
                     
@@ -1378,7 +1404,7 @@
                                 Atomic Design
                             </a>
                             <span class="archive-post-date">
-                                 - 2020/06/01
+                                 - jun 01, 2020
                             </span>
                         </li>
                     
@@ -1398,7 +1424,7 @@
                                 7. Expression vs statement
                             </a>
                             <span class="archive-post-date">
-                                 - 2019/09/15
+                                 - sep 15, 2019
                             </span>
                         </li>
                     
@@ -1418,7 +1444,7 @@
                                 6. Function Scope, Block Scope and Lexical Scope
                             </a>
                             <span class="archive-post-date">
-                                 - 2019/09/15
+                                 - sep 15, 2019
                             </span>
                         </li>
                     
@@ -1438,7 +1464,7 @@
                                 4.git stash
                             </a>
                             <span class="archive-post-date">
-                                 - 2020/03/20
+                                 - mar 20, 2020
                             </span>
                         </li>
                     
@@ -1447,7 +1473,7 @@
                                 2.방화벽?외부로의차단?
                             </a>
                             <span class="archive-post-date">
-                                 - 2020/02/18
+                                 - feb 18, 2020
                             </span>
                         </li>
                     
@@ -1467,7 +1493,7 @@
                                 Hexo로 아주 아주 기본적인 Github.io 블로그 만들기
                             </a>
                             <span class="archive-post-date">
-                                 - 2019/07/01
+                                 - jul 01, 2019
                             </span>
                         </li>
                     
@@ -1487,7 +1513,7 @@
                                 amathon 후기
                             </a>
                             <span class="archive-post-date">
-                                 - 2019/09/08
+                                 - sep 08, 2019
                             </span>
                         </li>
                     
@@ -1507,7 +1533,7 @@
                                 Hexo로 아주 아주 기본적인 Github.io 블로그 만들기
                             </a>
                             <span class="archive-post-date">
-                                 - 2019/07/01
+                                 - jul 01, 2019
                             </span>
                         </li>
                     
@@ -1527,7 +1553,7 @@
                                 4.useEffect()
                             </a>
                             <span class="archive-post-date">
-                                 - 2020/04/23
+                                 - apr 23, 2020
                             </span>
                         </li>
                     
@@ -1547,7 +1573,7 @@
                                 3.IE 호환성 처리
                             </a>
                             <span class="archive-post-date">
-                                 - 2020/03/16
+                                 - mar 16, 2020
                             </span>
                         </li>
                     
@@ -1567,7 +1593,7 @@
                                 ws와 wss
                             </a>
                             <span class="archive-post-date">
-                                 - 2020/05/30
+                                 - may 30, 2020
                             </span>
                         </li>
                     
@@ -1587,7 +1613,7 @@
                                 1.사이드 메뉴 스크롤 이슈
                             </a>
                             <span class="archive-post-date">
-                                 - 2020/01/07
+                                 - jan 07, 2020
                             </span>
                         </li>
                     
@@ -1607,7 +1633,7 @@
                                 소소한 JS 팁(3)
                             </a>
                             <span class="archive-post-date">
-                                 - 2020/11/22
+                                 - nov 22, 2020
                             </span>
                         </li>
                     
@@ -1616,7 +1642,7 @@
                                 소소한 JS 팁(4)
                             </a>
                             <span class="archive-post-date">
-                                 - 2020/11/22
+                                 - nov 22, 2020
                             </span>
                         </li>
                     
@@ -1625,7 +1651,7 @@
                                 소소한 JS 팁(2)
                             </a>
                             <span class="archive-post-date">
-                                 - 2020/11/21
+                                 - nov 21, 2020
                             </span>
                         </li>
                     
@@ -1634,7 +1660,7 @@
                                 소소한 JS 팁(1)
                             </a>
                             <span class="archive-post-date">
-                                 - 2020/11/21
+                                 - nov 21, 2020
                             </span>
                         </li>
                     
@@ -1643,7 +1669,7 @@
                                 You Don&#39;t Know JS - 1.타입과 문법 - 3.네이티브
                             </a>
                             <span class="archive-post-date">
-                                 - 2019/12/12
+                                 - dec 12, 2019
                             </span>
                         </li>
                     
@@ -1652,7 +1678,7 @@
                                 You Don&#39;t Know JS - 1.타입과 문법 - 4.강제변환
                             </a>
                             <span class="archive-post-date">
-                                 - 2019/12/12
+                                 - dec 12, 2019
                             </span>
                         </li>
                     
@@ -1661,7 +1687,7 @@
                                 You Don&#39;t Know JS - 1.타입과 문법 - 2.값
                             </a>
                             <span class="archive-post-date">
-                                 - 2019/12/12
+                                 - dec 12, 2019
                             </span>
                         </li>
                     
@@ -1670,7 +1696,7 @@
                                 You Don&#39;t Know JS - 1.타입과 문법 - 1.타입
                             </a>
                             <span class="archive-post-date">
-                                 - 2019/12/12
+                                 - dec 12, 2019
                             </span>
                         </li>
                     
@@ -1679,7 +1705,7 @@
                                 9. event loop
                             </a>
                             <span class="archive-post-date">
-                                 - 2019/09/29
+                                 - sep 29, 2019
                             </span>
                         </li>
                     
@@ -1688,7 +1714,7 @@
                                 8. IIFE, modules, namespaces
                             </a>
                             <span class="archive-post-date">
-                                 - 2019/09/26
+                                 - sep 26, 2019
                             </span>
                         </li>
                     
@@ -1697,7 +1723,7 @@
                                 6. Function Scope, Block Scope and Lexical Scope
                             </a>
                             <span class="archive-post-date">
-                                 - 2019/09/15
+                                 - sep 15, 2019
                             </span>
                         </li>
                     
@@ -1706,7 +1732,7 @@
                                 7. Expression vs statement
                             </a>
                             <span class="archive-post-date">
-                                 - 2019/09/15
+                                 - sep 15, 2019
                             </span>
                         </li>
                     
@@ -1715,7 +1741,7 @@
                                 5. == vs === vs typeof
                             </a>
                             <span class="archive-post-date">
-                                 - 2019/08/04
+                                 - aug 04, 2019
                             </span>
                         </li>
                     
@@ -1724,7 +1750,7 @@
                                 4. Implicit, Explicit, Nominal, Structuring and Duck Typing
                             </a>
                             <span class="archive-post-date">
-                                 - 2019/07/25
+                                 - jul 25, 2019
                             </span>
                         </li>
                     
@@ -1733,7 +1759,7 @@
                                 3. Value Types and Reference Types
                             </a>
                             <span class="archive-post-date">
-                                 - 2019/07/20
+                                 - jul 20, 2019
                             </span>
                         </li>
                     
@@ -1742,7 +1768,7 @@
                                 Node.js
                             </a>
                             <span class="archive-post-date">
-                                 - 2019/07/19
+                                 - jul 19, 2019
                             </span>
                         </li>
                     
@@ -1751,7 +1777,7 @@
                                 2. Primitive types
                             </a>
                             <span class="archive-post-date">
-                                 - 2019/07/19
+                                 - jul 19, 2019
                             </span>
                         </li>
                     
@@ -1760,7 +1786,7 @@
                                 1. Call Stack
                             </a>
                             <span class="archive-post-date">
-                                 - 2019/07/18
+                                 - jul 18, 2019
                             </span>
                         </li>
                     
@@ -1780,7 +1806,7 @@
                                 6. Function Scope, Block Scope and Lexical Scope
                             </a>
                             <span class="archive-post-date">
-                                 - 2019/09/15
+                                 - sep 15, 2019
                             </span>
                         </li>
                     
@@ -1800,7 +1826,7 @@
                                 3.IE 호환성 처리
                             </a>
                             <span class="archive-post-date">
-                                 - 2020/03/16
+                                 - mar 16, 2020
                             </span>
                         </li>
                     
@@ -1820,7 +1846,7 @@
                                 9. event loop
                             </a>
                             <span class="archive-post-date">
-                                 - 2019/09/29
+                                 - sep 29, 2019
                             </span>
                         </li>
                     
@@ -1829,7 +1855,7 @@
                                 8. IIFE, modules, namespaces
                             </a>
                             <span class="archive-post-date">
-                                 - 2019/09/26
+                                 - sep 26, 2019
                             </span>
                         </li>
                     
@@ -1849,7 +1875,7 @@
                                 9. event loop
                             </a>
                             <span class="archive-post-date">
-                                 - 2019/09/29
+                                 - sep 29, 2019
                             </span>
                         </li>
                     
@@ -1858,7 +1884,7 @@
                                 8. IIFE, modules, namespaces
                             </a>
                             <span class="archive-post-date">
-                                 - 2019/09/26
+                                 - sep 26, 2019
                             </span>
                         </li>
                     
@@ -1878,7 +1904,7 @@
                                 socket.io
                             </a>
                             <span class="archive-post-date">
-                                 - 2020/05/31
+                                 - may 31, 2020
                             </span>
                         </li>
                     
@@ -1887,7 +1913,7 @@
                                 ws와 wss
                             </a>
                             <span class="archive-post-date">
-                                 - 2020/05/30
+                                 - may 30, 2020
                             </span>
                         </li>
                     
@@ -1907,7 +1933,7 @@
                                 1.ngrok
                             </a>
                             <span class="archive-post-date">
-                                 - 2020/01/18
+                                 - jan 18, 2020
                             </span>
                         </li>
                     
@@ -1927,7 +1953,7 @@
                                 Node.js
                             </a>
                             <span class="archive-post-date">
-                                 - 2019/07/19
+                                 - jul 19, 2019
                             </span>
                         </li>
                     
@@ -1947,7 +1973,7 @@
                                 npm
                             </a>
                             <span class="archive-post-date">
-                                 - 2020/05/30
+                                 - may 30, 2020
                             </span>
                         </li>
                     
@@ -1967,7 +1993,7 @@
                                 5.package-lock.json
                             </a>
                             <span class="archive-post-date">
-                                 - 2020/11/23
+                                 - nov 23, 2020
                             </span>
                         </li>
                     
@@ -1987,7 +2013,7 @@
                                 npm
                             </a>
                             <span class="archive-post-date">
-                                 - 2020/05/30
+                                 - may 30, 2020
                             </span>
                         </li>
                     
@@ -2007,7 +2033,7 @@
                                 3. Value Types and Reference Types
                             </a>
                             <span class="archive-post-date">
-                                 - 2019/07/20
+                                 - jul 20, 2019
                             </span>
                         </li>
                     
@@ -2016,7 +2042,7 @@
                                 2. Primitive types
                             </a>
                             <span class="archive-post-date">
-                                 - 2019/07/19
+                                 - jul 19, 2019
                             </span>
                         </li>
                     
@@ -2036,7 +2062,7 @@
                                 unstated-next
                             </a>
                             <span class="archive-post-date">
-                                 - 2020/12/20
+                                 - dec 20, 2020
                             </span>
                         </li>
                     
@@ -2045,7 +2071,7 @@
                                 Atomic Design
                             </a>
                             <span class="archive-post-date">
-                                 - 2020/06/01
+                                 - jun 01, 2020
                             </span>
                         </li>
                     
@@ -2065,7 +2091,7 @@
                                 unstated-next
                             </a>
                             <span class="archive-post-date">
-                                 - 2020/12/20
+                                 - dec 20, 2020
                             </span>
                         </li>
                     
@@ -2085,7 +2111,7 @@
                                 3. Value Types and Reference Types
                             </a>
                             <span class="archive-post-date">
-                                 - 2019/07/20
+                                 - jul 20, 2019
                             </span>
                         </li>
                     
@@ -2094,7 +2120,7 @@
                                 2. Primitive types
                             </a>
                             <span class="archive-post-date">
-                                 - 2019/07/19
+                                 - jul 19, 2019
                             </span>
                         </li>
                     
@@ -2114,7 +2140,7 @@
                                 3.정규표현식
                             </a>
                             <span class="archive-post-date">
-                                 - 2020/12/11
+                                 - dec 11, 2020
                             </span>
                         </li>
                     
@@ -2134,7 +2160,7 @@
                                 6. Function Scope, Block Scope and Lexical Scope
                             </a>
                             <span class="archive-post-date">
-                                 - 2019/09/15
+                                 - sep 15, 2019
                             </span>
                         </li>
                     
@@ -2154,7 +2180,7 @@
                                 socket.io
                             </a>
                             <span class="archive-post-date">
-                                 - 2020/05/31
+                                 - may 31, 2020
                             </span>
                         </li>
                     
@@ -2174,7 +2200,7 @@
                                 unstated-next
                             </a>
                             <span class="archive-post-date">
-                                 - 2020/12/20
+                                 - dec 20, 2020
                             </span>
                         </li>
                     
@@ -2194,7 +2220,7 @@
                                 7. Expression vs statement
                             </a>
                             <span class="archive-post-date">
-                                 - 2019/09/15
+                                 - sep 15, 2019
                             </span>
                         </li>
                     
@@ -2214,7 +2240,7 @@
                                 4. 더블 클릭 방지
                             </a>
                             <span class="archive-post-date">
-                                 - 2020/12/15
+                                 - dec 15, 2020
                             </span>
                         </li>
                     
@@ -2234,7 +2260,7 @@
                                 You Don&#39;t Know JS - 1.타입과 문법 - 1.타입
                             </a>
                             <span class="archive-post-date">
-                                 - 2019/12/12
+                                 - dec 12, 2019
                             </span>
                         </li>
                     
@@ -2254,7 +2280,7 @@
                                 5. == vs === vs typeof
                             </a>
                             <span class="archive-post-date">
-                                 - 2019/08/04
+                                 - aug 04, 2019
                             </span>
                         </li>
                     
@@ -2263,7 +2289,7 @@
                                 4. Implicit, Explicit, Nominal, Structuring and Duck Typing
                             </a>
                             <span class="archive-post-date">
-                                 - 2019/07/25
+                                 - jul 25, 2019
                             </span>
                         </li>
                     
@@ -2283,7 +2309,7 @@
                                 4.useEffect()
                             </a>
                             <span class="archive-post-date">
-                                 - 2020/04/23
+                                 - apr 23, 2020
                             </span>
                         </li>
                     
@@ -2303,7 +2329,7 @@
                                 You Don&#39;t Know JS - 1.타입과 문법 - 3.네이티브
                             </a>
                             <span class="archive-post-date">
-                                 - 2019/12/12
+                                 - dec 12, 2019
                             </span>
                         </li>
                     
@@ -2312,7 +2338,7 @@
                                 You Don&#39;t Know JS - 1.타입과 문법 - 2.값
                             </a>
                             <span class="archive-post-date">
-                                 - 2019/12/12
+                                 - dec 12, 2019
                             </span>
                         </li>
                     
@@ -2332,7 +2358,7 @@
                                 3. Value Types and Reference Types
                             </a>
                             <span class="archive-post-date">
-                                 - 2019/07/20
+                                 - jul 20, 2019
                             </span>
                         </li>
                     
@@ -2352,7 +2378,7 @@
                                 ws와 wss
                             </a>
                             <span class="archive-post-date">
-                                 - 2020/05/30
+                                 - may 30, 2020
                             </span>
                         </li>
                     
@@ -2374,18 +2400,24 @@
             
     
         
+                    
+                                
+                                    
+                                        
                                             <div id="about">
                                                 <div id="about-card">
                                                     <div id="about-btn-close">
                                                         <i class="fa fa-times"></i>
                                                     </div>
                                                     
+                                                        <img id="about-card-picture" src="/assets/images/favicon.ico" alt="Author&#39;s picture" />
+                                                        
                                                             <h4 id="about-card-name">
                                                                 hyerinOh
                                                             </h4>
                                                             
                                                                 <div id="about-card-bio">
-                                                                    <p>author.bio</p>
+                                                                    <p>내가 보려고 정리하는 블로그</p>
 
                                                                 </div>
                                                                 
@@ -2393,7 +2425,7 @@
                                                                         <div id="about-card-job">
                                                                             <i class="fa fa-briefcase"></i>
                                                                             <br/>
-                                                                            <p>author.job</p>
+                                                                            <p>front-end developer</p>
 
                                                                         </div>
                                                                         

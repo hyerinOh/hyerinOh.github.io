@@ -1,6 +1,6 @@
 
     <!DOCTYPE html>
-    <html lang="ko">
+    <html lang="en">
     
 <head>
     <meta charset="UTF-8">
@@ -13,13 +13,13 @@
         <link rel="icon" href="http://yoursite.com/assets/images/favicon.ico">
     
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"hyerinOh","sameAs":["https://github.com/hyerinOh","hyerinoh1108@gmail.com"],"image":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7"},"articleBody":"\n\n\n\n정규표현식\n문제 상황 ❗️\n\n\n아이디 찾기, 비밀번호 찾기, 회원가입 등 이름을 입력하는 필드에 한글, 숫자만 허용되도록 하는 것이 의도였음\n\n\n하지만 의도치 않게 | (pipe symbol)도 허용됨​\n\n\n\n\n기존 정규식 \n1/^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣|0-9]&#123;1,20&#125;$/\n\n\n\n| 를 허용하는 것 같이 보였음\n\n\n\n\n\n처음에는 | (pipe symbol)이 특수문자로 인식이 되지 않는 문제인 줄 알았다.\n1/^(?!\"|\")([ㄱ-ㅎㅏ-ㅣ가-힣0-9])&#123;1,20&#125;$/\n\n\nnegative lookahead 를 사용해서 강제로 | (pipe symbol)을 제외하는 조건을 넣음\nnegative lookahead : 특정 조건을 만족하는 문자열을 찾되, 그중에서 제외를 하고싶은 경우 사용\n\n\n\n하지만 OR로 사용되는 줄 알았던 | (pipe symbol)을 제거하기만 해도 문제를 해결할 수 있었음\n1/[ㄱ-ㅎㅏ-ㅣ가-힣0-9]&#123;1,20&#125;$/\n\n\n\n\n\n\n\n\n\n정규표현식 Tip 💁🏻‍\n[ ] 에서 | 는 OR가 아닌 하나의 문자로 인식\n( ) 에서만 |는 OR의 의미를 가진다.\nhttps://regexper.com/ (정규표현식을 도식화해주는 사이트)\n\n","dateCreated":"2020-12-11T15:58:00+09:00","dateModified":"2020-12-13T14:06:46+09:00","datePublished":"2020-12-11T15:58:00+09:00","description":"","headline":"3.정규표현식","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"http://yoursite.com/2020/12/11/Issues-JavaScript-03/"},"publisher":{"@type":"Organization","name":"hyerinOh","sameAs":["https://github.com/hyerinOh","hyerinoh1108@gmail.com"],"image":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7"}},"url":"http://yoursite.com/2020/12/11/Issues-JavaScript-03/","keywords":"Issues, JavaScript, regex"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"hyerinOh","sameAs":["https://github.com/hyerinOh","hyerinoh1108@gmail.com"],"image":"favicon.ico"},"articleBody":"\n\n\n\n정규표현식\n문제 상황 ❗️\n\n\n아이디 찾기, 비밀번호 찾기, 회원가입 등 이름을 입력하는 필드에 한글, 숫자만 허용되도록 하는 것이 의도였음\n\n\n하지만 의도치 않게 | (pipe symbol)도 허용됨​\n\n\n\n\n기존 정규식 \n1/^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣|0-9]&#123;1,20&#125;$/\n\n\n\n| 를 허용하는 것 같이 보였음\n\n\n\n\n\n처음에는 | (pipe symbol)이 특수문자로 인식이 되지 않는 문제인 줄 알았다.\n1/^(?!\"|\")([ㄱ-ㅎㅏ-ㅣ가-힣0-9])&#123;1,20&#125;$/\n\n\nnegative lookahead 를 사용해서 강제로 | (pipe symbol)을 제외하는 조건을 넣음\nnegative lookahead : 특정 조건을 만족하는 문자열을 찾되, 그중에서 제외를 하고싶은 경우 사용\n\n\n\n하지만 OR로 사용되는 줄 알았던 | (pipe symbol)을 제거하기만 해도 문제를 해결할 수 있었음\n1/[ㄱ-ㅎㅏ-ㅣ가-힣0-9]&#123;1,20&#125;$/\n\n\n\n\n\n\n\n\n\n정규표현식 Tip 💁🏻‍\n[ ] 에서 | 는 OR가 아닌 하나의 문자로 인식\n( ) 에서만 |는 OR의 의미를 가진다.\nhttps://regexper.com/ (정규표현식을 도식화해주는 사이트)\n\n","dateCreated":"2020-12-11T15:58:00+09:00","dateModified":"2020-12-13T14:06:46+09:00","datePublished":"2020-12-11T15:58:00+09:00","description":"","headline":"3.정규표현식","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"http://yoursite.com/2020/12/11/Issues-JavaScript-03/"},"publisher":{"@type":"Organization","name":"hyerinOh","sameAs":["https://github.com/hyerinOh","hyerinoh1108@gmail.com"],"image":"favicon.ico","logo":{"@type":"ImageObject","url":"favicon.ico"}},"url":"http://yoursite.com/2020/12/11/Issues-JavaScript-03/","keywords":"Issues, JavaScript, regex"}</script>
     <meta name="keywords" content="Issues,JavaScript,regex">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="3.정규표현식">
 <meta property="og:url" content="http://yoursite.com/2020/12/11/Issues-JavaScript-03/index.html">
 <meta property="og:site_name" content="hyerin.io">
-<meta property="og:locale" content="ko">
+<meta property="og:locale" content="en">
 <meta property="og:image" content="http://yoursite.com/images/origin_regex.jpg">
 <meta property="og:image" content="http://yoursite.com/images/modified_regex.jpg">
 <meta property="og:updated_time" content="2020-12-13T05:06:46.216Z">
@@ -30,6 +30,8 @@
     
         
     
+    
+        <meta property="og:image" content="http://yoursite.com/assets/images/favicon.ico"/>
     
     
     
@@ -56,6 +58,10 @@
 
 
     
+        
+            
+        
+    
 
 <header id="header" data-behavior="4">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
@@ -73,9 +79,11 @@
             <a
                 class="header-right-picture "
                 href="#about"
-                aria-label="링크 열기: /#about"
+                aria-label="Open the link: /#about"
             >
         
+        
+            <img class="header-picture" src="/assets/images/favicon.ico" alt="Author&#39;s picture"/>
         
         </a>
     
@@ -84,8 +92,26 @@
                     <!-- Define author's picture -->
 
 
+
+        
+    
+
 <nav id="sidebar" data-behavior="4">
     <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a
+                    href="/#about"
+                    aria-label="Read more about the author"
+                >
+                    <img class="sidebar-profile-picture" src="/assets/images/favicon.ico" alt="Author&#39;s picture"/>
+                </a>
+                <h4 class="sidebar-profile-name">hyerinOh</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>내가 보려고 정리하는 블로그</p>
+</h5>
+                
+            </div>
         
         
             <ul class="sidebar-buttons">
@@ -108,11 +134,11 @@
                         <a  class="sidebar-button-link "
                              href="/all-categories"
                             
-                            title="카테고리"
+                            title="Categories"
                         >
                     
                         <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">카테고리</span>
+                        <span class="sidebar-button-desc">Categories</span>
                     </a>
             </li>
             
@@ -121,11 +147,11 @@
                         <a  class="sidebar-button-link "
                              href="/all-tags"
                             
-                            title="태그"
+                            title="Tags"
                         >
                     
                         <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">태그</span>
+                        <span class="sidebar-button-desc">Tags</span>
                     </a>
             </li>
             
@@ -190,11 +216,11 @@
         <div class="post-meta">
     <time datetime="2020-12-11T15:58:00+09:00">
 	
-		    2020/12/11
+		    Dec 11, 2020
     	
     </time>
     
-        <span>카테고리 </span>
+        <span>in </span>
         
     <a class="category-link" href="/categories/Issues/">Issues</a>, <a class="category-link" href="/categories/Issues/JavaScript/">JavaScript</a>
 
@@ -269,7 +295,7 @@
     <div id="post-footer" class="post-footer main-content-wrap">
         
             <div class="post-footer-tags">
-                <span class="text-color-light text-small">태그</span><br/>
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
                 
     <a class="tag tag--primary tag--small t-link" href="/tags/Issues/">Issues</a> <a class="tag tag--primary tag--small t-link" href="/tags/JavaScript/">JavaScript</a> <a class="tag tag--primary tag--small t-link" href="/tags/regex/">regex</a>
 
@@ -286,11 +312,11 @@
                     class="post-action-btn btn btn--default tooltip--top"
                     href="/2020/12/15/Issues-JavaScript-04/"
                     data-tooltip="4. 더블 클릭 방지"
-                    aria-label="이전: 4. 더블 클릭 방지"
+                    aria-label="PREVIOUS: 4. 더블 클릭 방지"
                 >
                     
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
-                        <span class="hide-xs hide-sm text-small icon-ml">이전</span>
+                        <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
                     </a>
             </li>
             <li class="post-action">
@@ -300,10 +326,10 @@
                     class="post-action-btn btn btn--default tooltip--top"
                     href="/2020/12/01/Issues-html-01/"
                     data-tooltip="1.&lt;Pre&gt; 태그"
-                    aria-label="다음: 1.&lt;Pre&gt; 태그"
+                    aria-label="NEXT: 1.&lt;Pre&gt; 태그"
                 >
                     
-                        <span class="hide-xs hide-sm text-small icon-mr">다음</span>
+                        <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                         <i class="fa fa-angle-right" aria-hidden="true"></i>
                     </a>
             </li>
@@ -314,7 +340,7 @@
             <a
                 class="post-action-btn btn btn--default btn-open-shareoptions"
                 href="#btn-open-shareoptions"
-                aria-label="이 포스트 공유하기"
+                aria-label="Share this post"
             >
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
@@ -326,8 +352,8 @@
                 <a
                     class="post-action-btn btn btn--default"
                     target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2020/12/11/Issues-JavaScript-03/"
-                    title="Facebook에 공유하기"
-                    aria-label="Facebook에 공유하기"
+                    title="Share on Facebook"
+                    aria-label="Share on Facebook"
                 >
                     <i class="fab fa-facebook" aria-hidden="true"></i>
                 </a>
@@ -339,8 +365,8 @@
                 <a
                     class="post-action-btn btn btn--default"
                     target="new" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2020/12/11/Issues-JavaScript-03/"
-                    title="Twitter에 공유하기"
-                    aria-label="Twitter에 공유하기"
+                    title="Share on Twitter"
+                    aria-label="Share on Twitter"
                 >
                     <i class="fab fa-twitter" aria-hidden="true"></i>
                 </a>
@@ -352,8 +378,8 @@
                 <a
                     class="post-action-btn btn btn--default"
                     target="new" href="https://plus.google.com/share?url=http://yoursite.com/2020/12/11/Issues-JavaScript-03/"
-                    title="Google+에 공유하기"
-                    aria-label="Google+에 공유하기"
+                    title="Share on Google+"
+                    aria-label="Share on Google+"
                 >
                     <i class="fab fa-google-plus" aria-hidden="true"></i>
                 </a>
@@ -365,7 +391,7 @@
                     <a
                         class="post-action-btn btn btn--default"
                         href="#disqus_thread"
-                        aria-label="댓글을 남겨주세요"
+                        aria-label="Leave a comment"
                     >
                         <i class="fa fa-comment"></i>
                     </a>
@@ -374,7 +400,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="맨 위로">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -415,11 +441,11 @@
                     class="post-action-btn btn btn--default tooltip--top"
                     href="/2020/12/15/Issues-JavaScript-04/"
                     data-tooltip="4. 더블 클릭 방지"
-                    aria-label="이전: 4. 더블 클릭 방지"
+                    aria-label="PREVIOUS: 4. 더블 클릭 방지"
                 >
                     
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
-                        <span class="hide-xs hide-sm text-small icon-ml">이전</span>
+                        <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
                     </a>
             </li>
             <li class="post-action">
@@ -429,10 +455,10 @@
                     class="post-action-btn btn btn--default tooltip--top"
                     href="/2020/12/01/Issues-html-01/"
                     data-tooltip="1.&lt;Pre&gt; 태그"
-                    aria-label="다음: 1.&lt;Pre&gt; 태그"
+                    aria-label="NEXT: 1.&lt;Pre&gt; 태그"
                 >
                     
-                        <span class="hide-xs hide-sm text-small icon-mr">다음</span>
+                        <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                         <i class="fa fa-angle-right" aria-hidden="true"></i>
                     </a>
             </li>
@@ -443,7 +469,7 @@
             <a
                 class="post-action-btn btn btn--default btn-open-shareoptions"
                 href="#btn-open-shareoptions"
-                aria-label="이 포스트 공유하기"
+                aria-label="Share this post"
             >
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
@@ -455,8 +481,8 @@
                 <a
                     class="post-action-btn btn btn--default"
                     target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2020/12/11/Issues-JavaScript-03/"
-                    title="Facebook에 공유하기"
-                    aria-label="Facebook에 공유하기"
+                    title="Share on Facebook"
+                    aria-label="Share on Facebook"
                 >
                     <i class="fab fa-facebook" aria-hidden="true"></i>
                 </a>
@@ -468,8 +494,8 @@
                 <a
                     class="post-action-btn btn btn--default"
                     target="new" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2020/12/11/Issues-JavaScript-03/"
-                    title="Twitter에 공유하기"
-                    aria-label="Twitter에 공유하기"
+                    title="Share on Twitter"
+                    aria-label="Share on Twitter"
                 >
                     <i class="fab fa-twitter" aria-hidden="true"></i>
                 </a>
@@ -481,8 +507,8 @@
                 <a
                     class="post-action-btn btn btn--default"
                     target="new" href="https://plus.google.com/share?url=http://yoursite.com/2020/12/11/Issues-JavaScript-03/"
-                    title="Google+에 공유하기"
-                    aria-label="Google+에 공유하기"
+                    title="Share on Google+"
+                    aria-label="Share on Google+"
                 >
                     <i class="fab fa-google-plus" aria-hidden="true"></i>
                 </a>
@@ -494,7 +520,7 @@
                     <a
                         class="post-action-btn btn btn--default"
                         href="#disqus_thread"
-                        aria-label="댓글을 남겨주세요"
+                        aria-label="Leave a comment"
                     >
                         <i class="fa fa-comment"></i>
                     </a>
@@ -503,7 +529,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="맨 위로">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -525,9 +551,9 @@
                         class="share-option-btn"
                         target="new"
                         href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2020/12/11/Issues-JavaScript-03/"
-                        aria-label="Facebook에 공유하기"
+                        aria-label="Share on Facebook"
                     >
-                        <i class="fab fa-facebook" aria-hidden="true"></i><span>Facebook에 공유하기</span>
+                        <i class="fab fa-facebook" aria-hidden="true"></i><span>Share on Facebook</span>
                     </a>
                 </li>
             
@@ -538,9 +564,9 @@
                         class="share-option-btn"
                         target="new"
                         href="https://twitter.com/intent/tweet?text=http://yoursite.com/2020/12/11/Issues-JavaScript-03/"
-                        aria-label="Twitter에 공유하기"
+                        aria-label="Share on Twitter"
                     >
-                        <i class="fab fa-twitter" aria-hidden="true"></i><span>Twitter에 공유하기</span>
+                        <i class="fab fa-twitter" aria-hidden="true"></i><span>Share on Twitter</span>
                     </a>
                 </li>
             
@@ -551,9 +577,9 @@
                         class="share-option-btn"
                         target="new"
                         href="https://plus.google.com/share?url=http://yoursite.com/2020/12/11/Issues-JavaScript-03/"
-                        aria-label="Google+에 공유하기"
+                        aria-label="Share on Google+"
                     >
-                        <i class="fab fa-google-plus" aria-hidden="true"></i><span>Google+에 공유하기</span>
+                        <i class="fab fa-google-plus" aria-hidden="true"></i><span>Share on Google+</span>
                     </a>
                 </li>
             
@@ -566,18 +592,24 @@
             
     
         
+                    
+                                
+                                    
+                                        
                                             <div id="about">
                                                 <div id="about-card">
                                                     <div id="about-btn-close">
                                                         <i class="fa fa-times"></i>
                                                     </div>
                                                     
+                                                        <img id="about-card-picture" src="/assets/images/favicon.ico" alt="Author&#39;s picture" />
+                                                        
                                                             <h4 id="about-card-name">
                                                                 hyerinOh
                                                             </h4>
                                                             
                                                                 <div id="about-card-bio">
-                                                                    <p>author.bio</p>
+                                                                    <p>내가 보려고 정리하는 블로그</p>
 
                                                                 </div>
                                                                 
@@ -585,7 +617,7 @@
                                                                         <div id="about-card-job">
                                                                             <i class="fa fa-briefcase"></i>
                                                                             <br/>
-                                                                            <p>author.job</p>
+                                                                            <p>front-end developer</p>
 
                                                                         </div>
                                                                         

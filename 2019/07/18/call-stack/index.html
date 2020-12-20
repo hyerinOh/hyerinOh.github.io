@@ -1,6 +1,6 @@
 
     <!DOCTYPE html>
-    <html lang="ko">
+    <html lang="en">
     
 <head>
     <meta charset="UTF-8">
@@ -13,13 +13,13 @@
         <link rel="icon" href="http://yoursite.com/assets/images/favicon.ico">
     
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"hyerinOh","sameAs":["https://github.com/hyerinOh","hyerinoh1108@gmail.com"],"image":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7"},"articleBody":"\n\n\n\n자바스크립트\n싱글 쓰레드 언어 (single threaded single concurrent language)\n콜스택이 한 개\n한 번에 한 가지 일 밖에 못한다는 뜻\n\nTerminologies\nCall stack\n\n\n함수의 호출을 기록하는 자료구조\n함수를 실행하라고 호출하면 스택에 함수를 push하고 함수로부터 리턴값이 나오면 스택의 처음에서부터 pop\nMax stack Error : 크롬에서 최대 16,000 프레임을 스택에 담을 수 있도록 지정해놓았기 때문에 스택에 넣을 수 있는 수가 초과되면 Max Stack Error가 난다.\n\n\nHeap\n\n\n변수와 객체들의 메모리 할당이 일어나는 곳\n\n\nQueue\n\n\n자바스크립트 런타임은 진행되어야하는 메시지들의 리스트와 실행되도록 할당된 콜백 함수들의 메시지 queue를 포함\n비동기상황일 때 (마우스클릭, http 요청 응답 등) queue에 들어가서 기다리고있다가 콜스택이 비면 queue에서 메시지를 꺼내서 스택에 담는다.\n\nEvent Loop\n코드가 실행될 때 console.log()같은 것들은 빠르게 실행되지만, for문이나 while문이 천 번, 만 번 돌게 되면 스택에 오랫동안 머물게되고 blocked되게 만든다. 이러한 것을 blocking script라고 말한다.\n만약 동기적으로 실행된다면 네트워크 요청의 응답을 기다리는동안 다른 작업을 아무것도 할 수 없게 된다.\n이러한 현상을 막기 위해 비동기 함수(Asynchronous function)가 존재한다. 비동기함수들은 동기함수들과 달리 바로 스택으로 들어가지 않는다. DOM events, http request, setTimeout의 콜백함수들은 webAPIs(브라우저가 제공)로 보내지고, 해당 콜백 함수가 실행되면 콜백함수가 Queue로 넘어간다. 이때 Event Loop는 call stack과 Queue 두 가지를 모두 보고있다가 call stack이 비면 Queue의 첫번째 콜백함수를 stack으로 넘긴다.\n\n\n","dateCreated":"2019-07-18T00:00:00+09:00","dateModified":"2019-09-16T01:11:59+09:00","datePublished":"2019-07-18T00:00:00+09:00","description":"","headline":"1. Call Stack","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"http://yoursite.com/2019/07/18/call-stack/"},"publisher":{"@type":"Organization","name":"hyerinOh","sameAs":["https://github.com/hyerinOh","hyerinoh1108@gmail.com"],"image":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7"}},"url":"http://yoursite.com/2019/07/18/call-stack/","keywords":"javascript, 33-js-concepts, call stack"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"hyerinOh","sameAs":["https://github.com/hyerinOh","hyerinoh1108@gmail.com"],"image":"favicon.ico"},"articleBody":"\n\n\n\n자바스크립트\n싱글 쓰레드 언어 (single threaded single concurrent language)\n콜스택이 한 개\n한 번에 한 가지 일 밖에 못한다는 뜻\n\nTerminologies\nCall stack\n\n\n함수의 호출을 기록하는 자료구조\n함수를 실행하라고 호출하면 스택에 함수를 push하고 함수로부터 리턴값이 나오면 스택의 처음에서부터 pop\nMax stack Error : 크롬에서 최대 16,000 프레임을 스택에 담을 수 있도록 지정해놓았기 때문에 스택에 넣을 수 있는 수가 초과되면 Max Stack Error가 난다.\n\n\nHeap\n\n\n변수와 객체들의 메모리 할당이 일어나는 곳\n\n\nQueue\n\n\n자바스크립트 런타임은 진행되어야하는 메시지들의 리스트와 실행되도록 할당된 콜백 함수들의 메시지 queue를 포함\n비동기상황일 때 (마우스클릭, http 요청 응답 등) queue에 들어가서 기다리고있다가 콜스택이 비면 queue에서 메시지를 꺼내서 스택에 담는다.\n\nEvent Loop\n코드가 실행될 때 console.log()같은 것들은 빠르게 실행되지만, for문이나 while문이 천 번, 만 번 돌게 되면 스택에 오랫동안 머물게되고 blocked되게 만든다. 이러한 것을 blocking script라고 말한다.\n만약 동기적으로 실행된다면 네트워크 요청의 응답을 기다리는동안 다른 작업을 아무것도 할 수 없게 된다.\n이러한 현상을 막기 위해 비동기 함수(Asynchronous function)가 존재한다. 비동기함수들은 동기함수들과 달리 바로 스택으로 들어가지 않는다. DOM events, http request, setTimeout의 콜백함수들은 webAPIs(브라우저가 제공)로 보내지고, 해당 콜백 함수가 실행되면 콜백함수가 Queue로 넘어간다. 이때 Event Loop는 call stack과 Queue 두 가지를 모두 보고있다가 call stack이 비면 Queue의 첫번째 콜백함수를 stack으로 넘긴다.\n\n\n","dateCreated":"2019-07-18T00:00:00+09:00","dateModified":"2019-09-16T01:11:59+09:00","datePublished":"2019-07-18T00:00:00+09:00","description":"","headline":"1. Call Stack","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"http://yoursite.com/2019/07/18/call-stack/"},"publisher":{"@type":"Organization","name":"hyerinOh","sameAs":["https://github.com/hyerinOh","hyerinoh1108@gmail.com"],"image":"favicon.ico","logo":{"@type":"ImageObject","url":"favicon.ico"}},"url":"http://yoursite.com/2019/07/18/call-stack/","keywords":"javascript, 33-js-concepts, call stack"}</script>
     <meta name="keywords" content="javascript,33-js-concepts,call stack">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="1. Call Stack">
 <meta property="og:url" content="http://yoursite.com/2019/07/18/call-stack/index.html">
 <meta property="og:site_name" content="hyerin.io">
-<meta property="og:locale" content="ko">
+<meta property="og:locale" content="en">
 <meta property="og:image" content="https://user-images.githubusercontent.com/38285577/61391496-c8288d00-a8f7-11e9-8f86-77e8c2c75e0c.png">
 <meta property="og:updated_time" content="2019-09-15T16:11:59.727Z">
 <meta name="twitter:card" content="summary">
@@ -29,6 +29,8 @@
     
         
     
+    
+        <meta property="og:image" content="http://yoursite.com/assets/images/favicon.ico"/>
     
     
     
@@ -55,6 +57,10 @@
 
 
     
+        
+            
+        
+    
 
 <header id="header" data-behavior="4">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
@@ -72,9 +78,11 @@
             <a
                 class="header-right-picture "
                 href="#about"
-                aria-label="링크 열기: /#about"
+                aria-label="Open the link: /#about"
             >
         
+        
+            <img class="header-picture" src="/assets/images/favicon.ico" alt="Author&#39;s picture"/>
         
         </a>
     
@@ -83,8 +91,26 @@
                     <!-- Define author's picture -->
 
 
+
+        
+    
+
 <nav id="sidebar" data-behavior="4">
     <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a
+                    href="/#about"
+                    aria-label="Read more about the author"
+                >
+                    <img class="sidebar-profile-picture" src="/assets/images/favicon.ico" alt="Author&#39;s picture"/>
+                </a>
+                <h4 class="sidebar-profile-name">hyerinOh</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>내가 보려고 정리하는 블로그</p>
+</h5>
+                
+            </div>
         
         
             <ul class="sidebar-buttons">
@@ -107,11 +133,11 @@
                         <a  class="sidebar-button-link "
                              href="/all-categories"
                             
-                            title="카테고리"
+                            title="Categories"
                         >
                     
                         <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">카테고리</span>
+                        <span class="sidebar-button-desc">Categories</span>
                     </a>
             </li>
             
@@ -120,11 +146,11 @@
                         <a  class="sidebar-button-link "
                              href="/all-tags"
                             
-                            title="태그"
+                            title="Tags"
                         >
                     
                         <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">태그</span>
+                        <span class="sidebar-button-desc">Tags</span>
                     </a>
             </li>
             
@@ -189,11 +215,11 @@
         <div class="post-meta">
     <time datetime="2019-07-18T00:00:00+09:00">
 	
-		    2019/07/18
+		    Jul 18, 2019
     	
     </time>
     
-        <span>카테고리 </span>
+        <span>in </span>
         
     <a class="category-link" href="/categories/Dev/">Dev</a>, <a class="category-link" href="/categories/Dev/JavaScript/">JavaScript</a>, <a class="category-link" href="/categories/Dev/JavaScript/33-js-concepts/">33-js-concepts</a>
 
@@ -252,7 +278,7 @@
     <div id="post-footer" class="post-footer main-content-wrap">
         
             <div class="post-footer-tags">
-                <span class="text-color-light text-small">태그</span><br/>
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
                 
     <a class="tag tag--primary tag--small t-link" href="/tags/33-js-concepts/">33-js-concepts</a> <a class="tag tag--primary tag--small t-link" href="/tags/call-stack/">call stack</a> <a class="tag tag--primary tag--small t-link" href="/tags/javascript/">javascript</a>
 
@@ -269,11 +295,11 @@
                     class="post-action-btn btn btn--default tooltip--top"
                     href="/2019/07/19/node/"
                     data-tooltip="Node.js"
-                    aria-label="이전: Node.js"
+                    aria-label="PREVIOUS: Node.js"
                 >
                     
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
-                        <span class="hide-xs hide-sm text-small icon-ml">이전</span>
+                        <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
                     </a>
             </li>
             <li class="post-action">
@@ -283,10 +309,10 @@
                     class="post-action-btn btn btn--default tooltip--top"
                     href="/2019/07/01/Hexo로-Github-io-블로그-만들기/"
                     data-tooltip="Hexo로 아주 아주 기본적인 Github.io 블로그 만들기"
-                    aria-label="다음: Hexo로 아주 아주 기본적인 Github.io 블로그 만들기"
+                    aria-label="NEXT: Hexo로 아주 아주 기본적인 Github.io 블로그 만들기"
                 >
                     
-                        <span class="hide-xs hide-sm text-small icon-mr">다음</span>
+                        <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                         <i class="fa fa-angle-right" aria-hidden="true"></i>
                     </a>
             </li>
@@ -297,7 +323,7 @@
             <a
                 class="post-action-btn btn btn--default btn-open-shareoptions"
                 href="#btn-open-shareoptions"
-                aria-label="이 포스트 공유하기"
+                aria-label="Share this post"
             >
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
@@ -309,8 +335,8 @@
                 <a
                     class="post-action-btn btn btn--default"
                     target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/07/18/call-stack/"
-                    title="Facebook에 공유하기"
-                    aria-label="Facebook에 공유하기"
+                    title="Share on Facebook"
+                    aria-label="Share on Facebook"
                 >
                     <i class="fab fa-facebook" aria-hidden="true"></i>
                 </a>
@@ -322,8 +348,8 @@
                 <a
                     class="post-action-btn btn btn--default"
                     target="new" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2019/07/18/call-stack/"
-                    title="Twitter에 공유하기"
-                    aria-label="Twitter에 공유하기"
+                    title="Share on Twitter"
+                    aria-label="Share on Twitter"
                 >
                     <i class="fab fa-twitter" aria-hidden="true"></i>
                 </a>
@@ -335,8 +361,8 @@
                 <a
                     class="post-action-btn btn btn--default"
                     target="new" href="https://plus.google.com/share?url=http://yoursite.com/2019/07/18/call-stack/"
-                    title="Google+에 공유하기"
-                    aria-label="Google+에 공유하기"
+                    title="Share on Google+"
+                    aria-label="Share on Google+"
                 >
                     <i class="fab fa-google-plus" aria-hidden="true"></i>
                 </a>
@@ -348,7 +374,7 @@
                     <a
                         class="post-action-btn btn btn--default"
                         href="#disqus_thread"
-                        aria-label="댓글을 남겨주세요"
+                        aria-label="Leave a comment"
                     >
                         <i class="fa fa-comment"></i>
                     </a>
@@ -357,7 +383,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="맨 위로">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -398,11 +424,11 @@
                     class="post-action-btn btn btn--default tooltip--top"
                     href="/2019/07/19/node/"
                     data-tooltip="Node.js"
-                    aria-label="이전: Node.js"
+                    aria-label="PREVIOUS: Node.js"
                 >
                     
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
-                        <span class="hide-xs hide-sm text-small icon-ml">이전</span>
+                        <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
                     </a>
             </li>
             <li class="post-action">
@@ -412,10 +438,10 @@
                     class="post-action-btn btn btn--default tooltip--top"
                     href="/2019/07/01/Hexo로-Github-io-블로그-만들기/"
                     data-tooltip="Hexo로 아주 아주 기본적인 Github.io 블로그 만들기"
-                    aria-label="다음: Hexo로 아주 아주 기본적인 Github.io 블로그 만들기"
+                    aria-label="NEXT: Hexo로 아주 아주 기본적인 Github.io 블로그 만들기"
                 >
                     
-                        <span class="hide-xs hide-sm text-small icon-mr">다음</span>
+                        <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                         <i class="fa fa-angle-right" aria-hidden="true"></i>
                     </a>
             </li>
@@ -426,7 +452,7 @@
             <a
                 class="post-action-btn btn btn--default btn-open-shareoptions"
                 href="#btn-open-shareoptions"
-                aria-label="이 포스트 공유하기"
+                aria-label="Share this post"
             >
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
@@ -438,8 +464,8 @@
                 <a
                     class="post-action-btn btn btn--default"
                     target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/07/18/call-stack/"
-                    title="Facebook에 공유하기"
-                    aria-label="Facebook에 공유하기"
+                    title="Share on Facebook"
+                    aria-label="Share on Facebook"
                 >
                     <i class="fab fa-facebook" aria-hidden="true"></i>
                 </a>
@@ -451,8 +477,8 @@
                 <a
                     class="post-action-btn btn btn--default"
                     target="new" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2019/07/18/call-stack/"
-                    title="Twitter에 공유하기"
-                    aria-label="Twitter에 공유하기"
+                    title="Share on Twitter"
+                    aria-label="Share on Twitter"
                 >
                     <i class="fab fa-twitter" aria-hidden="true"></i>
                 </a>
@@ -464,8 +490,8 @@
                 <a
                     class="post-action-btn btn btn--default"
                     target="new" href="https://plus.google.com/share?url=http://yoursite.com/2019/07/18/call-stack/"
-                    title="Google+에 공유하기"
-                    aria-label="Google+에 공유하기"
+                    title="Share on Google+"
+                    aria-label="Share on Google+"
                 >
                     <i class="fab fa-google-plus" aria-hidden="true"></i>
                 </a>
@@ -477,7 +503,7 @@
                     <a
                         class="post-action-btn btn btn--default"
                         href="#disqus_thread"
-                        aria-label="댓글을 남겨주세요"
+                        aria-label="Leave a comment"
                     >
                         <i class="fa fa-comment"></i>
                     </a>
@@ -486,7 +512,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="맨 위로">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -508,9 +534,9 @@
                         class="share-option-btn"
                         target="new"
                         href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/07/18/call-stack/"
-                        aria-label="Facebook에 공유하기"
+                        aria-label="Share on Facebook"
                     >
-                        <i class="fab fa-facebook" aria-hidden="true"></i><span>Facebook에 공유하기</span>
+                        <i class="fab fa-facebook" aria-hidden="true"></i><span>Share on Facebook</span>
                     </a>
                 </li>
             
@@ -521,9 +547,9 @@
                         class="share-option-btn"
                         target="new"
                         href="https://twitter.com/intent/tweet?text=http://yoursite.com/2019/07/18/call-stack/"
-                        aria-label="Twitter에 공유하기"
+                        aria-label="Share on Twitter"
                     >
-                        <i class="fab fa-twitter" aria-hidden="true"></i><span>Twitter에 공유하기</span>
+                        <i class="fab fa-twitter" aria-hidden="true"></i><span>Share on Twitter</span>
                     </a>
                 </li>
             
@@ -534,9 +560,9 @@
                         class="share-option-btn"
                         target="new"
                         href="https://plus.google.com/share?url=http://yoursite.com/2019/07/18/call-stack/"
-                        aria-label="Google+에 공유하기"
+                        aria-label="Share on Google+"
                     >
-                        <i class="fab fa-google-plus" aria-hidden="true"></i><span>Google+에 공유하기</span>
+                        <i class="fab fa-google-plus" aria-hidden="true"></i><span>Share on Google+</span>
                     </a>
                 </li>
             
@@ -549,18 +575,24 @@
             
     
         
+                    
+                                
+                                    
+                                        
                                             <div id="about">
                                                 <div id="about-card">
                                                     <div id="about-btn-close">
                                                         <i class="fa fa-times"></i>
                                                     </div>
                                                     
+                                                        <img id="about-card-picture" src="/assets/images/favicon.ico" alt="Author&#39;s picture" />
+                                                        
                                                             <h4 id="about-card-name">
                                                                 hyerinOh
                                                             </h4>
                                                             
                                                                 <div id="about-card-bio">
-                                                                    <p>author.bio</p>
+                                                                    <p>내가 보려고 정리하는 블로그</p>
 
                                                                 </div>
                                                                 
@@ -568,7 +600,7 @@
                                                                         <div id="about-card-job">
                                                                             <i class="fa fa-briefcase"></i>
                                                                             <br/>
-                                                                            <p>author.job</p>
+                                                                            <p>front-end developer</p>
 
                                                                         </div>
                                                                         

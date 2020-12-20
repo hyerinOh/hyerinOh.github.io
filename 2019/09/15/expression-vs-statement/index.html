@@ -1,6 +1,6 @@
 
     <!DOCTYPE html>
-    <html lang="ko">
+    <html lang="en">
     
 <head>
     <meta charset="UTF-8">
@@ -13,13 +13,13 @@
         <link rel="icon" href="http://yoursite.com/assets/images/favicon.ico">
     
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"hyerinOh","sameAs":["https://github.com/hyerinOh","hyerinoh1108@gmail.com"],"image":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7"},"articleBody":"\n\n\n\n\nreference \nhttps://dev.to/promhize/javascript-in-depth-all-you-need-to-know-about-expressions-statements-and-expression-statements-5k2\nhttps://www.youtube.com/watch?v=WVyCrI1cHi8\n\n\n\n자바스크립트의 두 가지 주요 구문\n\nExpression(식)\nStatement(문)\n\nexpression은 statement처럼 작동할 수 있지만 statement는 expression처럼 작동할 수 없기 때문에 두 가지를 구분하는 것은 중요하다.\n12const x = 5;const y = getAnswer();\n\n둘 다 value를 리턴하기 때문에 expression이다. (물론 5는 이미 5라는 값이라고 생각할 수 있지만 computer science에서는 5는 5로 값이 resolve 되었다고 본다.)\nExpressions\nexpression은 하나의 값을 생성한다.\n\nexpression은 단일 값을 생성하는 자바스크립트 스니펫(재사용 가능한 소스 코드)이다.\n원하는 만큼 길게 쓸 수 있지만 결과는 항상 단일 값이다.1234567891011121314152 + 2 * 3 / 2(Math.random() * (100 - 20)) + 20functionCall()window.history ? useHistory() : noHistoryFallback()1+1, 2+2, 3+3declaredVariabletrue &amp;&amp; functionCall()true &amp;&amp; declaredVariable\n\n\n\nexpression이 반드시 상태를 변경할 필요 없다.\n 123456789const assignedVariable = 2; //this is a statement, assignedVariable is stateassignedVariable + 4 // expressionassignedVariable * 10 // expressionassignedVariable - 10 // expressionconsole.log(assignedVariable) // 2\n\n 위 스니펫의 모든 expression에도 불구하고 assignedVariable의 값은 여전히 2이다. 따라서 이 섹션의 제목에서 ‘반드시 변경할 필요가 없다’라고 한 이유는 함수 호출이 expression이지만 함수가 상태를 변경하는 statement를 포함할 수 있기 때문이다.\n 따라서 foo()라는 함수 자체는 undefined를 리턴하거나 다른 값을 리턴하는 expression인데 \n 123const foo = foo() =&gt; &#123;    assignedVariable = 14&#125;\n\n 이렇게 쓰게 되면 호출이 expression이지만 호출로 인해 상태가 변경되었다. 따라서 foo함수와 statement를 더 보기 좋게 쓰는 방법은\n 1234const foo = foo() =&gt; &#123;    return 14 // 가독성을 위한 명시적 리턴 &#125;assignedVariable = foo()\n\n 위에 보다 더 좋은 방법은\n 1234const foo = foo(n) =&gt; &#123;    return n&#125;assignedVariable = foo(14)\n\n 이런 방법으로 코드를 더 읽기 쉽게 구성할 수 있고 expression과 statement를 명확하게 구분할 수 있다.\n\n\nstatements자바스크립트에서는 값이 기대되는 곳에서는 statement를 사용할 수 없다. 따라서 함수의 인자, 연산자의 피연산자, 반환 값 등으로 사용할 수 없다. statement는 단지 액션을 실행하고 제어할 뿐이며 값을 생성하지 않는다.\n\n자바스크립트의 statement\nif\nif - else\nwhile\ndo - while\nfor\nswitch\nfor - in\nwith (더 이상 사용되지 않는 statement)\ndebugger\nvariable declaration\n\n\n\n밑의 스니펫을 브라우저의 콘솔에 적은 뒤 엔터를 눌러보자\n1if (true) &#123;9+9&#125;\n\n18을 리턴하는 것을 볼 수 있는데, 그럼에도 불구하고 expression이나 Javascript가 값을 기대하는 곳에서는 사용할 수 없다. (expression이 기대되는 곳에 statement를 사용할 수 없다.)\n1let b = if(ture)&#123;9+9&#125; // syntax error\n\n\nexpressions를 보는 것은 계산 과정을 이해하는 데에 도움이 된다.112 + (square(7+5)) + square(square(2));\n\n\n\n‘12’ resolves to ‘12’\n‘7’ resolves to ‘7’\n‘5’ resolves to ‘5’\n‘7+5’ resolves to ‘12’\n‘square 12’ resolves to ‘144’\n‘12’ + ‘144’ resolves to ‘156’\n\n— 1 차 계산 끝 —자바스크립트에서는 12 + 144 + square(square(2))의 계산 과정 중이다.단일 값을 반환 할 때까지 끝나지 않는다.결국 12 + 144 + 16이 되고 +연산자는 왼쪽부터 실행되기 때문에 156+ 16이 되고 172라는 단일 값을 얻게 된다.\n","dateCreated":"2019-09-15T00:00:00+09:00","dateModified":"2019-09-16T01:51:10+09:00","datePublished":"2019-09-15T00:00:00+09:00","description":"","headline":"7. Expression vs statement","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"http://yoursite.com/2019/09/15/expression-vs-statement/"},"publisher":{"@type":"Organization","name":"hyerinOh","sameAs":["https://github.com/hyerinOh","hyerinoh1108@gmail.com"],"image":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7"}},"url":"http://yoursite.com/2019/09/15/expression-vs-statement/","keywords":"javascript, 33-js-concepts, expression, statement"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"hyerinOh","sameAs":["https://github.com/hyerinOh","hyerinoh1108@gmail.com"],"image":"favicon.ico"},"articleBody":"\n\n\n\n\nreference \nhttps://dev.to/promhize/javascript-in-depth-all-you-need-to-know-about-expressions-statements-and-expression-statements-5k2\nhttps://www.youtube.com/watch?v=WVyCrI1cHi8\n\n\n\n자바스크립트의 두 가지 주요 구문\n\nExpression(식)\nStatement(문)\n\nexpression은 statement처럼 작동할 수 있지만 statement는 expression처럼 작동할 수 없기 때문에 두 가지를 구분하는 것은 중요하다.\n12const x = 5;const y = getAnswer();\n\n둘 다 value를 리턴하기 때문에 expression이다. (물론 5는 이미 5라는 값이라고 생각할 수 있지만 computer science에서는 5는 5로 값이 resolve 되었다고 본다.)\nExpressions\nexpression은 하나의 값을 생성한다.\n\nexpression은 단일 값을 생성하는 자바스크립트 스니펫(재사용 가능한 소스 코드)이다.\n원하는 만큼 길게 쓸 수 있지만 결과는 항상 단일 값이다.1234567891011121314152 + 2 * 3 / 2(Math.random() * (100 - 20)) + 20functionCall()window.history ? useHistory() : noHistoryFallback()1+1, 2+2, 3+3declaredVariabletrue &amp;&amp; functionCall()true &amp;&amp; declaredVariable\n\n\n\nexpression이 반드시 상태를 변경할 필요 없다.\n 123456789const assignedVariable = 2; //this is a statement, assignedVariable is stateassignedVariable + 4 // expressionassignedVariable * 10 // expressionassignedVariable - 10 // expressionconsole.log(assignedVariable) // 2\n\n 위 스니펫의 모든 expression에도 불구하고 assignedVariable의 값은 여전히 2이다. 따라서 이 섹션의 제목에서 ‘반드시 변경할 필요가 없다’라고 한 이유는 함수 호출이 expression이지만 함수가 상태를 변경하는 statement를 포함할 수 있기 때문이다.\n 따라서 foo()라는 함수 자체는 undefined를 리턴하거나 다른 값을 리턴하는 expression인데 \n 123const foo = foo() =&gt; &#123;    assignedVariable = 14&#125;\n\n 이렇게 쓰게 되면 호출이 expression이지만 호출로 인해 상태가 변경되었다. 따라서 foo함수와 statement를 더 보기 좋게 쓰는 방법은\n 1234const foo = foo() =&gt; &#123;    return 14 // 가독성을 위한 명시적 리턴 &#125;assignedVariable = foo()\n\n 위에 보다 더 좋은 방법은\n 1234const foo = foo(n) =&gt; &#123;    return n&#125;assignedVariable = foo(14)\n\n 이런 방법으로 코드를 더 읽기 쉽게 구성할 수 있고 expression과 statement를 명확하게 구분할 수 있다.\n\n\nstatements자바스크립트에서는 값이 기대되는 곳에서는 statement를 사용할 수 없다. 따라서 함수의 인자, 연산자의 피연산자, 반환 값 등으로 사용할 수 없다. statement는 단지 액션을 실행하고 제어할 뿐이며 값을 생성하지 않는다.\n\n자바스크립트의 statement\nif\nif - else\nwhile\ndo - while\nfor\nswitch\nfor - in\nwith (더 이상 사용되지 않는 statement)\ndebugger\nvariable declaration\n\n\n\n밑의 스니펫을 브라우저의 콘솔에 적은 뒤 엔터를 눌러보자\n1if (true) &#123;9+9&#125;\n\n18을 리턴하는 것을 볼 수 있는데, 그럼에도 불구하고 expression이나 Javascript가 값을 기대하는 곳에서는 사용할 수 없다. (expression이 기대되는 곳에 statement를 사용할 수 없다.)\n1let b = if(ture)&#123;9+9&#125; // syntax error\n\n\nexpressions를 보는 것은 계산 과정을 이해하는 데에 도움이 된다.112 + (square(7+5)) + square(square(2));\n\n\n\n‘12’ resolves to ‘12’\n‘7’ resolves to ‘7’\n‘5’ resolves to ‘5’\n‘7+5’ resolves to ‘12’\n‘square 12’ resolves to ‘144’\n‘12’ + ‘144’ resolves to ‘156’\n\n— 1 차 계산 끝 —자바스크립트에서는 12 + 144 + square(square(2))의 계산 과정 중이다.단일 값을 반환 할 때까지 끝나지 않는다.결국 12 + 144 + 16이 되고 +연산자는 왼쪽부터 실행되기 때문에 156+ 16이 되고 172라는 단일 값을 얻게 된다.\n","dateCreated":"2019-09-15T00:00:00+09:00","dateModified":"2019-09-16T01:51:10+09:00","datePublished":"2019-09-15T00:00:00+09:00","description":"","headline":"7. Expression vs statement","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"http://yoursite.com/2019/09/15/expression-vs-statement/"},"publisher":{"@type":"Organization","name":"hyerinOh","sameAs":["https://github.com/hyerinOh","hyerinoh1108@gmail.com"],"image":"favicon.ico","logo":{"@type":"ImageObject","url":"favicon.ico"}},"url":"http://yoursite.com/2019/09/15/expression-vs-statement/","keywords":"javascript, 33-js-concepts, expression, statement"}</script>
     <meta name="keywords" content="javascript,33-js-concepts,expression,statement">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="7. Expression vs statement">
 <meta property="og:url" content="http://yoursite.com/2019/09/15/expression-vs-statement/index.html">
 <meta property="og:site_name" content="hyerin.io">
-<meta property="og:locale" content="ko">
+<meta property="og:locale" content="en">
 <meta property="og:updated_time" content="2019-09-15T16:51:10.941Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="7. Expression vs statement">
@@ -27,6 +27,8 @@
     
         
     
+    
+        <meta property="og:image" content="http://yoursite.com/assets/images/favicon.ico"/>
     
     
     
@@ -53,6 +55,10 @@
 
 
     
+        
+            
+        
+    
 
 <header id="header" data-behavior="4">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
@@ -70,9 +76,11 @@
             <a
                 class="header-right-picture "
                 href="#about"
-                aria-label="링크 열기: /#about"
+                aria-label="Open the link: /#about"
             >
         
+        
+            <img class="header-picture" src="/assets/images/favicon.ico" alt="Author&#39;s picture"/>
         
         </a>
     
@@ -81,8 +89,26 @@
                     <!-- Define author's picture -->
 
 
+
+        
+    
+
 <nav id="sidebar" data-behavior="4">
     <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a
+                    href="/#about"
+                    aria-label="Read more about the author"
+                >
+                    <img class="sidebar-profile-picture" src="/assets/images/favicon.ico" alt="Author&#39;s picture"/>
+                </a>
+                <h4 class="sidebar-profile-name">hyerinOh</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>내가 보려고 정리하는 블로그</p>
+</h5>
+                
+            </div>
         
         
             <ul class="sidebar-buttons">
@@ -105,11 +131,11 @@
                         <a  class="sidebar-button-link "
                              href="/all-categories"
                             
-                            title="카테고리"
+                            title="Categories"
                         >
                     
                         <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">카테고리</span>
+                        <span class="sidebar-button-desc">Categories</span>
                     </a>
             </li>
             
@@ -118,11 +144,11 @@
                         <a  class="sidebar-button-link "
                              href="/all-tags"
                             
-                            title="태그"
+                            title="Tags"
                         >
                     
                         <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">태그</span>
+                        <span class="sidebar-button-desc">Tags</span>
                     </a>
             </li>
             
@@ -187,11 +213,11 @@
         <div class="post-meta">
     <time datetime="2019-09-15T00:00:00+09:00">
 	
-		    2019/09/15
+		    Sep 15, 2019
     	
     </time>
     
-        <span>카테고리 </span>
+        <span>in </span>
         
     <a class="category-link" href="/categories/Dev/">Dev</a>, <a class="category-link" href="/categories/Dev/JavaScript/">JavaScript</a>, <a class="category-link" href="/categories/Dev/JavaScript/33-js-concepts/">33-js-concepts</a>
 
@@ -293,7 +319,7 @@
     <div id="post-footer" class="post-footer main-content-wrap">
         
             <div class="post-footer-tags">
-                <span class="text-color-light text-small">태그</span><br/>
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
                 
     <a class="tag tag--primary tag--small t-link" href="/tags/33-js-concepts/">33-js-concepts</a> <a class="tag tag--primary tag--small t-link" href="/tags/expression/">expression</a> <a class="tag tag--primary tag--small t-link" href="/tags/javascript/">javascript</a> <a class="tag tag--primary tag--small t-link" href="/tags/statement/">statement</a>
 
@@ -310,11 +336,11 @@
                     class="post-action-btn btn btn--default tooltip--top"
                     href="/2019/09/15/scope/"
                     data-tooltip="6. Function Scope, Block Scope and Lexical Scope"
-                    aria-label="이전: 6. Function Scope, Block Scope and Lexical Scope"
+                    aria-label="PREVIOUS: 6. Function Scope, Block Scope and Lexical Scope"
                 >
                     
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
-                        <span class="hide-xs hide-sm text-small icon-ml">이전</span>
+                        <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
                     </a>
             </li>
             <li class="post-action">
@@ -324,10 +350,10 @@
                     class="post-action-btn btn btn--default tooltip--top"
                     href="/2019/09/08/amathon-후기/"
                     data-tooltip="amathon 후기"
-                    aria-label="다음: amathon 후기"
+                    aria-label="NEXT: amathon 후기"
                 >
                     
-                        <span class="hide-xs hide-sm text-small icon-mr">다음</span>
+                        <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                         <i class="fa fa-angle-right" aria-hidden="true"></i>
                     </a>
             </li>
@@ -338,7 +364,7 @@
             <a
                 class="post-action-btn btn btn--default btn-open-shareoptions"
                 href="#btn-open-shareoptions"
-                aria-label="이 포스트 공유하기"
+                aria-label="Share this post"
             >
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
@@ -350,8 +376,8 @@
                 <a
                     class="post-action-btn btn btn--default"
                     target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/09/15/expression-vs-statement/"
-                    title="Facebook에 공유하기"
-                    aria-label="Facebook에 공유하기"
+                    title="Share on Facebook"
+                    aria-label="Share on Facebook"
                 >
                     <i class="fab fa-facebook" aria-hidden="true"></i>
                 </a>
@@ -363,8 +389,8 @@
                 <a
                     class="post-action-btn btn btn--default"
                     target="new" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2019/09/15/expression-vs-statement/"
-                    title="Twitter에 공유하기"
-                    aria-label="Twitter에 공유하기"
+                    title="Share on Twitter"
+                    aria-label="Share on Twitter"
                 >
                     <i class="fab fa-twitter" aria-hidden="true"></i>
                 </a>
@@ -376,8 +402,8 @@
                 <a
                     class="post-action-btn btn btn--default"
                     target="new" href="https://plus.google.com/share?url=http://yoursite.com/2019/09/15/expression-vs-statement/"
-                    title="Google+에 공유하기"
-                    aria-label="Google+에 공유하기"
+                    title="Share on Google+"
+                    aria-label="Share on Google+"
                 >
                     <i class="fab fa-google-plus" aria-hidden="true"></i>
                 </a>
@@ -389,7 +415,7 @@
                     <a
                         class="post-action-btn btn btn--default"
                         href="#disqus_thread"
-                        aria-label="댓글을 남겨주세요"
+                        aria-label="Leave a comment"
                     >
                         <i class="fa fa-comment"></i>
                     </a>
@@ -398,7 +424,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="맨 위로">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -439,11 +465,11 @@
                     class="post-action-btn btn btn--default tooltip--top"
                     href="/2019/09/15/scope/"
                     data-tooltip="6. Function Scope, Block Scope and Lexical Scope"
-                    aria-label="이전: 6. Function Scope, Block Scope and Lexical Scope"
+                    aria-label="PREVIOUS: 6. Function Scope, Block Scope and Lexical Scope"
                 >
                     
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
-                        <span class="hide-xs hide-sm text-small icon-ml">이전</span>
+                        <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
                     </a>
             </li>
             <li class="post-action">
@@ -453,10 +479,10 @@
                     class="post-action-btn btn btn--default tooltip--top"
                     href="/2019/09/08/amathon-후기/"
                     data-tooltip="amathon 후기"
-                    aria-label="다음: amathon 후기"
+                    aria-label="NEXT: amathon 후기"
                 >
                     
-                        <span class="hide-xs hide-sm text-small icon-mr">다음</span>
+                        <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                         <i class="fa fa-angle-right" aria-hidden="true"></i>
                     </a>
             </li>
@@ -467,7 +493,7 @@
             <a
                 class="post-action-btn btn btn--default btn-open-shareoptions"
                 href="#btn-open-shareoptions"
-                aria-label="이 포스트 공유하기"
+                aria-label="Share this post"
             >
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
@@ -479,8 +505,8 @@
                 <a
                     class="post-action-btn btn btn--default"
                     target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/09/15/expression-vs-statement/"
-                    title="Facebook에 공유하기"
-                    aria-label="Facebook에 공유하기"
+                    title="Share on Facebook"
+                    aria-label="Share on Facebook"
                 >
                     <i class="fab fa-facebook" aria-hidden="true"></i>
                 </a>
@@ -492,8 +518,8 @@
                 <a
                     class="post-action-btn btn btn--default"
                     target="new" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2019/09/15/expression-vs-statement/"
-                    title="Twitter에 공유하기"
-                    aria-label="Twitter에 공유하기"
+                    title="Share on Twitter"
+                    aria-label="Share on Twitter"
                 >
                     <i class="fab fa-twitter" aria-hidden="true"></i>
                 </a>
@@ -505,8 +531,8 @@
                 <a
                     class="post-action-btn btn btn--default"
                     target="new" href="https://plus.google.com/share?url=http://yoursite.com/2019/09/15/expression-vs-statement/"
-                    title="Google+에 공유하기"
-                    aria-label="Google+에 공유하기"
+                    title="Share on Google+"
+                    aria-label="Share on Google+"
                 >
                     <i class="fab fa-google-plus" aria-hidden="true"></i>
                 </a>
@@ -518,7 +544,7 @@
                     <a
                         class="post-action-btn btn btn--default"
                         href="#disqus_thread"
-                        aria-label="댓글을 남겨주세요"
+                        aria-label="Leave a comment"
                     >
                         <i class="fa fa-comment"></i>
                     </a>
@@ -527,7 +553,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="맨 위로">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -549,9 +575,9 @@
                         class="share-option-btn"
                         target="new"
                         href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/09/15/expression-vs-statement/"
-                        aria-label="Facebook에 공유하기"
+                        aria-label="Share on Facebook"
                     >
-                        <i class="fab fa-facebook" aria-hidden="true"></i><span>Facebook에 공유하기</span>
+                        <i class="fab fa-facebook" aria-hidden="true"></i><span>Share on Facebook</span>
                     </a>
                 </li>
             
@@ -562,9 +588,9 @@
                         class="share-option-btn"
                         target="new"
                         href="https://twitter.com/intent/tweet?text=http://yoursite.com/2019/09/15/expression-vs-statement/"
-                        aria-label="Twitter에 공유하기"
+                        aria-label="Share on Twitter"
                     >
-                        <i class="fab fa-twitter" aria-hidden="true"></i><span>Twitter에 공유하기</span>
+                        <i class="fab fa-twitter" aria-hidden="true"></i><span>Share on Twitter</span>
                     </a>
                 </li>
             
@@ -575,9 +601,9 @@
                         class="share-option-btn"
                         target="new"
                         href="https://plus.google.com/share?url=http://yoursite.com/2019/09/15/expression-vs-statement/"
-                        aria-label="Google+에 공유하기"
+                        aria-label="Share on Google+"
                     >
-                        <i class="fab fa-google-plus" aria-hidden="true"></i><span>Google+에 공유하기</span>
+                        <i class="fab fa-google-plus" aria-hidden="true"></i><span>Share on Google+</span>
                     </a>
                 </li>
             
@@ -590,18 +616,24 @@
             
     
         
+                    
+                                
+                                    
+                                        
                                             <div id="about">
                                                 <div id="about-card">
                                                     <div id="about-btn-close">
                                                         <i class="fa fa-times"></i>
                                                     </div>
                                                     
+                                                        <img id="about-card-picture" src="/assets/images/favicon.ico" alt="Author&#39;s picture" />
+                                                        
                                                             <h4 id="about-card-name">
                                                                 hyerinOh
                                                             </h4>
                                                             
                                                                 <div id="about-card-bio">
-                                                                    <p>author.bio</p>
+                                                                    <p>내가 보려고 정리하는 블로그</p>
 
                                                                 </div>
                                                                 
@@ -609,7 +641,7 @@
                                                                         <div id="about-card-job">
                                                                             <i class="fa fa-briefcase"></i>
                                                                             <br/>
-                                                                            <p>author.job</p>
+                                                                            <p>front-end developer</p>
 
                                                                         </div>
                                                                         

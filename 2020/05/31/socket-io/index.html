@@ -1,6 +1,6 @@
 
     <!DOCTYPE html>
-    <html lang="ko">
+    <html lang="en">
     
 <head>
     <meta charset="UTF-8">
@@ -13,13 +13,13 @@
         <link rel="icon" href="http://yoursite.com/assets/images/favicon.ico">
     
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"hyerinOh","sameAs":["https://github.com/hyerinOh","hyerinoh1108@gmail.com"],"image":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7"},"articleBody":"\n\n\n\nsocket.io\n참고 : \nhttps://d2.naver.com/helloworld/1336\nhttps://woowabros.github.io/woowabros/2017/09/12/realtime-service.html\nhttps://www.educba.com/websocket-vs-socket-io/\n\n\n\nsocket.io\nJavaScript를 이용하여 브라우저 종류에 상관없이 실시간 웹을 구현할 수 있도록 한 기술\nwebSocket, AJAX Long Polling, Streaming 등등 관련 기술들을 하나의 API로 추상화한 것.\n브라우저와 웹 서버의 종류와 버전을 파악하여 가장 적합한 기술을 선택하여 사용하는 방식\n표준 기술이 아니고 Node.js의 모듈\n\n왜 webSocket이 아니라 socket.io ?\nwebSocket 프로토콜은 지원하는 브라우저가 한정적이고 브라우저마다 지원하는 버전에도 차이가 있다. 하지만 socket.io의 경우 socket 관련 기술들을 하나의 Node.js 모듈로 구현한 것으로 브라우저마다 적합한 socket 기술을 적용해 준다.\n\nWebSocket vs Socket.io\n\n\nWebSocket\nSocket.io\n\n\n\nTCP 연결 기반의 프로토콜\nwebSocket과 함께 작동하는 라이브러리\n\n\nTCP 연결에서 양방향 통신을 제공\n브라우저와 서버 통신을 기반으로 한 이벤트 제공\n\n\nProxy와 load balencer는 webSocket에선 지원하지 않음\nproxy들과 balencer들의 존재 하에 통신이 설립\n\n\nbroadcasting을 지원하지 않음\nbroadcasting 지원\n\n\nfallback 옵션이 없음\nfallback 옵션을 지원\n\n\nsocket.io 장점\n브라우저의 종류에 상관없이 실시간 웹 구현 가능\nNode.js 특징인 single thread 기반의 Non-Blocking I/O으로 성능적 이점이 있다.\n\nsocket.io 단점\nNode.js 모듈이기 때문에 JavaScript외에 다른 언어에서는 사용할 수 없다.\n\nsocket.io 통신 방식\nPolling \nWebSocket\n\n","dateCreated":"2020-05-31T15:24:10+09:00","dateModified":"2020-06-18T14:52:01+09:00","datePublished":"2020-05-31T15:24:10+09:00","description":"","headline":"socket.io","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"http://yoursite.com/2020/05/31/socket-io/"},"publisher":{"@type":"Organization","name":"hyerinOh","sameAs":["https://github.com/hyerinOh","hyerinoh1108@gmail.com"],"image":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7"}},"url":"http://yoursite.com/2020/05/31/socket-io/","keywords":"network, socket.io"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"hyerinOh","sameAs":["https://github.com/hyerinOh","hyerinoh1108@gmail.com"],"image":"favicon.ico"},"articleBody":"\n\n\n\nsocket.io\n참고 : \nhttps://d2.naver.com/helloworld/1336\nhttps://woowabros.github.io/woowabros/2017/09/12/realtime-service.html\nhttps://www.educba.com/websocket-vs-socket-io/\n\n\n\nsocket.io\nJavaScript를 이용하여 브라우저 종류에 상관없이 실시간 웹을 구현할 수 있도록 한 기술\nwebSocket, AJAX Long Polling, Streaming 등등 관련 기술들을 하나의 API로 추상화한 것.\n브라우저와 웹 서버의 종류와 버전을 파악하여 가장 적합한 기술을 선택하여 사용하는 방식\n표준 기술이 아니고 Node.js의 모듈\n\n왜 webSocket이 아니라 socket.io ?\nwebSocket 프로토콜은 지원하는 브라우저가 한정적이고 브라우저마다 지원하는 버전에도 차이가 있다. 하지만 socket.io의 경우 socket 관련 기술들을 하나의 Node.js 모듈로 구현한 것으로 브라우저마다 적합한 socket 기술을 적용해 준다.\n\nWebSocket vs Socket.io\n\n\nWebSocket\nSocket.io\n\n\n\nTCP 연결 기반의 프로토콜\nwebSocket과 함께 작동하는 라이브러리\n\n\nTCP 연결에서 양방향 통신을 제공\n브라우저와 서버 통신을 기반으로 한 이벤트 제공\n\n\nProxy와 load balencer는 webSocket에선 지원하지 않음\nproxy들과 balencer들의 존재 하에 통신이 설립\n\n\nbroadcasting을 지원하지 않음\nbroadcasting 지원\n\n\nfallback 옵션이 없음\nfallback 옵션을 지원\n\n\nsocket.io 장점\n브라우저의 종류에 상관없이 실시간 웹 구현 가능\nNode.js 특징인 single thread 기반의 Non-Blocking I/O으로 성능적 이점이 있다.\n\nsocket.io 단점\nNode.js 모듈이기 때문에 JavaScript외에 다른 언어에서는 사용할 수 없다.\n\nsocket.io 통신 방식\nPolling \nWebSocket\n\n","dateCreated":"2020-05-31T15:24:10+09:00","dateModified":"2020-06-18T14:52:01+09:00","datePublished":"2020-05-31T15:24:10+09:00","description":"","headline":"socket.io","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"http://yoursite.com/2020/05/31/socket-io/"},"publisher":{"@type":"Organization","name":"hyerinOh","sameAs":["https://github.com/hyerinOh","hyerinoh1108@gmail.com"],"image":"favicon.ico","logo":{"@type":"ImageObject","url":"favicon.ico"}},"url":"http://yoursite.com/2020/05/31/socket-io/","keywords":"network, socket.io"}</script>
     <meta name="keywords" content="network,socket.io">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="socket.io">
 <meta property="og:url" content="http://yoursite.com/2020/05/31/socket-io/index.html">
 <meta property="og:site_name" content="hyerin.io">
-<meta property="og:locale" content="ko">
+<meta property="og:locale" content="en">
 <meta property="og:updated_time" content="2020-06-18T05:52:01.951Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="socket.io">
@@ -27,6 +27,8 @@
     
         
     
+    
+        <meta property="og:image" content="http://yoursite.com/assets/images/favicon.ico"/>
     
     
     
@@ -53,6 +55,10 @@
 
 
     
+        
+            
+        
+    
 
 <header id="header" data-behavior="4">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
@@ -70,9 +76,11 @@
             <a
                 class="header-right-picture "
                 href="#about"
-                aria-label="링크 열기: /#about"
+                aria-label="Open the link: /#about"
             >
         
+        
+            <img class="header-picture" src="/assets/images/favicon.ico" alt="Author&#39;s picture"/>
         
         </a>
     
@@ -81,8 +89,26 @@
                     <!-- Define author's picture -->
 
 
+
+        
+    
+
 <nav id="sidebar" data-behavior="4">
     <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a
+                    href="/#about"
+                    aria-label="Read more about the author"
+                >
+                    <img class="sidebar-profile-picture" src="/assets/images/favicon.ico" alt="Author&#39;s picture"/>
+                </a>
+                <h4 class="sidebar-profile-name">hyerinOh</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>내가 보려고 정리하는 블로그</p>
+</h5>
+                
+            </div>
         
         
             <ul class="sidebar-buttons">
@@ -105,11 +131,11 @@
                         <a  class="sidebar-button-link "
                              href="/all-categories"
                             
-                            title="카테고리"
+                            title="Categories"
                         >
                     
                         <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">카테고리</span>
+                        <span class="sidebar-button-desc">Categories</span>
                     </a>
             </li>
             
@@ -118,11 +144,11 @@
                         <a  class="sidebar-button-link "
                              href="/all-tags"
                             
-                            title="태그"
+                            title="Tags"
                         >
                     
                         <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">태그</span>
+                        <span class="sidebar-button-desc">Tags</span>
                     </a>
             </li>
             
@@ -187,11 +213,11 @@
         <div class="post-meta">
     <time datetime="2020-05-31T15:24:10+09:00">
 	
-		    2020/05/31
+		    May 31, 2020
     	
     </time>
     
-        <span>카테고리 </span>
+        <span>in </span>
         
     <a class="category-link" href="/categories/Dev/">Dev</a>, <a class="category-link" href="/categories/Dev/Network/">Network</a>
 
@@ -274,7 +300,7 @@
     <div id="post-footer" class="post-footer main-content-wrap">
         
             <div class="post-footer-tags">
-                <span class="text-color-light text-small">태그</span><br/>
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
                 
     <a class="tag tag--primary tag--small t-link" href="/tags/network/">network</a> <a class="tag tag--primary tag--small t-link" href="/tags/socket-io/">socket.io</a>
 
@@ -291,11 +317,11 @@
                     class="post-action-btn btn btn--default tooltip--top"
                     href="/2020/06/01/Atomic-Design/"
                     data-tooltip="Atomic Design"
-                    aria-label="이전: Atomic Design"
+                    aria-label="PREVIOUS: Atomic Design"
                 >
                     
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
-                        <span class="hide-xs hide-sm text-small icon-ml">이전</span>
+                        <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
                     </a>
             </li>
             <li class="post-action">
@@ -305,10 +331,10 @@
                     class="post-action-btn btn btn--default tooltip--top"
                     href="/2020/05/30/ws-wss/"
                     data-tooltip="ws와 wss"
-                    aria-label="다음: ws와 wss"
+                    aria-label="NEXT: ws와 wss"
                 >
                     
-                        <span class="hide-xs hide-sm text-small icon-mr">다음</span>
+                        <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                         <i class="fa fa-angle-right" aria-hidden="true"></i>
                     </a>
             </li>
@@ -319,7 +345,7 @@
             <a
                 class="post-action-btn btn btn--default btn-open-shareoptions"
                 href="#btn-open-shareoptions"
-                aria-label="이 포스트 공유하기"
+                aria-label="Share this post"
             >
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
@@ -331,8 +357,8 @@
                 <a
                     class="post-action-btn btn btn--default"
                     target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2020/05/31/socket-io/"
-                    title="Facebook에 공유하기"
-                    aria-label="Facebook에 공유하기"
+                    title="Share on Facebook"
+                    aria-label="Share on Facebook"
                 >
                     <i class="fab fa-facebook" aria-hidden="true"></i>
                 </a>
@@ -344,8 +370,8 @@
                 <a
                     class="post-action-btn btn btn--default"
                     target="new" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2020/05/31/socket-io/"
-                    title="Twitter에 공유하기"
-                    aria-label="Twitter에 공유하기"
+                    title="Share on Twitter"
+                    aria-label="Share on Twitter"
                 >
                     <i class="fab fa-twitter" aria-hidden="true"></i>
                 </a>
@@ -357,8 +383,8 @@
                 <a
                     class="post-action-btn btn btn--default"
                     target="new" href="https://plus.google.com/share?url=http://yoursite.com/2020/05/31/socket-io/"
-                    title="Google+에 공유하기"
-                    aria-label="Google+에 공유하기"
+                    title="Share on Google+"
+                    aria-label="Share on Google+"
                 >
                     <i class="fab fa-google-plus" aria-hidden="true"></i>
                 </a>
@@ -370,7 +396,7 @@
                     <a
                         class="post-action-btn btn btn--default"
                         href="#disqus_thread"
-                        aria-label="댓글을 남겨주세요"
+                        aria-label="Leave a comment"
                     >
                         <i class="fa fa-comment"></i>
                     </a>
@@ -379,7 +405,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="맨 위로">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -420,11 +446,11 @@
                     class="post-action-btn btn btn--default tooltip--top"
                     href="/2020/06/01/Atomic-Design/"
                     data-tooltip="Atomic Design"
-                    aria-label="이전: Atomic Design"
+                    aria-label="PREVIOUS: Atomic Design"
                 >
                     
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
-                        <span class="hide-xs hide-sm text-small icon-ml">이전</span>
+                        <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
                     </a>
             </li>
             <li class="post-action">
@@ -434,10 +460,10 @@
                     class="post-action-btn btn btn--default tooltip--top"
                     href="/2020/05/30/ws-wss/"
                     data-tooltip="ws와 wss"
-                    aria-label="다음: ws와 wss"
+                    aria-label="NEXT: ws와 wss"
                 >
                     
-                        <span class="hide-xs hide-sm text-small icon-mr">다음</span>
+                        <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                         <i class="fa fa-angle-right" aria-hidden="true"></i>
                     </a>
             </li>
@@ -448,7 +474,7 @@
             <a
                 class="post-action-btn btn btn--default btn-open-shareoptions"
                 href="#btn-open-shareoptions"
-                aria-label="이 포스트 공유하기"
+                aria-label="Share this post"
             >
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
@@ -460,8 +486,8 @@
                 <a
                     class="post-action-btn btn btn--default"
                     target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2020/05/31/socket-io/"
-                    title="Facebook에 공유하기"
-                    aria-label="Facebook에 공유하기"
+                    title="Share on Facebook"
+                    aria-label="Share on Facebook"
                 >
                     <i class="fab fa-facebook" aria-hidden="true"></i>
                 </a>
@@ -473,8 +499,8 @@
                 <a
                     class="post-action-btn btn btn--default"
                     target="new" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2020/05/31/socket-io/"
-                    title="Twitter에 공유하기"
-                    aria-label="Twitter에 공유하기"
+                    title="Share on Twitter"
+                    aria-label="Share on Twitter"
                 >
                     <i class="fab fa-twitter" aria-hidden="true"></i>
                 </a>
@@ -486,8 +512,8 @@
                 <a
                     class="post-action-btn btn btn--default"
                     target="new" href="https://plus.google.com/share?url=http://yoursite.com/2020/05/31/socket-io/"
-                    title="Google+에 공유하기"
-                    aria-label="Google+에 공유하기"
+                    title="Share on Google+"
+                    aria-label="Share on Google+"
                 >
                     <i class="fab fa-google-plus" aria-hidden="true"></i>
                 </a>
@@ -499,7 +525,7 @@
                     <a
                         class="post-action-btn btn btn--default"
                         href="#disqus_thread"
-                        aria-label="댓글을 남겨주세요"
+                        aria-label="Leave a comment"
                     >
                         <i class="fa fa-comment"></i>
                     </a>
@@ -508,7 +534,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="맨 위로">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -530,9 +556,9 @@
                         class="share-option-btn"
                         target="new"
                         href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2020/05/31/socket-io/"
-                        aria-label="Facebook에 공유하기"
+                        aria-label="Share on Facebook"
                     >
-                        <i class="fab fa-facebook" aria-hidden="true"></i><span>Facebook에 공유하기</span>
+                        <i class="fab fa-facebook" aria-hidden="true"></i><span>Share on Facebook</span>
                     </a>
                 </li>
             
@@ -543,9 +569,9 @@
                         class="share-option-btn"
                         target="new"
                         href="https://twitter.com/intent/tweet?text=http://yoursite.com/2020/05/31/socket-io/"
-                        aria-label="Twitter에 공유하기"
+                        aria-label="Share on Twitter"
                     >
-                        <i class="fab fa-twitter" aria-hidden="true"></i><span>Twitter에 공유하기</span>
+                        <i class="fab fa-twitter" aria-hidden="true"></i><span>Share on Twitter</span>
                     </a>
                 </li>
             
@@ -556,9 +582,9 @@
                         class="share-option-btn"
                         target="new"
                         href="https://plus.google.com/share?url=http://yoursite.com/2020/05/31/socket-io/"
-                        aria-label="Google+에 공유하기"
+                        aria-label="Share on Google+"
                     >
-                        <i class="fab fa-google-plus" aria-hidden="true"></i><span>Google+에 공유하기</span>
+                        <i class="fab fa-google-plus" aria-hidden="true"></i><span>Share on Google+</span>
                     </a>
                 </li>
             
@@ -571,18 +597,24 @@
             
     
         
+                    
+                                
+                                    
+                                        
                                             <div id="about">
                                                 <div id="about-card">
                                                     <div id="about-btn-close">
                                                         <i class="fa fa-times"></i>
                                                     </div>
                                                     
+                                                        <img id="about-card-picture" src="/assets/images/favicon.ico" alt="Author&#39;s picture" />
+                                                        
                                                             <h4 id="about-card-name">
                                                                 hyerinOh
                                                             </h4>
                                                             
                                                                 <div id="about-card-bio">
-                                                                    <p>author.bio</p>
+                                                                    <p>내가 보려고 정리하는 블로그</p>
 
                                                                 </div>
                                                                 
@@ -590,7 +622,7 @@
                                                                         <div id="about-card-job">
                                                                             <i class="fa fa-briefcase"></i>
                                                                             <br/>
-                                                                            <p>author.job</p>
+                                                                            <p>front-end developer</p>
 
                                                                         </div>
                                                                         

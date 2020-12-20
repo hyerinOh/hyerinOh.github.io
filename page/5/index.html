@@ -1,6 +1,6 @@
 
     <!DOCTYPE html>
-    <html lang="ko">
+    <html lang="en">
     
 <head>
     <meta charset="UTF-8">
@@ -13,18 +13,20 @@
         <link rel="icon" href="http://yoursite.com/assets/images/favicon.ico">
     
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"Website","@id":"http://yoursite.com","author":{"@type":"Person","name":"hyerinOh","sameAs":["https://github.com/hyerinOh","hyerinoh1108@gmail.com"],"image":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7"},"name":"hyerin.io","description":null,"url":"http://yoursite.com"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"Website","@id":"http://yoursite.com","author":{"@type":"Person","name":"hyerinOh","sameAs":["https://github.com/hyerinOh","hyerinoh1108@gmail.com"],"image":"favicon.ico"},"name":"hyerin.io","description":null,"url":"http://yoursite.com"}</script>
     <meta property="og:type" content="blog">
 <meta property="og:title" content="hyerin.io">
 <meta property="og:url" content="http://yoursite.com/page/5/index.html">
 <meta property="og:site_name" content="hyerin.io">
-<meta property="og:locale" content="ko">
+<meta property="og:locale" content="en">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="hyerin.io">
     
     
         
     
+    
+        <meta property="og:image" content="http://yoursite.com/assets/images/favicon.ico"/>
     
     
     
@@ -49,6 +51,10 @@
 
 
     
+        
+            
+        
+    
 
 <header id="header" data-behavior="1">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
@@ -66,9 +72,11 @@
             <a
                 class="header-right-picture "
                 href="#about"
-                aria-label="링크 열기: /#about"
+                aria-label="Open the link: /#about"
             >
         
+        
+            <img class="header-picture" src="/assets/images/favicon.ico" alt="Author&#39;s picture"/>
         
         </a>
     
@@ -77,8 +85,26 @@
                     <!-- Define author's picture -->
 
 
+
+        
+    
+
 <nav id="sidebar" data-behavior="1">
     <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a
+                    href="/#about"
+                    aria-label="Read more about the author"
+                >
+                    <img class="sidebar-profile-picture" src="/assets/images/favicon.ico" alt="Author&#39;s picture"/>
+                </a>
+                <h4 class="sidebar-profile-name">hyerinOh</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>내가 보려고 정리하는 블로그</p>
+</h5>
+                
+            </div>
         
         
             <ul class="sidebar-buttons">
@@ -101,11 +127,11 @@
                         <a  class="sidebar-button-link "
                              href="/all-categories"
                             
-                            title="카테고리"
+                            title="Categories"
                         >
                     
                         <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">카테고리</span>
+                        <span class="sidebar-button-desc">Categories</span>
                     </a>
             </li>
             
@@ -114,11 +140,11 @@
                         <a  class="sidebar-button-link "
                              href="/all-tags"
                             
-                            title="태그"
+                            title="Tags"
                         >
                     
                         <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">태그</span>
+                        <span class="sidebar-button-desc">Tags</span>
                     </a>
             </li>
             
@@ -190,11 +216,11 @@
                 <div class="postShorten-meta">
     <time datetime="2019-08-04T00:00:00+09:00">
 	
-		    2019/08/04
+		    Aug 04, 2019
     	
     </time>
     
-        <span>카테고리 </span>
+        <span>in </span>
         
     <a class="category-link" href="/categories/Dev/">Dev</a>, <a class="category-link" href="/categories/Dev/JavaScript/">JavaScript</a>, <a class="category-link" href="/categories/Dev/JavaScript/33-js-concepts/">33-js-concepts</a>
 
@@ -212,7 +238,7 @@
                             class="postShorten-excerpt_link link"
                             aria-label=": 5. == vs === vs typeof"
                         >
-                            계속 읽기
+                            Continue reading
                         </a>
                         
                     
@@ -241,11 +267,11 @@
                 <div class="postShorten-meta">
     <time datetime="2019-07-25T00:00:00+09:00">
 	
-		    2019/07/25
+		    Jul 25, 2019
     	
     </time>
     
-        <span>카테고리 </span>
+        <span>in </span>
         
     <a class="category-link" href="/categories/Dev/">Dev</a>, <a class="category-link" href="/categories/Dev/JavaScript/">JavaScript</a>, <a class="category-link" href="/categories/Dev/JavaScript/33-js-concepts/">33-js-concepts</a>
 
@@ -263,7 +289,7 @@
                             class="postShorten-excerpt_link link"
                             aria-label=": 4. Implicit, Explicit, Nominal, Structuring and Duck Typing"
                         >
-                            계속 읽기
+                            Continue reading
                         </a>
                         
                     
@@ -292,11 +318,11 @@
                 <div class="postShorten-meta">
     <time datetime="2019-07-20T00:00:00+09:00">
 	
-		    2019/07/20
+		    Jul 20, 2019
     	
     </time>
     
-        <span>카테고리 </span>
+        <span>in </span>
         
     <a class="category-link" href="/categories/Dev/">Dev</a>, <a class="category-link" href="/categories/Dev/JavaScript/">JavaScript</a>, <a class="category-link" href="/categories/Dev/JavaScript/33-js-concepts/">33-js-concepts</a>
 
@@ -314,7 +340,7 @@
                             class="postShorten-excerpt_link link"
                             aria-label=": 3. Value Types and Reference Types"
                         >
-                            계속 읽기
+                            Continue reading
                         </a>
                         
                     
@@ -343,11 +369,11 @@
                 <div class="postShorten-meta">
     <time datetime="2019-07-19T00:00:00+09:00">
 	
-		    2019/07/19
+		    Jul 19, 2019
     	
     </time>
     
-        <span>카테고리 </span>
+        <span>in </span>
         
     <a class="category-link" href="/categories/Dev/">Dev</a>, <a class="category-link" href="/categories/Dev/JavaScript/">JavaScript</a>, <a class="category-link" href="/categories/Dev/JavaScript/33-js-concepts/">33-js-concepts</a>
 
@@ -365,7 +391,7 @@
                             class="postShorten-excerpt_link link"
                             aria-label=": 2. Primitive types"
                         >
-                            계속 읽기
+                            Continue reading
                         </a>
                         
                     
@@ -394,11 +420,11 @@
                 <div class="postShorten-meta">
     <time datetime="2019-07-19T00:00:00+09:00">
 	
-		    2019/07/19
+		    Jul 19, 2019
     	
     </time>
     
-        <span>카테고리 </span>
+        <span>in </span>
         
     <a class="category-link" href="/categories/Dev/">Dev</a>, <a class="category-link" href="/categories/Dev/JavaScript/">JavaScript</a>
 
@@ -416,7 +442,7 @@
                             class="postShorten-excerpt_link link"
                             aria-label=": Node.js"
                         >
-                            계속 읽기
+                            Continue reading
                         </a>
                         
                     
@@ -445,11 +471,11 @@
                 <div class="postShorten-meta">
     <time datetime="2019-07-18T00:00:00+09:00">
 	
-		    2019/07/18
+		    Jul 18, 2019
     	
     </time>
     
-        <span>카테고리 </span>
+        <span>in </span>
         
     <a class="category-link" href="/categories/Dev/">Dev</a>, <a class="category-link" href="/categories/Dev/JavaScript/">JavaScript</a>, <a class="category-link" href="/categories/Dev/JavaScript/33-js-concepts/">33-js-concepts</a>
 
@@ -467,7 +493,7 @@
                             class="postShorten-excerpt_link link"
                             aria-label=": 1. Call Stack"
                         >
-                            계속 읽기
+                            Continue reading
                         </a>
                         
                     
@@ -496,11 +522,11 @@
                 <div class="postShorten-meta">
     <time datetime="2019-07-01T00:00:00+09:00">
 	
-		    2019/07/01
+		    Jul 01, 2019
     	
     </time>
     
-        <span>카테고리 </span>
+        <span>in </span>
         
     <a class="category-link" href="/categories/web/">web</a>, <a class="category-link" href="/categories/web/hexo/">hexo</a>
 
@@ -518,7 +544,7 @@
                             class="postShorten-excerpt_link link"
                             aria-label=": Hexo로 아주 아주 기본적인 Github.io 블로그 만들기"
                         >
-                            계속 읽기
+                            Continue reading
                         </a>
                         
                     
@@ -535,10 +561,10 @@
             <a
                 class="btn btn--default btn--small"
                 href="/page/4/"
-                aria-label="최근 포스트"
+                aria-label="NEWER POSTS"
             >
               <i class="fa fa-angle-left text-base icon-mr"></i>
-              <span>최근 포스트</span>
+              <span>NEWER POSTS</span>
             </a>
           </li>
         
@@ -562,18 +588,24 @@
             
     
         
+                    
+                                
+                                    
+                                        
                                             <div id="about">
                                                 <div id="about-card">
                                                     <div id="about-btn-close">
                                                         <i class="fa fa-times"></i>
                                                     </div>
                                                     
+                                                        <img id="about-card-picture" src="/assets/images/favicon.ico" alt="Author&#39;s picture" />
+                                                        
                                                             <h4 id="about-card-name">
                                                                 hyerinOh
                                                             </h4>
                                                             
                                                                 <div id="about-card-bio">
-                                                                    <p>author.bio</p>
+                                                                    <p>내가 보려고 정리하는 블로그</p>
 
                                                                 </div>
                                                                 
@@ -581,7 +613,7 @@
                                                                         <div id="about-card-job">
                                                                             <i class="fa fa-briefcase"></i>
                                                                             <br/>
-                                                                            <p>author.job</p>
+                                                                            <p>front-end developer</p>
 
                                                                         </div>
                                                                         
