@@ -10,10 +10,10 @@
     <meta name="author" content="hyerinOh">
     
     
-        <link rel="icon" href="http://yoursite.com/assets/images/source/assets/images/favicon.ico">
+        <link rel="icon" href="http://yoursite.com/assets/images/favicon.ico">
     
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"hyerinOh","sameAs":["https://github.com/hyerinOh"],"image":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7"},"articleBody":"\n\n\n\nReact.FC 화살표 함수 vs function()\n문제 상황 !React hooks로 프로젝트를 구성하려고 예제들을 찾아보다보니 어떤 곳에서는 const App: React.FC = () =&gt; { }로 컴포넌트를 선언하고 어떤 곳에서는 function() 키워드를 사용해서 선언하는 것을 보고 어떠한 차이점이 있는지, 어떤 것이 더 좋은 방법인지 궁금해졌다.\n\n\n궁금증에 딱 맞는 블로그 글을 발견!\nhttps://velog.io/@velopert/create-typescript-react-component\n\n\n\n\n타입스크립트랑 함께 쓸 때 !\n\nReact.FC의 장점\n\nprops의 타입을 Generics로 넣어서 사용\nprops에 기본적으로 children이 들어가있다.\n컴포넌트의 defaultProps, propTypes, contextTypes를 설정할 때 자동완성이 될 수 있다.\n\n\n\n\nReact.FC의 단점\n\nchildren이 옵셔널 형태로 들어가있다보니 컴포넌트의 props 의 타입이 명백하지 않다.\n\nchildren이 필요한 컴포넌트가 있고 있으면 안되는 컴포넌트들이 있을 것\n그에 대한 처리를 하고 싶다면 Props의 타입을 따로 지정해야함\n\n1234type GreetingProps = &#123;  name: string;  children: React.ReactNode;&#125;;\n\ndefaultProps가 제대로 동작하지 않는다\n\n비구조화 할당을 하는 과정에서 기본값을 설정해주어야 제대로 작동한다.밑의 과정이 무의미해지는 것123Greetings.defaultProps = &#123;  mark: \"!\",&#125;;\n\n\n\n\n\n\n\n\n따라서 위의 단점을 해결하기 전까지는 React.FC의 사용이 권장되지 않는다.=&gt; function()사용 권장\n","dateCreated":"2020-02-16T15:11:31+09:00","dateModified":"2020-12-13T14:07:48+09:00","datePublished":"2020-02-16T15:11:31+09:00","description":"","headline":"3.React.FC vs function()","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"http://yoursite.com/2020/02/16/Issues-React-03/"},"publisher":{"@type":"Organization","name":"hyerinOh","sameAs":["https://github.com/hyerinOh"],"image":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7"}},"url":"http://yoursite.com/2020/02/16/Issues-React-03/","keywords":"Issues, React, TypeScript"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"hyerinOh","sameAs":["https://github.com/hyerinOh","hyerinoh1108@gmail.com"],"image":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7"},"articleBody":"\n\n\n\nReact.FC 화살표 함수 vs function()\n문제 상황 !React hooks로 프로젝트를 구성하려고 예제들을 찾아보다보니 어떤 곳에서는 const App: React.FC = () =&gt; { }로 컴포넌트를 선언하고 어떤 곳에서는 function() 키워드를 사용해서 선언하는 것을 보고 어떠한 차이점이 있는지, 어떤 것이 더 좋은 방법인지 궁금해졌다.\n\n\n궁금증에 딱 맞는 블로그 글을 발견!\nhttps://velog.io/@velopert/create-typescript-react-component\n\n\n\n\n타입스크립트랑 함께 쓸 때 !\n\nReact.FC의 장점\n\nprops의 타입을 Generics로 넣어서 사용\nprops에 기본적으로 children이 들어가있다.\n컴포넌트의 defaultProps, propTypes, contextTypes를 설정할 때 자동완성이 될 수 있다.\n\n\n\n\nReact.FC의 단점\n\nchildren이 옵셔널 형태로 들어가있다보니 컴포넌트의 props 의 타입이 명백하지 않다.\n\nchildren이 필요한 컴포넌트가 있고 있으면 안되는 컴포넌트들이 있을 것\n그에 대한 처리를 하고 싶다면 Props의 타입을 따로 지정해야함\n\n1234type GreetingProps = &#123;  name: string;  children: React.ReactNode;&#125;;\n\ndefaultProps가 제대로 동작하지 않는다\n\n비구조화 할당을 하는 과정에서 기본값을 설정해주어야 제대로 작동한다.밑의 과정이 무의미해지는 것123Greetings.defaultProps = &#123;  mark: \"!\",&#125;;\n\n\n\n\n\n\n\n\n따라서 위의 단점을 해결하기 전까지는 React.FC의 사용이 권장되지 않는다.=&gt; function()사용 권장\n","dateCreated":"2020-02-16T15:11:31+09:00","dateModified":"2020-12-13T14:07:48+09:00","datePublished":"2020-02-16T15:11:31+09:00","description":"","headline":"3.React.FC vs function()","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"http://yoursite.com/2020/02/16/Issues-React-03/"},"publisher":{"@type":"Organization","name":"hyerinOh","sameAs":["https://github.com/hyerinOh","hyerinoh1108@gmail.com"],"image":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7"}},"url":"http://yoursite.com/2020/02/16/Issues-React-03/","keywords":"Issues, React, TypeScript"}</script>
     <meta name="keywords" content="Issues,React,TypeScript">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="3.React.FC vs function()">
@@ -54,7 +54,7 @@
 
     
 
-<header id="header" data-behavior="5">
+<header id="header" data-behavior="6">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
     <div class="header-title">
         <a
@@ -81,7 +81,7 @@
                     <!-- Define author's picture -->
 
 
-<nav id="sidebar" data-behavior="5">
+<nav id="sidebar" data-behavior="6">
     <div class="sidebar-container">
         
         
@@ -152,13 +152,25 @@
                     </a>
             </li>
             
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/hyerinoh1108@gmail.com"
+                            title="Mail"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-envelope" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Mail</span>
+                    </a>
+            </li>
+            
         </ul>
         
     </div>
 </nav>
 
                         
-                            <div id="main" data-behavior="5" class="
+                            <div id="main" data-behavior="6" class="
                         hasCoverMetaIn
                         ">
                                 
@@ -383,7 +395,7 @@
 
                             </div>
                             
-                                <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+                                <div id="bottom-bar" class="post-bottom-bar" data-behavior="6">
                                     <div class="post-actions-wrap">
     <nav>
         <ul class="post-actions post-action-nav">
@@ -493,7 +505,7 @@
 
                                 </div>
                                 
-    <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+    <div id="share-options-bar" class="share-options-bar" data-behavior="6">
         <i id="btn-close-shareoptions" class="fa fa-times"></i>
         <ul class="share-options">
             
