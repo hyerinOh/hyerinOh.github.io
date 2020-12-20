@@ -4,21 +4,21 @@
 
     <url>
         <loc>http://yoursite.com/tags/state-management/</loc>
-        <lastmod>2020-12-20T08:39:30.962Z</lastmod>
+        <lastmod>2020-12-20T10:21:42.317Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>http://yoursite.com/tags/react-hooks/</loc>
-        <lastmod>2020-12-20T08:39:30.962Z</lastmod>
+        <lastmod>2020-12-20T10:21:42.317Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>http://yoursite.com/tags/react/</loc>
-        <lastmod>2020-12-20T08:39:30.962Z</lastmod>
+        <lastmod>2020-12-20T10:21:42.317Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>

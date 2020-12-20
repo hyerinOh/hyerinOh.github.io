@@ -1,29 +1,31 @@
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
     
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="hyerin.io">
-    <title>Unstated Next - hyerin.io</title>
+    <title>unstated-next - hyerin.io</title>
     <meta name="author" content="hyerinOh">
+    
+        <meta name="keywords" content="웹개발, 프론트엔드, fontend, front-end, developer, dev, javascript, react,">
     
     
         <link rel="icon" href="http://yoursite.com/assets/images/source/assets/images/favicon.ico">
     
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"hyerinOh","sameAs":["https://github.com/hyerinOh"],"image":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7"},"articleBody":"\n\n\n\n\nUnstated Next\nReact Hooks 사용 가능\n적은 용량\nReact의 API 사용 가능\n5분안에 배울 수 있는 최소한의 API\nTypeScript로 씌여졌고 React 코드를 더 쉽게 쓸 수 있도록 도와줌\n\n\n\n그래서 리덕스랑 뭐가 달라? 🤷🏻‍\n더 경량화 됨. 40배 더 작음\n더 빠름. 성능 문제를 컴포넌트화 함\n배우기 쉬움. React Hooks와 Context를 안다면 그냥 쓸 수 있음\n통합하기 쉬움. 한 번에 하나의 컴포넌트를 통합하고, 모든 React 라이브러리와 쉽게 통합됨\n테스트하기 쉬움.\ntype 확인이 쉬움. 추론가능한 타입으로 만들 수 있게 해줌\n알아야할 것이 최소한 임. 그냥 React\n\n\n\n설치 방법  🛠1npm install --save unstated-next\n\n\n\nExample 📖12345678910111213141516171819202122232425262728293031323334353637383940import React, &#123; useState &#125; from \"react\"import &#123; createContainer &#125; from \"unstated-next\"import &#123; render &#125; from \"react-dom\"    function useCounter(initialState = 0) &#123;    let [count, setCount] = useState(initialState)    let decrement = () =&gt; setCount(count - 1)    let increment = () =&gt; setCount(count + 1)    return &#123; count, decrement, increment &#125;&#125;let Counter = createContainer(useCounter)function CounterDisplay() &#123;    let counter = Counter.useContainer()    return (    &lt;div&gt;        &lt;button onClick=&#123;counter.decrement&#125;&gt;-&lt;/button&gt;        &lt;span&gt;&#123;counter.count&#125;&lt;/span&gt;        &lt;button onClick=&#123;counter.increment&#125;&gt;+&lt;/button&gt;    &lt;/div&gt;    )&#125;function App() &#123;    return (    &lt;Counter.Provider&gt;        &lt;CounterDisplay /&gt;        &lt;Counter.Provider initialState=&#123;2&#125;&gt;        &lt;div&gt;            &lt;div&gt;            &lt;CounterDisplay /&gt;            &lt;/div&gt;        &lt;/div&gt;        &lt;/Counter.Provider&gt;    &lt;/Counter.Provider&gt;    )&#125;render(&lt;App /&gt;, document.getElementById(\"root\"))\n\nAPI 📌1. createContainer(useHook)\n12345678910import &#123; createContainer &#125; from \"unstated-next\"function useCustomHook() &#123;    let [value, setValue] = useState()    let onChange = e =&gt; setValue(e.currentTarget.value)    return &#123; value, onChange &#125;&#125;let Container = createContainer(useCustomHook)// Container === &#123; Provider, useContainer &#125;\n\n\n\n2. &lt;Container.Provider&gt;\n1234567function ParentComponent() &#123;    return (    &lt;Container.Provider&gt;        &lt;ChildComponent /&gt;    &lt;/Container.Provider&gt;    )&#125;\n\n\n\n3.&lt;Container.Provider initialState&gt;\n123456789101112function useCustomHook(initialState = \"\") &#123;    let [value, setValue] = useState(initialState)    // ...&#125;function ParentComponent() &#123;    return (    &lt;Container.Provider initialState=&#123;\"value\"&#125;&gt;        &lt;ChildComponent /&gt;    &lt;/Container.Provider&gt;    )&#125;\n\n\n\n4.Container.useContainer()\n1234function ChildComponent() &#123;    let input = Container.useContainer()    return &lt;input value=&#123;input.value&#125; onChange=&#123;input.onChange&#125; /&gt;&#125;\n\n\n\n5. useContainer(Container)\n123456import &#123; useContainer &#125; from \"unstated-next\"function ChildComponent() &#123;    let input = useContainer(Container)    return &lt;input value=&#123;input.value&#125; onChange=&#123;input.onChange&#125; /&gt;&#125;\n\n\nGuide 🔍\n만약 React Hooks를 써본 적이 없다면, React 공식문서 를 읽고 다시 돌아오는 것을 추천!\n\n\n\nReact Hooks만을 사용한 예\n\nhooks 를 사용해서 컴포넌트를 만들면 아래와 같은 모습이 됨\n\n123456789101112function CounterDisplay() &#123;let [count, setCount] = useState(0)let decrement = () =&gt; setCount(count - 1)let increment = () =&gt; setCount(count + 1)return (    &lt;div&gt;    &lt;button onClick=&#123;decrement&#125;&gt;-&lt;/button&gt;    &lt;p&gt;You clicked &#123;count&#125; times&lt;/p&gt;    &lt;button onClick=&#123;increment&#125;&gt;+&lt;/button&gt;    &lt;/div&gt;)&#125;\n\n\n\n\n컴포넌트 뒤의 로직을 공유하고 싶으면 커스텀 훅으로 빼낼 수 있음\n\n1234567891011121314151617function useCounter() &#123;let [count, setCount] = useState(0)let decrement = () =&gt; setCount(count - 1)let increment = () =&gt; setCount(count + 1)return &#123; count, decrement, increment &#125;&#125;function CounterDisplay() &#123;let counter = useCounter()return (    &lt;div&gt;    &lt;button onClick=&#123;counter.decrement&#125;&gt;-&lt;/button&gt;    &lt;p&gt;You clicked &#123;counter.count&#125; times&lt;/p&gt;    &lt;button onClick=&#123;counter.increment&#125;&gt;+&lt;/button&gt;    &lt;/div&gt;)&#125;\n\n\n\n\n하지만 로직 외에 상태를 공유하고 싶다면?\ncontext를 이용1234567891011121314151617181920212223242526272829function useCounter() &#123;let [count, setCount] = useState(0)let decrement = () =&gt; setCount(count - 1)let increment = () =&gt; setCount(count + 1)return &#123; count, decrement, increment &#125;&#125;let Counter = createContext(null)function CounterDisplay() &#123;let counter = useContext(Counter)return (    &lt;div&gt;    &lt;button onClick=&#123;counter.decrement&#125;&gt;-&lt;/button&gt;    &lt;p&gt;You clicked &#123;counter.count&#125; times&lt;/p&gt;    &lt;button onClick=&#123;counter.increment&#125;&gt;+&lt;/button&gt;    &lt;/div&gt;)&#125;function App() &#123;let counter = useCounter()return (    &lt;Counter.Provider value=&#123;counter&#125;&gt;    &lt;CounterDisplay /&gt;    &lt;CounterDisplay /&gt;    &lt;/Counter.Provider&gt;)&#125;\n\n\n\n\n\n\n\n이것만으로도 훌륭하고 완벽하며, 많은 사람들이 이런 식으로 코드를 작성해야 함.  \n하지만 우리는 일관되게 올바른 것을 얻기 위해 조금 더 구조적이고 의도가 분명한 API 디자인이 필요!  \nunstated-next 사용한 예\ncreateContainer() 라는 함수를 사용함으로써, 우리는 커스텀 훅을 containers라고 생각할 수 있고, 명확한 이름 덕에 잘못된 API 사용을 막을 수 있음\n123456789101112131415161718192021222324252627282930import &#123; createContainer &#125; from \"unstated-next\"function useCounter() &#123;let [count, setCount] = useState(0)let decrement = () =&gt; setCount(count - 1)let increment = () =&gt; setCount(count + 1)return &#123; count, decrement, increment &#125;&#125;let Counter = createContainer(useCounter)function CounterDisplay() &#123;let counter = Counter.useContainer()return (    &lt;div&gt;    &lt;button onClick=&#123;counter.decrement&#125;&gt;-&lt;/button&gt;    &lt;p&gt;You clicked &#123;counter.count&#125; times&lt;/p&gt;    &lt;button onClick=&#123;counter.increment&#125;&gt;+&lt;/button&gt;    &lt;/div&gt;)&#125;function App() &#123;return (    &lt;Counter.Provider&gt;    &lt;CounterDisplay /&gt;    &lt;CounterDisplay /&gt;    &lt;/Counter.Provider&gt;)&#125;\n\n\n\n\n변경된 것들\n만약 타입스크립트를 사용하고 있다면, 타입스크립트의 내장된 타입 추론 기능이 더 잘 작동하도록하는 이점이 있음. \n커스텀 훅에 타입이 지정되어 있는 한, 모든 것이 작동 될 것임.\n\n\n\n\nTips 💁🏻‍Tip #1: 컨테이너 작성\n커스텀 훅으로 작업하기 때문에 다른 훅 내부에 컨테이너를 작성할 수 있음\n\n1234567891011121314function useCounter() &#123;    let [count, setCount] = useState(0)    let decrement = () =&gt; setCount(count - 1)    let increment = () =&gt; setCount(count + 1)    return &#123; count, decrement, increment, setCount &#125;&#125;let Counter = createContainer(useCounter)function useResettableCounter() &#123;    let counter = Counter.useContainer()    let reset = () =&gt; counter.setCount(0)    return &#123; ...counter, reset &#125;&#125;\n\n\n\nTip #2: 컨테이너 최소화하기\n컨테이너를 작고 집중적으로 유지하는데 유용\n컨테이너에서 로직을 코드 분할하려는 경우 중요\n상태 값만 컨테이너에 남기고 다른 로직들은 자체 훅으로 이동\n\n12345678910111213function useCount() &#123;    return useState(0)&#125;let Count = createContainer(useCount)function useCounter() &#123;    let [count, setCount] = Count.useContainer()    let decrement = () =&gt; setCount(count - 1)    let increment = () =&gt; setCount(count + 1)    let reset = () =&gt; setCount(0)    return &#123; count, decrement, increment, reset &#125;&#125;\n\n\n\nTip #3: 컴포넌트 최적화하기\nunstated-next 는 ‘최적화’할 필요가 없음\n최적화하려면 표준 React 최적화를 해야 함\n\n\n\n1 ) 컴포넌트를 분리해서 값 비싼 하위 트리 최적화\n\nBEFORE\n1234567891011121314151617function CounterDisplay() &#123;let counter = Counter.useContainer()return (    &lt;div&gt;    &lt;button onClick=&#123;counter.decrement&#125;&gt;-&lt;/button&gt;    &lt;p&gt;You clicked &#123;counter.count&#125; times&lt;/p&gt;    &lt;button onClick=&#123;counter.increment&#125;&gt;+&lt;/button&gt;    &lt;div&gt;        &lt;div&gt;        &lt;div&gt;            &lt;div&gt;SUPER EXPENSIVE RENDERING STUFF&lt;/div&gt;        &lt;/div&gt;        &lt;/div&gt;    &lt;/div&gt;    &lt;/div&gt;)&#125;\n\nAFTER\n1234567891011121314151617181920212223function ExpensiveComponent() &#123;return (    &lt;div&gt;    &lt;div&gt;        &lt;div&gt;        &lt;div&gt;SUPER EXPENSIVE RENDERING STUFF&lt;/div&gt;        &lt;/div&gt;    &lt;/div&gt;    &lt;/div&gt;)&#125;function CounterDisplay() &#123;let counter = Counter.useContainer()return (    &lt;div&gt;    &lt;button onClick=&#123;counter.decrement&#125;&gt;-&lt;/button&gt;    &lt;p&gt;You clicked &#123;counter.count&#125; times&lt;/p&gt;    &lt;button onClick=&#123;counter.increment&#125;&gt;+&lt;/button&gt;    &lt;ExpensiveComponent /&gt;    &lt;/div&gt;)&#125;\n\n\n\n\n\n2 ) useMemo()로  값 비싼 작업 최적화\n\nuseMemo() vs React.Memo\n\n\n\n\nuseMemo()\nReact.Memo\n\n\n\nReact Hook\n고차 컴포넌트 (HOC)\n\n\n렌더링 사이에 반환된 값을 기억\n렌더링 사이에 리액트 컴포넌트를 기억\n\n\n의존성이 변경되었을 때만 메모이제이션된 값만 다시 계산의존성이 없으면 렌더링 때마다 새 값 계산\nprops가 변경될때만 조건부로 업데이트\n\n\n전달된 함수는 렌더링 중에 실행\n\n\n\n\n\n\n\n\nBEFORE\n1234567891011121314function CounterDisplay(props) &#123;let counter = Counter.useContainer()// Recalculating this every time `counter` changes is expensivelet expensiveValue = expensiveComputation(props.input)return (    &lt;div&gt;    &lt;button onClick=&#123;counter.decrement&#125;&gt;-&lt;/button&gt;    &lt;p&gt;You clicked &#123;counter.count&#125; times&lt;/p&gt;    &lt;button onClick=&#123;counter.increment&#125;&gt;+&lt;/button&gt;    &lt;/div&gt;)&#125;\n\nAFTER\n12345678910111213141516function CounterDisplay(props) &#123;let counter = Counter.useContainer()// Only recalculate this value when its inputs have changedlet expensiveValue = useMemo(() =&gt; &#123;    return expensiveComputation(props.input)&#125;, [props.input])return (    &lt;div&gt;    &lt;button onClick=&#123;counter.decrement&#125;&gt;-&lt;/button&gt;    &lt;p&gt;You clicked &#123;counter.count&#125; times&lt;/p&gt;    &lt;button onClick=&#123;counter.increment&#125;&gt;+&lt;/button&gt;    &lt;/div&gt;)&#125;\n\n\n\n\n\n3 ) React.Memo()와 useCallback()을 사용해서 리렌더링 감소하기\n\nBEFORE\n12345678910111213141516171819function useCounter() &#123;let [count, setCount] = useState(0)let decrement = () =&gt; setCount(count - 1)let increment = () =&gt; setCount(count + 1)return &#123; count, decrement, increment &#125;&#125;let Counter = createContainer(useCounter)function CounterDisplay(props) &#123;let counter = Counter.useContainer()return (    &lt;div&gt;    &lt;button onClick=&#123;counter.decrement&#125;&gt;-&lt;/button&gt;    &lt;p&gt;You clicked &#123;counter.count&#125; times&lt;/p&gt;    &lt;button onClick=&#123;counter.increment&#125;&gt;+&lt;/button&gt;    &lt;/div&gt;)&#125;\n\nAFTER\n1234567891011121314151617181920212223function useCounter() &#123;let [count, setCount] = useState(0)let decrement = useCallback(() =&gt; setCount(count - 1), [count])let increment = useCallback(() =&gt; setCount(count + 1), [count])return &#123; count, decrement, increment &#125;&#125;let Counter = createContainer(useCounter)let CounterDisplayInner = React.memo(props =&gt; &#123;return (    &lt;div&gt;    &lt;button onClick=&#123;props.decrement&#125;&gt;-&lt;/button&gt;    &lt;p&gt;You clicked &#123;props.count&#125; times&lt;/p&gt;    &lt;button onClick=&#123;props.increment&#125;&gt;+&lt;/button&gt;    &lt;/div&gt;)&#125;)function CounterDisplay(props) &#123;let counter = Counter.useContainer()return &lt;CounterDisplayInner &#123;...counter&#125; /&gt;&#125;\n\n\n\n\n\n4. useMemo()로 요소 감싸기\n\nDan Abramov를 통한 방법\n\nBEFORE\n12345678function CounterDisplay(props) &#123;let counter = Counter.useContainer()let count = counter.countreturn (    &lt;p&gt;You clicked &#123;count&#125; times&lt;/p&gt;)&#125;\n\nAFTER\n12345678function CounterDisplay(props) &#123;let counter = Counter.useContainer()let count = counter.countreturn useMemo(() =&gt; (    &lt;p&gt;You clicked &#123;count&#125; times&lt;/p&gt;), [count])&#125;\n\n\n\n\nRelation to Unstated (번역)나는 이 라이브러리가 Unstated의 영적 후계자라고 생각한다. Unstated를 만든 이유는, React가 이미 상태 관리는 굉장히 잘 되어있다고 생각했고, 단지 상태와 로직을 쉽게 공유하는 것이 아쉽다고 생각했기 때문이다. 그래서 나는 React의 상태와 로직 공유를 위한 ‘최소한’의 해결책으로 Unstated를 만들었다.  \n하지만 Hooks로 React는 상태와 로직을 공유하기 더 좋아졌고, Unstated가 불필요한 추상화가 되었다고 생각이 들었다.\n하지만 많은 개발자들이 ‘어플리케이션의 상태’를 위해 React Hooks로 상태와 로직을 공유하는 방법을 찾는 것에 어려움을 겪고 있다고 생각한다. 이는 문서화나 커뮤니티 추진력 문제일 수 있으나, API가 이러한 정신적 격차를 해소하는 데 도움이 될 수 있다고 생각한다.\n앞서 말한 API란 Unstated Next이다. 이제는 “React에서 상태와 로직을 공유하기 위한 최소한의 API” 대신, “React에서 공유되는 상태와 로직을 이해하기 위한 최소한의 API”이다. \n나는 항상 React의 편에 있고, React가 이기길 바란다. 커뮤니티가 Redux와 같은 상태 관리 라이브러리를 포기하고 React의 내장 툴체인을 사용하는 더 나은 방법을 찾고 싶다.\n만약 당신이 Unstated 대신 React 자체만 사용하고 싶다면, 기꺼이 응원하고싶다. 블로그에 그것에 대한 이야기를 쓰고 얘기해줘라! 커뮤니티에 당신의 지식을 전파해라.\n\n\n\nreference: https://github.com/jamiebuilds/unstated-next#1-optimizing-expensive-sub-trees-by-splitting-the-component-apart\n\n","dateCreated":"2020-12-20T17:09:44+09:00","dateModified":"2020-12-20T17:39:30+09:00","datePublished":"2020-12-20T17:09:44+09:00","description":"","headline":"Unstated Next","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"http://yoursite.com/2020/12/20/Unstated-next/"},"publisher":{"@type":"Organization","name":"hyerinOh","sameAs":["https://github.com/hyerinOh"],"image":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7"}},"url":"http://yoursite.com/2020/12/20/Unstated-next/","keywords":"react, react hooks, state management"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"hyerinOh","sameAs":["https://github.com/hyerinOh"],"image":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7"},"articleBody":"\n\n\n\n\nUnstated Next\nReact Hooks 사용 가능\n적은 용량\nReact의 API 사용 가능\n5분안에 배울 수 있는 최소한의 API\nTypeScript로 씌여졌고 React 코드를 더 쉽게 쓸 수 있도록 도와줌\n\n\n\n그래서 리덕스랑 뭐가 달라? 🤷🏻‍\n더 경량화 됨. 40배 더 작음\n더 빠름. 성능 문제를 컴포넌트화 함\n배우기 쉬움. React Hooks와 Context를 안다면 그냥 쓸 수 있음\n통합하기 쉬움. 한 번에 하나의 컴포넌트를 통합하고, 모든 React 라이브러리와 쉽게 통합됨\n테스트하기 쉬움.\ntype 확인이 쉬움. 추론가능한 타입으로 만들 수 있게 해줌\n알아야할 것이 최소한 임. 그냥 React\n\n\n\n설치 방법  🛠1npm install --save unstated-next\n\n\n\nExample 📖12345678910111213141516171819202122232425262728293031323334353637383940import React, &#123; useState &#125; from \"react\"import &#123; createContainer &#125; from \"unstated-next\"import &#123; render &#125; from \"react-dom\"    function useCounter(initialState = 0) &#123;    let [count, setCount] = useState(initialState)    let decrement = () =&gt; setCount(count - 1)    let increment = () =&gt; setCount(count + 1)    return &#123; count, decrement, increment &#125;&#125;let Counter = createContainer(useCounter)function CounterDisplay() &#123;    let counter = Counter.useContainer()    return (    &lt;div&gt;        &lt;button onClick=&#123;counter.decrement&#125;&gt;-&lt;/button&gt;        &lt;span&gt;&#123;counter.count&#125;&lt;/span&gt;        &lt;button onClick=&#123;counter.increment&#125;&gt;+&lt;/button&gt;    &lt;/div&gt;    )&#125;function App() &#123;    return (    &lt;Counter.Provider&gt;        &lt;CounterDisplay /&gt;        &lt;Counter.Provider initialState=&#123;2&#125;&gt;        &lt;div&gt;            &lt;div&gt;            &lt;CounterDisplay /&gt;            &lt;/div&gt;        &lt;/div&gt;        &lt;/Counter.Provider&gt;    &lt;/Counter.Provider&gt;    )&#125;render(&lt;App /&gt;, document.getElementById(\"root\"))\n\nAPI 📌1. createContainer(useHook)\n12345678910import &#123; createContainer &#125; from \"unstated-next\"function useCustomHook() &#123;    let [value, setValue] = useState()    let onChange = e =&gt; setValue(e.currentTarget.value)    return &#123; value, onChange &#125;&#125;let Container = createContainer(useCustomHook)// Container === &#123; Provider, useContainer &#125;\n\n\n\n2. &lt;Container.Provider&gt;\n1234567function ParentComponent() &#123;    return (    &lt;Container.Provider&gt;        &lt;ChildComponent /&gt;    &lt;/Container.Provider&gt;    )&#125;\n\n\n\n3.&lt;Container.Provider initialState&gt;\n123456789101112function useCustomHook(initialState = \"\") &#123;    let [value, setValue] = useState(initialState)    // ...&#125;function ParentComponent() &#123;    return (    &lt;Container.Provider initialState=&#123;\"value\"&#125;&gt;        &lt;ChildComponent /&gt;    &lt;/Container.Provider&gt;    )&#125;\n\n\n\n4.Container.useContainer()\n1234function ChildComponent() &#123;    let input = Container.useContainer()    return &lt;input value=&#123;input.value&#125; onChange=&#123;input.onChange&#125; /&gt;&#125;\n\n\n\n5. useContainer(Container)\n123456import &#123; useContainer &#125; from \"unstated-next\"function ChildComponent() &#123;    let input = useContainer(Container)    return &lt;input value=&#123;input.value&#125; onChange=&#123;input.onChange&#125; /&gt;&#125;\n\n\nGuide 🔍\n만약 React Hooks를 써본 적이 없다면, React 공식문서 를 읽고 다시 돌아오는 것을 추천!\n\n\n\nReact Hooks만을 사용한 예\n\nhooks 를 사용해서 컴포넌트를 만들면 아래와 같은 모습이 됨\n\n123456789101112function CounterDisplay() &#123;let [count, setCount] = useState(0)let decrement = () =&gt; setCount(count - 1)let increment = () =&gt; setCount(count + 1)return (    &lt;div&gt;    &lt;button onClick=&#123;decrement&#125;&gt;-&lt;/button&gt;    &lt;p&gt;You clicked &#123;count&#125; times&lt;/p&gt;    &lt;button onClick=&#123;increment&#125;&gt;+&lt;/button&gt;    &lt;/div&gt;)&#125;\n\n\n\n\n컴포넌트 뒤의 로직을 공유하고 싶으면 커스텀 훅으로 빼낼 수 있음\n\n1234567891011121314151617function useCounter() &#123;let [count, setCount] = useState(0)let decrement = () =&gt; setCount(count - 1)let increment = () =&gt; setCount(count + 1)return &#123; count, decrement, increment &#125;&#125;function CounterDisplay() &#123;let counter = useCounter()return (    &lt;div&gt;    &lt;button onClick=&#123;counter.decrement&#125;&gt;-&lt;/button&gt;    &lt;p&gt;You clicked &#123;counter.count&#125; times&lt;/p&gt;    &lt;button onClick=&#123;counter.increment&#125;&gt;+&lt;/button&gt;    &lt;/div&gt;)&#125;\n\n\n\n\n하지만 로직 외에 상태를 공유하고 싶다면?\ncontext를 이용1234567891011121314151617181920212223242526272829function useCounter() &#123;let [count, setCount] = useState(0)let decrement = () =&gt; setCount(count - 1)let increment = () =&gt; setCount(count + 1)return &#123; count, decrement, increment &#125;&#125;let Counter = createContext(null)function CounterDisplay() &#123;let counter = useContext(Counter)return (    &lt;div&gt;    &lt;button onClick=&#123;counter.decrement&#125;&gt;-&lt;/button&gt;    &lt;p&gt;You clicked &#123;counter.count&#125; times&lt;/p&gt;    &lt;button onClick=&#123;counter.increment&#125;&gt;+&lt;/button&gt;    &lt;/div&gt;)&#125;function App() &#123;let counter = useCounter()return (    &lt;Counter.Provider value=&#123;counter&#125;&gt;    &lt;CounterDisplay /&gt;    &lt;CounterDisplay /&gt;    &lt;/Counter.Provider&gt;)&#125;\n\n\n\n\n\n\n\n이것만으로도 훌륭하고 완벽하며, 많은 사람들이 이런 식으로 코드를 작성해야 함.  \n하지만 우리는 일관되게 올바른 것을 얻기 위해 조금 더 구조적이고 의도가 분명한 API 디자인이 필요!  \nunstated-next 사용한 예\ncreateContainer() 라는 함수를 사용함으로써, 우리는 커스텀 훅을 containers라고 생각할 수 있고, 명확한 이름 덕에 잘못된 API 사용을 막을 수 있음\n123456789101112131415161718192021222324252627282930import &#123; createContainer &#125; from \"unstated-next\"function useCounter() &#123;let [count, setCount] = useState(0)let decrement = () =&gt; setCount(count - 1)let increment = () =&gt; setCount(count + 1)return &#123; count, decrement, increment &#125;&#125;let Counter = createContainer(useCounter)function CounterDisplay() &#123;let counter = Counter.useContainer()return (    &lt;div&gt;    &lt;button onClick=&#123;counter.decrement&#125;&gt;-&lt;/button&gt;    &lt;p&gt;You clicked &#123;counter.count&#125; times&lt;/p&gt;    &lt;button onClick=&#123;counter.increment&#125;&gt;+&lt;/button&gt;    &lt;/div&gt;)&#125;function App() &#123;return (    &lt;Counter.Provider&gt;    &lt;CounterDisplay /&gt;    &lt;CounterDisplay /&gt;    &lt;/Counter.Provider&gt;)&#125;\n\n\n\n\n변경된 것들\n만약 타입스크립트를 사용하고 있다면, 타입스크립트의 내장된 타입 추론 기능이 더 잘 작동하도록하는 이점이 있음. \n커스텀 훅에 타입이 지정되어 있는 한, 모든 것이 작동 될 것임.\n\n\n\n\nTips 💁🏻‍Tip #1: 컨테이너 작성\n커스텀 훅으로 작업하기 때문에 다른 훅 내부에 컨테이너를 작성할 수 있음\n\n1234567891011121314function useCounter() &#123;    let [count, setCount] = useState(0)    let decrement = () =&gt; setCount(count - 1)    let increment = () =&gt; setCount(count + 1)    return &#123; count, decrement, increment, setCount &#125;&#125;let Counter = createContainer(useCounter)function useResettableCounter() &#123;    let counter = Counter.useContainer()    let reset = () =&gt; counter.setCount(0)    return &#123; ...counter, reset &#125;&#125;\n\n\n\nTip #2: 컨테이너 최소화하기\n컨테이너를 작고 집중적으로 유지하는데 유용\n컨테이너에서 로직을 코드 분할하려는 경우 중요\n상태 값만 컨테이너에 남기고 다른 로직들은 자체 훅으로 이동\n\n12345678910111213function useCount() &#123;    return useState(0)&#125;let Count = createContainer(useCount)function useCounter() &#123;    let [count, setCount] = Count.useContainer()    let decrement = () =&gt; setCount(count - 1)    let increment = () =&gt; setCount(count + 1)    let reset = () =&gt; setCount(0)    return &#123; count, decrement, increment, reset &#125;&#125;\n\n\n\nTip #3: 컴포넌트 최적화하기\nunstated-next 는 ‘최적화’할 필요가 없음\n최적화하려면 표준 React 최적화를 해야 함\n\n\n\n1 ) 컴포넌트를 분리해서 값 비싼 하위 트리 최적화\n\nBEFORE\n1234567891011121314151617function CounterDisplay() &#123;let counter = Counter.useContainer()return (    &lt;div&gt;    &lt;button onClick=&#123;counter.decrement&#125;&gt;-&lt;/button&gt;    &lt;p&gt;You clicked &#123;counter.count&#125; times&lt;/p&gt;    &lt;button onClick=&#123;counter.increment&#125;&gt;+&lt;/button&gt;    &lt;div&gt;        &lt;div&gt;        &lt;div&gt;            &lt;div&gt;SUPER EXPENSIVE RENDERING STUFF&lt;/div&gt;        &lt;/div&gt;        &lt;/div&gt;    &lt;/div&gt;    &lt;/div&gt;)&#125;\n\nAFTER\n1234567891011121314151617181920212223function ExpensiveComponent() &#123;return (    &lt;div&gt;    &lt;div&gt;        &lt;div&gt;        &lt;div&gt;SUPER EXPENSIVE RENDERING STUFF&lt;/div&gt;        &lt;/div&gt;    &lt;/div&gt;    &lt;/div&gt;)&#125;function CounterDisplay() &#123;let counter = Counter.useContainer()return (    &lt;div&gt;    &lt;button onClick=&#123;counter.decrement&#125;&gt;-&lt;/button&gt;    &lt;p&gt;You clicked &#123;counter.count&#125; times&lt;/p&gt;    &lt;button onClick=&#123;counter.increment&#125;&gt;+&lt;/button&gt;    &lt;ExpensiveComponent /&gt;    &lt;/div&gt;)&#125;\n\n\n\n\n\n2 ) useMemo()로  값 비싼 작업 최적화\n\nuseMemo() vs React.Memo\n\n\n\n\nuseMemo()\nReact.Memo\n\n\n\nReact Hook\n고차 컴포넌트 (HOC)\n\n\n렌더링 사이에 반환된 값을 기억\n렌더링 사이에 리액트 컴포넌트를 기억\n\n\n의존성이 변경되었을 때만 메모이제이션된 값만 다시 계산의존성이 없으면 렌더링 때마다 새 값 계산\nprops가 변경될때만 조건부로 업데이트\n\n\n전달된 함수는 렌더링 중에 실행\n\n\n\n\n\n\n\n\nBEFORE\n1234567891011121314function CounterDisplay(props) &#123;let counter = Counter.useContainer()// Recalculating this every time `counter` changes is expensivelet expensiveValue = expensiveComputation(props.input)return (    &lt;div&gt;    &lt;button onClick=&#123;counter.decrement&#125;&gt;-&lt;/button&gt;    &lt;p&gt;You clicked &#123;counter.count&#125; times&lt;/p&gt;    &lt;button onClick=&#123;counter.increment&#125;&gt;+&lt;/button&gt;    &lt;/div&gt;)&#125;\n\nAFTER\n12345678910111213141516function CounterDisplay(props) &#123;let counter = Counter.useContainer()// Only recalculate this value when its inputs have changedlet expensiveValue = useMemo(() =&gt; &#123;    return expensiveComputation(props.input)&#125;, [props.input])return (    &lt;div&gt;    &lt;button onClick=&#123;counter.decrement&#125;&gt;-&lt;/button&gt;    &lt;p&gt;You clicked &#123;counter.count&#125; times&lt;/p&gt;    &lt;button onClick=&#123;counter.increment&#125;&gt;+&lt;/button&gt;    &lt;/div&gt;)&#125;\n\n\n\n\n\n3 ) React.Memo()와 useCallback()을 사용해서 리렌더링 감소하기\n\nBEFORE\n12345678910111213141516171819function useCounter() &#123;let [count, setCount] = useState(0)let decrement = () =&gt; setCount(count - 1)let increment = () =&gt; setCount(count + 1)return &#123; count, decrement, increment &#125;&#125;let Counter = createContainer(useCounter)function CounterDisplay(props) &#123;let counter = Counter.useContainer()return (    &lt;div&gt;    &lt;button onClick=&#123;counter.decrement&#125;&gt;-&lt;/button&gt;    &lt;p&gt;You clicked &#123;counter.count&#125; times&lt;/p&gt;    &lt;button onClick=&#123;counter.increment&#125;&gt;+&lt;/button&gt;    &lt;/div&gt;)&#125;\n\nAFTER\n1234567891011121314151617181920212223function useCounter() &#123;let [count, setCount] = useState(0)let decrement = useCallback(() =&gt; setCount(count - 1), [count])let increment = useCallback(() =&gt; setCount(count + 1), [count])return &#123; count, decrement, increment &#125;&#125;let Counter = createContainer(useCounter)let CounterDisplayInner = React.memo(props =&gt; &#123;return (    &lt;div&gt;    &lt;button onClick=&#123;props.decrement&#125;&gt;-&lt;/button&gt;    &lt;p&gt;You clicked &#123;props.count&#125; times&lt;/p&gt;    &lt;button onClick=&#123;props.increment&#125;&gt;+&lt;/button&gt;    &lt;/div&gt;)&#125;)function CounterDisplay(props) &#123;let counter = Counter.useContainer()return &lt;CounterDisplayInner &#123;...counter&#125; /&gt;&#125;\n\n\n\n\n\n4. useMemo()로 요소 감싸기\n\nDan Abramov를 통한 방법\n\nBEFORE\n12345678function CounterDisplay(props) &#123;let counter = Counter.useContainer()let count = counter.countreturn (    &lt;p&gt;You clicked &#123;count&#125; times&lt;/p&gt;)&#125;\n\nAFTER\n12345678function CounterDisplay(props) &#123;let counter = Counter.useContainer()let count = counter.countreturn useMemo(() =&gt; (    &lt;p&gt;You clicked &#123;count&#125; times&lt;/p&gt;), [count])&#125;\n\n\n\n\nRelation to Unstated (번역)나는 이 라이브러리가 Unstated의 영적 후계자라고 생각한다. Unstated를 만든 이유는, React가 이미 상태 관리는 굉장히 잘 되어있다고 생각했고, 단지 상태와 로직을 쉽게 공유하는 것이 아쉽다고 생각했기 때문이다. 그래서 나는 React의 상태와 로직 공유를 위한 ‘최소한’의 해결책으로 Unstated를 만들었다.  \n하지만 Hooks로 React는 상태와 로직을 공유하기 더 좋아졌고, Unstated가 불필요한 추상화가 되었다고 생각이 들었다.\n하지만 많은 개발자들이 ‘어플리케이션의 상태’를 위해 React Hooks로 상태와 로직을 공유하는 방법을 찾는 것에 어려움을 겪고 있다고 생각한다. 이는 문서화나 커뮤니티 추진력 문제일 수 있으나, API가 이러한 정신적 격차를 해소하는 데 도움이 될 수 있다고 생각한다.\n앞서 말한 API란 Unstated Next이다. 이제는 “React에서 상태와 로직을 공유하기 위한 최소한의 API” 대신, “React에서 공유되는 상태와 로직을 이해하기 위한 최소한의 API”이다. \n나는 항상 React의 편에 있고, React가 이기길 바란다. 커뮤니티가 Redux와 같은 상태 관리 라이브러리를 포기하고 React의 내장 툴체인을 사용하는 더 나은 방법을 찾고 싶다.\n만약 당신이 Unstated 대신 React 자체만 사용하고 싶다면, 기꺼이 응원하고싶다. 블로그에 그것에 대한 이야기를 쓰고 얘기해줘라! 커뮤니티에 당신의 지식을 전파해라.\n\n\n\nreference: https://github.com/jamiebuilds/unstated-next#1-optimizing-expensive-sub-trees-by-splitting-the-component-apart\n\n","dateCreated":"2020-12-20T17:09:44+09:00","dateModified":"2020-12-20T19:21:42+09:00","datePublished":"2020-12-20T17:09:44+09:00","description":"","headline":"unstated-next","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"http://yoursite.com/2020/12/20/Unstated-next/"},"publisher":{"@type":"Organization","name":"hyerinOh","sameAs":["https://github.com/hyerinOh"],"image":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/7eddae1bd56cccc919c3936745df92a7"}},"url":"http://yoursite.com/2020/12/20/Unstated-next/","keywords":"react, react hooks, state management"}</script>
     <meta name="keywords" content="react,react hooks,state management">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="Unstated Next">
+<meta property="og:title" content="unstated-next">
 <meta property="og:url" content="http://yoursite.com/2020/12/20/Unstated-next/index.html">
 <meta property="og:site_name" content="hyerin.io">
-<meta property="og:locale" content="en">
+<meta property="og:locale" content="ko">
 <meta property="og:image" content="http://yoursite.com/images/diff_unstated-next.png">
-<meta property="og:updated_time" content="2020-12-20T08:39:30.962Z">
+<meta property="og:updated_time" content="2020-12-20T10:21:42.317Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Unstated Next">
+<meta name="twitter:title" content="unstated-next">
 <meta name="twitter:image" content="http://yoursite.com/images/diff_unstated-next.png">
     
     
@@ -71,7 +73,7 @@
             <a
                 class="header-right-picture "
                 href="#about"
-                aria-label="Open the link: /#about"
+                aria-label="링크 열기: /#about"
             >
         
         
@@ -106,11 +108,11 @@
                         <a  class="sidebar-button-link "
                              href="/all-categories"
                             
-                            title="Categories"
+                            title="카테고리"
                         >
                     
                         <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Categories</span>
+                        <span class="sidebar-button-desc">카테고리</span>
                     </a>
             </li>
             
@@ -119,11 +121,11 @@
                         <a  class="sidebar-button-link "
                              href="/all-tags"
                             
-                            title="Tags"
+                            title="태그"
                         >
                     
                         <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Tags</span>
+                        <span class="sidebar-button-desc">태그</span>
                     </a>
             </li>
             
@@ -170,18 +172,18 @@
         <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title">
-            Unstated Next
+            unstated-next
         </h1>
     
     
         <div class="post-meta">
     <time datetime="2020-12-20T17:09:44+09:00">
 	
-		    Dec 20, 2020
+		    2020/12/20
     	
     </time>
     
-        <span>in </span>
+        <span>카테고리 </span>
         
     <a class="category-link" href="/categories/Dev/">Dev</a>, <a class="category-link" href="/categories/Dev/React/">React</a>
 
@@ -418,7 +420,7 @@
     <div id="post-footer" class="post-footer main-content-wrap">
         
             <div class="post-footer-tags">
-                <span class="text-color-light text-small">TAGGED IN</span><br/>
+                <span class="text-color-light text-small">태그</span><br/>
                 
     <a class="tag tag--primary tag--small t-link" href="/tags/react/">react</a> <a class="tag tag--primary tag--small t-link" href="/tags/react-hooks/">react hooks</a> <a class="tag tag--primary tag--small t-link" href="/tags/state-management/">state management</a>
 
@@ -436,7 +438,7 @@
                     >
                         
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
-                        <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                        <span class="hide-xs hide-sm text-small icon-ml">이전</span>
                     </a>
             </li>
             <li class="post-action">
@@ -446,10 +448,10 @@
                     class="post-action-btn btn btn--default tooltip--top"
                     href="/2020/12/15/Issues-JavaScript-04/"
                     data-tooltip="4. 더블 클릭 방지"
-                    aria-label="NEXT: 4. 더블 클릭 방지"
+                    aria-label="다음: 4. 더블 클릭 방지"
                 >
                     
-                        <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                        <span class="hide-xs hide-sm text-small icon-mr">다음</span>
                         <i class="fa fa-angle-right" aria-hidden="true"></i>
                     </a>
             </li>
@@ -460,7 +462,7 @@
             <a
                 class="post-action-btn btn btn--default btn-open-shareoptions"
                 href="#btn-open-shareoptions"
-                aria-label="Share this post"
+                aria-label="이 포스트 공유하기"
             >
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
@@ -472,8 +474,8 @@
                 <a
                     class="post-action-btn btn btn--default"
                     target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2020/12/20/Unstated-next/"
-                    title="Share on Facebook"
-                    aria-label="Share on Facebook"
+                    title="Facebook에 공유하기"
+                    aria-label="Facebook에 공유하기"
                 >
                     <i class="fab fa-facebook" aria-hidden="true"></i>
                 </a>
@@ -485,8 +487,8 @@
                 <a
                     class="post-action-btn btn btn--default"
                     target="new" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2020/12/20/Unstated-next/"
-                    title="Share on Twitter"
-                    aria-label="Share on Twitter"
+                    title="Twitter에 공유하기"
+                    aria-label="Twitter에 공유하기"
                 >
                     <i class="fab fa-twitter" aria-hidden="true"></i>
                 </a>
@@ -498,8 +500,8 @@
                 <a
                     class="post-action-btn btn btn--default"
                     target="new" href="https://plus.google.com/share?url=http://yoursite.com/2020/12/20/Unstated-next/"
-                    title="Share on Google+"
-                    aria-label="Share on Google+"
+                    title="Google+에 공유하기"
+                    aria-label="Google+에 공유하기"
                 >
                     <i class="fab fa-google-plus" aria-hidden="true"></i>
                 </a>
@@ -511,7 +513,7 @@
                     <a
                         class="post-action-btn btn btn--default"
                         href="#disqus_thread"
-                        aria-label="Leave a comment"
+                        aria-label="댓글을 남겨주세요"
                     >
                         <i class="fa fa-comment"></i>
                     </a>
@@ -520,7 +522,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="맨 위로">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -562,7 +564,7 @@
                     >
                         
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
-                        <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                        <span class="hide-xs hide-sm text-small icon-ml">이전</span>
                     </a>
             </li>
             <li class="post-action">
@@ -572,10 +574,10 @@
                     class="post-action-btn btn btn--default tooltip--top"
                     href="/2020/12/15/Issues-JavaScript-04/"
                     data-tooltip="4. 더블 클릭 방지"
-                    aria-label="NEXT: 4. 더블 클릭 방지"
+                    aria-label="다음: 4. 더블 클릭 방지"
                 >
                     
-                        <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                        <span class="hide-xs hide-sm text-small icon-mr">다음</span>
                         <i class="fa fa-angle-right" aria-hidden="true"></i>
                     </a>
             </li>
@@ -586,7 +588,7 @@
             <a
                 class="post-action-btn btn btn--default btn-open-shareoptions"
                 href="#btn-open-shareoptions"
-                aria-label="Share this post"
+                aria-label="이 포스트 공유하기"
             >
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
@@ -598,8 +600,8 @@
                 <a
                     class="post-action-btn btn btn--default"
                     target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2020/12/20/Unstated-next/"
-                    title="Share on Facebook"
-                    aria-label="Share on Facebook"
+                    title="Facebook에 공유하기"
+                    aria-label="Facebook에 공유하기"
                 >
                     <i class="fab fa-facebook" aria-hidden="true"></i>
                 </a>
@@ -611,8 +613,8 @@
                 <a
                     class="post-action-btn btn btn--default"
                     target="new" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2020/12/20/Unstated-next/"
-                    title="Share on Twitter"
-                    aria-label="Share on Twitter"
+                    title="Twitter에 공유하기"
+                    aria-label="Twitter에 공유하기"
                 >
                     <i class="fab fa-twitter" aria-hidden="true"></i>
                 </a>
@@ -624,8 +626,8 @@
                 <a
                     class="post-action-btn btn btn--default"
                     target="new" href="https://plus.google.com/share?url=http://yoursite.com/2020/12/20/Unstated-next/"
-                    title="Share on Google+"
-                    aria-label="Share on Google+"
+                    title="Google+에 공유하기"
+                    aria-label="Google+에 공유하기"
                 >
                     <i class="fab fa-google-plus" aria-hidden="true"></i>
                 </a>
@@ -637,7 +639,7 @@
                     <a
                         class="post-action-btn btn btn--default"
                         href="#disqus_thread"
-                        aria-label="Leave a comment"
+                        aria-label="댓글을 남겨주세요"
                     >
                         <i class="fa fa-comment"></i>
                     </a>
@@ -646,7 +648,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="맨 위로">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -668,9 +670,9 @@
                         class="share-option-btn"
                         target="new"
                         href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2020/12/20/Unstated-next/"
-                        aria-label="Share on Facebook"
+                        aria-label="Facebook에 공유하기"
                     >
-                        <i class="fab fa-facebook" aria-hidden="true"></i><span>Share on Facebook</span>
+                        <i class="fab fa-facebook" aria-hidden="true"></i><span>Facebook에 공유하기</span>
                     </a>
                 </li>
             
@@ -681,9 +683,9 @@
                         class="share-option-btn"
                         target="new"
                         href="https://twitter.com/intent/tweet?text=http://yoursite.com/2020/12/20/Unstated-next/"
-                        aria-label="Share on Twitter"
+                        aria-label="Twitter에 공유하기"
                     >
-                        <i class="fab fa-twitter" aria-hidden="true"></i><span>Share on Twitter</span>
+                        <i class="fab fa-twitter" aria-hidden="true"></i><span>Twitter에 공유하기</span>
                     </a>
                 </li>
             
@@ -694,9 +696,9 @@
                         class="share-option-btn"
                         target="new"
                         href="https://plus.google.com/share?url=http://yoursite.com/2020/12/20/Unstated-next/"
-                        aria-label="Share on Google+"
+                        aria-label="Google+에 공유하기"
                     >
-                        <i class="fab fa-google-plus" aria-hidden="true"></i><span>Share on Google+</span>
+                        <i class="fab fa-google-plus" aria-hidden="true"></i><span>Google+에 공유하기</span>
                     </a>
                 </li>
             
@@ -720,7 +722,7 @@
                                                             </h4>
                                                             
                                                                 <div id="about-card-bio">
-                                                                    <p>내가 보려고 정리하는 블로그</p>
+                                                                    <p>author.bio</p>
 
                                                                 </div>
                                                                 
@@ -728,7 +730,7 @@
                                                                         <div id="about-card-job">
                                                                             <i class="fa fa-briefcase"></i>
                                                                             <br/>
-                                                                            <p>front-end developer</p>
+                                                                            <p>author.job</p>
 
                                                                         </div>
                                                                         
