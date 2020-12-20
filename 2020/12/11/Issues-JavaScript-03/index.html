@@ -13,7 +13,7 @@
         <link rel="icon" href="http://yoursite.com/assets/images/favicon.ico">
     
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"hyerinOh","sameAs":["https://github.com/hyerinOh","hyerinoh1108@gmail.com"],"image":"memoji.jpeg"},"articleBody":"\n\n\n\n정규표현식\n문제 상황 ❗️\n\n\n아이디 찾기, 비밀번호 찾기, 회원가입 등 이름을 입력하는 필드에 한글, 숫자만 허용되도록 하는 것이 의도였음\n\n\n하지만 의도치 않게 | (pipe symbol)도 허용됨​\n\n\n\n\n기존 정규식 \n1/^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣|0-9]&#123;1,20&#125;$/\n\n\n\n| 를 허용하는 것 같이 보였음\n\n\n\n\n\n처음에는 | (pipe symbol)이 특수문자로 인식이 되지 않는 문제인 줄 알았다.\n1/^(?!\"|\")([ㄱ-ㅎㅏ-ㅣ가-힣0-9])&#123;1,20&#125;$/\n\n\nnegative lookahead 를 사용해서 강제로 | (pipe symbol)을 제외하는 조건을 넣음\nnegative lookahead : 특정 조건을 만족하는 문자열을 찾되, 그중에서 제외를 하고싶은 경우 사용\n\n\n\n하지만 OR로 사용되는 줄 알았던 | (pipe symbol)을 제거하기만 해도 문제를 해결할 수 있었음\n1/[ㄱ-ㅎㅏ-ㅣ가-힣0-9]&#123;1,20&#125;$/\n\n\n\n\n\n\n\n\n\n정규표현식 Tip 💁🏻‍\n[ ] 에서 | 는 OR가 아닌 하나의 문자로 인식\n( ) 에서만 |는 OR의 의미를 가진다.\nhttps://regexper.com/ (정규표현식을 도식화해주는 사이트)\n\n","dateCreated":"2020-12-11T15:58:00+09:00","dateModified":"2020-12-13T14:06:46+09:00","datePublished":"2020-12-11T15:58:00+09:00","description":"","headline":"3.정규표현식","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"http://yoursite.com/2020/12/11/Issues-JavaScript-03/"},"publisher":{"@type":"Organization","name":"hyerinOh","sameAs":["https://github.com/hyerinOh","hyerinoh1108@gmail.com"],"image":"memoji.jpeg","logo":{"@type":"ImageObject","url":"memoji.jpeg"}},"url":"http://yoursite.com/2020/12/11/Issues-JavaScript-03/","keywords":"Issues, JavaScript, regex"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"hyerinOh","sameAs":["https://github.com/hyerinOh"],"image":"memoji.jpeg"},"articleBody":"\n\n\n\n정규표현식\n문제 상황 ❗️\n\n\n아이디 찾기, 비밀번호 찾기, 회원가입 등 이름을 입력하는 필드에 한글, 숫자만 허용되도록 하는 것이 의도였음\n\n\n하지만 의도치 않게 | (pipe symbol)도 허용됨​\n\n\n\n\n기존 정규식 \n1/^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣|0-9]&#123;1,20&#125;$/\n\n\n\n| 를 허용하는 것 같이 보였음\n\n\n\n\n\n처음에는 | (pipe symbol)이 특수문자로 인식이 되지 않는 문제인 줄 알았다.\n1/^(?!\"|\")([ㄱ-ㅎㅏ-ㅣ가-힣0-9])&#123;1,20&#125;$/\n\n\nnegative lookahead 를 사용해서 강제로 | (pipe symbol)을 제외하는 조건을 넣음\nnegative lookahead : 특정 조건을 만족하는 문자열을 찾되, 그중에서 제외를 하고싶은 경우 사용\n\n\n\n하지만 OR로 사용되는 줄 알았던 | (pipe symbol)을 제거하기만 해도 문제를 해결할 수 있었음\n1/[ㄱ-ㅎㅏ-ㅣ가-힣0-9]&#123;1,20&#125;$/\n\n\n\n\n\n\n\n\n\n정규표현식 Tip 💁🏻‍\n[ ] 에서 | 는 OR가 아닌 하나의 문자로 인식\n( ) 에서만 |는 OR의 의미를 가진다.\nhttps://regexper.com/ (정규표현식을 도식화해주는 사이트)\n\n","dateCreated":"2020-12-11T15:58:00+09:00","dateModified":"2020-12-13T14:06:46+09:00","datePublished":"2020-12-11T15:58:00+09:00","description":"","headline":"3.정규표현식","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"http://yoursite.com/2020/12/11/Issues-JavaScript-03/"},"publisher":{"@type":"Organization","name":"hyerinOh","sameAs":["https://github.com/hyerinOh"],"image":"memoji.jpeg","logo":{"@type":"ImageObject","url":"memoji.jpeg"}},"url":"http://yoursite.com/2020/12/11/Issues-JavaScript-03/","keywords":"Issues, JavaScript, regex"}</script>
     <meta name="keywords" content="Issues,JavaScript,regex">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="3.정규표현식">
@@ -178,18 +178,6 @@
                     
                         <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">GitHub</span>
-                    </a>
-            </li>
-            
-                <li class="sidebar-button">
-                    
-                        <a  class="sidebar-button-link "
-                             href="/hyerinoh1108@gmail.com"
-                            title="Mail"
-                        >
-                    
-                        <i class="sidebar-button-icon fa fa-envelope" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Mail</span>
                     </a>
             </li>
             

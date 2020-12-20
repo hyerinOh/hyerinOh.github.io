@@ -13,7 +13,7 @@
         <link rel="icon" href="http://yoursite.com/assets/images/favicon.ico">
     
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"hyerinOh","sameAs":["https://github.com/hyerinOh","hyerinoh1108@gmail.com"],"image":"memoji.jpeg"},"articleBody":"\n\n\n\n컴포넌트에 생략할 수 있는 props 설정하기\n문제 상황 !props 중에서 받아올 필요가 없는 것들이나 함수 타입의 props를 어떻게 받아올지가 문제였음\n\n\n컴포넌트의 props 중에서 생략해도 되는 값이 있을 때 : ?붙이기\n12345type sampleProps = &#123;  name: string;  age: number;  email?: string;&#125;;\n\n컴포넌트에서 함수 타입 props 받기\n123456type sampleProps = &#123;  name: string;  age: number;  email?: string;  onClick: (name: string) =&gt; void; // 아무것도 리턴하지 않는 함수 의미&#125;;\n\n\n\n","dateCreated":"2020-02-16T11:34:31+09:00","dateModified":"2020-12-13T14:08:12+09:00","datePublished":"2020-02-16T11:34:31+09:00","description":"","headline":"2.omittable props","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"http://yoursite.com/2020/02/16/Issues-TypeScript-02/"},"publisher":{"@type":"Organization","name":"hyerinOh","sameAs":["https://github.com/hyerinOh","hyerinoh1108@gmail.com"],"image":"memoji.jpeg","logo":{"@type":"ImageObject","url":"memoji.jpeg"}},"url":"http://yoursite.com/2020/02/16/Issues-TypeScript-02/","keywords":"Issues, React, TypeScript"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"hyerinOh","sameAs":["https://github.com/hyerinOh"],"image":"memoji.jpeg"},"articleBody":"\n\n\n\n컴포넌트에 생략할 수 있는 props 설정하기\n문제 상황 !props 중에서 받아올 필요가 없는 것들이나 함수 타입의 props를 어떻게 받아올지가 문제였음\n\n\n컴포넌트의 props 중에서 생략해도 되는 값이 있을 때 : ?붙이기\n12345type sampleProps = &#123;  name: string;  age: number;  email?: string;&#125;;\n\n컴포넌트에서 함수 타입 props 받기\n123456type sampleProps = &#123;  name: string;  age: number;  email?: string;  onClick: (name: string) =&gt; void; // 아무것도 리턴하지 않는 함수 의미&#125;;\n\n\n\n","dateCreated":"2020-02-16T11:34:31+09:00","dateModified":"2020-12-13T14:08:12+09:00","datePublished":"2020-02-16T11:34:31+09:00","description":"","headline":"2.omittable props","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"http://yoursite.com/2020/02/16/Issues-TypeScript-02/"},"publisher":{"@type":"Organization","name":"hyerinOh","sameAs":["https://github.com/hyerinOh"],"image":"memoji.jpeg","logo":{"@type":"ImageObject","url":"memoji.jpeg"}},"url":"http://yoursite.com/2020/02/16/Issues-TypeScript-02/","keywords":"Issues, React, TypeScript"}</script>
     <meta name="keywords" content="Issues,React,TypeScript">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="2.omittable props">
@@ -175,18 +175,6 @@
                     
                         <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">GitHub</span>
-                    </a>
-            </li>
-            
-                <li class="sidebar-button">
-                    
-                        <a  class="sidebar-button-link "
-                             href="/hyerinoh1108@gmail.com"
-                            title="Mail"
-                        >
-                    
-                        <i class="sidebar-button-icon fa fa-envelope" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Mail</span>
                     </a>
             </li>
             

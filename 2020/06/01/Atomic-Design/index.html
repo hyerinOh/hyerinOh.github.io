@@ -13,7 +13,7 @@
         <link rel="icon" href="http://yoursite.com/assets/images/favicon.ico">
     
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"hyerinOh","sameAs":["https://github.com/hyerinOh","hyerinoh1108@gmail.com"],"image":"memoji.jpeg"},"articleBody":"\n\n\n\n\n참고:\nhttps://ui.toast.com/weekly-pick/ko_20200213/\n\n\n\nAtomic Design Pattern아토믹 디자인 패턴이란?\nUI를 작고 단순한 요소로 분리하는 개념이며, 일관된 UI를 만들고 유지보수성을 향상시켜주는 패턴\n\n아토믹 디자인 core concept\nAtoms(원자): 버튼, 제목, 테스트 입력 필드와 같은 가장 작은 구성 컴포넌트. 더 이상 분해될 수 없는 필수 요소. \nMolecules(분자): 2개 이상의 원자로 구성. 하나의 단위로 함께 동작하는 UI 컴포넌트들의 단순한 그룹. ex) text box + button\nOrganisms(유기체) : 분자, 원자 또는 다른 유기체 그룹으로 구성된 비교적 복잡한 그룹. 인터페이스의 개별적인 영역을 형성\ntemplates(템플릿) : 컴포넌트들을 배치하고 설계의 구조를 보여줌. 페이지가 어떻게 보일지에 대한 골격 구조. \npages(페이지) : 실제 컨텐츠들을 배치한 UI를 보여줌. 템플릿의 구체화된 인스턴스.\n\n자주 발생하는 이슈\n비즈니스 로직에 의존하는 내부 상태를 사용하는 컴포넌트들은 어떻게 해야하나? (ex: 드롭다운 버튼의 열림, 닫힘)\n내부 상태를 어플리케이션의 비즈니스 로직에서 분리하는 것이 중요\n컴포넌트들은 오직 props의 업데이트로 인해 업데이트되는 dumb component 와 같다.\n\n\n\n장점\n어플리케이션과 분리하여 컴포넌트를 개발하고 테스트할 수 있음\n통합 개발을 할 때 백엔드 어플리케이션의 로직에 의존하지 않는다.\n일련의 패턴이 확립되면 설계 변경이 필요한 경우에 대비하여 더 빠르고 유연성 있는 빌드 프로세스를 가질 수 있다.\n기존의 컴포넌트들을 재사용하고 있기 때문에 디자인을 일관성있게 통일할 수 있다.\n특정 컴포넌트에 CSS가 강하게 결합되어 있기 때문에 CSS를 훨씬 잘 관리할 수 있다.\n\n단점\n컴포넌트가 분리되어 있고 상위 컨테이너 컴포넌트의 사이즈를 결정할 수 없을 경우 미디어쿼리를 사용하기 어렵다.\n컴포넌트는 너비에 대해 알 수 없기 때문에 실제 페이지의 사이즈가 변경될 때 크기가 조정된다.\n이 문제는 크기를 조정할 수 있는 flex, grid 와 같은 CSS 속성을 구현한 레이아웃 컴포넌트를 도입하여 해결 가능\n\n\n\n","dateCreated":"2020-06-01T17:09:44+09:00","dateModified":"2020-06-02T12:24:25+09:00","datePublished":"2020-06-01T17:09:44+09:00","description":"","headline":"Atomic Design","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"http://yoursite.com/2020/06/01/Atomic-Design/"},"publisher":{"@type":"Organization","name":"hyerinOh","sameAs":["https://github.com/hyerinOh","hyerinoh1108@gmail.com"],"image":"memoji.jpeg","logo":{"@type":"ImageObject","url":"memoji.jpeg"}},"url":"http://yoursite.com/2020/06/01/Atomic-Design/","keywords":"react, components, design-patterns, atomic-design"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"hyerinOh","sameAs":["https://github.com/hyerinOh"],"image":"memoji.jpeg"},"articleBody":"\n\n\n\n\n참고:\nhttps://ui.toast.com/weekly-pick/ko_20200213/\n\n\n\nAtomic Design Pattern아토믹 디자인 패턴이란?\nUI를 작고 단순한 요소로 분리하는 개념이며, 일관된 UI를 만들고 유지보수성을 향상시켜주는 패턴\n\n아토믹 디자인 core concept\nAtoms(원자): 버튼, 제목, 테스트 입력 필드와 같은 가장 작은 구성 컴포넌트. 더 이상 분해될 수 없는 필수 요소. \nMolecules(분자): 2개 이상의 원자로 구성. 하나의 단위로 함께 동작하는 UI 컴포넌트들의 단순한 그룹. ex) text box + button\nOrganisms(유기체) : 분자, 원자 또는 다른 유기체 그룹으로 구성된 비교적 복잡한 그룹. 인터페이스의 개별적인 영역을 형성\ntemplates(템플릿) : 컴포넌트들을 배치하고 설계의 구조를 보여줌. 페이지가 어떻게 보일지에 대한 골격 구조. \npages(페이지) : 실제 컨텐츠들을 배치한 UI를 보여줌. 템플릿의 구체화된 인스턴스.\n\n자주 발생하는 이슈\n비즈니스 로직에 의존하는 내부 상태를 사용하는 컴포넌트들은 어떻게 해야하나? (ex: 드롭다운 버튼의 열림, 닫힘)\n내부 상태를 어플리케이션의 비즈니스 로직에서 분리하는 것이 중요\n컴포넌트들은 오직 props의 업데이트로 인해 업데이트되는 dumb component 와 같다.\n\n\n\n장점\n어플리케이션과 분리하여 컴포넌트를 개발하고 테스트할 수 있음\n통합 개발을 할 때 백엔드 어플리케이션의 로직에 의존하지 않는다.\n일련의 패턴이 확립되면 설계 변경이 필요한 경우에 대비하여 더 빠르고 유연성 있는 빌드 프로세스를 가질 수 있다.\n기존의 컴포넌트들을 재사용하고 있기 때문에 디자인을 일관성있게 통일할 수 있다.\n특정 컴포넌트에 CSS가 강하게 결합되어 있기 때문에 CSS를 훨씬 잘 관리할 수 있다.\n\n단점\n컴포넌트가 분리되어 있고 상위 컨테이너 컴포넌트의 사이즈를 결정할 수 없을 경우 미디어쿼리를 사용하기 어렵다.\n컴포넌트는 너비에 대해 알 수 없기 때문에 실제 페이지의 사이즈가 변경될 때 크기가 조정된다.\n이 문제는 크기를 조정할 수 있는 flex, grid 와 같은 CSS 속성을 구현한 레이아웃 컴포넌트를 도입하여 해결 가능\n\n\n\n","dateCreated":"2020-06-01T17:09:44+09:00","dateModified":"2020-06-02T12:24:25+09:00","datePublished":"2020-06-01T17:09:44+09:00","description":"","headline":"Atomic Design","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"http://yoursite.com/2020/06/01/Atomic-Design/"},"publisher":{"@type":"Organization","name":"hyerinOh","sameAs":["https://github.com/hyerinOh"],"image":"memoji.jpeg","logo":{"@type":"ImageObject","url":"memoji.jpeg"}},"url":"http://yoursite.com/2020/06/01/Atomic-Design/","keywords":"react, components, design-patterns, atomic-design"}</script>
     <meta name="keywords" content="react,components,design-patterns,atomic-design">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="Atomic Design">
@@ -175,18 +175,6 @@
                     
                         <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">GitHub</span>
-                    </a>
-            </li>
-            
-                <li class="sidebar-button">
-                    
-                        <a  class="sidebar-button-link "
-                             href="/hyerinoh1108@gmail.com"
-                            title="Mail"
-                        >
-                    
-                        <i class="sidebar-button-icon fa fa-envelope" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Mail</span>
                     </a>
             </li>
             

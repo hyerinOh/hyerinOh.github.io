@@ -13,7 +13,7 @@
         <link rel="icon" href="http://yoursite.com/assets/images/favicon.ico">
     
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"hyerinOh","sameAs":["https://github.com/hyerinOh","hyerinoh1108@gmail.com"],"image":"memoji.jpeg"},"articleBody":"\n\n\n\n자바스크립트\n싱글 쓰레드 언어 (single threaded single concurrent language)\n콜스택이 한 개\n한 번에 한 가지 일 밖에 못한다는 뜻\n\nTerminologies\nCall stack\n\n\n함수의 호출을 기록하는 자료구조\n함수를 실행하라고 호출하면 스택에 함수를 push하고 함수로부터 리턴값이 나오면 스택의 처음에서부터 pop\nMax stack Error : 크롬에서 최대 16,000 프레임을 스택에 담을 수 있도록 지정해놓았기 때문에 스택에 넣을 수 있는 수가 초과되면 Max Stack Error가 난다.\n\n\nHeap\n\n\n변수와 객체들의 메모리 할당이 일어나는 곳\n\n\nQueue\n\n\n자바스크립트 런타임은 진행되어야하는 메시지들의 리스트와 실행되도록 할당된 콜백 함수들의 메시지 queue를 포함\n비동기상황일 때 (마우스클릭, http 요청 응답 등) queue에 들어가서 기다리고있다가 콜스택이 비면 queue에서 메시지를 꺼내서 스택에 담는다.\n\nEvent Loop\n코드가 실행될 때 console.log()같은 것들은 빠르게 실행되지만, for문이나 while문이 천 번, 만 번 돌게 되면 스택에 오랫동안 머물게되고 blocked되게 만든다. 이러한 것을 blocking script라고 말한다.\n만약 동기적으로 실행된다면 네트워크 요청의 응답을 기다리는동안 다른 작업을 아무것도 할 수 없게 된다.\n이러한 현상을 막기 위해 비동기 함수(Asynchronous function)가 존재한다. 비동기함수들은 동기함수들과 달리 바로 스택으로 들어가지 않는다. DOM events, http request, setTimeout의 콜백함수들은 webAPIs(브라우저가 제공)로 보내지고, 해당 콜백 함수가 실행되면 콜백함수가 Queue로 넘어간다. 이때 Event Loop는 call stack과 Queue 두 가지를 모두 보고있다가 call stack이 비면 Queue의 첫번째 콜백함수를 stack으로 넘긴다.\n\n\n","dateCreated":"2019-07-18T00:00:00+09:00","dateModified":"2019-09-16T01:11:59+09:00","datePublished":"2019-07-18T00:00:00+09:00","description":"","headline":"1. Call Stack","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"http://yoursite.com/2019/07/18/call-stack/"},"publisher":{"@type":"Organization","name":"hyerinOh","sameAs":["https://github.com/hyerinOh","hyerinoh1108@gmail.com"],"image":"memoji.jpeg","logo":{"@type":"ImageObject","url":"memoji.jpeg"}},"url":"http://yoursite.com/2019/07/18/call-stack/","keywords":"javascript, 33-js-concepts, call stack"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"hyerinOh","sameAs":["https://github.com/hyerinOh"],"image":"memoji.jpeg"},"articleBody":"\n\n\n\n자바스크립트\n싱글 쓰레드 언어 (single threaded single concurrent language)\n콜스택이 한 개\n한 번에 한 가지 일 밖에 못한다는 뜻\n\nTerminologies\nCall stack\n\n\n함수의 호출을 기록하는 자료구조\n함수를 실행하라고 호출하면 스택에 함수를 push하고 함수로부터 리턴값이 나오면 스택의 처음에서부터 pop\nMax stack Error : 크롬에서 최대 16,000 프레임을 스택에 담을 수 있도록 지정해놓았기 때문에 스택에 넣을 수 있는 수가 초과되면 Max Stack Error가 난다.\n\n\nHeap\n\n\n변수와 객체들의 메모리 할당이 일어나는 곳\n\n\nQueue\n\n\n자바스크립트 런타임은 진행되어야하는 메시지들의 리스트와 실행되도록 할당된 콜백 함수들의 메시지 queue를 포함\n비동기상황일 때 (마우스클릭, http 요청 응답 등) queue에 들어가서 기다리고있다가 콜스택이 비면 queue에서 메시지를 꺼내서 스택에 담는다.\n\nEvent Loop\n코드가 실행될 때 console.log()같은 것들은 빠르게 실행되지만, for문이나 while문이 천 번, 만 번 돌게 되면 스택에 오랫동안 머물게되고 blocked되게 만든다. 이러한 것을 blocking script라고 말한다.\n만약 동기적으로 실행된다면 네트워크 요청의 응답을 기다리는동안 다른 작업을 아무것도 할 수 없게 된다.\n이러한 현상을 막기 위해 비동기 함수(Asynchronous function)가 존재한다. 비동기함수들은 동기함수들과 달리 바로 스택으로 들어가지 않는다. DOM events, http request, setTimeout의 콜백함수들은 webAPIs(브라우저가 제공)로 보내지고, 해당 콜백 함수가 실행되면 콜백함수가 Queue로 넘어간다. 이때 Event Loop는 call stack과 Queue 두 가지를 모두 보고있다가 call stack이 비면 Queue의 첫번째 콜백함수를 stack으로 넘긴다.\n\n\n","dateCreated":"2019-07-18T00:00:00+09:00","dateModified":"2019-09-16T01:11:59+09:00","datePublished":"2019-07-18T00:00:00+09:00","description":"","headline":"1. Call Stack","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"http://yoursite.com/2019/07/18/call-stack/"},"publisher":{"@type":"Organization","name":"hyerinOh","sameAs":["https://github.com/hyerinOh"],"image":"memoji.jpeg","logo":{"@type":"ImageObject","url":"memoji.jpeg"}},"url":"http://yoursite.com/2019/07/18/call-stack/","keywords":"javascript, 33-js-concepts, call stack"}</script>
     <meta name="keywords" content="javascript,33-js-concepts,call stack">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="1. Call Stack">
@@ -177,18 +177,6 @@
                     
                         <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">GitHub</span>
-                    </a>
-            </li>
-            
-                <li class="sidebar-button">
-                    
-                        <a  class="sidebar-button-link "
-                             href="/hyerinoh1108@gmail.com"
-                            title="Mail"
-                        >
-                    
-                        <i class="sidebar-button-icon fa fa-envelope" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Mail</span>
                     </a>
             </li>
             
