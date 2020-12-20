@@ -13,7 +13,7 @@
         <link rel="icon" href="http://yoursite.com/assets/images/favicon.ico">
     
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"hyerinOh","sameAs":["https://github.com/hyerinOh","hyerinoh1108@gmail.com"],"image":"favicon.ico"},"articleBody":"\n\n\n\n더블 클릭 방지\n문제 상황 ❗️\n\n\n더블 클릭 방지 = 이미 요청된 상황에서 재요청을 방지하겠다는 것\n\n\n만약 debounce로 구현하면, 인터넷 속도가 느린 환경에서는 특정 시간이 넘으면 사용자가 몇 번이고 더 호출할 수 있는 이슈가 생김\n\n​\nDebouce( ) 는? 🤔​\n\n처음 요청과 마지막 요청 중 한 번만 호출\n이벤트가 끝난 후 호출\nex ) input 입력, 브라우저 리사이즈 등에 적합\n\n\n\ncf) throttle( ) 은? 🤔​\n\n이벤트가 발생하면 일정 주기로 계속 호출\n이벤트 중간 중간 호출\nex ) 무한 스크롤 등에 적합​\n\n\n​\n그렇다면 재요청 방지(or 더블 클릭) 에 적합한 방법은? 🤔\n일반적인 방법 : loading 상태를 사용\n\napollo Hooks의 useMutation()는 배열을 리턴하는데, 첫 번째 원소는 mutation을 호출해야하는 순간에 호출해야하는 함수, 두 번째 원소는 error, loading(로딩 여부)이 들어있는 객체이다.\n123const [verifyCertNum, &#123;loading, error&#125;] = useVerifyCertNumMutation(&#123;    client: ApolloUser,  &#125;);\n\n쿼리가 실행 중이라 보여줄 데이터가 아직 없을 때 loading 값이 true\n\nloading은 유저가 mutation 실행 중에 입력 필드나 버튼을 사용할 수 없도록 disabled 할 때 사용할 수 있음\n1&lt;input disabled=&#123;loading&#125; /&gt;\n\nerror는 mutation 실행이 실패했을 때 입력 필드 주변에 오류 정보를 보여주기 위해 사용\n\n버튼을 눌렀을 때 data를 받아오기 전 loading 상태가 true일 경우에는 return 시켜서 여러번 서버를 호출하는 것을 막는다\n\n\n\n\n","dateCreated":"2020-12-15T14:50:00+09:00","dateModified":"2020-12-16T23:02:16+09:00","datePublished":"2020-12-15T14:50:00+09:00","description":"","headline":"4. 더블 클릭 방지","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"http://yoursite.com/2020/12/15/Issues-JavaScript-04/"},"publisher":{"@type":"Organization","name":"hyerinOh","sameAs":["https://github.com/hyerinOh","hyerinoh1108@gmail.com"],"image":"favicon.ico","logo":{"@type":"ImageObject","url":"favicon.ico"}},"url":"http://yoursite.com/2020/12/15/Issues-JavaScript-04/","keywords":"Issues, JavaScript, Apollo Hooks, debounce, throttle"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"hyerinOh","sameAs":["https://github.com/hyerinOh","hyerinoh1108@gmail.com"],"image":"memoji.jpeg"},"articleBody":"\n\n\n\n더블 클릭 방지\n문제 상황 ❗️\n\n\n더블 클릭 방지 = 이미 요청된 상황에서 재요청을 방지하겠다는 것\n\n\n만약 debounce로 구현하면, 인터넷 속도가 느린 환경에서는 특정 시간이 넘으면 사용자가 몇 번이고 더 호출할 수 있는 이슈가 생김\n\n​\nDebouce( ) 는? 🤔​\n\n처음 요청과 마지막 요청 중 한 번만 호출\n이벤트가 끝난 후 호출\nex ) input 입력, 브라우저 리사이즈 등에 적합\n\n\n\ncf) throttle( ) 은? 🤔​\n\n이벤트가 발생하면 일정 주기로 계속 호출\n이벤트 중간 중간 호출\nex ) 무한 스크롤 등에 적합​\n\n\n​\n그렇다면 재요청 방지(or 더블 클릭) 에 적합한 방법은? 🤔\n일반적인 방법 : loading 상태를 사용\n\napollo Hooks의 useMutation()는 배열을 리턴하는데, 첫 번째 원소는 mutation을 호출해야하는 순간에 호출해야하는 함수, 두 번째 원소는 error, loading(로딩 여부)이 들어있는 객체이다.\n123const [verifyCertNum, &#123;loading, error&#125;] = useVerifyCertNumMutation(&#123;    client: ApolloUser,  &#125;);\n\n쿼리가 실행 중이라 보여줄 데이터가 아직 없을 때 loading 값이 true\n\nloading은 유저가 mutation 실행 중에 입력 필드나 버튼을 사용할 수 없도록 disabled 할 때 사용할 수 있음\n1&lt;input disabled=&#123;loading&#125; /&gt;\n\nerror는 mutation 실행이 실패했을 때 입력 필드 주변에 오류 정보를 보여주기 위해 사용\n\n버튼을 눌렀을 때 data를 받아오기 전 loading 상태가 true일 경우에는 return 시켜서 여러번 서버를 호출하는 것을 막는다\n\n\n\n\n","dateCreated":"2020-12-15T14:50:00+09:00","dateModified":"2020-12-16T23:02:16+09:00","datePublished":"2020-12-15T14:50:00+09:00","description":"","headline":"4. 더블 클릭 방지","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"http://yoursite.com/2020/12/15/Issues-JavaScript-04/"},"publisher":{"@type":"Organization","name":"hyerinOh","sameAs":["https://github.com/hyerinOh","hyerinoh1108@gmail.com"],"image":"memoji.jpeg","logo":{"@type":"ImageObject","url":"memoji.jpeg"}},"url":"http://yoursite.com/2020/12/15/Issues-JavaScript-04/","keywords":"Issues, JavaScript, Apollo Hooks, debounce, throttle"}</script>
     <meta name="keywords" content="Issues,JavaScript,Apollo Hooks,debounce,throttle">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="4. 더블 클릭 방지">
@@ -28,7 +28,7 @@
         
     
     
-        <meta property="og:image" content="http://yoursite.com/assets/images/favicon.ico"/>
+        <meta property="og:image" content="http://yoursite.com/assets/images/memoji.jpeg"/>
     
     
     
@@ -80,7 +80,7 @@
             >
         
         
-            <img class="header-picture" src="/assets/images/favicon.ico" alt="Author&#39;s picture"/>
+            <img class="header-picture" src="/assets/images/memoji.jpeg" alt="Author&#39;s picture"/>
         
         </a>
     
@@ -101,7 +101,7 @@
                     href="/#about"
                     aria-label="Read more about the author"
                 >
-                    <img class="sidebar-profile-picture" src="/assets/images/favicon.ico" alt="Author&#39;s picture"/>
+                    <img class="sidebar-profile-picture" src="/assets/images/memoji.jpeg" alt="Author&#39;s picture"/>
                 </a>
                 <h4 class="sidebar-profile-name">hyerinOh</h4>
                 
@@ -595,7 +595,7 @@
                                                         <i class="fa fa-times"></i>
                                                     </div>
                                                     
-                                                        <img id="about-card-picture" src="/assets/images/favicon.ico" alt="Author&#39;s picture" />
+                                                        <img id="about-card-picture" src="/assets/images/memoji.jpeg" alt="Author&#39;s picture" />
                                                         
                                                             <h4 id="about-card-name">
                                                                 hyerinOh
