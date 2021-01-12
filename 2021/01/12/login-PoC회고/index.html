@@ -1,0 +1,941 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="hyerin.io">
+    <title>React + Unstated-next로 간단한 플젝 만드기 - hyerin.io</title>
+    <meta name="author" content="hyerinOh">
+    
+    
+        <link rel="icon" href="http://yoursite.com/assets/images/favicon.ico">
+    
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"hyerinOh","sameAs":["https://github.com/hyerinOh"],"image":"memoji.jpeg"},"articleBody":"\n\n\n\n\n\nReact + Unstated-next로 간단한 플젝 만드기 &nbsp;🚀​\nReact 프로젝트 초기 설정 &nbsp; 🛠​create-react-app 사용​\n\nWebpack 설정 vs create-react-app\n\ncreate-react-app의 webpack\n\n참고 : https://medium.com/wasd/create-react-app-%EC%9D%98-webpack-config-js-%EB%93%A4%EC%97%AC%EB%8B%A4%EB%B3%B4%EA%B8%B0-78e40bf37313\nreact-scripts eject : 숨겨진 설정 파일을 추출하는 명령어\nconfig, scripts 폴더 나타나고 package.json 파일에 모든 dependency 와 babel, jest 설정 코드가 드러남\ncra와 eject 쓰는 이유\n\n\n참고 : https://medium.com/@jsh901220/create-react-app%EC%97%90%EC%84%9C-eject%EC%82%AC%EC%9A%A9%EC%95%88%ED%95%98%EA%B8%B0-customize-cra-react-app-rewired-10a83522ace0\n\n\n첫 번째 시도​\n  1npx create-react-app login-poc --typescript\n\n--typescript를 붙였음에도 typescript 설치를 못하고 js로 설치됨\n\n\n​\n\n두 번째 시도​1npx create-react-app login-poc --template typescript\n\n\n\n​\n\n참고 : https://velog.io/@_jouz_ryul/CRA%EB%A1%9C-typescript-%EA%B0%9C%EB%B0%9C%ED%99%98%EA%B2%BD-%EC%84%A4%EC%A0%95%ED%95%98%EA%B8%B0​\n\ncra 공식 깃헙에서도 --template typescript 가 공식 타입스크립트 템플릿이라고 함\n\nhttps://github.com/facebook/create-react-app/tree/master/packages/cra-template-typescript\n\n\n\n\n12345npx create-react-app my-app --template typescript# oryarn create react-app my-app --template typescript\n\n\n\n\n\n❗ 예전에는 --typescript를 붙이면 됐는데 --template 형식으로 바꼈나보다!\n\n\n​\neslint 설정 &nbsp; 🛠​\n\neslint 설치\n\n@typescript-eslint/parser 설치 : eslint가 typescript를 lint 할 수 있도록 해줌\n\n@typescript-eslint/eslint-plugin : typescript에 구체화된 eslint rule을 포함한 플러그인 설치​\n1yarn add eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin --dev\n\ndevDependencies에 추가하고 싶으면 뒤에 --dev or yarn add -D​\n\n\n\n\n\n\n\n⁉️ &nbsp; 이슈​tsconfig 의 jsx 부분에서 이슈가 있었는데    ​\n\nSpecify JSX code generation: &#39;preserve&#39;, &#39;react&#39;, &#39;react-jsx&#39;, &#39;react-jsxdev&#39; or&#39;react-native&#39;. Requires TypeScript version 2.2 or later.  \n\nVScode의 이슈였당.. ​\n\nhttps://www.typescriptlang.org/docs/handbook/jsx.html\n\nhttps://stackoverflow.com/questions/64974648/problem-with-visual-studio-code-using-react-jsx-as-jsx-value-with-create-react\n\nThis is because VSCode’s Typescript version is not using the newest babel features that create-react-app uses by default.\n\ncommand + shift + p 에서 typescript: select typescript version 에서 useWorkspace version 선택\n\n\n\n​\nPrettier 설정 &nbsp; 🛠​\n\n참고: https://flamingotiger.github.io/javascript/eslint-setup/\nprettierrc 설정 후 IDE에서도 설정\nvscode인 경우 settings.json\n\n\n​\n환경 변수 설정 &nbsp; 🛠​\n\n참고 : https://create-react-app.dev/docs/adding-custom-environment-variables/​\n\n환경변수​\n\n참고:​\n\nhttps://cosmosproject2015.tistory.com/200\nhttps://velog.io/@public_danuel/process-env-on-node-js​\n\n\n환경변수 : 환경(특정 process)의 조건을 정하는 것​\n\nNode.js 기반 : process.env[key] 형태​\n\nex) process.env.NODE_ENV​\n\n크로스 플랫폼 환경변수 설정​\n\n크로스 플랫폼 :  컴퓨터 프로그램, 운영 체제, 컴퓨터 언어, 프로그래밍 언어, 컴퓨터 소프트웨어 등이 여러 종류의 컴퓨터 플랫폼에서 동작할 수 있다는 것을 뜻하는 용어\ndotenv 라이브러리\n미리 작성해놓은 .env 파일을 환경변수에 대신 설정해주는 기능\n\n\ncross-env 라이브러리\n프로그램을 CLI 환경에서 실행시킬 때 환경변수를 설정하는 기능\n1개의 진입점으로도 상황에 맞게 환경변수를 사용할 수 있음​\n\n\n\n\ncreate-react-app 기반​\n\n참고​\n\nhttps://lofty87.github.io/nodejs/react/20190805/create-react-app-environment-variable\nhttps://create-react-app.dev/docs/adding-custom-environment-variables/\nhttp://lemonja.blogspot.com/2018/08/reactjs-cra.html​\n\n\nroot 폴더에 .env 파일 추가​\n\n파일 안에 REACT_APP_변수명 으로 변수 생성해서 사용​\n\n변수명은 무조건 REACT_APP_ 으로 시작해야 함​\n\n\n사용예시 \n123&lt;div&gt;&#123;process.env.REACT_APP_변수명&#125;&lt;/div&gt;\n\n\n​development 환경일 때와 production 환경일 때 다른 api 주소를 가지도록 하려면​\n\nroot 폴더에\n.env.dev 혹은 .env.development = 개발 환경\n.env.prod 혹은 .env.production = 배포 환경\n\n\n이 외에도 .env.test, .env.local 등이 있음\n\n\npackage.json 의 scripts에 따라 불러오는 .env 파일 결정. 뒤로 갈 수록 우선순위 낮아짐\n\nnpm start : .env.development.local, .env.development, .env.local, .env\nnpm run build : .env.production.local, .env.production, env.local, .env\nnpm test : .env.test.local, .env.test, .env\n\n\n\n\n\n\n\n\n\n\n\n\n​\nUnstated-next 설치 &nbsp; 🛠​\n\nyarn add unstated-next\n튜토리얼 : https://css-tricks.com/managing-state-in-react-using-unstated-next/\n\n\n​\nApollo/client 설치 &nbsp; 🛠​\n\nApolloClient를 생성하려면 uri가 필요한데, 고정적인 값이 아닌 환경에 따라 다른 값이 들어가야함\ncra에서 환경변수를 설정하는 방법\nAdding Custom Environment Variables 참고\n\n\n\n\nAxios 설치 &nbsp; 🛠​\n\napollo/client를 위해 설정한 환경변수가 root에 .env.development 이런 식으로 되어있는데, axios의 base url은 apollo거랑은 다름\n\n.env.development에 이렇게 환경변수 이름을 다르게 줌​12REACT_APP_APOLLO_BASE_URL=&apos;https://url주소&apos;REACT_APP_AXIOS_BASE_URL=&apos;https://url 주소&apos;\n\n\n\n\n\n​\n\n유연한 axios 인스턴스 만들기\n\n\nhttps://laravel-news.com/building-flexible-axios-clients​\ntypescript class의 private 변수는?​\nhttps://hyunseob.github.io/2016/10/17/typescript-class/​\n클래스 내부에서만 접근할 수 있으며 내부 인터페이스를 구성할 때 쓰이는 변수​\n\n\n\n\nRouter 설정 &nbsp; 🛠​\n\ncreate-react-app에는 routing을 위한 로직이 없기 때문에 react router를 따로 설치해줘야 함\n\nrouting : 다른 주소에 따라 다른 뷰를 보여주는 것​\n\n참고 : https://jeonghwan-kim.github.io/dev/2019/07/08/react-router-ts.html​\n\nyarn add react-router-dom​\n\nyarn add -D @types/react-router-dom : react-router-dom의 type 정의 라이브러리​\n\n&lt;BrowserRouter /&gt; : HTML5 히스토리 API를 사용하여 주소를 관리하는 라우터\n&lt;Switch /&gt;: 하위에  중 하나를 선택\n&lt;Route /&gt; : 요청 경로와 렌더링할 컴포넌트를 설정\n&lt;Redirect /&gt; : 요청 경로를 다른 경로롤 리다이렉션​\n\n\npage &gt; index.ts 에서 Home 컴포넌트 lazy 로딩​\n\nlazy loading 왜?​\n\nReact의 lazy는 코드분할 을 하도록 해주는데, 코드 분할을 하면 사용자가 필요로 하지 않는 코드를 불러오지 않게 해주어서 앱의 초기 로딩에 필요한 비용을 줄여준다.​\n\n\n참고​\n\nhttps://ko.reactjs.org/docs/code-splitting.html​\n\nReact.lazy + Suspense​\n\nReact.lazy​\n\n컴포넌트를 렌더링하는 시점에서 비동기적으로 로딩할 수 있게 해주는 util 함수\n동적 import를 사용해서 컴포넌트를 렌더링 \nReact 컴포넌트를 포함하며 default export를 가진 모듈로 결정되는 Promise로 반환\nlazy 컴포넌트는 Suspense 컴포넌트 하위에서 렌더링되어야 함.​\n\n\nSuspense​\n\n리액트 내장 컴포넌트​\n\n코드 분할 된 컴포넌트(lazy 컴포넌트)를 로딩하도록 해주고 로딩이 끝나지 않았을 때 보여줄 UI(예비 컨텐츠)를 설정할 수 있음​\n\n1&lt;Suspense fallback=&#123;&lt;div&gt;loading...&lt;/div&gt;&#125;\n\nfallback props를 통해 로딩 중에 보여 줄 JSX를 지정할 수 있음\n\n\n\n\n\n\n\n\n\n\n​\n⁉️ &nbsp; 이슈\nApp.tsx 에서  만들어주고 routes를 map으로 돌리는 과정에서 key 값을 uuid 라는 라이브러리를 사용해서 유니크한 값을 사용하려고 했는데   에러 발생​\n ‘uuid’ should be listed in the project’s dependencies. Run ‘npm i -S uuid’ to add it  import/no-extraneous-dependencies​\n\n@types/uuid 만 설치해주면 되는 줄 알았는데  uuid 도 설치했어야했다. \n@types는 자바스크립트 라이브러리를 타입스크립트 추론이 가능하도록 도와주는 보조 라이브러리​\n\n\n\n\n\nUnstated-Next 구조 잡기 &nbsp; 🛠​\n\n참고 \n\nhttps://blog.logrocket.com/state-management-with-unstated-next/\nhttps://css-tricks.com/managing-state-in-react-using-unstated-next/\n\n\n\n\n최상위인 App.tsx에서 container를 내려주는 것이 아니라 해당 container가 필요한 컴포넌트에서만 받을 수있도록 컴포넌트를 감싸는 상위 컴포넌트에서 Provider로 내려주고 container 값이 필요한 컴포넌트에서 useContainer로 받아와서 상태 값을 사용하도록 만들었다.\n\n\n\n​\nNode-sass 설치 &nbsp; 🛠​\n⁉️ &nbsp; 이슈​\n\n\nError: Node Sass version 5.0.0 is incompatible with ^4.0.0​\n\n\nhttps://stackoverflow.com/questions/64625050/error-node-sass-version-5-0-0-is-incompatible-with-4-0-0​\nCRA uses a fixed version,​\nyarn add node-sass@4.14.1 아직 cra에서 최신 버전의 node-sass를 지원하지 않으니 4.14.1버전으로 설치​\n\n\netc &nbsp; 📝\nPromise.allSettled는 뭐지?\n기존에 구현되어 있던 로그인 기능에 Promise.allSettled 라는 메소드가 보여 궁금해졌다. Promise.all만 알고있었는데..\n참고\nhttps://velog.io/@ansrjsdn/Promise.all-%EA%B3%BC-Promise.allSettled-%EC%9D%98-%EC%B0%A8%EC%9D%B4\nhttps://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Promise/allSettled\n\n\nPromise.all() \n인자로 받은 Promise 객체들이 하나라도 실패하면 에러로 넘어가고 Promise의 결과들은 무시된다.\n\n\nPromise.allSettled()\n인자로 iterable 객체(주로 배열)를 받고 객체의 요소들은 모두 Promise 객체\n성공한 Promise는 {status: &#39;fulfilled&#39;, value: 값} 이 반환되고 실패한 Promise는 {status: &#39;rejected&#39;, reason: 실패한 이유} 를 반환해준다. \n하나라도 실패해도 에러로 넘어가지 않고 모든 Promise들이 실행되어 결과를 받을 수 있다.\n반환된 status에 따라 처리해줄 수 있음\n\n\n\n\n\n\n\n\nno-return-await\n기존에 return await 형식으로 사용하는 부분이 많았는데 eslint에서 에러로 던져줬다.\nhttps://eslint.org/docs/rules/no-return-await​\n\n\n\n","dateCreated":"2021-01-12T17:09:44+09:00","dateModified":"2021-01-13T00:06:06+09:00","datePublished":"2021-01-12T17:09:44+09:00","description":"","headline":"React + Unstated-next로 간단한 플젝 만드기","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"http://yoursite.com/2021/01/12/login-PoC회고/"},"publisher":{"@type":"Organization","name":"hyerinOh","sameAs":["https://github.com/hyerinOh"],"image":"memoji.jpeg","logo":{"@type":"ImageObject","url":"memoji.jpeg"}},"url":"http://yoursite.com/2021/01/12/login-PoC회고/","keywords":"react, react hooks, state management"}</script>
+    <meta name="keywords" content="react,react hooks,state management">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="React + Unstated-next로 간단한 플젝 만드기">
+<meta property="og:url" content="http://yoursite.com/2021/01/12/login-PoC회고/index.html">
+<meta property="og:site_name" content="hyerin.io">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://yoursite.com/images/poc_thumbnail.jpg">
+<meta property="og:updated_time" content="2021-01-12T15:06:06.098Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="React + Unstated-next로 간단한 플젝 만드기">
+<meta name="twitter:image" content="http://yoursite.com/images/poc_thumbnail.jpg">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="http://yoursite.com/assets/images/memoji.jpeg"/>
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/all.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
+    <link rel="stylesheet" href="/assets/css/thumbs.css">
+    <link rel="stylesheet" href="/assets/css/tranquilpeak.css">
+    <!--STYLES END-->
+    
+
+    
+
+    
+        
+    
+</head>
+
+
+        <body>
+            <div id="blog">
+                <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a
+            class="header-title-link"
+            href="/ "
+            aria-label=""
+        >
+            hyerin.io
+        </a>
+    </div>
+    
+        
+            <a
+                class="header-right-picture "
+                href="#about"
+                aria-label="Open the link: /#about"
+            >
+        
+        
+            <img class="header-picture" src="/assets/images/memoji.jpeg" alt="Author&#39;s picture"/>
+        
+        </a>
+    
+</header>
+
+                    <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="4">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a
+                    href="/#about"
+                    aria-label="Read more about the author"
+                >
+                    <img class="sidebar-profile-picture" src="/assets/images/memoji.jpeg" alt="Author&#39;s picture"/>
+                </a>
+                <h4 class="sidebar-profile-name">hyerinOh</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>내가 보려고 정리하는 블로그</p>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/ "
+                            
+                            title="Home"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Home</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                            title="Categories"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Categories</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                            title="Tags"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Tags</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                            title="About"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">About</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/hyerinOh" target="_blank" rel="noopener" title="GitHub">
+                    
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+                        
+                            <div id="main" data-behavior="4" class="
+                        hasCoverMetaIn
+                        ">
+                                
+<article class="post">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            React + Unstated-next로 간단한 플젝 만드기
+        </h1>
+    
+    
+        <div class="post-meta">
+    <time datetime="2021-01-12T17:09:44+09:00">
+	
+		    Jan 12, 2021
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/Dev/">Dev</a>, <a class="category-link" href="/categories/Dev/React/">React</a>
+
+
+    
+</div>
+
+    
+</div>
+
+    
+    <div class="post-content markdown">
+        <div class="main-content-wrap">
+            <br>
+
+<a id="more"></a>
+
+
+<p><img src="/images/poc_thumbnail.jpg" alt></p>
+<h1 id="React-Unstated-next로-간단한-플젝-만드기-nbsp-🚀"><a href="#React-Unstated-next로-간단한-플젝-만드기-nbsp-🚀" class="headerlink" title="React + Unstated-next로 간단한 플젝 만드기 &nbsp;🚀"></a><code>React</code> + <code>Unstated-next</code>로 간단한 플젝 만드기 &nbsp;🚀</h1><p>​</p>
+<h2 id="React-프로젝트-초기-설정-nbsp-🛠"><a href="#React-프로젝트-초기-설정-nbsp-🛠" class="headerlink" title="React 프로젝트 초기 설정 &nbsp; 🛠"></a>React 프로젝트 초기 설정 &nbsp; 🛠</h2><p>​<br><strong><code>create-react-app</code> 사용</strong><br>​</p>
+<ul>
+<li><p><strong>Webpack 설정 vs create-react-app</strong></p>
+</li>
+<li><p>create-react-app의 webpack</p>
+<ul>
+<li>참고 : <a href="https://medium.com/wasd/create-react-app-%EC%9D%98-webpack-config-js-%EB%93%A4%EC%97%AC%EB%8B%A4%EB%B3%B4%EA%B8%B0-78e40bf37313" target="_blank" rel="noopener">https://medium.com/wasd/create-react-app-%EC%9D%98-webpack-config-js-%EB%93%A4%EC%97%AC%EB%8B%A4%EB%B3%B4%EA%B8%B0-78e40bf37313</a></li>
+<li><strong><code>react-scripts eject</code></strong> : 숨겨진 설정 파일을 추출하는 명령어<ul>
+<li><code>config</code>, <code>scripts</code> 폴더 나타나고 <code>package.json</code> 파일에 모든 <code>dependency</code> 와 <code>babel</code>, <code>jest</code> 설정 코드가 드러남</li>
+<li>cra와 eject 쓰는 이유</li>
+</ul>
+</li>
+<li>참고 : <a href="https://medium.com/@jsh901220/create-react-app%EC%97%90%EC%84%9C-eject%EC%82%AC%EC%9A%A9%EC%95%88%ED%95%98%EA%B8%B0-customize-cra-react-app-rewired-10a83522ace0" target="_blank" rel="noopener">https://medium.com/@jsh901220/create-react-app%EC%97%90%EC%84%9C-eject%EC%82%AC%EC%9A%A9%EC%95%88%ED%95%98%EA%B8%B0-customize-cra-react-app-rewired-10a83522ace0</a></li>
+</ul>
+</li>
+<li><p>첫 번째 시도<br>​</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npx create-react-app login-poc --typescript</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>--typescript</code>를 붙였음에도 typescript 설치를 못하고 js로 설치됨</p>
+</li>
+</ul>
+<p>​</p>
+<ul>
+<li>두 번째 시도<br>​<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npx create-react-app login-poc --template typescript</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>​</p>
+<ul>
+<li><p>참고 : <a href="https://velog.io/@_jouz_ryul/CRA%EB%A1%9C-typescript-%EA%B0%9C%EB%B0%9C%ED%99%98%EA%B2%BD-%EC%84%A4%EC%A0%95%ED%95%98%EA%B8%B0" target="_blank" rel="noopener">https://velog.io/@_jouz_ryul/CRA%EB%A1%9C-typescript-%EA%B0%9C%EB%B0%9C%ED%99%98%EA%B2%BD-%EC%84%A4%EC%A0%95%ED%95%98%EA%B8%B0</a><br>​</p>
+</li>
+<li><p>cra 공식 깃헙에서도 <code>--template typescript</code> 가 공식 타입스크립트 템플릿이라고 함</p>
+<ul>
+<li><a href="https://github.com/facebook/create-react-app/tree/master/packages/cra-template-typescript" target="_blank" rel="noopener">https://github.com/facebook/create-react-app/tree/master/packages/cra-template-typescript</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">npx create-react-app my-app --template typescript</span><br><span class="line"></span><br><span class="line"># or</span><br><span class="line"></span><br><span class="line">yarn create react-app my-app --template typescript</span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ul>
+<ul>
+<li>❗ 예전에는 <code>--typescript</code>를 붙이면 됐는데 <code>--template</code> 형식으로 바꼈나보다!</li>
+</ul>
+<hr>
+<p>​</p>
+<h2 id="eslint-설정-nbsp-🛠"><a href="#eslint-설정-nbsp-🛠" class="headerlink" title="eslint 설정 &nbsp; 🛠"></a>eslint 설정 &nbsp; 🛠</h2><p>​</p>
+<ul>
+<li><p>eslint 설치</p>
+<ul>
+<li><p><strong>@typescript-eslint/parser</strong> 설치 : eslint가 typescript를 lint 할 수 있도록 해줌</p>
+</li>
+<li><p><strong>@typescript-eslint/eslint-plugin</strong> : typescript에 구체화된 eslint rule을 포함한 플러그인 설치<br>​</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn add eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin --dev</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>devDependencies</code>에 추가하고 싶으면 뒤에 <code>--dev</code> or <code>yarn add -D</code><br>​</p>
+<br>
+<br>
+
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="⁉️-nbsp-이슈"><a href="#⁉️-nbsp-이슈" class="headerlink" title="⁉️ &nbsp; 이슈"></a>⁉️ &nbsp; 이슈</h3><p>​<br><br><code>tsconfig</code> 의 <code>jsx</code> 부분에서 이슈가 있었는데<br>    ​</p>
+<blockquote>
+<p><code>Specify JSX code generation: &#39;preserve&#39;, &#39;react&#39;, &#39;react-jsx&#39;, &#39;react-jsxdev&#39; or&#39;react-native&#39;. Requires TypeScript version 2.2 or later.</code>  </p>
+</blockquote>
+<p>VScode의 이슈였당.. ​</p>
+<ul>
+<li><p><a href="https://www.typescriptlang.org/docs/handbook/jsx.html" target="_blank" rel="noopener">https://www.typescriptlang.org/docs/handbook/jsx.html</a></p>
+</li>
+<li><p><a href="https://stackoverflow.com/questions/64974648/problem-with-visual-studio-code-using-react-jsx-as-jsx-value-with-create-react" target="_blank" rel="noopener">https://stackoverflow.com/questions/64974648/problem-with-visual-studio-code-using-react-jsx-as-jsx-value-with-create-react</a></p>
+</li>
+<li><p><strong>This is because VSCode’s Typescript version is not using the newest babel features that create-react-app uses by default.</strong></p>
+</li>
+<li><p>command + shift + p 에서 <code>typescript: select typescript version</code> 에서 useWorkspace version 선택</p>
+</li>
+</ul>
+<hr>
+<p>​</p>
+<h2 id="Prettier-설정-nbsp-🛠"><a href="#Prettier-설정-nbsp-🛠" class="headerlink" title="Prettier 설정 &nbsp; 🛠"></a>Prettier 설정 &nbsp; 🛠</h2><p>​</p>
+<ul>
+<li>참고: <a href="https://flamingotiger.github.io/javascript/eslint-setup/" target="_blank" rel="noopener">https://flamingotiger.github.io/javascript/eslint-setup/</a></li>
+<li>prettierrc 설정 후 IDE에서도 설정</li>
+<li>vscode인 경우 settings.json</li>
+</ul>
+<hr>
+<p>​</p>
+<h2 id="환경-변수-설정-nbsp-🛠"><a href="#환경-변수-설정-nbsp-🛠" class="headerlink" title="환경 변수 설정 &nbsp; 🛠"></a>환경 변수 설정 &nbsp; 🛠</h2><p>​</p>
+<ul>
+<li><p>참고 : <a href="https://create-react-app.dev/docs/adding-custom-environment-variables/" target="_blank" rel="noopener">https://create-react-app.dev/docs/adding-custom-environment-variables/</a><br>​</p>
+</li>
+<li><p>환경변수<br>​</p>
+<ul>
+<li><p>참고:<br>​</p>
+<ul>
+<li><a href="https://cosmosproject2015.tistory.com/200" target="_blank" rel="noopener">https://cosmosproject2015.tistory.com/200</a></li>
+<li><a href="https://velog.io/@public_danuel/process-env-on-node-js" target="_blank" rel="noopener">https://velog.io/@public_danuel/process-env-on-node-js</a><br>​</li>
+</ul>
+</li>
+<li><p><strong>환경변수</strong> : 환경(특정 process)의 조건을 정하는 것<br>​</p>
+</li>
+<li><p>Node.js 기반 : <code>process.env[key]</code> 형태<br>​</p>
+<ul>
+<li><p>ex) <code>process.env.NODE_ENV</code><br>​</p>
+</li>
+<li><p>크로스 플랫폼 환경변수 설정<br>​</p>
+<ul>
+<li>크로스 플랫폼 :  <a href="https://ko.wikipedia.org/wiki/컴퓨터_프로그램" target="_blank" rel="noopener">컴퓨터 프로그램</a>, <a href="https://ko.wikipedia.org/wiki/운영_체제" target="_blank" rel="noopener">운영 체제</a>, <a href="https://ko.wikipedia.org/wiki/컴퓨터_언어" target="_blank" rel="noopener">컴퓨터 언어</a>, <a href="https://ko.wikipedia.org/wiki/프로그래밍_언어" target="_blank" rel="noopener">프로그래밍 언어</a>, <a href="https://ko.wikipedia.org/wiki/컴퓨터_소프트웨어" target="_blank" rel="noopener">컴퓨터 소프트웨어</a> 등이 여러 종류의 컴퓨터 플랫폼에서 동작할 수 있다는 것을 뜻하는 용어</li>
+<li><code>dotenv</code> 라이브러리<ul>
+<li>미리 작성해놓은 <code>.env</code> 파일을 환경변수에 대신 설정해주는 기능</li>
+</ul>
+</li>
+<li><code>cross-env</code> 라이브러리<ul>
+<li>프로그램을 CLI 환경에서 실행시킬 때 환경변수를 설정하는 기능</li>
+<li>1개의 진입점으로도 상황에 맞게 환경변수를 사용할 수 있음<br>​</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code>create-react-app</code> 기반<br>​</p>
+<ul>
+<li><p>참고<br>​</p>
+<ul>
+<li><a href="https://lofty87.github.io/nodejs/react/20190805/create-react-app-environment-variable" target="_blank" rel="noopener">https://lofty87.github.io/nodejs/react/20190805/create-react-app-environment-variable</a></li>
+<li><a href="https://create-react-app.dev/docs/adding-custom-environment-variables/" target="_blank" rel="noopener">https://create-react-app.dev/docs/adding-custom-environment-variables/</a></li>
+<li><a href="http://lemonja.blogspot.com/2018/08/reactjs-cra.html" target="_blank" rel="noopener">http://lemonja.blogspot.com/2018/08/reactjs-cra.html</a><br>​</li>
+</ul>
+</li>
+<li><p>root 폴더에 <code>.env</code> 파일 추가<br>​</p>
+</li>
+<li><p>파일 안에 <code>REACT_APP_변수명</code> 으로 변수 생성해서 사용<br>​</p>
+<ul>
+<li>변수명은 무조건 <code>REACT_APP_</code> 으로 시작해야 함<br>​</li>
+</ul>
+</li>
+<li><p>사용예시 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;div&gt;</span><br><span class="line">&#123;process.env.REACT_APP_변수명&#125;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>​<code>development</code> 환경일 때와 <code>production</code> 환경일 때 다른 api 주소를 가지도록 하려면<br>​</p>
+<ul>
+<li>root 폴더에<ul>
+<li><code>.env.dev</code> 혹은 <code>.env.development</code> = 개발 환경</li>
+<li><code>.env.prod</code> 혹은 <code>.env.production</code> = 배포 환경</li>
+</ul>
+</li>
+<li>이 외에도 <code>.env.test</code>, <code>.env.local</code> 등이 있음</li>
+</ul>
+</li>
+<li><p><code>package.json</code> 의 <code>scripts</code>에 따라 불러오는 <code>.env</code> 파일 결정. 뒤로 갈 수록 우선순위 낮아짐</p>
+<ul>
+<li><strong><code>npm start</code></strong> : <code>.env.development.local</code>, <code>.env.development</code>, <code>.env.local</code>, <code>.env</code></li>
+<li><strong><code>npm run build</code></strong> : <code>.env.production.local</code>, <code>.env.production</code>, <code>env.local</code>, <code>.env</code></li>
+<li><strong><code>npm test</code></strong> : <code>.env.test.local</code>, <code>.env.test</code>, <code>.env</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<p>​</p>
+<h2 id="Unstated-next-설치-nbsp-🛠"><a href="#Unstated-next-설치-nbsp-🛠" class="headerlink" title="Unstated-next 설치 &nbsp; 🛠"></a>Unstated-next 설치 &nbsp; 🛠</h2><p>​</p>
+<ul>
+<li><code>yarn add unstated-next</code></li>
+<li>튜토리얼 : <a href="https://css-tricks.com/managing-state-in-react-using-unstated-next/" target="_blank" rel="noopener">https://css-tricks.com/managing-state-in-react-using-unstated-next/</a></li>
+</ul>
+<hr>
+<p>​</p>
+<h2 id="Apollo-client-설치-nbsp-🛠"><a href="#Apollo-client-설치-nbsp-🛠" class="headerlink" title="Apollo/client 설치 &nbsp; 🛠"></a>Apollo/client 설치 &nbsp; 🛠</h2><p>​</p>
+<ul>
+<li>ApolloClient를 생성하려면 uri가 필요한데, 고정적인 값이 아닌 환경에 따라 다른 값이 들어가야함</li>
+<li>cra에서 환경변수를 설정하는 방법<ul>
+<li><u>Adding Custom Environment Variables</u> 참고</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="Axios-설치-nbsp-🛠"><a href="#Axios-설치-nbsp-🛠" class="headerlink" title="Axios 설치 &nbsp; 🛠"></a>Axios 설치 &nbsp; 🛠</h2><p>​</p>
+<ul>
+<li><p><code>apollo/client</code>를 위해 설정한 환경변수가 root에 <code>.env.development</code> 이런 식으로 되어있는데, <code>axios</code>의 <code>base url</code>은 apollo거랑은 다름</p>
+<ul>
+<li>.env.development에 이렇게 환경변수 이름을 다르게 줌<br>​<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">REACT_APP_APOLLO_BASE_URL=&apos;https://url주소&apos;</span><br><span class="line">REACT_APP_AXIOS_BASE_URL=&apos;https://url 주소&apos;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ul>
+<p>​</p>
+<ul>
+<li>유연한 axios 인스턴스 만들기</li>
+</ul>
+<ul>
+<li><a href="https://laravel-news.com/building-flexible-axios-clients" target="_blank" rel="noopener">https://laravel-news.com/building-flexible-axios-clients</a><br>​</li>
+<li>typescript class의 private 변수는?<br>​<ul>
+<li><a href="https://hyunseob.github.io/2016/10/17/typescript-class/" target="_blank" rel="noopener">https://hyunseob.github.io/2016/10/17/typescript-class/</a><br>​</li>
+<li>클래스 내부에서만 접근할 수 있으며 내부 인터페이스를 구성할 때 쓰이는 변수<br>​</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="Router-설정-nbsp-🛠"><a href="#Router-설정-nbsp-🛠" class="headerlink" title="Router 설정 &nbsp; 🛠"></a>Router 설정 &nbsp; 🛠</h2><p>​</p>
+<ul>
+<li><p><code>create-react-app</code>에는 routing을 위한 로직이 없기 때문에 <code>react router</code>를 따로 설치해줘야 함</p>
+</li>
+<li><p><strong>routing</strong> : 다른 주소에 따라 다른 뷰를 보여주는 것<br>​</p>
+</li>
+<li><p>참고 : <a href="https://jeonghwan-kim.github.io/dev/2019/07/08/react-router-ts.html" target="_blank" rel="noopener">https://jeonghwan-kim.github.io/dev/2019/07/08/react-router-ts.html</a><br>​</p>
+</li>
+<li><p><code>yarn add react-router-dom</code><br>​</p>
+</li>
+<li><p><code>yarn add -D @types/react-router-dom</code> : react-router-dom의 type 정의 라이브러리<br>​</p>
+<ul>
+<li><code>&lt;BrowserRouter /&gt;</code> : HTML5 히스토리 API를 사용하여 주소를 관리하는 라우터</li>
+<li><code>&lt;Switch /&gt;</code>: 하위에 <route> 중 하나를 선택</route></li>
+<li><code>&lt;Route /&gt;</code> : 요청 경로와 렌더링할 컴포넌트를 설정</li>
+<li><code>&lt;Redirect /&gt;</code> : 요청 경로를 다른 경로롤 리다이렉션<br>​</li>
+</ul>
+</li>
+<li><p><code>page</code> &gt; <code>index.ts</code> 에서 <code>Home</code> 컴포넌트 lazy 로딩<br>​</p>
+<ul>
+<li><p>lazy loading 왜?<br>​</p>
+<ul>
+<li><code>React</code>의 <code>lazy</code>는 <strong>코드분할</strong> 을 하도록 해주는데, 코드 분할을 하면 사용자가 필요로 하지 않는 코드를 불러오지 않게 해주어서 <strong>앱의 초기 로딩에 필요한 비용을 줄여준다.</strong><br>​</li>
+</ul>
+</li>
+<li><p>참고<br>​</p>
+<ul>
+<li><p><a href="https://ko.reactjs.org/docs/code-splitting.html" target="_blank" rel="noopener">https://ko.reactjs.org/docs/code-splitting.html</a><br>​</p>
+</li>
+<li><p><code>React.lazy</code> + <code>Suspense</code><br>​</p>
+<ul>
+<li><p><code>React.lazy</code><br>​</p>
+<ul>
+<li>컴포넌트를 렌더링하는 시점에서 비동기적으로 로딩할 수 있게 해주는 util 함수</li>
+<li>동적 import를 사용해서 컴포넌트를 렌더링 </li>
+<li>React 컴포넌트를 포함하며 default export를 가진 모듈로 결정되는 Promise로 반환</li>
+<li>lazy 컴포넌트는 Suspense 컴포넌트 하위에서 렌더링되어야 함.<br>​</li>
+</ul>
+</li>
+<li><p><code>Suspense</code><br>​</p>
+<ul>
+<li><p>리액트 내장 컴포넌트<br>​</p>
+</li>
+<li><p>코드 분할 된 컴포넌트(lazy 컴포넌트)를 로딩하도록 해주고 로딩이 끝나지 않았을 때 보여줄 UI(예비 컨텐츠)를 설정할 수 있음<br>​</p>
+</li>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;Suspense fallback=&#123;&lt;div&gt;loading...&lt;/div&gt;&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>fallback</code> props를 통해 로딩 중에 보여 줄 JSX를 지정할 수 있음</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>​</p>
+<h3 id="⁉️-nbsp-이슈-1"><a href="#⁉️-nbsp-이슈-1" class="headerlink" title="⁉️ &nbsp; 이슈"></a>⁉️ &nbsp; 이슈</h3><ul>
+<li><code>App.tsx</code> 에서 <route> 만들어주고 routes를 map으로 돌리는 과정에서 key 값을 <code>uuid</code> 라는 라이브러리를 사용해서 유니크한 값을 사용하려고 했는데   에러 발생<br>​<blockquote>
+<p> ‘uuid’ should be listed in the project’s dependencies. Run ‘npm i -S uuid’ to add it  import/no-extraneous-dependencies<br>​</p>
+<ul>
+<li>@types/uuid 만 설치해주면 되는 줄 알았는데  <code>uuid</code> 도 설치했어야했다. </li>
+<li><strong><code>@types</code>는 자바스크립트 라이브러리를 타입스크립트 추론이 가능하도록 도와주는 보조 라이브러리</strong><br>​</li>
+</ul>
+</blockquote>
+</route></li>
+</ul>
+<hr>
+<h2 id="Unstated-Next-구조-잡기-nbsp-🛠"><a href="#Unstated-Next-구조-잡기-nbsp-🛠" class="headerlink" title="Unstated-Next 구조 잡기 &nbsp; 🛠"></a>Unstated-Next 구조 잡기 &nbsp; 🛠</h2><p>​</p>
+<ul>
+<li><p>참고 </p>
+<ul>
+<li><a href="https://blog.logrocket.com/state-management-with-unstated-next/" target="_blank" rel="noopener">https://blog.logrocket.com/state-management-with-unstated-next/</a><ul>
+<li><a href="https://css-tricks.com/managing-state-in-react-using-unstated-next/" target="_blank" rel="noopener">https://css-tricks.com/managing-state-in-react-using-unstated-next/</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>최상위인 <code>App.tsx</code>에서 <code>container</code>를 내려주는 것이 아니라 해당 <code>container</code>가 필요한 컴포넌트에서만 받을 수있도록 컴포넌트를 감싸는 상위 컴포넌트에서 <code>Provider</code>로 내려주고 <code>container</code> 값이 필요한 컴포넌트에서 <code>useContainer</code>로 받아와서 상태 값을 사용하도록 만들었다.</p>
+</li>
+</ul>
+<hr>
+<p>​</p>
+<h2 id="Node-sass-설치-nbsp-🛠"><a href="#Node-sass-설치-nbsp-🛠" class="headerlink" title="Node-sass 설치 &nbsp; 🛠"></a>Node-sass 설치 &nbsp; 🛠</h2><p>​</p>
+<h3 id="⁉️-nbsp-이슈-2"><a href="#⁉️-nbsp-이슈-2" class="headerlink" title="⁉️ &nbsp; 이슈"></a>⁉️ &nbsp; 이슈</h3><p>​</p>
+<ul>
+<li><blockquote>
+<p>Error: Node Sass version 5.0.0 is incompatible with ^4.0.0<br>​</p>
+</blockquote>
+</li>
+<li><a href="https://stackoverflow.com/questions/64625050/error-node-sass-version-5-0-0-is-incompatible-with-4-0-0" target="_blank" rel="noopener">https://stackoverflow.com/questions/64625050/error-node-sass-version-5-0-0-is-incompatible-with-4-0-0</a><br>​</li>
+<li><code>CRA uses a fixed version,</code><br>​</li>
+<li><code>yarn add node-sass@4.14.1</code> 아직 cra에서 최신 버전의 node-sass를 지원하지 않으니 4.14.1버전으로 설치<br>​</li>
+</ul>
+<hr>
+<h2 id="etc-nbsp-📝"><a href="#etc-nbsp-📝" class="headerlink" title="etc &nbsp; 📝"></a>etc &nbsp; 📝</h2><ul>
+<li><code>Promise.allSettled</code>는 뭐지?<ul>
+<li>기존에 구현되어 있던 로그인 기능에 <code>Promise.allSettled</code> 라는 메소드가 보여 궁금해졌다. <del><code>Promise.all</code>만 알고있었는데..</del></li>
+<li>참고<ul>
+<li><a href="https://velog.io/@ansrjsdn/Promise.all-%EA%B3%BC-Promise.allSettled-%EC%9D%98-%EC%B0%A8%EC%9D%B4" target="_blank" rel="noopener">https://velog.io/@ansrjsdn/Promise.all-%EA%B3%BC-Promise.allSettled-%EC%9D%98-%EC%B0%A8%EC%9D%B4</a></li>
+<li><a href="https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Promise/allSettled" target="_blank" rel="noopener">https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Promise/allSettled</a></li>
+</ul>
+</li>
+<li><code>Promise.all()</code> <ul>
+<li>인자로 받은 Promise 객체들이 하나라도 실패하면 에러로 넘어가고 Promise의 결과들은 무시된다.</li>
+</ul>
+</li>
+<li><code>Promise.allSettled()</code><ul>
+<li>인자로 iterable 객체(주로 배열)를 받고 객체의 요소들은 모두 Promise 객체</li>
+<li>성공한 Promise는 <code>{status: &#39;fulfilled&#39;, value: 값}</code> 이 반환되고 실패한 Promise는 <code>{status: &#39;rejected&#39;, reason: 실패한 이유}</code> 를 반환해준다. </li>
+<li>하나라도 실패해도 에러로 넘어가지 않고 모든 Promise들이 실행되어 결과를 받을 수 있다.</li>
+<li>반환된 <code>status</code>에 따라 처리해줄 수 있음</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<br>
+
+<ul>
+<li><code>no-return-await</code><ul>
+<li>기존에 <code>return await</code> 형식으로 사용하는 부분이 많았는데 eslint에서 에러로 던져줬다.</li>
+<li><a href="https://eslint.org/docs/rules/no-return-await" target="_blank" rel="noopener">https://eslint.org/docs/rules/no-return-await</a><br>​</li>
+</ul>
+</li>
+</ul>
+
+            
+
+
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/react/">react</a> <a class="tag tag--primary tag--small t-link" href="/tags/react-hooks/">react hooks</a> <a class="tag tag--primary tag--small t-link" href="/tags/state-management/">state management</a>
+
+            </div>
+        
+        
+            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a
+                        class="post-action-btn btn btn--disabled"
+                        aria-hidden="true"
+                    >
+                        
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                    </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2020/12/20/Unstated-next/"
+                    data-tooltip="unstated-next"
+                    aria-label="NEXT: unstated-next"
+                >
+                    
+                        <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a
+                class="post-action-btn btn btn--default btn-open-shareoptions"
+                href="#btn-open-shareoptions"
+                aria-label="Share this post"
+            >
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2021/01/12/login-PoC회고/"
+                    title="Share on Facebook"
+                    aria-label="Share on Facebook"
+                >
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2021/01/12/login-PoC회고/"
+                    title="Share on Twitter"
+                    aria-label="Share on Twitter"
+                >
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://plus.google.com/share?url=http://yoursite.com/2021/01/12/login-PoC회고/"
+                    title="Share on Google+"
+                    aria-label="Share on Google+"
+                >
+                    <i class="fab fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a
+                        class="post-action-btn btn btn--default"
+                        href="#disqus_thread"
+                        aria-label="Leave a comment"
+                    >
+                        <i class="fa fa-comment"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+        
+            
+                <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+            
+        
+    </div>
+</article>
+
+
+
+                                    <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2021 hyerinOh. All Rights Reserved.
+    </span>
+</footer>
+
+                            </div>
+                            
+                                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a
+                        class="post-action-btn btn btn--disabled"
+                        aria-hidden="true"
+                    >
+                        
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                    </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2020/12/20/Unstated-next/"
+                    data-tooltip="unstated-next"
+                    aria-label="NEXT: unstated-next"
+                >
+                    
+                        <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a
+                class="post-action-btn btn btn--default btn-open-shareoptions"
+                href="#btn-open-shareoptions"
+                aria-label="Share this post"
+            >
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2021/01/12/login-PoC회고/"
+                    title="Share on Facebook"
+                    aria-label="Share on Facebook"
+                >
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2021/01/12/login-PoC회고/"
+                    title="Share on Twitter"
+                    aria-label="Share on Twitter"
+                >
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://plus.google.com/share?url=http://yoursite.com/2021/01/12/login-PoC회고/"
+                    title="Share on Google+"
+                    aria-label="Share on Google+"
+                >
+                    <i class="fab fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a
+                        class="post-action-btn btn btn--default"
+                        href="#disqus_thread"
+                        aria-label="Leave a comment"
+                    >
+                        <i class="fa fa-comment"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                                </div>
+                                
+    <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+        <i id="btn-close-shareoptions" class="fa fa-times"></i>
+        <ul class="share-options">
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2021/01/12/login-PoC회고/"
+                        aria-label="Share on Facebook"
+                    >
+                        <i class="fab fa-facebook" aria-hidden="true"></i><span>Share on Facebook</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://twitter.com/intent/tweet?text=http://yoursite.com/2021/01/12/login-PoC회고/"
+                        aria-label="Share on Twitter"
+                    >
+                        <i class="fab fa-twitter" aria-hidden="true"></i><span>Share on Twitter</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://plus.google.com/share?url=http://yoursite.com/2021/01/12/login-PoC회고/"
+                        aria-label="Share on Google+"
+                    >
+                        <i class="fab fa-google-plus" aria-hidden="true"></i><span>Share on Google+</span>
+                    </a>
+                </li>
+            
+        </ul>
+    </div>
+
+
+                                    
+            </div>
+            
+    
+        
+                    
+                                
+                                    
+                                        
+                                            <div id="about">
+                                                <div id="about-card">
+                                                    <div id="about-btn-close">
+                                                        <i class="fa fa-times"></i>
+                                                    </div>
+                                                    
+                                                        <img id="about-card-picture" src="/assets/images/memoji.jpeg" alt="Author&#39;s picture" />
+                                                        
+                                                            <h4 id="about-card-name">
+                                                                hyerinOh
+                                                            </h4>
+                                                            
+                                                                <div id="about-card-bio">
+                                                                    <p>내가 보려고 정리하는 블로그</p>
+
+                                                                </div>
+                                                                
+                                                                    
+                                                                        <div id="about-card-job">
+                                                                            <i class="fa fa-briefcase"></i>
+                                                                            <br/>
+                                                                            <p>Frontend Developer</p>
+
+                                                                        </div>
+                                                                        
+                                                                            
+                                                                                <div id="about-card-location">
+                                                                                    <i class="fa fa-map-marker-alt"></i>
+                                                                                    <br/>
+                                                                                    Seoul, Korea
+                                                                                </div>
+                                                                                
+                                                </div>
+                                            </div>
+                
+                            
+    <div id="cover" style="background-image:url('/assets/images/background.jpeg');background-size: cover"></div>
+                                <!--SCRIPTS-->
+<script src="/assets/js/jquery.js"></script>
+<script src="/assets/js/jquery.fancybox.js"></script>
+<script src="/assets/js/thumbs.js"></script>
+<script src="/assets/js/tranquilpeak.js"></script>
+<!--SCRIPTS END-->
+
+
+    
+        <script>
+          var disqus_config = function() {
+            this.page.url = 'http://yoursite.com/2021/01/12/login-PoC회고/';
+              
+            this.page.identifier = '2021/01/12/login-PoC회고/';
+              
+          };
+          (function() {
+            var d = document, s = d.createElement('script');
+            var disqus_shortname = 'web1-s18lyko82r';
+            s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+          })();
+        </script>
+    
+
+
+
+
+        </body>
+
+    </html>
