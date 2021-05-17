@@ -6,25 +6,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="hyerin.io">
-    <title>1. Call Stack - hyerin.io</title>
+    <title>유효성 검사 함수 체이닝으로 구현해보기 - hyerin.io</title>
     <meta name="author" content="hyerinOh">
     
     
         <link rel="icon" href="http://yoursite.com/assets/images/favicon.ico">
     
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"hyerinOh","sameAs":["https://github.com/hyerinOh"],"image":"memoji.jpeg"},"articleBody":"\n\n\n\n자바스크립트\n싱글 쓰레드 언어 (single threaded single concurrent language)\n콜스택이 한 개\n한 번에 한 가지 일 밖에 못한다는 뜻\n\nTerminologies\nCall stack\n\n\n함수의 호출을 기록하는 자료구조\n함수를 실행하라고 호출하면 스택에 함수를 push하고 함수로부터 리턴값이 나오면 스택의 처음에서부터 pop\nMax stack Error : 크롬에서 최대 16,000 프레임을 스택에 담을 수 있도록 지정해놓았기 때문에 스택에 넣을 수 있는 수가 초과되면 Max Stack Error가 난다.\n\n\nHeap\n\n\n변수와 객체들의 메모리 할당이 일어나는 곳\n\n\nQueue\n\n\n자바스크립트 런타임은 진행되어야하는 메시지들의 리스트와 실행되도록 할당된 콜백 함수들의 메시지 queue를 포함\n비동기상황일 때 (마우스클릭, http 요청 응답 등) queue에 들어가서 기다리고있다가 콜스택이 비면 queue에서 메시지를 꺼내서 스택에 담는다.\n\nEvent Loop\n코드가 실행될 때 console.log()같은 것들은 빠르게 실행되지만, for문이나 while문이 천 번, 만 번 돌게 되면 스택에 오랫동안 머물게되고 blocked되게 만든다. 이러한 것을 blocking script라고 말한다.\n만약 동기적으로 실행된다면 네트워크 요청의 응답을 기다리는동안 다른 작업을 아무것도 할 수 없게 된다.\n이러한 현상을 막기 위해 비동기 함수(Asynchronous function)가 존재한다. 비동기함수들은 동기함수들과 달리 바로 스택으로 들어가지 않는다. DOM events, http request, setTimeout의 콜백함수들은 webAPIs(브라우저가 제공)로 보내지고, 해당 콜백 함수가 실행되면 콜백함수가 Queue로 넘어간다. 이때 Event Loop는 call stack과 Queue 두 가지를 모두 보고있다가 call stack이 비면 Queue의 첫번째 콜백함수를 stack으로 넘긴다.\n\n\n","dateCreated":"2019-07-18T00:00:00+09:00","dateModified":"2019-09-16T01:11:59+09:00","datePublished":"2019-07-18T00:00:00+09:00","description":"","headline":"1. Call Stack","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"http://yoursite.com/2019/07/18/call-stack/"},"publisher":{"@type":"Organization","name":"hyerinOh","sameAs":["https://github.com/hyerinOh"],"image":"memoji.jpeg","logo":{"@type":"ImageObject","url":"memoji.jpeg"}},"url":"http://yoursite.com/2019/07/18/call-stack/","keywords":"javascript, 33-js-concepts, call stack"}</script>
-    <meta name="keywords" content="javascript,33-js-concepts,call stack">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"hyerinOh","sameAs":["https://github.com/hyerinOh"],"image":"memoji.jpeg"},"articleBody":"\n\n\n✅ &nbsp; 유효성 검사 함수 체이닝으로 구현해보기\n\n\n프로젝트 진행 중 유효성 검사를 구현할 기회가 있었는데​처음에는 switch 문으로 타입에 따라 문자열을 리턴하는 형식으로 생각했었다.​\n123456789101112// regEx.ts​export const regExr = &#123;truevalidate: (type: string) =&gt; &#123;    switch (type) &#123;      case validationType.BIRTHDAY:        return '생년월일 형식이 맞지 않음';      case validationType.PHONE:        return '폰 번호 형식이 맞지 않음';    &#125;  &#125;  &#125;\n\n​​​하지만 코드리뷰에서​\n\nvalidation 타입이 많아질 때 괜찮을지 고려해보시면 좋을 것 같네요.또는 validation을 2가지 또는 그 이상 조합하는 경우도 고민해보시면 좋을 것 같아요.​\n\n라는 리뷰를 받게 되었고 함수 체이닝으로 멋있게 구현해 보면 좋을 것 같다는 피드백을 받았다.​\n참고한 사이트들이 많았는데 다 기억은 나지 않지만​\n\nhttps://www.typescriptlang.org/ko/play?esModuleInterop=true#example/function-chaining​\nhttps://github.com/express-validator/express-validator​\n\n이 두 개가 가장 많이 도움이 되었다.​\n적용한 코드 &nbsp; 👩🏻‍💻​\n123456789101112131415161718192021222324252627282930313233343536// regEx.ts​export const regExr = &#123;  BIRTHDAY: /^(19[0-9][0-9]|20\\d&#123;2&#125;)-(0[0-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/,  PHONE: /^01([0|1|6|7|8|9]?)-?([0-9]&#123;4&#125;)-?([0-9]&#123;4&#125;)$/,&#125;;​// 내부 상태를 파악하고 있는 외부함수export const regExrUtil = () =&gt; &#123;  let isValid = false;  // 모든 에러를 다 보고싶은 경우가 있을 수 있으므로 사용하는 쪽에서 처리하도록 배열에 모든 에러 메시지를 담음  let errorMessage: string[] = [];​  // 항상 자신을 반환하는 API를 노출하는 오브젝트  const api = &#123;    validateBirthday(birthdate: string) &#123;      isValid = regExr.BIRTHDAY.test(birthdate);      if (birthdate &amp;&amp; !isValid) &#123;        errorMessage.push('생년월일 형식이 맞지 않음');      &#125;            return api;    &#125;,    validatePhone(phone: string) &#123;      isValid = regExr.PHONE.test(phone);      if (phone &amp;&amp; !isValid) &#123;        errorMessage.push('폰 번호 형식이 맞지 않음');      &#125;      return api;    &#125;,    getMessage() &#123;      return errorMessage;    &#125;,  &#125;;  return api;&#125;;\n\n​사용 예시 &nbsp; 👩🏻‍💻​\n1234567891011// example.ts​const errorMessage = regExrUtil()      .validateBirthday(newValues.birthDate || '')      .validatePhone(newValues.phone || '')      .getMessage();​    if (errorMessage.length) &#123;      errorMessage.forEach((m) =&gt; &#123;        message.error(m);      &#125;);\n\n\n\n","dateCreated":"2021-04-21T18:59:17+09:00","dateModified":"2021-05-17T19:03:36+09:00","datePublished":"2021-04-21T18:59:17+09:00","description":"","headline":"유효성 검사 함수 체이닝으로 구현해보기","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"http://yoursite.com/2021/04/21/functionChaining/"},"publisher":{"@type":"Organization","name":"hyerinOh","sameAs":["https://github.com/hyerinOh"],"image":"memoji.jpeg","logo":{"@type":"ImageObject","url":"memoji.jpeg"}},"url":"http://yoursite.com/2021/04/21/functionChaining/","keywords":"javascript, typescript, 함수 체이닝, 유효성 검사"}</script>
+    <meta name="keywords" content="javascript,typescript,함수 체이닝,유효성 검사">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="1. Call Stack">
-<meta property="og:url" content="http://yoursite.com/2019/07/18/call-stack/index.html">
+<meta property="og:title" content="유효성 검사 함수 체이닝으로 구현해보기">
+<meta property="og:url" content="http://yoursite.com/2021/04/21/functionChaining/index.html">
 <meta property="og:site_name" content="hyerin.io">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="https://user-images.githubusercontent.com/38285577/61391496-c8288d00-a8f7-11e9-8f86-77e8c2c75e0c.png">
-<meta property="og:updated_time" content="2019-09-15T16:11:59.727Z">
+<meta property="og:updated_time" content="2021-05-17T10:03:36.180Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="1. Call Stack">
-<meta name="twitter:image" content="https://user-images.githubusercontent.com/38285577/61391496-c8288d00-a8f7-11e9-8f86-77e8c2c75e0c.png">
+<meta name="twitter:title" content="유효성 검사 함수 체이닝으로 구현해보기">
     
     
         
@@ -196,20 +194,20 @@
         <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title">
-            1. Call Stack
+            유효성 검사 함수 체이닝으로 구현해보기
         </h1>
     
     
         <div class="post-meta">
-    <time datetime="2019-07-18T00:00:00+09:00">
+    <time datetime="2021-04-21T18:59:17+09:00">
 	
-		    Jul 18, 2019
+		    Apr 21, 2021
     	
     </time>
     
         <span>in </span>
         
-    <a class="category-link" href="/categories/Dev/">Dev</a>, <a class="category-link" href="/categories/Dev/JavaScript/">JavaScript</a>, <a class="category-link" href="/categories/Dev/JavaScript/33-js-concepts/">33-js-concepts</a>
+    <a class="category-link" href="/categories/Dev/">Dev</a>, <a class="category-link" href="/categories/Dev/JavaScript/">JavaScript</a>, <a class="category-link" href="/categories/Dev/JavaScript/TypeScript/">TypeScript</a>
 
 
     
@@ -224,39 +222,31 @@
             <br>
 
 <a id="more"></a>
+<p>✅ &nbsp; <strong>유효성 검사 함수 체이닝으로 구현해보기</strong></p>
+<br>
 
-<h2 id="자바스크립트"><a href="#자바스크립트" class="headerlink" title="자바스크립트"></a>자바스크립트</h2><ul>
-<li>싱글 쓰레드 언어 (single threaded single concurrent language)</li>
-<li>콜스택이 한 개</li>
-<li>한 번에 한 가지 일 밖에 못한다는 뜻</li>
-</ul>
-<h3 id="Terminologies"><a href="#Terminologies" class="headerlink" title="Terminologies"></a>Terminologies</h3><ol>
-<li><strong>Call stack</strong></li>
-</ol>
+<p>프로젝트 진행 중 유효성 검사를 구현할 기회가 있었는데<br>​처음에는 <code>switch</code> 문으로 타입에 따라 문자열을 리턴하는 형식으로 생각했었다.<br>​</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// regEx.ts</span></span><br><span class="line">​</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> regExr = &#123;</span><br><span class="line">truevalidate: <span class="function">(<span class="params"><span class="keyword">type</span>: <span class="built_in">string</span></span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">switch</span> (<span class="keyword">type</span>) &#123;</span><br><span class="line">      <span class="keyword">case</span> validationType.BIRTHDAY:</span><br><span class="line">        <span class="keyword">return</span> <span class="string">'생년월일 형식이 맞지 않음'</span>;</span><br><span class="line">      <span class="keyword">case</span> validationType.PHONE:</span><br><span class="line">        <span class="keyword">return</span> <span class="string">'폰 번호 형식이 맞지 않음'</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>​<br>​<br>​<br>하지만 코드리뷰에서<br>​</p>
+<blockquote>
+<p>validation 타입이 많아질 때 괜찮을지 고려해보시면 좋을 것 같네요.<br>또는 validation을 2가지 또는 그 이상 조합하는 경우도 고민해보시면 좋을 것 같아요.<br>​</p>
+</blockquote>
+<p>라는 리뷰를 받게 되었고 <strong>함수 체이닝</strong>으로 멋있게 구현해 보면 좋을 것 같다는 피드백을 받았다.<br>​</p>
+<p><del>참고한 사이트들이 많았는데 다 기억은 나지 않지만</del><br>​</p>
 <ul>
-<li>함수의 호출을 기록하는 자료구조</li>
-<li>함수를 실행하라고 호출하면 스택에 함수를 push하고 함수로부터 리턴값이 나오면 스택의 처음에서부터 pop</li>
-<li><em>Max stack Error</em> : 크롬에서 최대 16,000 프레임을 스택에 담을 수 있도록 지정해놓았기 때문에 스택에 넣을 수 있는 수가 초과되면 Max Stack Error가 난다.</li>
+<li><a href="https://www.typescriptlang.org/ko/play?esModuleInterop=true#example/function-chaining" target="_blank" rel="noopener">https://www.typescriptlang.org/ko/play?esModuleInterop=true#example/function-chaining</a><br>​</li>
+<li><a href="https://github.com/express-validator/express-validator" target="_blank" rel="noopener">https://github.com/express-validator/express-validator</a><br>​</li>
 </ul>
-<ol start="2">
-<li><strong>Heap</strong></li>
-</ol>
-<ul>
-<li>변수와 객체들의 메모리 할당이 일어나는 곳</li>
-</ul>
-<ol start="3">
-<li><strong>Queue</strong></li>
-</ol>
-<ul>
-<li>자바스크립트 런타임은 진행되어야하는 메시지들의 리스트와 실행되도록 할당된 콜백 함수들의 메시지 queue를 포함</li>
-<li>비동기상황일 때 (마우스클릭, http 요청 응답 등) queue에 들어가서 기다리고있다가 콜스택이 비면 queue에서 메시지를 꺼내서 스택에 담는다.</li>
-</ul>
-<h3 id="Event-Loop"><a href="#Event-Loop" class="headerlink" title="Event Loop"></a>Event Loop</h3><ul>
-<li>코드가 실행될 때 console.log()같은 것들은 빠르게 실행되지만, <code>for</code>문이나 <code>while</code>문이 천 번, 만 번 돌게 되면 스택에 오랫동안 머물게되고 blocked되게 만든다. 이러한 것을 <em>blocking script</em>라고 말한다.</li>
-<li>만약 동기적으로 실행된다면 네트워크 요청의 응답을 기다리는동안 다른 작업을 아무것도 할 수 없게 된다.</li>
-<li>이러한 현상을 막기 위해 비동기 함수(Asynchronous function)가 존재한다. 비동기함수들은 동기함수들과 달리 바로 스택으로 들어가지 않는다. DOM events, http request, setTimeout의 콜백함수들은 <code>webAPIs</code>(브라우저가 제공)로 보내지고, 해당 콜백 함수가 실행되면 콜백함수가 Queue로 넘어간다. 이때 <strong>Event Loop</strong>는 call stack과 Queue 두 가지를 모두 보고있다가 call stack이 비면 Queue의 첫번째 콜백함수를 stack으로 넘긴다.</li>
-</ul>
-<p><img src="https://user-images.githubusercontent.com/38285577/61391496-c8288d00-a8f7-11e9-8f86-77e8c2c75e0c.png" alt="Screenshot 2019-07-09 at 13 39 47"></p>
+<p>이 두 개가 가장 많이 도움이 되었다.<br>​</p>
+<p><em>적용한 코드</em> &nbsp; 👩🏻‍💻<br>​</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// regEx.ts</span></span><br><span class="line">​</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> regExr = &#123;</span><br><span class="line">  BIRTHDAY: <span class="regexp">/^(19[0-9][0-9]|20\d&#123;2&#125;)-(0[0-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/</span>,</span><br><span class="line">  PHONE: <span class="regexp">/^01([0|1|6|7|8|9]?)-?([0-9]&#123;4&#125;)-?([0-9]&#123;4&#125;)$/</span>,</span><br><span class="line">&#125;;</span><br><span class="line">​</span><br><span class="line"><span class="comment">// 내부 상태를 파악하고 있는 외부함수</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> regExrUtil = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">let</span> isValid = <span class="literal">false</span>;</span><br><span class="line">  <span class="comment">// 모든 에러를 다 보고싶은 경우가 있을 수 있으므로 사용하는 쪽에서 처리하도록 배열에 모든 에러 메시지를 담음</span></span><br><span class="line">  <span class="keyword">let</span> errorMessage: <span class="built_in">string</span>[] = [];</span><br><span class="line">​</span><br><span class="line">  <span class="comment">// 항상 자신을 반환하는 API를 노출하는 오브젝트</span></span><br><span class="line">  <span class="keyword">const</span> api = &#123;</span><br><span class="line">    validateBirthday(birthdate: <span class="built_in">string</span>) &#123;</span><br><span class="line">      isValid = regExr.BIRTHDAY.test(birthdate);</span><br><span class="line">      <span class="keyword">if</span> (birthdate &amp;&amp; !isValid) &#123;</span><br><span class="line">        errorMessage.push(<span class="string">'생년월일 형식이 맞지 않음'</span>);</span><br><span class="line">      &#125;</span><br><span class="line">      </span><br><span class="line">      <span class="keyword">return</span> api;</span><br><span class="line">    &#125;,</span><br><span class="line">    validatePhone(phone: <span class="built_in">string</span>) &#123;</span><br><span class="line">      isValid = regExr.PHONE.test(phone);</span><br><span class="line">      <span class="keyword">if</span> (phone &amp;&amp; !isValid) &#123;</span><br><span class="line">        errorMessage.push(<span class="string">'폰 번호 형식이 맞지 않음'</span>);</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">return</span> api;</span><br><span class="line">    &#125;,</span><br><span class="line">    getMessage() &#123;</span><br><span class="line">      <span class="keyword">return</span> errorMessage;</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="keyword">return</span> api;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>​<br><em>사용 예시</em> &nbsp; 👩🏻‍💻<br>​</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// example.ts</span></span><br><span class="line">​</span><br><span class="line"><span class="keyword">const</span> errorMessage = regExrUtil()</span><br><span class="line">      .validateBirthday(newValues.birthDate || <span class="string">''</span>)</span><br><span class="line">      .validatePhone(newValues.phone || <span class="string">''</span>)</span><br><span class="line">      .getMessage();</span><br><span class="line">​</span><br><span class="line">    <span class="keyword">if</span> (errorMessage.length) &#123;</span><br><span class="line">      errorMessage.forEach(<span class="function">(<span class="params">m</span>) =&gt;</span> &#123;</span><br><span class="line">        message.error(m);</span><br><span class="line">      &#125;);</span><br></pre></td></tr></table></figure>
+
+
+
 
             
 
@@ -268,7 +258,7 @@
             <div class="post-footer-tags">
                 <span class="text-color-light text-small">TAGGED IN</span><br/>
                 
-    <a class="tag tag--primary tag--small t-link" href="/tags/33-js-concepts/">33-js-concepts</a> <a class="tag tag--primary tag--small t-link" href="/tags/call-stack/">call stack</a> <a class="tag tag--primary tag--small t-link" href="/tags/javascript/">javascript</a>
+    <a class="tag tag--primary tag--small t-link" href="/tags/javascript/">javascript</a> <a class="tag tag--primary tag--small t-link" href="/tags/typescript/">typescript</a> <a class="tag tag--primary tag--small t-link" href="/tags/유효성-검사/">유효성 검사</a> <a class="tag tag--primary tag--small t-link" href="/tags/함수-체이닝/">함수 체이닝</a>
 
             </div>
         
@@ -278,14 +268,11 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                <a
-                    class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/07/19/primitive-types/"
-                    data-tooltip="2. Primitive types"
-                    aria-label="PREVIOUS: 2. Primitive types"
-                >
-                    
+                    <a
+                        class="post-action-btn btn btn--disabled"
+                        aria-hidden="true"
+                    >
+                        
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
                         <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
                     </a>
@@ -295,9 +282,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/07/01/Hexo로-Github-io-블로그-만들기/"
-                    data-tooltip="Hexo로 아주 아주 기본적인 Github.io 블로그 만들기"
-                    aria-label="NEXT: Hexo로 아주 아주 기본적인 Github.io 블로그 만들기"
+                    href="/2021/01/12/login-PoC회고/"
+                    data-tooltip="React + Unstated-next로 간단한 플젝 만드기"
+                    aria-label="NEXT: React + Unstated-next로 간단한 플젝 만드기"
                 >
                     
                         <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
@@ -322,7 +309,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/07/18/call-stack/"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2021/04/21/functionChaining/"
                     title="Share on Facebook"
                     aria-label="Share on Facebook"
                 >
@@ -335,7 +322,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2019/07/18/call-stack/"
+                    target="new" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2021/04/21/functionChaining/"
                     title="Share on Twitter"
                     aria-label="Share on Twitter"
                 >
@@ -348,7 +335,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=http://yoursite.com/2019/07/18/call-stack/"
+                    target="new" href="https://plus.google.com/share?url=http://yoursite.com/2021/04/21/functionChaining/"
                     title="Share on Google+"
                     aria-label="Share on Google+"
                 >
@@ -407,14 +394,11 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                <a
-                    class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/07/19/primitive-types/"
-                    data-tooltip="2. Primitive types"
-                    aria-label="PREVIOUS: 2. Primitive types"
-                >
-                    
+                    <a
+                        class="post-action-btn btn btn--disabled"
+                        aria-hidden="true"
+                    >
+                        
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
                         <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
                     </a>
@@ -424,9 +408,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/07/01/Hexo로-Github-io-블로그-만들기/"
-                    data-tooltip="Hexo로 아주 아주 기본적인 Github.io 블로그 만들기"
-                    aria-label="NEXT: Hexo로 아주 아주 기본적인 Github.io 블로그 만들기"
+                    href="/2021/01/12/login-PoC회고/"
+                    data-tooltip="React + Unstated-next로 간단한 플젝 만드기"
+                    aria-label="NEXT: React + Unstated-next로 간단한 플젝 만드기"
                 >
                     
                         <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
@@ -451,7 +435,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/07/18/call-stack/"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2021/04/21/functionChaining/"
                     title="Share on Facebook"
                     aria-label="Share on Facebook"
                 >
@@ -464,7 +448,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2019/07/18/call-stack/"
+                    target="new" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2021/04/21/functionChaining/"
                     title="Share on Twitter"
                     aria-label="Share on Twitter"
                 >
@@ -477,7 +461,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=http://yoursite.com/2019/07/18/call-stack/"
+                    target="new" href="https://plus.google.com/share?url=http://yoursite.com/2021/04/21/functionChaining/"
                     title="Share on Google+"
                     aria-label="Share on Google+"
                 >
@@ -521,7 +505,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/07/18/call-stack/"
+                        href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2021/04/21/functionChaining/"
                         aria-label="Share on Facebook"
                     >
                         <i class="fab fa-facebook" aria-hidden="true"></i><span>Share on Facebook</span>
@@ -534,7 +518,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://twitter.com/intent/tweet?text=http://yoursite.com/2019/07/18/call-stack/"
+                        href="https://twitter.com/intent/tweet?text=http://yoursite.com/2021/04/21/functionChaining/"
                         aria-label="Share on Twitter"
                     >
                         <i class="fab fa-twitter" aria-hidden="true"></i><span>Share on Twitter</span>
@@ -547,7 +531,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://plus.google.com/share?url=http://yoursite.com/2019/07/18/call-stack/"
+                        href="https://plus.google.com/share?url=http://yoursite.com/2021/04/21/functionChaining/"
                         aria-label="Share on Google+"
                     >
                         <i class="fab fa-google-plus" aria-hidden="true"></i><span>Share on Google+</span>
@@ -615,9 +599,9 @@
     
         <script>
           var disqus_config = function() {
-            this.page.url = 'http://yoursite.com/2019/07/18/call-stack/';
+            this.page.url = 'http://yoursite.com/2021/04/21/functionChaining/';
               
-            this.page.identifier = '2019/07/18/call-stack/';
+            this.page.identifier = '2021/04/21/functionChaining/';
               
           };
           (function() {
